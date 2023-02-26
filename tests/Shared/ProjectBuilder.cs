@@ -144,7 +144,7 @@ namespace Shared
 
             async Task<string[]> Download()
             {
-                var tempFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Vogen.Tests", "ref", packageName + '@' + version);
+                var tempFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Intellenum.Tests", "ref", packageName + '@' + version);
                 if (!Directory.Exists(tempFolder) || !Directory.EnumerateFileSystemEntries(tempFolder).Any())
                 {
                     Directory.CreateDirectory(tempFolder);
@@ -200,7 +200,7 @@ namespace Shared
 
         public (ImmutableArray<Diagnostic> Diagnostics, string Output) GetGeneratedOutput<T>(
             bool ignoreInitialCompilationErrors,
-            MetadataReference? valueObjectAttributeMetadata = null)
+            MetadataReference? intellenumAttributeMetadata = null)
             where T : IIncrementalGenerator, new()
         {
             var syntaxTree = CSharpSyntaxTree.ParseText(Source);
@@ -210,7 +210,7 @@ namespace Shared
     }
 ");
 
-            MetadataReference r = valueObjectAttributeMetadata ?? MetadataReference.CreateFromFile(typeof(IntellenumAttribute).Assembly.Location);
+            MetadataReference r = intellenumAttributeMetadata ?? MetadataReference.CreateFromFile(typeof(IntellenumAttribute).Assembly.Location);
 
             References.Add(r);
 

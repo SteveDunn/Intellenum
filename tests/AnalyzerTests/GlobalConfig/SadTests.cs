@@ -13,13 +13,13 @@ public class SadTests
     {
         var source = """
             using System;
-            using Vogen;
+            using Intellenum;
             
-            [assembly: VogenDefaults(throws: typeof(Whatever.MyValidationException))]
+            [assembly: IntellenumDefaults(throws: typeof(Whatever.MyValidationException))]
             
             namespace Whatever;
             
-            [ValueObject]
+            [Intellenum]
             public partial struct CustomerId
             {
                 private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid("xxxx");
@@ -31,7 +31,7 @@ public class SadTests
 
             """;
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -52,13 +52,13 @@ public class SadTests
     public void Missing_string_constructor()
     {
         var source = @"using System;
-using Vogen;
+using Intellenum;
 
-[assembly: VogenDefaults(throws: typeof(Whatever.MyValidationException))]
+[assembly: IntellenumDefaults(throws: typeof(Whatever.MyValidationException))]
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public partial struct CustomerId
 {
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
@@ -70,7 +70,7 @@ public class MyValidationException : Exception
 }
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -91,13 +91,13 @@ public class MyValidationException : Exception
     public void Missing_public_string_constructor_on_exception()
     {
         const string source = @"using System;
-using Vogen;
+using Intellenum;
 
-[assembly: VogenDefaults(throws: typeof(Whatever.MyValidationException))]
+[assembly: IntellenumDefaults(throws: typeof(Whatever.MyValidationException))]
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public partial struct CustomerId
 {
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
@@ -109,7 +109,7 @@ public class MyValidationException : Exception
 }
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -130,13 +130,13 @@ public class MyValidationException : Exception
     public void Not_an_exception()
     {
         var source = @"using System;
-using Vogen;
+using Intellenum;
 
-[assembly: VogenDefaults(throws: typeof(Whatever.MyValidationException))]
+[assembly: IntellenumDefaults(throws: typeof(Whatever.MyValidationException))]
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public partial struct CustomerId
 {
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
@@ -145,7 +145,7 @@ public partial struct CustomerId
 public class MyValidationException { } // NOT AN EXCEPTION!
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -175,17 +175,17 @@ public class MyValidationException { } // NOT AN EXCEPTION!
     public void Not_valid_conversion()
     {
         var source = @"using System;
-using Vogen;
+using Intellenum;
 
-[assembly: VogenDefaults(conversions: (Conversions)666)]
+[assembly: IntellenumDefaults(conversions: (Conversions)666)]
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public partial struct CustomerId { }
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -209,17 +209,17 @@ public partial struct CustomerId { }
     public void Not_valid_customization()
     {
         var source = @"using System;
-using Vogen;
+using Intellenum;
 
-[assembly: VogenDefaults(customizations: (Customizations)666)]
+[assembly: IntellenumDefaults(customizations: (Customizations)666)]
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public partial struct CustomerId { }
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -242,17 +242,17 @@ public partial struct CustomerId { }
     public void Not_valid_deserialization_strictness()
     {
         var source = @"using System;
-using Vogen;
+using Intellenum;
 
-[assembly: VogenDefaults(deserializationStrictness: (DeserializationStrictness)666)]
+[assembly: IntellenumDefaults(deserializationStrictness: (DeserializationStrictness)666)]
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public partial struct CustomerId { }
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -276,17 +276,17 @@ public partial struct CustomerId { }
     public void Not_valid_customization_or_conversion()
     {
         var source = @"using System;
-using Vogen;
+using Intellenum;
 
-[assembly: VogenDefaults(customizations: (Customizations)666, conversions: (Conversions)666)]
+[assembly: IntellenumDefaults(customizations: (Customizations)666, conversions: (Conversions)666)]
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public partial struct CustomerId { }
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();

@@ -8,7 +8,7 @@ using System;
 namespace Intellenum
 {
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false)]
-    public class VogenDefaultsAttribute : Attribute
+    public class IntellenumDefaultsAttribute : Attribute
     {
         /// <summary>
         /// Creates a new instance of a type that represents the default
@@ -20,7 +20,7 @@ namespace Intellenum
         /// <param name="customizations">Any customizations, for instance, treating numbers in [de]serialization as strings.</param>
         /// <param name="deserializationStrictness">The strictness of validation when deserializing.</param>
         /// <param name="debuggerAttributes">Controls how debugger attributes are generated. This is useful in Rider where the attributes crash Rider's debugger.</param>
-        public VogenDefaultsAttribute(
+        public IntellenumDefaultsAttribute(
             Type? underlyingType = null,
             Conversions conversions = Conversions.Default,
             Type? throws = null,

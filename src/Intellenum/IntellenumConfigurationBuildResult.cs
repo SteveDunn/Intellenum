@@ -3,13 +3,13 @@ using Microsoft.CodeAnalysis;
 
 namespace Intellenum;
 
-internal sealed class VogenConfigurationBuildResult
+internal sealed class IntellenumConfigurationBuildResult
 {
-    public VogenConfiguration? ResultingConfiguration { get; set; }
+    public IntellenumConfiguration? ResultingConfiguration { get; set; }
 
     public List<Diagnostic> Diagnostics { get; set; } = new();
 
-    public static VogenConfigurationBuildResult Null => new();
+    public static IntellenumConfigurationBuildResult Null => new();
 
     public void AddDiagnostic(Diagnostic diagnostic) => Diagnostics.Add(diagnostic);
 }

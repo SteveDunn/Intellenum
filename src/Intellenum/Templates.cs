@@ -32,20 +32,20 @@ internal static class Templates
     {
         var typeName = TypeResolver.ResolveTemplateNameFromTypeName(type);
 
-        return LoadEmbeddedResource($"Vogen.Templates.{typeName}.{typeName}_{restOfTemplateName}.cs");
+        return LoadEmbeddedResource($"Intellenum.Templates.{typeName}.{typeName}_{restOfTemplateName}.cs");
     }
 
     public static string? TryGetForSpecificType(Type type, string restOfTemplateName)
     {
         var underlyingTypeName = TypeResolver.ResolveTemplateNameFromTypeName(type);
 
-        return LoadEmbeddedResource($"Vogen.Templates.{underlyingTypeName}.{underlyingTypeName}_{restOfTemplateName}.cs");
+        return LoadEmbeddedResource($"Intellenum.Templates.{underlyingTypeName}.{underlyingTypeName}_{restOfTemplateName}.cs");
     }
 
 
     public static string GetForAnyType(string restOfTemplateName)
     {
-        string resourceName = $"Vogen.Templates.AnyOtherType.AnyOtherType_{restOfTemplateName}.cs";
+        string resourceName = $"Intellenum.Templates.AnyOtherType.AnyOtherType_{restOfTemplateName}.cs";
 
         string? template = LoadEmbeddedResource(resourceName);
 

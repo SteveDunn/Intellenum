@@ -54,22 +54,22 @@ namespace Intellenum.Rules
 
             INamedTypeSymbol voSymbolInformation = namedTypeSymbol;
 
-            var attrs = VoFilter.TryGetValueObjectAttributes(voSymbolInformation).ToImmutableArray();
+            var attrs = VoFilter.TryGetIntellenumAttributes(voSymbolInformation).ToImmutableArray();
 
             if (attrs.Length != 1) return;
 
-            VogenConfigurationBuildResult buildResult = ManageAttributes.TryBuildConfigurationFromAttribute(attrs[0]);
+            IntellenumConfigurationBuildResult buildResult = ManageAttributes.TryBuildConfigurationFromAttribute(attrs[0]);
             
-            VogenConfiguration? vogenConfig = buildResult.ResultingConfiguration;
+            IntellenumConfiguration? intellenumConfig = buildResult.ResultingConfiguration;
             
-            if (!vogenConfig.HasValue) return;
+            if (!intellenumConfig.HasValue) return;
             
             if (buildResult.Diagnostics.Count > 0)
             {
                 return;
             }
 
-            string retType = vogenConfig.Value.UnderlyingType!.Name;
+            string retType = intellenumConfig.Value.UnderlyingType!.Name;
 
             var voTypeSyntax = namedTypeSymbol;
 

@@ -453,12 +453,11 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 
-**/Generated/Vogen/*
+**/Generated/Intellenum/*
 
 *.received.txt
 BenchmarkDotNet.Artifacts
-/samples/Vogen.Examples/Generated
-/tests/SmallTests/Generated
+/samples/Intellenum.Examples/Generated
 /tests/Testbench/Generated
 /local-global-packages
 /tests/SmallTests/msbuild.binlog

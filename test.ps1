@@ -1,7 +1,7 @@
-# Run the end to end tests. The tests can't have project references to Vogen. This is because, in Visual Studio, 
+# Run the end to end tests. The tests can't have project references to Intellenum. This is because, in Visual Studio, 
 # it causes conflicts caused by the difference in runtime; VS uses netstandard2.0 to load and run the analyzers, but the 
-# test project uses a variety of runtimes. So, it uses NuGet to reference the Vogen analyzer. To do this, this script first 
-# builds and packs Vogen using a ridiculously high version number and then restores the tests NuGet dependencies to use that
+# test project uses a variety of runtimes. So, it uses NuGet to reference the Intellenum analyzer. To do this, this script first 
+# builds and packs Intellenum using a ridiculously high version number and then restores the tests NuGet dependencies to use that
 # package. This will allow you run and debug debug these tests in VS, but to use any new code changes in the analyzer, you 
 # need to rerun this script to force a refresh of the package. 
 
@@ -30,32 +30,32 @@ New-Item -Path $artifacts -ItemType Directory
 
 New-Item -Path $localPackages -ItemType Directory -ErrorAction SilentlyContinue
 
-Remove-Item $localPackages\vogen.* -Force
+Remove-Item $localPackages\Intellenum.* -Force
 
 $version = Get999VersionWithUniquePatch
 
 
 
-dotnet restore Vogen.sln --packages $localPackages --no-cache
-dotnet clean Vogen.sln
+dotnet restore Intellenum.sln --packages $localPackages --no-cache
+dotnet clean Intellenum.sln
 
-# Build **just** Vogen first to generate the NuGet package. In the next step,
+# Build **just** Intellenum first to generate the NuGet package. In the next step,
 # we'll build the consumers of package, namely the e2e tests and samples projects.
 
 # **NOTE** - we don't want these 999.9.9.x packages ending up in %userprofile%\.nuget\packages because it'll polute it.
 
-WriteStage("Packing the Vogen NuGet package version " +$version + " into " + $localPackages)
+WriteStage("Packing the Intellenum NuGet package version " +$version + " into " + $localPackages)
 
 
-dotnet pack Vogen.sln -c Debug -o:$localPackages /p:ForceVersion=$version --include-symbols --version-suffix:dev --no-restore
+dotnet pack Intellenum.sln -c Debug -o:$localPackages /p:ForceVersion=$version --include-symbols --version-suffix:dev --no-restore
 
 # Restore the project using the custom config file, restoring packages to a local folder
 dotnet restore ./tests/ConsumerTests -p UseLocallyBuiltPackage=true --force --no-cache --packages $localPackages --configfile: ./nuget.private.config
 
-dotnet restore ./Samples/Vogen.Examples -p UseLocallyBuiltPackage=true --force --no-cache --packages $localPackages --configfile: ./nuget.private.config
+dotnet restore ./Samples/Intellenum.Examples -p UseLocallyBuiltPackage=true --force --no-cache --packages $localPackages --configfile: ./nuget.private.config
 
 dotnet build ./tests/ConsumerTests -c Debug --no-restore
-dotnet build ./Samples/Vogen.Examples -c Debug --no-restore
+dotnet build ./Samples/Intellenum.Examples -c Debug --no-restore
 
 dotnet test ./tests/ConsumerTests -c Debug --no-build --no-restore 
 

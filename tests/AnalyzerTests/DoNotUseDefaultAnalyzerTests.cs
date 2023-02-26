@@ -37,10 +37,10 @@ namespace AnalyzerTests
         [ClassData(typeof(Types))]
         public async Task Disallow_default_when_creating_variable(string type)
         {
-            var source = $@"using Vogen;
+            var source = $@"using Intellenum;
 namespace Whatever;
 
-[ValueObject(typeof(int))]
+[Intellenum(typeof(int))]
 public {type} MyVo {{ }}
 
 public class Test {{
@@ -60,10 +60,10 @@ public class Test {{
         public async Task Disallow_default_for_method_return_type(string type)
         {
             var source = $@"
-using Vogen;
+using Intellenum;
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public {type} MyVo {{ }}
 
 public class Test {{
@@ -82,10 +82,10 @@ public class Test {{
         public async Task Disallow_default_from_local_function_return(string type)
         {
             var source = $@"
-using Vogen;
+using Intellenum;
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public {type} MyVo {{ }}
 
 public class Test {{
@@ -108,10 +108,10 @@ public class Test {{
             var source = $@"
 using System;
 using System.Threading.Tasks;
-using Vogen;
+using Intellenum;
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public {type} MyVo {{ }}
 
 public class Test {{

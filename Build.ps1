@@ -43,7 +43,7 @@ function Exec
     }
 }
 
-WriteStage("Building release version of Vogen...")
+WriteStage("Building release version of Intellenum...")
 
 if(Test-Path $artifacts) { Remove-Item $artifacts -Force -Recurse }
 New-Item -Path $artifacts -ItemType Directory
@@ -51,13 +51,13 @@ New-Item -Path $artifacts -ItemType Directory
 New-Item -Path $localPackages -ItemType Directory -ErrorAction SilentlyContinue
 
 
-if(Test-Path $localPackages) { Remove-Item $localPackages\vogen.* -Force -ErrorAction SilentlyContinue }
+if(Test-Path $localPackages) { Remove-Item $localPackages\intellenum.* -Force -ErrorAction SilentlyContinue }
 
-WriteStage("Cleaning, restoring, and building release version of Vogen...")
+WriteStage("Cleaning, restoring, and building release version of Intellenum...")
 
-exec { & dotnet clean Vogen.sln -c Release --verbosity $verbosity}
-exec { & dotnet restore Vogen.sln --no-cache --verbosity $verbosity }
-exec { & dotnet build Vogen.sln -c Release -p Thorough=true --no-restore --verbosity $verbosity}
+exec { & dotnet clean Intellenum.sln -c Release --verbosity $verbosity}
+exec { & dotnet restore Intellenum.sln --no-cache --verbosity $verbosity }
+exec { & dotnet build Intellenum.sln -c Release -p Thorough=true --no-restore --verbosity $verbosity}
 
 if($skiptests) 
 { 
@@ -66,28 +66,28 @@ if($skiptests)
 
 # run the analyzer and code generation tests
 WriteStage("Running analyzer and code generation tests...")
-exec { & dotnet test Vogen.sln -c Release --no-build -l trx -l "GitHubActions;report-warnings=false" --verbosity $verbosity }
+exec { & dotnet test Intellenum.sln -c Release --no-build -l trx -l "GitHubActions;report-warnings=false" --verbosity $verbosity }
 
 ################################################################
 
-# Run the end to end tests. The tests can't have project references to Vogen. This is because, in Visual Studio, 
+# Run the end to end tests. The tests can't have project references to Intellenum. This is because, in Visual Studio, 
 # it causes conflicts caused by the difference in runtime; VS uses netstandard2.0 to load and run the analyzers, but the 
-# test project uses a variety of runtimes. So, it uses NuGet to reference the Vogen analyzer. To do this, this script first 
-# builds and packs Vogen using a ridiculously high version number and then restores the tests NuGet dependencies to use that
+# test project uses a variety of runtimes. So, it uses NuGet to reference the Intellenum analyzer. To do this, this script first 
+# builds and packs Intellenum using a ridiculously high version number and then restores the tests NuGet dependencies to use that
 # package. This will allow you run and debug debug these tests in VS, but to use any new code changes in the analyzer, you 
 # need to rerun this script to force a refresh of the package. 
 
-WriteStage("Building NuGet for local version of Vogen that will be used to run end to end tests and samples...")
+WriteStage("Building NuGet for local version of Intellenum that will be used to run end to end tests and samples...")
 
 $version = Get999VersionWithUniquePatch
 
-# Build **just** Vogen first to generate the NuGet package. In the next step,
+# Build **just** Intellenum first to generate the NuGet package. In the next step,
 # we'll build the consumers of package, namely the e2e tests and samples projects.
 
 # **NOTE** - we don't want these 999.9.9.x packages ending up in %userprofile%\.nuget\packages because it'll polute it.
 
-exec { & dotnet restore Vogen.sln --packages $localPackages --no-cache --verbosity $verbosity }
-exec { & dotnet pack ./src/Vogen -c Debug -o:$localPackages /p:ForceVersion=$version --include-symbols --version-suffix:dev --no-restore --verbosity $verbosity }
+exec { & dotnet restore Intellenum.sln --packages $localPackages --no-cache --verbosity $verbosity }
+exec { & dotnet pack ./src/Intellenum -c Debug -o:$localPackages /p:ForceVersion=$version --include-symbols --version-suffix:dev --no-restore --verbosity $verbosity }
 
 WriteStage("Cleaning and building consumers (tests and samples)")
 
@@ -108,13 +108,13 @@ exec { & dotnet test ./tests/ConsumerTests -c Debug --no-build --no-restore --ve
 WriteStage("Building samples using the local version of the NuGet package...")
 
 
-exec { & dotnet run --project samples/Vogen.Examples/Vogen.Examples.csproj -c Debug --no-build --no-restore }
+exec { & dotnet run --project samples/Intellenum.Examples/Intellenum.Examples.csproj -c Debug --no-build --no-restore }
 
 
 WriteStage("Finally, packing the release version into " + $artifacts)
 
 
-exec { & dotnet pack src/Vogen -c Release -o $artifacts --no-build --verbosity $verbosity }
+exec { & dotnet pack src/Intellenum -c Release -o $artifacts --no-build --verbosity $verbosity }
 
 WriteStage("Done! Package generated at " + $artifacts)
 

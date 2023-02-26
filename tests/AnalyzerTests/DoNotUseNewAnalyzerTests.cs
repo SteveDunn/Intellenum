@@ -38,10 +38,10 @@ namespace AnalyzerTests
         [ClassData(typeof(Types))]
         public async Task Disallow_new_for_creating_value_objects(string type)
         {
-            var source = $@"using Vogen;
+            var source = $@"using Intellenum;
 namespace Whatever;
 
-[ValueObject(typeof(int))]
+[Intellenum(typeof(int))]
 public {type} MyVo {{ }}
 
 public class Test {{
@@ -61,10 +61,10 @@ public class Test {{
         public async Task Disallow_new_for_method_return_type(string type)
         {
             var source = $@"
-using Vogen;
+using Intellenum;
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public {type} MyVo {{ }}
 
 public class Test {{
@@ -83,10 +83,10 @@ public class Test {{
         public async Task Disallow_new_from_local_function(string type)
         {
             var source = $@"
-using Vogen;
+using Intellenum;
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public {type} MyVo {{ }}
 
 public class Test {{
@@ -109,10 +109,10 @@ public class Test {{
             var source = $@"
 using System;
 using System.Threading.Tasks;
-using Vogen;
+using Intellenum;
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public {type} MyVo {{ }}
 
 public class Test {{
@@ -134,7 +134,7 @@ public class Test {{
         {
             var source = @"using System;
 using System.Threading.Tasks;
-using Vogen;
+using Intellenum;
 
 public class Test {
     Vo c = Create(new Object[]
@@ -149,7 +149,7 @@ public class Test {
     }
 }
 
-[ValueObject(typeof(int))]
+[Intellenum(typeof(int))]
 public partial class Vo { }";
 
             await Run(

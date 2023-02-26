@@ -13,15 +13,15 @@ public class DisallowAbstractTests
     [InlineData("abstract partial record class")]
     public void Disallows_abstract_value_objects(string type)
     {
-        var source = $@"using Vogen;
+        var source = $@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public {type} CustomerId {{ }}
 ";
         
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -44,17 +44,17 @@ public {type} CustomerId {{ }}
     [InlineData("abstract partial record class")]
     public void Disallows_nested_abstract_value_objects(string type)
     {
-        var source = $@"using Vogen;
+        var source = $@"using Intellenum;
 
 namespace Whatever;
 
 public class MyContainer {{
-    [ValueObject]
+    [Intellenum]
     public {type} CustomerId {{ }}
 }}
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();

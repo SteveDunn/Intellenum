@@ -20,7 +20,7 @@ public class VoWorkItem
         {
             _underlyingType = value;
             _underlyingTypeFullName = value.FullName() ?? value?.Name ?? throw new InvalidOperationException(
-                "No underlying type specified - please file a bug at https://github.com/SteveDunn/Vogen/issues/new?assignees=&labels=bug&template=BUG_REPORT.yml");
+                "No underlying type specified - please file a bug at https://github.com/SteveDunn/Intellenum/issues/new?assignees=&labels=bug&template=BUG_REPORT.yml");
         }
     }
 
@@ -43,7 +43,7 @@ public class VoWorkItem
 
     public INamedTypeSymbol? TypeForValidationExceptions { get; set; } = null!;
 
-    public string ValidationExceptionFullName => TypeForValidationExceptions?.FullName() ?? "global::Vogen.ValueObjectValidationException";
+    public string ValidationExceptionFullName => TypeForValidationExceptions?.FullName() ?? "global::Intellenum.IntellenumValidationException";
 
     public string VoTypeName => TypeToAugment.Identifier.ToString();
     

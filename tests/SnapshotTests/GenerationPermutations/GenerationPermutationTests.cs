@@ -81,23 +81,23 @@ public class GenerationPermutationTests
         if (underlyingType.Length == 0)
         {
             declaration = $@"
-  [ValueObject(conversions: {conversions})]
+  [Intellenum(conversions: {conversions})]
   {type} {className} {{ }}";
         }
         else
         {
             declaration = $@"
-  [ValueObject(conversions: {conversions}, underlyingType: typeof({underlyingType}))]
+  [Intellenum(conversions: {conversions}, underlyingType: typeof({underlyingType}))]
   {type} {className} {{ }}";
         }
 
-        var source = @"using Vogen;
+        var source = @"using Intellenum;
 namespace Whatever
 {
 " + declaration + @"
 }";
 
-        return new SnapshotRunner<ValueObjectGenerator>()
+        return new SnapshotRunner<IntellenumGenerator>()
             .WithLogger(_logger)
             .WithSource(source)
             .WithLocale(locale)

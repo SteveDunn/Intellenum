@@ -13,14 +13,14 @@ public class DisallowNonPartialTests
     [InlineData("abstract record class")]
     public void Disallows_non_partial_types(string type)
     {
-        var source = $@"using Vogen;
+        var source = $@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public {type} CustomerId {{ }}
 ";
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();

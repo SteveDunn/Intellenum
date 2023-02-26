@@ -7,7 +7,7 @@ namespace Intellenum
     public enum DebuggerAttributeGeneration
     {
         /// <summary>
-        /// Decided at compile team based on whether or not the <see cref="VogenDefaultsAttribute"/> has this flag set.
+        /// Decided at compile team based on whether or not the <see cref="IntellenumDefaultsAttribute"/> has this flag set.
         /// </summary>
         Default,
 

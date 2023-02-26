@@ -20,26 +20,26 @@ internal static class ManageAttributes
     /// <param name="defaults"></param>
     /// <param name="compilation"></param>
     /// <returns></returns>
-    public static VogenConfigurationBuildResult GetDefaultConfigFromGlobalAttribute(
+    public static IntellenumConfigurationBuildResult GetDefaultConfigFromGlobalAttribute(
         ImmutableArray<AttributeSyntax> defaults,
         Compilation compilation)
     {
         if (defaults.IsDefaultOrEmpty)
         {
             // No global defaults
-            return VogenConfigurationBuildResult.Null;
+            return IntellenumConfigurationBuildResult.Null;
         }
 
         var assemblyAttributes = compilation.Assembly.GetAttributes();
         if (assemblyAttributes.IsDefaultOrEmpty)
         {
-            return VogenConfigurationBuildResult.Null;
+            return IntellenumConfigurationBuildResult.Null;
         }
 
-        INamedTypeSymbol? allThatMatchByName = compilation.GetTypeByMetadataName("Vogen.VogenDefaultsAttribute");
+        INamedTypeSymbol? allThatMatchByName = compilation.GetTypeByMetadataName("Intellenum.IntellenumDefaultsAttribute");
         if (allThatMatchByName is null)
         {
-            return VogenConfigurationBuildResult.Null;
+            return IntellenumConfigurationBuildResult.Null;
         }
 
         AttributeData? matchingAttribute = assemblyAttributes.SingleOrDefault(aa =>
@@ -47,17 +47,17 @@ internal static class ManageAttributes
 
         if (matchingAttribute == null)
         {
-            return VogenConfigurationBuildResult.Null;
+            return IntellenumConfigurationBuildResult.Null;
         }
 
-        VogenConfigurationBuildResult globalConfig = TryBuildConfigurationFromAttribute(matchingAttribute);
+        IntellenumConfigurationBuildResult globalConfig = TryBuildConfigurationFromAttribute(matchingAttribute);
 
         return globalConfig;
     }
 
-    public static VogenConfigurationBuildResult TryBuildConfigurationFromAttribute(AttributeData matchingAttribute)
+    public static IntellenumConfigurationBuildResult TryBuildConfigurationFromAttribute(AttributeData matchingAttribute)
     {
-        VogenConfigurationBuildResult buildResult = new VogenConfigurationBuildResult();
+        IntellenumConfigurationBuildResult buildResult = new IntellenumConfigurationBuildResult();
 
         INamedTypeSymbol? invalidExceptionType = null;
         INamedTypeSymbol? underlyingType = null;
@@ -132,7 +132,7 @@ internal static class ManageAttributes
         if (hasErroredAttributes)
         {
             // skip further generator execution and let compiler generate the errors
-            return VogenConfigurationBuildResult.Null;
+            return IntellenumConfigurationBuildResult.Null;
         }
 
         if (!conversions.IsValidFlags())
@@ -162,7 +162,7 @@ internal static class ManageAttributes
             }
         }
 
-        buildResult.ResultingConfiguration = new VogenConfiguration(
+        buildResult.ResultingConfiguration = new IntellenumConfiguration(
             underlyingType,
             invalidExceptionType,
             conversions,
@@ -177,10 +177,10 @@ internal static class ManageAttributes
             ImmutableArray<TypedConstant> args)
         {
             var isDerivedFromGenericAttribute =
-                attributeData.AttributeClass!.BaseType!.FullName()!.StartsWith("Vogen.ValueObjectAttribute<");
+                attributeData.AttributeClass!.BaseType!.FullName()!.StartsWith("Intellenum.IntellenumAttribute<");
             
             // Extracts the generic argument from the base type when the derived type isn't generic
-            // e.g. MyCustomVoAttribute : ValueObjectAttribute<long>
+            // e.g. MyCustomVoAttribute : IntellenumAttribute<long>
             var type = isDerivedFromGenericAttribute && attributeData.AttributeClass!.TypeArguments.IsEmpty
                 ? attributeData.AttributeClass!.BaseType!.TypeArguments[0] as INamedTypeSymbol
                 : attributeData.AttributeClass!.TypeArguments[0] as INamedTypeSymbol;
@@ -272,7 +272,7 @@ internal static class ManageAttributes
 
     private static void BuildAnyIssuesWithTheException(
         INamedTypeSymbol? invalidExceptionType, 
-        VogenConfigurationBuildResult buildResult)
+        IntellenumConfigurationBuildResult buildResult)
     {
         if (invalidExceptionType == null)
         {
@@ -316,7 +316,7 @@ internal static class ManageAttributes
             INamedTypeSymbol attributeContainingTypeSymbol = attributeSymbol.ContainingType;
             string fullName = attributeContainingTypeSymbol.ToDisplayString();
 
-            if (fullName == "Vogen.VogenDefaultsAttribute")
+            if (fullName == "Intellenum.IntellenumDefaultsAttribute")
             {
                 return attributeSyntax;
             }

@@ -84,16 +84,16 @@ namespace record.@struct.@float
     public readonly record struct @event();
 }}
 
-  [ValueObject(conversions: {conversions}, underlyingType: typeof({underlyingType}))]
+  [Intellenum(conversions: {conversions}, underlyingType: typeof({underlyingType}))]
   {type} {className} {{ }}";
         
-        var source = @"using Vogen;
+        var source = @"using Intellenum;
 namespace @class
 {
 " + declaration + @"
 }";
 
-        return new SnapshotRunner<ValueObjectGenerator>()
+        return new SnapshotRunner<IntellenumGenerator>()
             .WithSource(source)
             .CustomizeSettings(s => s.UseFileName(className))
             .RunOnAllFrameworks();
@@ -103,7 +103,7 @@ namespace @class
     public Task MixtureOfKeywords()
     {
         string declaration = """
-using Vogen;
+using Intellenum;
 
 namespace record.@struct.@float
 {
@@ -114,12 +114,12 @@ namespace @double
 {
     public readonly record struct @decimal();
 
-    [ValueObject(typeof(@decimal))]
+    [Intellenum(typeof(@decimal))]
     public partial class classFromEscapedNamespaceWithReservedUnderlyingType
     {
     }
 
-    [ValueObject]
+    [Intellenum]
     public partial class classFromEscapedNamespace
     {
     }
@@ -127,24 +127,24 @@ namespace @double
 
 namespace @bool.@byte.@short.@float.@object
 {
-    [ValueObject]
+    [Intellenum]
     public partial class @class
     {
     }
 
-    [ValueObject]
+    [Intellenum]
     public partial class @event
     {
     }
 
-    [ValueObject(typeof(record.@struct.@float.@decimal))]
+    [Intellenum(typeof(record.@struct.@float.@decimal))]
     public partial class @event2
     {
     }
 }
 """;
         
-        return new SnapshotRunner<ValueObjectGenerator>()
+        return new SnapshotRunner<IntellenumGenerator>()
             .WithSource(declaration)
             .RunOnAllFrameworks();
     }

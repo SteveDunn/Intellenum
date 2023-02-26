@@ -28,7 +28,7 @@ public static class Util
     {
         if (workItem.ValidateMethod != null)
             return @$"var validation = {workItem.TypeToAugment.Identifier}.{workItem.ValidateMethod.Identifier.Value}(value);
-            if (validation != Vogen.Validation.Ok)
+            if (validation != Intellenum.Validation.Ok)
             {{
                 throw new {workItem.ValidationExceptionFullName}(validation.ErrorMessage);
             }}
@@ -57,7 +57,7 @@ public static class Util
         if (workItem.DeserializationStrictness.HasFlag(DeserializationStrictness.RunMyValidationMethod))
         {
             sb.AppendLine(@$"var validation = {workItem.TypeToAugment.Identifier}.{workItem.ValidateMethod.Identifier.Value}(value);
-            if (validation != Vogen.Validation.Ok)
+            if (validation != Intellenum.Validation.Ok)
             {{
                 throw new {workItem.ValidationExceptionFullName}(validation.ErrorMessage);
             }}");
@@ -244,7 +244,7 @@ public static class Util
 """;
         if (item.DebuggerAttributes == DebuggerAttributeGeneration.Basic)
         {
-            return $@"/* Debug attributes omitted because the 'debuggerAttributes' flag is set to {nameof(DebuggerAttributeGeneration.Basic)} on the Vogen attribute.
+            return $@"/* Debug attributes omitted because the 'debuggerAttributes' flag is set to {nameof(DebuggerAttributeGeneration.Basic)} on the Intellenum attribute.
 This is usually set to avoid issues in Rider where it doesn't fully handle the attributes support by Visual Studio and
 causes Rider's debugger to crash.
 

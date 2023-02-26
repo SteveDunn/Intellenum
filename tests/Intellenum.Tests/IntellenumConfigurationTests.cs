@@ -3,14 +3,14 @@ using Xunit;
 
 namespace Intellenum.Tests
 {
-    public class VogenConfigurationTests
+    public class IntellenumConfigurationTests
     {
         public class DebuggerAttributeGenerationFlag
         {
             [Fact]
             public void Local_beats_global_when_specified()
             {
-                var result = VogenConfiguration.Combine(
+                var result = IntellenumConfiguration.Combine(
                     ConfigWithOmitDebugAs(DebuggerAttributeGeneration.Basic),
                     ConfigWithOmitDebugAs(DebuggerAttributeGeneration.Full));
 
@@ -20,13 +20,13 @@ namespace Intellenum.Tests
             [Fact]
             public void Uses_global_when_local_not_specified()
             {
-                var result = VogenConfiguration.Combine(ConfigWithOmitDebugAs(DebuggerAttributeGeneration.Default), ConfigWithOmitDebugAs(DebuggerAttributeGeneration.Basic));
+                var result = IntellenumConfiguration.Combine(ConfigWithOmitDebugAs(DebuggerAttributeGeneration.Default), ConfigWithOmitDebugAs(DebuggerAttributeGeneration.Basic));
 
                 result.DebuggerAttributes.Should().Be(DebuggerAttributeGeneration.Basic);
             }
 
-            private static VogenConfiguration ConfigWithOmitDebugAs(DebuggerAttributeGeneration debuggerAttributes) =>
-                new VogenConfiguration(
+            private static IntellenumConfiguration ConfigWithOmitDebugAs(DebuggerAttributeGeneration debuggerAttributes) =>
+                new IntellenumConfiguration(
                     null,
                     null,
                     Conversions.Default,
@@ -40,13 +40,13 @@ namespace Intellenum.Tests
             [Fact]
             public void Local_beats_global_when_specified()
             {
-                var result = VogenConfiguration.Combine(ConfigWithOmitConversionsAs(Conversions.EfCoreValueConverter), ConfigWithOmitConversionsAs(Conversions.NewtonsoftJson));
+                var result = IntellenumConfiguration.Combine(ConfigWithOmitConversionsAs(Conversions.EfCoreValueConverter), ConfigWithOmitConversionsAs(Conversions.NewtonsoftJson));
 
                 result.Conversions.Should().Be(Conversions.EfCoreValueConverter);
             }
 
-            private static VogenConfiguration ConfigWithOmitConversionsAs(Conversions conversions) =>
-                new VogenConfiguration(
+            private static IntellenumConfiguration ConfigWithOmitConversionsAs(Conversions conversions) =>
+                new IntellenumConfiguration(
                     null,
                     null,
                     conversions,

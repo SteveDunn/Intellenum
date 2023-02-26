@@ -15,18 +15,18 @@ public class ToStringOverrideTests
     [InlineData("public partial record")]
     public void WithRecordsThatHaveNoSealedOverride_OutputErrors(string type)
     {
-        var source = $@"using Vogen;
+        var source = $@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 {type} CustomerId 
 {{
     public override string ToString() => string.Empty;
 }}
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -47,18 +47,18 @@ namespace Whatever;
     [InlineData("public partial record")]
     public void WithRecordsThatDoHaveSealedOverride_DoNotOutputErrors(string type)
     {
-        var source = $@"using Vogen;
+        var source = $@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 {type} CustomerId 
 {{
     public override sealed string ToString() => string.Empty;
 }}
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(d => d.Should().HaveCount(0))
             .RunOnAllFrameworks();
@@ -67,18 +67,18 @@ namespace Whatever;
     [Fact]
     public void RecordStruct_DoesNotRequireSealedToString()
     {
-        var source = $@"using Vogen;
+        var source = $@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public partial record struct CustomerId 
 {{
     public override string ToString() => string.Empty;
 }}
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(d => d.Should().HaveCount(0))
             .RunOnAllFrameworks();
@@ -88,18 +88,18 @@ public partial record struct CustomerId
     [ClassData(typeof(Types))]
     public void WithNonRecordsThatHaveMixtureOfSealedAndNonSealedOverrides_DoNotOutputErrors(string type, string sealedOrNot)
     {
-        var source = $@"using Vogen;
+        var source = $@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 {type} CustomerId 
 {{
     public override {sealedOrNot} string ToString() => string.Empty;
 }}
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(d => d.Should().HaveCount(0))
             .RunOnAllFrameworks();

@@ -31,7 +31,7 @@ public class PermutationsOfConversionsTests
             foreach(var conversions in _permutations)
             {
                 await RunTest($@"
-  [ValueObject(conversions: {conversions}, underlyingType: typeof(int))]
+  [Intellenum(conversions: {conversions}, underlyingType: typeof(int))]
   public {type} MyIntVo {{ }}", type, conversions);
             }
         }
@@ -40,13 +40,13 @@ public class PermutationsOfConversionsTests
     private static Task RunTest(string declaration, string type, string conversions)
     {
         var source = $@"using System;
-using Vogen;
+using Intellenum;
 namespace Whatever
 {{
 {declaration}
 }}";
 
-        return new SnapshotRunner<ValueObjectGenerator>()
+        return new SnapshotRunner<IntellenumGenerator>()
             .WithSource(source)
             .CustomizeSettings(
                 s =>

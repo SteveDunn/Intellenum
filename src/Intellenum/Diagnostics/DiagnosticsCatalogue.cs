@@ -20,8 +20,8 @@ internal static class DiagnosticsCatalogue
 
     private static readonly DiagnosticDescriptor _recordToStringOverloadShouldBeSealed = CreateDescriptor(
         RuleIdentifiers.RecordToStringOverloadShouldBeSealed,
-        "Overrides of ToString on records should be sealed to differentiate it from the C# compiler-generated method. See https://github.com/SteveDunn/Vogen/wiki/Records#tostring for more information.",
-        "ToString overrides should be sealed on records. See https://github.com/SteveDunn/Vogen/wiki/Records#tostring for more information.");
+        "Overrides of ToString on records should be sealed to differentiate it from the C# compiler-generated method. See https://github.com/SteveDunn/Intellenum/wiki/Records#tostring for more information.",
+        "ToString overrides should be sealed on records. See https://github.com/SteveDunn/Intellenum/wiki/Records#tostring for more information.");
 
     private static readonly DiagnosticDescriptor _typeShouldBePartial = CreateDescriptor(
         RuleIdentifiers.TypeShouldBePartial,
@@ -178,7 +178,7 @@ internal static class DiagnosticsCatalogue
     {
         string[] tags = severity == DiagnosticSeverity.Error ? new[] { WellKnownDiagnosticTags.NotConfigurable } : Array.Empty<string>();
 
-        return new DiagnosticDescriptor(code, title, messageFormat, "Vogen", severity, isEnabledByDefault: true, customTags: tags);
+        return new DiagnosticDescriptor(code, title, messageFormat, "Intellenum", severity, isEnabledByDefault: true, customTags: tags);
     }
 
     public static Diagnostic BuildDiagnostic(DiagnosticDescriptor descriptor, string name, Location location) => 

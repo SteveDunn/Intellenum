@@ -50,15 +50,15 @@ public class ToStringGenerationTests
     public Task Test(string type, string className, ToStringMethod addToStringMethod)
     {
         string declaration = $@"
-  [ValueObject]
+  [Intellenum]
   public {type} {className} {{ {WriteToStringMethod(addToStringMethod, type.EndsWith("record class") || type.EndsWith("record"))} }}";
-        var source = @"using Vogen;
+        var source = @"using Intellenum;
 namespace Whatever
 {
 " + declaration + @"
 }";
 
-        return new SnapshotRunner<ValueObjectGenerator>()
+        return new SnapshotRunner<IntellenumGenerator>()
             .WithSource(source)
             .CustomizeSettings(s => s.UseFileName(className))
             .RunOnAllFrameworks();

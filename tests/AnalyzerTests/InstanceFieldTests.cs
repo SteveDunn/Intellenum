@@ -17,16 +17,16 @@ namespace AnalyzerTests
             public Task Malformed_float_causes_compilation_error()
             {
                 string declaration = $@"using System;
-  [ValueObject(underlyingType: typeof(float))]
+  [Intellenum(underlyingType: typeof(float))]
   [Instance(name: ""Invalid"", value: ""1.23x"")]
   public partial class MyInstanceTests {{ }}";
-                var source = @"using Vogen;
+                var source = @"using Intellenum;
 namespace Whatever
 {
 " + declaration + @"
 }";
 
-                new TestRunner<ValueObjectGenerator>()
+                new TestRunner<IntellenumGenerator>()
                     .WithSource(source)
                     .ValidateWith(Validate)
                     .RunOnAllFrameworks();
@@ -51,16 +51,16 @@ namespace Whatever
             public Task Malformed_datetime_causes_compilation_error()
             {
                 var source = @"
-using Vogen;
+using Intellenum;
 using System;
 namespace Whatever
 {
-    [ValueObject(underlyingType: typeof(DateTime))]
+    [Intellenum(underlyingType: typeof(DateTime))]
     [Instance(name: ""Invalid"", value: ""x2022-13-99"")]
     public partial class MyInstanceTests { }
 }";
 
-                new TestRunner<ValueObjectGenerator>()
+                new TestRunner<IntellenumGenerator>()
                     .WithSource(source)
                     .ValidateWith(Validate)
                     .RunOnAllFrameworks();
@@ -81,16 +81,16 @@ namespace Whatever
             public Task Malformed_DateTimeOffset_causes_compilation_error()
             {
                 var source = @"
-using Vogen;
+using Intellenum;
 using System;
 namespace Whatever
 {
-    [ValueObject(underlyingType: typeof(DateTimeOffset))]
+    [Intellenum(underlyingType: typeof(DateTimeOffset))]
     [Instance(name: ""Invalid"", value: ""x2022-13-99"")]
     public partial class MyInstanceTests { }
 }";
 
-                new TestRunner<ValueObjectGenerator>()
+                new TestRunner<IntellenumGenerator>()
                     .WithSource(source)
                     .ValidateWith(Validate)
                     .RunOnAllFrameworks();

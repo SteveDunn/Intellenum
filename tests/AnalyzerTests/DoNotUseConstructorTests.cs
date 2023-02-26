@@ -17,17 +17,17 @@ public class DoNotUseConstructorTests
         [InlineData("readonly partial record struct")]
         public void parameters_disallowed(string type)
         {
-            var source = $@"using Vogen;
+            var source = $@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public {type} CustomerId(int SomethingElse)
 {{
 }}
 ";
 
-            new TestRunner<ValueObjectGenerator>()
+            new TestRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .ValidateWith(Validate)
                 .RunOnAllFrameworks();
@@ -50,17 +50,17 @@ public {type} CustomerId(int SomethingElse)
         [InlineData("readonly partial record struct")]
         public void multiple_parameters_disallowed(string type)
         {
-            var source = $@"using Vogen;
+            var source = $@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public {type} CustomerId(int SomethingElse, string Name, int Age)
 {{
 }}
 ";
 
-            new TestRunner<ValueObjectGenerator>()
+            new TestRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .ValidateWith(Validate)
                 .RunOnAllFrameworks();
@@ -83,17 +83,17 @@ public {type} CustomerId(int SomethingElse, string Name, int Age)
         [InlineData("readonly partial record struct")]
         public void empty_parameters_disallowed(string type)
         {
-            var source = $@"using Vogen;
+            var source = $@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public {type} CustomerId()
 {{
 }}
 ";
 
-            new TestRunner<ValueObjectGenerator>()
+            new TestRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .ValidateWith(Validate)
                 .RunOnAllFrameworks();
@@ -121,18 +121,18 @@ public {type} CustomerId()
         [InlineData("readonly partial record struct")]
         public void parameters_disallowed(string type)
         {
-            var source = $@"using Vogen;
+            var source = $@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public {type} CustomerId
 {{
     public CustomerId() {{ }}
 }}
 ";
 
-            new TestRunner<ValueObjectGenerator>()
+            new TestRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .ValidateWith(Validate)
                 .RunOnAllFrameworks();
@@ -158,18 +158,18 @@ public {type} CustomerId
         [InlineData("readonly partial record struct")]
         public void multiple_parameters_disallowed(string type)
         {
-            var source = $@"using Vogen;
+            var source = $@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public {type} CustomerId
 {{
     public CustomerId(int SomethingElse, string Name, int Age) {{ }}
 }}
 ";
 
-            new TestRunner<ValueObjectGenerator>()
+            new TestRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .ValidateWith(Validate)
                 .RunOnAllFrameworks();
@@ -195,17 +195,17 @@ public {type} CustomerId
         [InlineData("readonly partial record struct")]
         public void empty_parameters_disallowed(string type)
         {
-            var source = $@"using Vogen;
+            var source = $@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public {type} CustomerId
 {{
     public CustomerId() {{ }}
 }}
 ";
-            new TestRunner<ValueObjectGenerator>()
+            new TestRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .ValidateWith(Validate)
                 .RunOnAllFrameworks();

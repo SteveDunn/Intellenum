@@ -17,13 +17,13 @@ public class HappyTests
     public void Type_override(string type)
     {
         var source = $@"using System;
-using Vogen;
+using Intellenum;
 namespace Whatever;
 
-[ValueObject(typeof(float))]
+[Intellenum(typeof(float))]
 public {type} CustomerId {{ }}";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -44,10 +44,10 @@ public {type} CustomerId {{ }}";
     public void Exception_override(string type)
     {
         var source = $@"using System;
-using Vogen;
+using Intellenum;
 namespace Whatever;
 
-[ValueObject(throws: typeof(MyValidationException))]
+[Intellenum(throws: typeof(MyValidationException))]
 public {type} CustomerId
 {{
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
@@ -59,7 +59,7 @@ public class MyValidationException : Exception
 }}
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -80,13 +80,13 @@ public class MyValidationException : Exception
     public void Conversion_override(string type)
     {
         var source = $@"using System;
-using Vogen;
+using Intellenum;
 namespace Whatever;
 
-[ValueObject(conversions: Conversions.None)]
+[Intellenum(conversions: Conversions.None)]
 public {type} CustomerId {{ }}";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -107,10 +107,10 @@ public {type} CustomerId {{ }}";
     public void Conversion_and_exceptions_override(string type)
     {
         var source = $@"using System;
-using Vogen;
+using Intellenum;
 namespace Whatever;
 
-[ValueObject(conversions: Conversions.DapperTypeHandler, throws: typeof(Whatever.MyValidationException))]
+[Intellenum(conversions: Conversions.DapperTypeHandler, throws: typeof(Whatever.MyValidationException))]
 public {type} CustomerId
 {{
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
@@ -123,7 +123,7 @@ public class MyValidationException : Exception
 }}
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -144,13 +144,13 @@ public class MyValidationException : Exception
     public void Override_global_config_locally(string type)
     {
         var source = $@"using System;
-using Vogen;
+using Intellenum;
 
-[assembly: VogenDefaults(underlyingType: typeof(string), conversions: Conversions.None, throws:typeof(Whatever.MyValidationException))]
+[assembly: IntellenumDefaults(underlyingType: typeof(string), conversions: Conversions.None, throws:typeof(Whatever.MyValidationException))]
 
 namespace Whatever;
 
-[ValueObject(underlyingType:typeof(float))]
+[Intellenum(underlyingType:typeof(float))]
 public {type} CustomerId
 {{
     private static Validation Validate(float value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
@@ -162,7 +162,7 @@ public class MyValidationException : Exception
 }}
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();

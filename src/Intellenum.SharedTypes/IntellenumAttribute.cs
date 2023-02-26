@@ -12,7 +12,7 @@ namespace Intellenum
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
     public class IntellenumAttribute<T> : IntellenumAttribute
     {
-        // keep this signature in-line with `VogenConfiguration`
+        // keep this signature in-line with `IntellenumConfiguration`
         // as the syntax/semantics are read in the generator
         // using parameter indexes (i.e. it expected param 0 to be the underlying type etc.
         public IntellenumAttribute(
@@ -34,7 +34,7 @@ namespace Intellenum
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
     public class IntellenumAttribute : Attribute
     {
-        // keep this signature in-line with `VogenConfiguration`
+        // keep this signature in-line with `IntellenumConfiguration`
         // as the syntax/semantics are read in the generator
         // using parameter indexes (i.e. it expected param 0 to be the underlying type etc).
         public IntellenumAttribute(

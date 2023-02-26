@@ -11,7 +11,7 @@ public class ClassGenerator : IGenerateSourceCode
         var itemUnderlyingType = item.UnderlyingTypeFullName;
         
         return $@"
-using Vogen;
+using Intellenum;
 
 {Util.WriteStartNamespace(item.FullNamespace)}
     [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage] 
@@ -27,7 +27,7 @@ using Vogen;
         private readonly {itemUnderlyingType} _value;
         
 /// <summary>
-/// Gets the underlying <see cref=""{itemUnderlyingType}"" /> value if set, otherwise a <see cref=""{nameof(ValueObjectValidationException)}"" /> is thrown.
+/// Gets the underlying <see cref=""{itemUnderlyingType}"" /> value if set, otherwise a <see cref=""{nameof(IntellenumValidationException)}"" /> is thrown.
 /// </summary>
 public {itemUnderlyingType} Value
         {{

@@ -13,15 +13,15 @@ public class DisallowDuplicateAttributesTests
     [InlineData("abstract partial record class")]
     public void Disallows_multiple_value_object_attributes(string type)
     {
-        var source = $@"using Vogen;
+        var source = $@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject]
-[ValueObject]
+[Intellenum]
+[Intellenum]
 public {type} CustomerId {{ }}
 ";
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();

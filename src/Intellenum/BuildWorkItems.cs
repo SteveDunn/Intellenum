@@ -14,7 +14,7 @@ internal static class BuildWorkItems
 {
     public static VoWorkItem? TryBuild(VoTarget target,
         SourceProductionContext context,
-        VogenConfiguration? globalConfig,
+        IntellenumConfiguration? globalConfig,
         Compilation compilation)
     {
         TypeDeclarationSyntax voTypeSyntax = target.VoSyntaxInformation;
@@ -57,14 +57,14 @@ internal static class BuildWorkItems
             context.ReportDiagnostic(diagnostic);
         }
 
-        VogenConfiguration? localConfig = localBuildResult.ResultingConfiguration;
+        IntellenumConfiguration? localConfig = localBuildResult.ResultingConfiguration;
         
         if (localConfig == null)
         {
             return null;
         }
 
-        var config = VogenConfiguration.Combine(localConfig.Value, globalConfig, () => compilation.GetSpecialType(SpecialType.System_Int32));
+        var config = IntellenumConfiguration.Combine(localConfig.Value, globalConfig, () => compilation.GetSpecialType(SpecialType.System_Int32));
 
         ReportErrorIfNestedType(target, context, voSymbolInformation);
 
@@ -189,7 +189,7 @@ internal static class BuildWorkItems
         }
     }
 
-    private static bool IsUnderlyingAValueType(VogenConfiguration config)
+    private static bool IsUnderlyingAValueType(IntellenumConfiguration config)
     {
         bool isValueType = true;
         if (config.UnderlyingType != null)
@@ -200,7 +200,7 @@ internal static class BuildWorkItems
         return isValueType;
     }
 
-    private static void ReportErrorIfUnderlyingTypeIsCollection(SourceProductionContext context, VogenConfiguration config,
+    private static void ReportErrorIfUnderlyingTypeIsCollection(SourceProductionContext context, IntellenumConfiguration config,
         INamedTypeSymbol voSymbolInformation)
     {
         if (config.UnderlyingType.ImplementsInterfaceOrBaseClass(typeof(ICollection)))
@@ -211,7 +211,7 @@ internal static class BuildWorkItems
     }
 
     private static void ReportErrorIfVoTypeIsSameAsUnderlyingType(SourceProductionContext context,
-        INamedTypeSymbol voSymbolInformation, VogenConfiguration config)
+        INamedTypeSymbol voSymbolInformation, IntellenumConfiguration config)
     {
         if (SymbolEqualityComparer.Default.Equals(voSymbolInformation, config.UnderlyingType))
         {
@@ -251,7 +251,7 @@ internal static class BuildWorkItems
         string? methodName, 
         MethodDeclarationSyntax mds,
         SourceProductionContext context, 
-        VogenConfiguration config, 
+        IntellenumConfiguration config, 
         VoTarget target)
     {
         if (StringComparer.OrdinalIgnoreCase.Compare(methodName, "normalizeinput") != 0)
@@ -328,7 +328,7 @@ internal static class BuildWorkItems
         INamedTypeSymbol? underlyingType)
     {
         IEnumerable<AttributeData> matchingAttributes =
-            attributes.Where(a => a.AttributeClass?.FullName() is "Vogen.InstanceAttribute");
+            attributes.Where(a => a.AttributeClass?.FullName() is "Intellenum.InstanceAttribute");
 
         var props = BuildInstanceProperties.Build(matchingAttributes, context, voClass, underlyingType);
         

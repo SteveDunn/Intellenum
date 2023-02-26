@@ -43,7 +43,7 @@ public class NormalizeInputMethodTests
     {
         var source = BuildSource(type);
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -59,10 +59,10 @@ public class NormalizeInputMethodTests
         }
 
         static string BuildSource(string type) =>
-            $@"using Vogen;
+            $@"using Intellenum;
 namespace Whatever;
 
-[ValueObject(typeof(int))]
+[Intellenum(typeof(int))]
 {type} CustomerId
 {{
     private static int NormalizeInput(bool value) => 0;
@@ -75,7 +75,7 @@ namespace Whatever;
     {
         var source = BuildSource(type);
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -92,10 +92,10 @@ namespace Whatever;
         }
 
         static string BuildSource(string type) =>
-            $@"using Vogen;
+            $@"using Intellenum;
 namespace Whatever;
 
-[ValueObject(typeof(int))]
+[Intellenum(typeof(int))]
 {type} CustomerId
 {{
     private static bool NormalizeInput(int value) => false;
@@ -108,7 +108,7 @@ namespace Whatever;
     {
         var source = BuildSource(type);
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -123,10 +123,10 @@ namespace Whatever;
         }
 
         static string BuildSource(string type) =>
-            $@"using Vogen;
+            $@"using Intellenum;
 namespace Whatever;
 
-[ValueObject(typeof(int))]
+[Intellenum(typeof(int))]
 {type} CustomerId
 {{
     private int NormalizeInput(int value) => 0;
@@ -136,16 +136,16 @@ namespace Whatever;
     [Fact]
     public void NormalizeInput_CopesWhenUnderlyingTypeIsDefaulted()
     {
-        var source = @"using Vogen;
+        var source = @"using Intellenum;
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public partial struct Struct_WithDefaultedUnderlyingType
 {
     private static int NormalizeInput(int input) => System.Math.Min(128, input);
 }";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();

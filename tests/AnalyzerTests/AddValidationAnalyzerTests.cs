@@ -27,11 +27,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using Vogen;
+using Intellenum;
 
 namespace ConsoleApplication1
 {
-    [ValueObject(typeof(int))]
+    [Intellenum(typeof(int))]
     public partial class {|#0:TypeName|}
     {   
     }
@@ -44,11 +44,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using Vogen;
+using Intellenum;
 
 namespace ConsoleApplication1
 {
-    [ValueObject(typeof(int))]
+    [Intellenum(typeof(int))]
     public partial class TypeName
     {
         private static Validation Validate(int input)
@@ -95,11 +95,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using Vogen;
+using Intellenum;
 
 namespace ConsoleApplication1
 {
-    [ValueObject<int>]
+    [Intellenum<int>]
     public partial class {|#0:TypeName|}
     {   
     }
@@ -112,11 +112,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using Vogen;
+using Intellenum;
 
 namespace ConsoleApplication1
 {
-    [ValueObject<int>]
+    [Intellenum<int>]
     public partial class TypeName
     {
         private static Validation Validate(int input)

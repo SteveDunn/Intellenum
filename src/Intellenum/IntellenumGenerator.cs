@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Intellenum
 {
     [Generator]
-    public class ValueObjectGenerator : IIncrementalGenerator
+    public class IntellenumGenerator : IIncrementalGenerator
     {
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
@@ -63,7 +63,7 @@ namespace Intellenum
                 context.ReportDiagnostic(diagnostic);
             }
 
-            VogenConfiguration? globalConfig = buildResult.ResultingConfiguration;
+            IntellenumConfiguration? globalConfig = buildResult.ResultingConfiguration;
 
             // get all of the ValueObject types found.
             List<VoWorkItem> workItems = GetWorkItems(typeDeclarations, context, globalConfig, compilation).ToList();
@@ -79,7 +79,7 @@ namespace Intellenum
 
         static IEnumerable<VoWorkItem> GetWorkItems(ImmutableArray<VoTarget> targets,
             SourceProductionContext context,
-            VogenConfiguration? globalConfig,
+            IntellenumConfiguration? globalConfig,
             Compilation compilation)
         {
             if (targets.IsDefaultOrEmpty)

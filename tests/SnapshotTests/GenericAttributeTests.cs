@@ -11,10 +11,10 @@ public class GenericAttributeTests
     [SkippableFact]
     public Task Partial_struct_created_successfully()
     {
-        var source = @"using Vogen;
+        var source = @"using Intellenum;
 namespace Whatever;
 
-[ValueObject<int>]
+[Intellenum<int>]
 public partial struct CustomerId
 {
 }";
@@ -23,16 +23,16 @@ public partial struct CustomerId
     }
 
     private static Task RunTest(string source) =>
-        new SnapshotRunner<ValueObjectGenerator>()
+        new SnapshotRunner<IntellenumGenerator>()
             .WithSource(source)
             .IgnoreInitialCompilationErrors()
             .RunOn(TargetFramework.Net7_0);
 
     [SkippableFact]
     public Task No_namespace() =>
-        RunTest(@"using Vogen;
+        RunTest(@"using Intellenum;
 
-[ValueObject<int>]
+[Intellenum<int>]
 public partial struct CustomerId
 {
 }");
@@ -41,11 +41,11 @@ public partial struct CustomerId
     [SkippableFact]
     public Task Produces_instances()
     {
-        return RunTest(@"using Vogen;
+        return RunTest(@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject<int>]
+[Intellenum<int>]
 [Instance(name: ""Unspecified"", value: -1, tripleSlashComment: ""a short description that'll show up in intellisense"")]
 [Instance(name: ""Unspecified1"", value: -2)]
 [Instance(name: ""Unspecified2"", value: -3, tripleSlashComment: ""<some_xml>whatever</some_xml"")]
@@ -60,11 +60,11 @@ public partial struct CustomerId
     [SkippableFact]
     public Task Produces_instances_with_derived_attribute()
     {
-        return RunTest(@"using Vogen;
+        return RunTest(@"using Intellenum;
 
 namespace Whatever;
 
-public class CustomGenericAttribute : ValueObjectAttribute<long>
+public class CustomGenericAttribute : IntellenumAttribute<long>
 {
     public CustomGenericAttribute(Conversions conversions = Conversions.Default | Conversions.EfCoreValueConverter)
     {
@@ -86,11 +86,11 @@ public partial struct CustomerId
     [SkippableFact]
     public Task Validation_with_PascalCased_validate_method()
     {
-        return RunTest(@"using Vogen;
+        return RunTest(@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject<int>]
+[Intellenum<int>]
 public partial struct CustomerId
 {
     private static Validation Validate(int value)
@@ -107,11 +107,11 @@ public partial struct CustomerId
     [SkippableFact]
     public Task Validation_with_camelCased_validate_method()
     {
-        return RunTest(@"using Vogen;
+        return RunTest(@"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject<int>]
+[Intellenum<int>]
 public partial struct CustomerId
 {
     private static Validation validate(int value)
@@ -129,11 +129,11 @@ public partial struct CustomerId
     public Task Instance_names_can_have_reserved_keywords()
     {
         return RunTest("""
-            using Vogen;
+            using Intellenum;
 
             namespace Whatever;
 
-            [ValueObject<int>]
+            [Intellenum<int>]
             [Instance(name: "@class", value: 42)]
             [Instance(name: "@event", value: 69)]
             public partial struct CustomerId
@@ -153,11 +153,11 @@ public partial struct CustomerId
     [SkippableFact]
     public Task Namespace_names_can_have_reserved_keywords()
     {
-        return RunTest(@"using Vogen;
+        return RunTest(@"using Intellenum;
 
 namespace @double;
 
-[ValueObject<int>]
+[Intellenum<int>]
 [Instance(name: ""@struct"", value: 42)]
 [Instance(name: ""@event"", value: 69)]
 [Instance(name: ""@void"", value: 666)]

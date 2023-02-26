@@ -18,10 +18,10 @@ public class SadTests
     public void Missing_any_constructors(string type)
     {
         var source = $@"using System;
-using Vogen;
+using Intellenum;
 namespace Whatever;
 
-[ValueObject(throws: typeof(MyValidationException))]
+[Intellenum(throws: typeof(MyValidationException))]
 public {type} CustomerId
 {{
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
@@ -30,7 +30,7 @@ public {type} CustomerId
 public class MyValidationException : Exception {{ }}
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -57,10 +57,10 @@ public class MyValidationException : Exception {{ }}
     public void Missing_string_constructor(string path)
     {
         var source = $@"using System;
-using Vogen;
+using Intellenum;
 namespace Whatever;
 
-[ValueObject(throws: typeof(MyValidationException))]
+[Intellenum(throws: typeof(MyValidationException))]
 public {path} CustomerId
 {{
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
@@ -72,7 +72,7 @@ public class MyValidationException : Exception
 }}
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -99,10 +99,10 @@ public class MyValidationException : Exception
     public void Missing_public_string_constructor_on_exception(string type)
     {
         var source = $@"using System;
-using Vogen;
+using Intellenum;
 namespace Whatever;
 
-[ValueObject(throws: typeof(MyValidationException))]
+[Intellenum(throws: typeof(MyValidationException))]
 public {type} CustomerId
 {{
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
@@ -114,7 +114,7 @@ public class MyValidationException : Exception
 }}
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -141,10 +141,10 @@ public class MyValidationException : Exception
     public void Not_an_exception(string type)
     {
         var source = $@"using System;
-using Vogen;
+using Intellenum;
 namespace Whatever;
 
-[ValueObject(throws: typeof(MyValidationException))]
+[Intellenum(throws: typeof(MyValidationException))]
 public {type} CustomerId
 {{
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
@@ -153,7 +153,7 @@ public {type} CustomerId
 public class MyValidationException {{ }} // NOT AN EXCEPTION!
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -188,15 +188,15 @@ public class MyValidationException {{ }} // NOT AN EXCEPTION!
     public void Not_valid_conversion(string type)
     {
         var source = $@"using System;
-using Vogen;
+using Intellenum;
 
 namespace Whatever;
 
-[ValueObject(conversions: (Conversions)666)]
+[Intellenum(conversions: (Conversions)666)]
 public {type} CustomerId {{ }}
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();

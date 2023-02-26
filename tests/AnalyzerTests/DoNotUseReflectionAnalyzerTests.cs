@@ -36,7 +36,7 @@ namespace AnalyzerTests
         [ClassData(typeof(Types))]
         public async Task Disallows_generic_method(string type)
         {
-            var source = $@"using Vogen;
+            var source = $@"using Intellenum;
 using System;
 
 namespace Whatever;
@@ -47,7 +47,7 @@ public class Test {{
     }}
 }}
 
-[ValueObject(typeof(int))]
+[Intellenum(typeof(int))]
 public {type} MyVo {{ }}
 ";
             
@@ -60,7 +60,7 @@ public {type} MyVo {{ }}
         [ClassData(typeof(Types))]
         public async Task Disallows_non_generic_method(string type)
         {
-            var source = $@"using Vogen;
+            var source = $@"using Intellenum;
 using System;
 
 namespace Whatever;
@@ -71,7 +71,7 @@ public class Test {{
     }}
 }}
 
-[ValueObject(typeof(int))]
+[Intellenum(typeof(int))]
 public {type} MyVo {{ }}
 ";
             

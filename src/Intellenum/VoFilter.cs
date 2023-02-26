@@ -19,14 +19,14 @@ internal static class VoFilter
 
     // We return all value object attributes here. There can only be one, but we report
     // it later with the location from the syntax.
-    public static IEnumerable<AttributeData> TryGetValueObjectAttributes(INamedTypeSymbol voSymbolInformation)
+    public static IEnumerable<AttributeData> TryGetIntellenumAttributes(INamedTypeSymbol voSymbolInformation)
     {
         var attrs = voSymbolInformation.GetAttributes();
 
         return attrs.Where(
-                a => a.AttributeClass?.FullName() == "Vogen.ValueObjectAttribute"
-                     || a.AttributeClass?.BaseType?.FullName() == "Vogen.ValueObjectAttribute"
-                     || a.AttributeClass?.BaseType?.BaseType?.FullName() == "Vogen.ValueObjectAttribute");
+                a => a.AttributeClass?.FullName() == "Intellenum.IntellenumAttribute"
+                     || a.AttributeClass?.BaseType?.FullName() == "Intellenum.IntellenumAttribute"
+                     || a.AttributeClass?.BaseType?.BaseType?.FullName() == "Intellenum.IntellenumAttribute");
     }
 
     // This is stage 2 in the pipeline - we filter down to just 1 target
@@ -38,7 +38,7 @@ internal static class VoFilter
 
         var voSymbolInformation = (INamedTypeSymbol) semanticModel.GetDeclaredSymbol(context.Node)!;
 
-        var attributeData = TryGetValueObjectAttributes(voSymbolInformation).ToImmutableArray();
+        var attributeData = TryGetIntellenumAttributes(voSymbolInformation).ToImmutableArray();
 
         if(attributeData.Length > 0)
         {
@@ -68,7 +68,7 @@ internal static class VoFilter
         }
 
         AttributeData? voAttribute =
-            attributes.SingleOrDefault(a => a.AttributeClass?.FullName() is "Vogen.ValueObjectAttribute");
+            attributes.SingleOrDefault(a => a.AttributeClass?.FullName() is "Intellenum.IntellenumAttribute");
 
         return voAttribute is not null;
     }

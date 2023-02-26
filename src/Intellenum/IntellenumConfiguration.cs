@@ -3,9 +3,9 @@ using Microsoft.CodeAnalysis;
 
 namespace Intellenum;
 
-public readonly struct VogenConfiguration
+public readonly struct IntellenumConfiguration
 {
-    public VogenConfiguration(INamedTypeSymbol? underlyingType,
+    public IntellenumConfiguration(INamedTypeSymbol? underlyingType,
         INamedTypeSymbol? validationExceptionType,
         Conversions conversions,
         Customizations customizations,
@@ -20,9 +20,9 @@ public readonly struct VogenConfiguration
         DebuggerAttributes = debuggerAttributes;
     }
 
-    public static VogenConfiguration Combine(
-        VogenConfiguration localValues,
-        VogenConfiguration? globalValues,
+    public static IntellenumConfiguration Combine(
+        IntellenumConfiguration localValues,
+        IntellenumConfiguration? globalValues,
         Func<INamedTypeSymbol>? funcForDefaultUnderlyingType = null)
     {
         var conversions = (localValues.Conversions, globalValues?.Conversions) switch
@@ -60,7 +60,7 @@ public readonly struct VogenConfiguration
         var validationExceptionType = localValues.ValidationExceptionType ?? globalValues?.ValidationExceptionType ?? DefaultInstance.ValidationExceptionType;
         var underlyingType = localValues.UnderlyingType ?? globalValues?.UnderlyingType ?? funcForDefaultUnderlyingType?.Invoke();
 
-        return new VogenConfiguration(underlyingType, validationExceptionType, conversions, customizations, strictness, debuggerAttributes);
+        return new IntellenumConfiguration(underlyingType, validationExceptionType, conversions, customizations, strictness, debuggerAttributes);
     }
 
     public INamedTypeSymbol? UnderlyingType { get; }
@@ -77,7 +77,7 @@ public readonly struct VogenConfiguration
     // the issue here is that without a physical 'symbol' in the source, we can't
     // get the namedtypesymbol
     // ReSharper disable once MemberCanBePrivate.Global
-    public static readonly VogenConfiguration DefaultInstance = new(
+    public static readonly IntellenumConfiguration DefaultInstance = new(
         underlyingType: null,
         validationExceptionType: null,
         // ReSharper disable once RedundantNameQualifier

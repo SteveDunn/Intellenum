@@ -13,18 +13,18 @@ public class InstanceFieldGenerationTests
     public Task Instances_can_be_booleans()
     {
         var source = """
-using Vogen;
+using Intellenum;
 
 namespace Whatever;
 
-[ValueObject(typeof(bool))]
+[Intellenum(typeof(bool))]
 [Instance("Invalid", false)]
 public partial struct BooleanThing
 {
 }
 """;
 
-        return new SnapshotRunner<ValueObjectGenerator>()
+        return new SnapshotRunner<IntellenumGenerator>()
             .WithSource(source)
             .RunOnAllFrameworks();
     }
@@ -32,11 +32,11 @@ public partial struct BooleanThing
     [Fact]
     public Task Instance_names_can_have_reserved_keywords()
     {
-        var source = @"using Vogen;
+        var source = @"using Intellenum;
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 [Instance(name: ""@class"", value: 42)]
 [Instance(name: ""@event"", value: 69)]
 public partial struct CustomerId
@@ -51,7 +51,7 @@ public partial struct CustomerId
 }
 ";
 
-        return new SnapshotRunner<ValueObjectGenerator>()
+        return new SnapshotRunner<IntellenumGenerator>()
             .WithSource(source)
             .RunOnAllFrameworks();
     }
@@ -80,16 +80,16 @@ public partial struct CustomerId
     private Task Run(string type, string underlyingType, string instanceValue, string className, string locale)
     {
         string declaration = $@"
-  [ValueObject(underlyingType: typeof({underlyingType}))]
+  [Intellenum(underlyingType: typeof({underlyingType}))]
   [Instance(name: ""MyValue"", value: {instanceValue})]
   {type} {className} {{}}";
-        var source = @"using Vogen;
+        var source = @"using Intellenum;
 namespace Whatever
 {
 " + declaration + @"
 }";
 
-        return new SnapshotRunner<ValueObjectGenerator>()
+        return new SnapshotRunner<IntellenumGenerator>()
             .WithSource(source)
             .WithLocale(locale)
             .CustomizeSettings(s => s.UseFileName(TestHelper.ShortenForFilename(className)))

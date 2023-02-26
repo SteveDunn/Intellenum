@@ -11,19 +11,19 @@ public class HappyTests
     public void Type_override()
     {
         var source = @"using System;
-using Vogen;
+using Intellenum;
 
-[assembly: VogenDefaults(underlyingType: typeof(float))]
+[assembly: IntellenumDefaults(underlyingType: typeof(float))]
 
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public partial struct CustomerId
 {
 }";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -38,13 +38,13 @@ public partial struct CustomerId
     public void Exception_override()
     {
         var source = @"using System;
-using Vogen;
+using Intellenum;
 
-[assembly: VogenDefaults(throws: typeof(Whatever.MyValidationException))]
+[assembly: IntellenumDefaults(throws: typeof(Whatever.MyValidationException))]
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public partial struct CustomerId
 {
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
@@ -56,7 +56,7 @@ public class MyValidationException : Exception
 }
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -71,14 +71,14 @@ public class MyValidationException : Exception
     public void Conversion_and_exceptions_override()
     {
         var source = @"using System;
-using Vogen;
+using Intellenum;
 
-[assembly: VogenDefaults(conversions: Conversions.DapperTypeHandler, throws: typeof(Whatever.MyValidationException))]
+[assembly: IntellenumDefaults(conversions: Conversions.DapperTypeHandler, throws: typeof(Whatever.MyValidationException))]
 
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public partial struct CustomerId
 {
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
@@ -91,7 +91,7 @@ public class MyValidationException : Exception
 }
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -106,18 +106,18 @@ public class MyValidationException : Exception
     public void DeserializationStrictness_override()
     {
         var source = @"using System;
-using Vogen;
+using Intellenum;
 
-[assembly: VogenDefaults(conversions: Conversions.DapperTypeHandler, deserializationStrictness: DeserializationStrictness.AllowAnything)]
+[assembly: IntellenumDefaults(conversions: Conversions.DapperTypeHandler, deserializationStrictness: DeserializationStrictness.AllowAnything)]
 
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public partial struct CustomerId { }
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -132,13 +132,13 @@ public partial struct CustomerId { }
     public void Override_all()
     {
         var source = @"using System;
-using Vogen;
+using Intellenum;
 
-[assembly: VogenDefaults(underlyingType: typeof(string), conversions: Conversions.None, throws:typeof(Whatever.MyValidationException), deserializationStrictness: DeserializationStrictness.AllowAnything)]
+[assembly: IntellenumDefaults(underlyingType: typeof(string), conversions: Conversions.None, throws:typeof(Whatever.MyValidationException), deserializationStrictness: DeserializationStrictness.AllowAnything)]
 
 namespace Whatever;
 
-[ValueObject]
+[Intellenum]
 public partial struct CustomerId
 {
     private static Validation Validate(string value) => value.Length > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
@@ -150,7 +150,7 @@ public class MyValidationException : Exception
 }
 ";
 
-        new TestRunner<ValueObjectGenerator>()
+        new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();

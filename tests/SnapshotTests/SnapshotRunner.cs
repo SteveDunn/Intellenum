@@ -78,7 +78,7 @@ namespace SnapshotTests
             frameworks = frameworks.Where(framework => framework == TargetFramework.Net7_0).ToArray();
 #elif NET6_0
             // Alternatively, only run non-net7 tests when using the .NET 6 target
-            // as .NET 6 will use the .NET standard Vogen binary (without C#11 support)
+            // as .NET 6 will use the .NET standard Intellenum binary (without C#11 support)
             frameworks = frameworks.Where(framework => framework != TargetFramework.Net7_0).ToArray();
 #endif
 

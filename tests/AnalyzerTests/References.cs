@@ -18,6 +18,6 @@ namespace AnalyzerTests
                         "7.0.0-rc.1.22426.10"),
                     Path.Combine("ref", "net7.0"))
                 .AddAssemblies(
-                    ImmutableArray.Create("Vogen", "Vogen.SharedTypes", _loc.Replace(".dll", string.Empty))));
+                    ImmutableArray.Create("Intellenum", "Intellenum.SharedTypes", _loc.Replace(".dll", string.Empty))));
     }
 }
