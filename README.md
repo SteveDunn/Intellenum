@@ -7,7 +7,7 @@
 [![NuGet Badge](https://buildstats.info/nuget/intellenum)](https://www.nuget.org/packages/Intellenum/)
 
 <p align="center">
-  <img src="./assets/cavey.png" alt="Picture of caveman holding the number '1'">
+  <img src="./assets/intellenum.png" alt="The Intellenum logo">
 </p>
 
 [![Sparkline](https://stars.medv.io/stevedunn/intellenum.svg)](https://stars.medv.io/stevedunn/intellenum)
@@ -15,3 +15,5 @@
 If you like or are using this project please give it a star. Thanks!
 
 # Intellenum: intelligence, for your enums!
+
+## THIS IS STILL VERY MUCH UNDER CONSTRUCTION - DO NOT USE YET!
