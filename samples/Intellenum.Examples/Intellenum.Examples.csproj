@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<IsPackable>false</IsPackable>
+		<LangVersion>preview</LangVersion>
+		<UseLocallyBuiltPackage>true</UseLocallyBuiltPackage>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="GitHubActionsTestLogger" Version="2.0.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  </PackageReference>
+	    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-rc.1.22426.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-rc.1.22426.7" />
+		<PackageReference Include="System.Text.Json" Version="7.0.0-rc.1.22426.10" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+		<PackageReference Include="Dapper" Version="2.0.123" />
+		<PackageReference Include="linq2db" Version="3.7.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(UseLocallyBuiltPackage)' != ''">
+		<PackageReference Include="Vogen" Version="999.9.*" />
+	</ItemGroup>
+
+	<ItemGroup Condition=" '$(UseLocallyBuiltPackage)' == ''">
+		<PackageReference Include="Vogen" Version="999.9.10219943" />
+	</ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<NoWarn>$(NoWarn);CS1701;CS1702;CS1591</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<NoWarn>$(NoWarn);CS1701;CS1702;CS1591</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- Don't include the output from a previous source generator execution into future runs; the */** trick here ensures that there's
+  at least one subdirectory, which is our key that it's coming from a source generator as opposed to something that is coming from
+  some other tool. -->
+		<Compile Remove="Generated/*/**/*.cs" />
+	</ItemGroup>
+
+</Project>

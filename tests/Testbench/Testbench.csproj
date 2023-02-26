@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net7.0</TargetFrameworks>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Don't include the output from a previous source generator execution into future runs; the */** trick here ensures that there's
+  at least one subdirectory, which is our key that it's coming from a source generator as opposed to something that is coming from
+  some other tool. -->
+    <Compile Remove="Generated/*/**/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="linq2db" Version="3.7.0" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-rc.1.22426.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-rc.1.22426.7" />
+    <PackageReference Include="System.Text.Json" Version="7.0.0-rc.1.22426.10" />
+
+
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+
+
+    <PackageReference Include="Vogen" Version="3.0.2-alpha.3" />
+  </ItemGroup>
+
+</Project>
