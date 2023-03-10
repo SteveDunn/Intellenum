@@ -22,7 +22,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum(throws: typeof(MyValidationException))]
-public {type} CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public {type} CustomerType
 {{
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
 }}
@@ -61,7 +63,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum(throws: typeof(MyValidationException))]
-public {path} CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public {path} CustomerType
 {{
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
 }}
@@ -103,7 +107,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum(throws: typeof(MyValidationException))]
-public {type} CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public {type} CustomerType
 {{
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
 }}
@@ -145,7 +151,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum(throws: typeof(MyValidationException))]
-public {type} CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public {type} CustomerType
 {{
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
 }}
@@ -193,7 +201,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum(conversions: (Conversions)666)]
-public {type} CustomerId {{ }}
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public {type} CustomerType {{ }}
 ";
 
         new TestRunner<IntellenumGenerator>()

@@ -20,7 +20,9 @@ public class ToStringOverrideTests
 namespace Whatever;
 
 [Intellenum]
-{type} CustomerId 
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+{type} CustomerType 
 {{
     public override string ToString() => string.Empty;
 }}
@@ -52,7 +54,9 @@ namespace Whatever;
 namespace Whatever;
 
 [Intellenum]
-{type} CustomerId 
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+{type} CustomerType 
 {{
     public override sealed string ToString() => string.Empty;
 }}
@@ -72,7 +76,9 @@ namespace Whatever;
 namespace Whatever;
 
 [Intellenum]
-public partial record struct CustomerId 
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial record struct CustomerType 
 {{
     public override string ToString() => string.Empty;
 }}
@@ -93,7 +99,9 @@ public partial record struct CustomerId
 namespace Whatever;
 
 [Intellenum]
-{type} CustomerId 
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+{type} CustomerType
 {{
     public override {sealedOrNot} string ToString() => string.Empty;
 }}

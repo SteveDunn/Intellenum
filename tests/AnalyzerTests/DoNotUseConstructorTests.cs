@@ -22,7 +22,9 @@ public class DoNotUseConstructorTests
 namespace Whatever;
 
 [Intellenum]
-public {type} CustomerId(int SomethingElse)
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public {type} CustomerType(int SomethingElse)
 {{
 }}
 ";
@@ -55,7 +57,9 @@ public {type} CustomerId(int SomethingElse)
 namespace Whatever;
 
 [Intellenum]
-public {type} CustomerId(int SomethingElse, string Name, int Age)
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public {type} CustomerType(int SomethingElse, string Name, int Age)
 {{
 }}
 ";
@@ -88,7 +92,9 @@ public {type} CustomerId(int SomethingElse, string Name, int Age)
 namespace Whatever;
 
 [Intellenum]
-public {type} CustomerId()
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public {type} CustomerType()
 {{
 }}
 ";
@@ -126,9 +132,11 @@ public {type} CustomerId()
 namespace Whatever;
 
 [Intellenum]
-public {type} CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public {type} CustomerType
 {{
-    public CustomerId() {{ }}
+    public CustomerType() {{ }}
 }}
 ";
 
@@ -163,9 +171,11 @@ public {type} CustomerId
 namespace Whatever;
 
 [Intellenum]
-public {type} CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public {type} CustomerType
 {{
-    public CustomerId(int SomethingElse, string Name, int Age) {{ }}
+    public CustomerType(int SomethingElse, string Name, int Age) {{ }}
 }}
 ";
 
@@ -200,9 +210,11 @@ public {type} CustomerId
 namespace Whatever;
 
 [Intellenum]
-public {type} CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public {type} CustomerType
 {{
-    public CustomerId() {{ }}
+    public CustomerType() {{ }}
 }}
 ";
             new TestRunner<IntellenumGenerator>()

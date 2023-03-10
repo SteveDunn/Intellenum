@@ -15,7 +15,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum(debuggerAttributes: DebuggerAttributeGeneration.Basic)]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
 }";
 
@@ -32,7 +34,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
 }";
 
@@ -49,7 +53,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
     private static Validation validate(int value)
     {
@@ -73,8 +79,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-[Instance(name: ""Zero"", value: 0, tripleSlashComment: ""a short description that'll show up in intellisense"")]
-public partial struct CustomerId
+[Instance(name: ""Basic"", value: 0, tripleSlashComment: ""a short description that'll show up in intellisense"")]
+[Instance(name: ""Gold"", value: 1, tripleSlashComment: ""another short description that'll show up in intellisense"")]
+public partial struct CustomerType
 {
     private static Validation validate(int value)
     {
@@ -98,7 +105,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum(typeof(float))]
-public partial struct CustomerId
+[Instance(""Normal"", 0.1f]
+[Instance(""Gold"", 0.2f]
+public partial struct CustomerType
 {
 }";
 
@@ -115,7 +124,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum(throws: typeof(MyValidationException))]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
 }
@@ -139,7 +150,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum(conversions: Conversions.None)]
-public partial struct CustomerId { }";
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType { }";
 
         return new SnapshotRunner<IntellenumGenerator>()
             .WithSource(source)
@@ -154,7 +167,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum(conversions: Conversions.DapperTypeHandler, throws: typeof(Whatever.MyValidationException))]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
 }
@@ -182,7 +197,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum(underlyingType:typeof(float))]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
     private static Validation Validate(float value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
 }

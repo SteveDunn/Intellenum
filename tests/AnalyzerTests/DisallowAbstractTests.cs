@@ -18,7 +18,9 @@ public class DisallowAbstractTests
 namespace Whatever;
 
 [Intellenum]
-public {type} CustomerId {{ }}
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public {type} CustomerType {{ }}
 ";
         
         new TestRunner<IntellenumGenerator>()
@@ -34,7 +36,7 @@ public {type} CustomerId {{ }}
             diagnostic.Id.Should().Be("VOG017");
             diagnostic.ToString()
                 .Should()
-                .Match("* error VOG017: Type 'CustomerId' cannot be abstract");
+                .Match("* error VOG017: Type 'CustomerType' cannot be abstract");
         }
     }
 
@@ -49,8 +51,9 @@ public {type} CustomerId {{ }}
 namespace Whatever;
 
 public class MyContainer {{
-    [Intellenum]
-    public {type} CustomerId {{ }}
+    [Instance(""Normal"", 0)]
+    [Instance(""Gold"", 1)]
+    public {type} CustomerType {{ }}
 }}
 ";
 
@@ -66,13 +69,13 @@ public class MyContainer {{
 
             diagnostic.Id.Should().Be("VOG017");
             diagnostic.ToString().Should()
-                .Match("*error VOG017: Type 'CustomerId' cannot be abstract");
+                .Match("*error VOG017: Type 'CustomerType' cannot be abstract");
 
             diagnostic = diagnostics.ElementAt(1);
 
             diagnostic.Id.Should().Be("VOG001");
             diagnostic.ToString().Should()
-                .Match("*error VOG001: Type 'CustomerId' cannot be nested - remove it from inside MyContainer");
+                .Match("*error VOG001: Type 'CustomerType' cannot be nested - remove it from inside MyContainer");
         }
     }
 }

@@ -13,8 +13,11 @@ namespace SnapshotTests.GeneralStuff
             var source = @"using Intellenum;
 namespace Whatever;
 
-[Intellenum(typeof(int))]
-public partial struct CustomerId
+[Intellenum]
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+[Instance(""Diamond"", 2)]
+public partial struct CustomerType
 {
 }";
 
@@ -30,8 +33,11 @@ public partial struct CustomerId
         public Task No_namespace() =>
             RunTest(@"using Intellenum;
 
-[Intellenum(typeof(int))]
-public partial struct CustomerId
+[Intellenum]
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+[Instance(""Diamond"", 2)]
+public partial struct CustomerType
 {
 }");
 
@@ -44,11 +50,11 @@ namespace Whatever;
 
 [Intellenum(typeof(int))]
 [Instance(name: ""Unspecified"", value: -1, tripleSlashComment: ""a short description that'll show up in intellisense"")]
-[Instance(name: ""Unspecified1"", value: -2)]
-[Instance(name: ""Unspecified2"", value: -3, tripleSlashComment: ""<some_xml>whatever</some_xml"")]
-[Instance(name: ""Unspecified3"", value: -4)]
-[Instance(name: ""Cust42"", value: 42)]
-public partial struct CustomerId
+[Instance(name: ""Normal"", value: -2)]
+[Instance(name: ""Gold"", value: -3, tripleSlashComment: ""<some_xml>whatever</some_xml"")]
+[Instance(name: ""Diamond"", value: -4)]
+[Instance(name: ""Legacy"", value: 42)]
+public partial struct CustomerType
 {
 }
 ");
@@ -59,8 +65,11 @@ public partial struct CustomerId
 
 namespace Whatever;
 
-[Intellenum(typeof(int))]
-public partial struct CustomerId
+[Intellenum]
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+[Instance(""Diamond"", 2)]
+public partial struct CustomerType
 {
     private static Validation Validate(int value)
     {
@@ -78,8 +87,11 @@ public partial struct CustomerId
 
 namespace Whatever;
 
-[Intellenum(typeof(int))]
-public partial struct CustomerId
+[Intellenum]
+[Instance(""Normal"", 1);
+[Instance(""Gold"", 2);
+[Instance(""Diamond"", 3);
+public partial struct MemberType
 {
     private static Validation validate(int value)
     {

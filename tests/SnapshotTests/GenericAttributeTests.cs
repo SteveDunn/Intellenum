@@ -15,7 +15,9 @@ public class GenericAttributeTests
 namespace Whatever;
 
 [Intellenum<int>]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
 }";
 
@@ -33,7 +35,9 @@ public partial struct CustomerId
         RunTest(@"using Intellenum;
 
 [Intellenum<int>]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
 }");
 
@@ -50,8 +54,8 @@ namespace Whatever;
 [Instance(name: ""Unspecified1"", value: -2)]
 [Instance(name: ""Unspecified2"", value: -3, tripleSlashComment: ""<some_xml>whatever</some_xml"")]
 [Instance(name: ""Unspecified3"", value: -4)]
-[Instance(name: ""Cust42"", value: 42)]
-public partial struct CustomerId
+[Instance(name: ""Preferred"", value: 42)]
+public partial struct CustomerType
 {
 }
 ");
@@ -77,7 +81,7 @@ public class CustomGenericAttribute : IntellenumAttribute<long>
 [Instance(name: ""Unspecified2"", value: -3, tripleSlashComment: ""<some_xml>whatever</some_xml"")]
 [Instance(name: ""Unspecified3"", value: -4)]
 [Instance(name: ""Cust42"", value: 42)]
-public partial struct CustomerId
+public partial struct CustomerType
 {
 }
 ");
@@ -91,7 +95,9 @@ public partial struct CustomerId
 namespace Whatever;
 
 [Intellenum<int>]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
     private static Validation Validate(int value)
     {
@@ -112,7 +118,9 @@ public partial struct CustomerId
 namespace Whatever;
 
 [Intellenum<int>]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
     private static Validation validate(int value)
     {
@@ -136,7 +144,7 @@ public partial struct CustomerId
             [Intellenum<int>]
             [Instance(name: "@class", value: 42)]
             [Instance(name: "@event", value: 69)]
-            public partial struct CustomerId
+            public partial struct CustomerType
             {
                 private static Validation validate(int value)
                 {

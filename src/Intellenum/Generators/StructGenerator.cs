@@ -60,12 +60,23 @@ using Intellenum;
             _isInitialized = true;
         }}
 
+        
+        /// <summary>
+        /// Builds an instance from a value.
+        /// </summary>
+        /// <param name=""value"">The value.</param>
+        /// <returns>An instance of this type.</returns>
+        public static {structName} FromValue({itemUnderlyingType} value)
+        {{
+            return  From(value);
+        }}
+
         /// <summary>
         /// Builds an instance from the provided underlying type.
         /// </summary>
         /// <param name=""value"">The underlying type.</param>
         /// <returns>An instance of this type.</returns>
-        public static {structName} From({itemUnderlyingType} value)
+        private static {structName} From({itemUnderlyingType} value)
         {{
             {Util.GenerateNormalizeInputMethodIfNeeded(item)}
 

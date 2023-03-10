@@ -20,7 +20,9 @@ public class SadTests
             namespace Whatever;
             
             [Intellenum]
-            public partial struct CustomerId
+            [Instance("Normal", 0]
+            [Instance("Gold", 1]
+            public partial struct CustomerType
             {
                 private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid("xxxx");
             }
@@ -59,7 +61,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
 }
@@ -98,7 +102,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
 }
@@ -137,7 +143,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
 }
@@ -182,7 +190,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId { }
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType { }
 ";
 
         new TestRunner<IntellenumGenerator>()
@@ -216,7 +226,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId { }
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType { }
 ";
 
         new TestRunner<IntellenumGenerator>()
@@ -249,7 +261,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId { }
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType { }
 ";
 
         new TestRunner<IntellenumGenerator>()
@@ -283,7 +297,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId { }
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType { }
 ";
 
         new TestRunner<IntellenumGenerator>()

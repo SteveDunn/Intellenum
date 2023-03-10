@@ -3,7 +3,11 @@
     "Intellenum": {
       "commandName": "Project"
     },
-    "Roslyn": {
+    "Roslyn - scratch project": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\..\\tests\\ScratchTests\\ScratchTests.csproj"
+    },
+    "Roslyn - testbench": {
       "commandName": "DebugRoslynComponent",
       "targetProject": "..\\..\\tests\\Testbench\\Testbench.csproj"
     }

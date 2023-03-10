@@ -19,7 +19,9 @@ namespace Whatever;
 
 [Intellenum]
 [Intellenum]
-public {type} CustomerId {{ }}
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public {type} CustomerType {{ }}
 ";
         new TestRunner<IntellenumGenerator>()
             .WithSource(source)

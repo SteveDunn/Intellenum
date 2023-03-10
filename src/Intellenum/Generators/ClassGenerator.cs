@@ -58,6 +58,17 @@ public {itemUnderlyingType} Value
         }}
 
         /// <summary>
+        /// Builds an instance from a value.
+        /// </summary>
+        /// <param name=""value"">The value.</param>
+        /// <returns>An instance of this type.</returns>
+        public static {className} FromValue({itemUnderlyingType} value)
+        {{
+            return  From(value);
+        }}
+
+
+        /// <summary>
         /// Builds an instance from the provided underlying type.
         /// </summary>
         /// <param name=""value"">The underlying type.</param>

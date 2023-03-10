@@ -63,7 +63,9 @@ public class NormalizeInputMethodTests
 namespace Whatever;
 
 [Intellenum(typeof(int))]
-{type} CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+{type} CustomerType
 {{
     private static int NormalizeInput(bool value) => 0;
 }}";
@@ -96,7 +98,9 @@ namespace Whatever;
 namespace Whatever;
 
 [Intellenum(typeof(int))]
-{type} CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+{type} CustomerType
 {{
     private static bool NormalizeInput(int value) => false;
 }}";
@@ -127,7 +131,9 @@ namespace Whatever;
 namespace Whatever;
 
 [Intellenum(typeof(int))]
-{type} CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+{type} CustomerType
 {{
     private int NormalizeInput(int value) => 0;
 }}";

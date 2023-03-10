@@ -1,4 +1,4 @@
-# Code of Conduct - Vogen
+# Code of Conduct - Intellenum
 
 ## Our Pledge
 

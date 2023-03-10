@@ -32,7 +32,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 
 
-    <PackageReference Include="Vogen" Version="3.0.2-alpha.3" />
+    <PackageReference Include="Intellenum" Version="3.0.2-alpha.3" />
   </ItemGroup>
 
 </Project>

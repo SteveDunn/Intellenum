@@ -19,7 +19,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
 }";
 
@@ -40,7 +42,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
 }";
 
@@ -60,7 +64,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
 }
@@ -87,7 +93,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId { }
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType { }
 ";
 
         return new SnapshotRunner<IntellenumGenerator>()
@@ -107,7 +115,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
     private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
 }
@@ -135,7 +145,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial struct CustomerId
+[Instance(""Normal"", 0)]
+[Instance(""Gold"", 1)]
+public partial struct CustomerType
 {
     private static Validation Validate(string value) => value.Length > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
 }

@@ -39,7 +39,7 @@ namespace Whatever;
 [Intellenum]
 [Instance(name: ""@class"", value: 42)]
 [Instance(name: ""@event"", value: 69)]
-public partial struct CustomerId
+public partial struct CSharpSymbol
 {
     private static Validation validate(int value)
     {

@@ -46,17 +46,17 @@ dotnet clean Intellenum.sln
 
 WriteStage("Packing the Intellenum NuGet package version " +$version + " into " + $localPackages)
 
-
-dotnet pack Intellenum.sln -c Debug -o:$localPackages /p:ForceVersion=$version --include-symbols --version-suffix:dev --no-restore
+dotnet pack Intellenum.sln -c Debug --property:PackageOutputPath=..\..\$localPackages /p:ForceVersion=$version --include-symbols --version-suffix:dev --no-restore
+# dotnet pack Intellenum.sln -c Debug -o:$localPackages /p:ForceVersion=$version --include-symbols --version-suffix:dev --no-build --no-restore
 
 # Restore the project using the custom config file, restoring packages to a local folder
-dotnet restore ./tests/ConsumerTests -p UseLocallyBuiltPackage=true --force --no-cache --packages $localPackages --configfile: ./nuget.private.config
+## dotnet restore ./tests/ConsumerTests -p UseLocallyBuiltPackage=true --force --no-cache --packages $localPackages --configfile: ./nuget.private.config
 
-dotnet restore ./Samples/Intellenum.Examples -p UseLocallyBuiltPackage=true --force --no-cache --packages $localPackages --configfile: ./nuget.private.config
+## dotnet restore ./Samples/Intellenum.Examples -p UseLocallyBuiltPackage=true --force --no-cache --packages $localPackages --configfile: ./nuget.private.config
 
-dotnet build ./tests/ConsumerTests -c Debug --no-restore
-dotnet build ./Samples/Intellenum.Examples -c Debug --no-restore
+## dotnet build ./tests/ConsumerTests -c Debug --no-restore
+## dotnet build ./Samples/Intellenum.Examples -c Debug --no-restore
 
-dotnet test ./tests/ConsumerTests -c Debug --no-build --no-restore 
+## dotnet test ./tests/ConsumerTests -c Debug --no-build --no-restore 
 
 

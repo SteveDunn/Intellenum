@@ -71,11 +71,11 @@
   </PropertyGroup>
 
 	<ItemGroup Condition=" '$(UseLocallyBuiltPackage)' != ''">
-		<PackageReference Include="Vogen" Version="999.9.*" />
+		<PackageReference Include="Intellenum" Version="999.9.*" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(UseLocallyBuiltPackage)' == ''">
-		<PackageReference Include="Vogen" Version="3.0.6" />
+		<PackageReference Include="Intellenum" Version="3.0.6" />
 	</ItemGroup>
 
 
