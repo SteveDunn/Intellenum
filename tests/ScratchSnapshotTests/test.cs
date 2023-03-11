@@ -35,18 +35,20 @@ namespace Whatever
 
     [global::System.Diagnostics.DebuggerTypeProxyAttribute(typeof(CustomerTypeDebugView))]
     [global::System.Diagnostics.DebuggerDisplayAttribute("Underlying type: System.Int32, Value = { _value }")]
-    public partial class CustomerType : global::System.IEquatable<CustomerType>, global::System.IEquatable<System.Int32> ,  global::System.IComparable<CustomerType>, global::System.IComparable
+    public partial struct CustomerType : global::System.IEquatable<CustomerType>, global::System.IEquatable<System.Int32> ,  global::System.IComparable<CustomerType>, global::System.IComparable
     {
 #if DEBUG    
         private readonly global::System.Diagnostics.StackTrace _stackTrace = null;
 #endif
+
         private readonly global::System.Boolean _isInitialized;
-        private readonly System.Int32 _value;
         
-/// <summary>
-/// Gets the underlying <see cref="System.Int32" /> value if set, otherwise a <see cref="IntellenumValidationException" /> is thrown.
-/// </summary>
-public System.Int32 Value
+        private readonly System.Int32 _value;
+
+        /// <summary>
+        /// Gets the underlying <see cref="System.Int32" /> value if set, otherwise a <see cref="IntellenumValidationException" /> is thrown.
+        /// </summary>
+        public readonly System.Int32 Value
         {
             [global::System.Diagnostics.DebuggerStepThroughAttribute]
             get
@@ -63,110 +65,36 @@ public System.Int32 Value
 #if DEBUG
             _stackTrace = new global::System.Diagnostics.StackTrace();
 #endif
+
             _isInitialized = false;
             _value = default;
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
-        private CustomerType(System.Int32 value)
+        private CustomerType(System.Int32 value) 
         {
             _value = value;
             _isInitialized = true;
         }
 
+        
         /// <summary>
-        /// Builds an instance from an enum value.
+        /// Builds an instance from a value.
         /// </summary>
         /// <param name="value">The value.</param>
-        /// <returns>The matching enum, or an exception.</returns>
+        /// <returns>An instance of this type.</returns>
         public static CustomerType FromValue(System.Int32 value)
         {
-                if(value == Normal.Value) return Normal;
-    if(value == Gold.Value) return Gold;
-    if(value == Diamond.Value) return Diamond;
-throw new global::System.InvalidOperationException($"No match enums with a value of '{value}'");
-        }            
-
-        /// <summary>
-        /// Tries to get an instance based on value.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns>The matching enum, or an exception.</returns>
-        public static bool TryFromValue(System.Int32 value, out CustomerType instance)
-        {
-                if(value == Normal.Value) {
-        instance = Normal; 
-        return true;
-    }
-    if(value == Gold.Value) {
-        instance = Gold; 
-        return true;
-    }
-    if(value == Diamond.Value) {
-        instance = Diamond; 
-        return true;
-    }
-instance = default;
-return false;
-
-        }        
-
-        public static bool ContainsValue(System.Int32 value)
-        {
-                if(value == Normal.Value) return true;
-    if(value == Gold.Value) return true;
-    if(value == Diamond.Value) return true;
-return false;
-
-        }        
-
-        /// <summary>
-        /// Gets the matching instance based on name.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <returns>The matching enum, or an exception.</returns>
-        public static CustomerType FromName(string name)
-        {
-                if(name == "Normal") return Normal;
-    if(name == "Gold") return Gold;
-    if(name == "Diamond") return Diamond;
-throw new global::System.InvalidOperationException($"No match enums with a value of '{name}'");
+            return  From(value);
         }
-
-        /// <summary>
-        /// Tries to get the matching instance from a name.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <returns>The matching enum, or an exception.</returns>
-        public static bool TryFromName(string name, out CustomerType instance)
-        {
-                if(name == "Normal") {
-        instance = Normal; 
-        return true;
-    }
-    if(name == "Gold") {
-        instance = Gold; 
-        return true;
-    }
-    if(name == "Diamond") {
-        instance = Diamond; 
-        return true;
-    }
-instance = default;
-return false;
-
-        }
-
 
         /// <summary>
         /// Builds an instance from the provided underlying type.
         /// </summary>
         /// <param name="value">The underlying type.</param>
         /// <returns>An instance of this type.</returns>
-        public static CustomerType From(System.Int32 value)
+        private static CustomerType From(System.Int32 value)
         {
-            
-
             
 
             CustomerType instance = new CustomerType(value);
@@ -176,12 +104,13 @@ return false;
             return instance;
         }
 
+        public static explicit operator CustomerType(System.Int32 value) => From(value);
+        public static explicit operator System.Int32(CustomerType value) => value.Value;
+
         // only called internally when something has been deserialized into
         // its primitive type.
         private static CustomerType Deserialize(System.Int32 value)
         {
-            
-
             
 
                     if(value == Normal.Value) return Normal;
@@ -192,58 +121,30 @@ return false;
             return new CustomerType(value);
         }
 
-        public global::System.Boolean Equals(CustomerType other)
+        public readonly global::System.Boolean Equals(CustomerType other)
         {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-
             // It's possible to create uninitialized instances via converters such as EfCore (HasDefaultValue), which call Equals.
             // We treat anything uninitialized as not equal to anything, even other uninitialized instances of this type.
             if(!_isInitialized || !other._isInitialized) return false;
-	    	
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
 
-            return GetType() == other.GetType() && global::System.Collections.Generic.EqualityComparer<System.Int32>.Default.Equals(Value, other.Value);
+            return global::System.Collections.Generic.EqualityComparer<System.Int32>.Default.Equals(Value, other.Value);
         }
 
-        public global::System.Boolean Equals(System.Int32 primitive) => Value.Equals(primitive);
+        public readonly global::System.Boolean Equals(System.Int32 primitive) => Value.Equals(primitive);
 
-        public override global::System.Boolean Equals(global::System.Object obj)
+        public readonly override global::System.Boolean Equals(global::System.Object obj)
         {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            if (obj.GetType() != GetType())
-            {
-                return false;
-            }
-
-            return Equals((CustomerType) obj);
+            return obj is CustomerType && Equals((CustomerType) obj);
         }
 
         public static global::System.Boolean operator ==(CustomerType left, CustomerType right) => Equals(left, right);
-        public static global::System.Boolean operator !=(CustomerType left, CustomerType right) => !Equals(left, right);
+        public static global::System.Boolean operator !=(CustomerType left, CustomerType right) => !(left == right);
 
         public static global::System.Boolean operator ==(CustomerType left, System.Int32 right) => Equals(left.Value, right);
         public static global::System.Boolean operator !=(CustomerType left, System.Int32 right) => !Equals(left.Value, right);
 
         public static global::System.Boolean operator ==(System.Int32 left, CustomerType right) => Equals(left, right.Value);
         public static global::System.Boolean operator !=(System.Int32 left, CustomerType right) => !Equals(left, right.Value);
-
-        public static explicit operator CustomerType(System.Int32 value) => From(value);
-        public static explicit operator System.Int32(CustomerType value) => value.Value;
 
         public int CompareTo(CustomerType other) => Value.CompareTo(other.Value);
         public int CompareTo(object other) {
@@ -252,19 +153,141 @@ return false;
             throw new global::System.ArgumentException("Cannot compare to object as it is not of type CustomerType", nameof(other));
         }
 
-        public override global::System.Int32 GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                global::System.Int32 hash = (global::System.Int32) 2166136261;
-                hash = (hash * 16777619) ^ Value.GetHashCode();
-                hash = (hash * 16777619) ^ GetType().GetHashCode();
-                hash = (hash * 16777619) ^ global::System.Collections.Generic.EqualityComparer<System.Int32>.Default.GetHashCode();
-                return hash;
-            }
+        
+    /// <inheritdoc cref="int.TryParse(System.ReadOnlySpan{char}, System.Globalization.NumberStyles, System.IFormatProvider?, out int)"/>
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// The value created via the <see cref="From"/> method.
+    /// </returns>
+    /// <exception cref="ValueObjectValidationException">Thrown when the value can be parsed, but is not valid.</exception>
+    public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> s, global::System.Globalization.NumberStyles style, global::System.IFormatProvider provider, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+ out CustomerType result) {
+        if(System.Int32.TryParse(s, style, provider, out var r)) {
+            result = From(r);
+            return true;
         }
 
-        private void EnsureInitialized()
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc cref="int.TryParse(System.ReadOnlySpan{char}, System.IFormatProvider?, out int)"/>
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// The value created via the <see cref="From"/> method.
+    /// </returns>
+    /// <exception cref="ValueObjectValidationException">Thrown when the value can be parsed, but is not valid.</exception>
+    public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider provider, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+ out CustomerType result) {
+        if(System.Int32.TryParse(s, provider, out var r)) {
+            result = From(r);
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc cref="int.TryParse(System.ReadOnlySpan{char}, out int)"/>
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// The value created via the <see cref="From"/> method.
+    /// </returns>
+    /// <exception cref="ValueObjectValidationException">Thrown when the value can be parsed, but is not valid.</exception>
+    public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> s, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+ out CustomerType result) {
+        if(System.Int32.TryParse(s, out var r)) {
+            result = From(r);
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc cref="int.TryParse(string?, System.Globalization.NumberStyles, System.IFormatProvider?, out int)"/>
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// The value created via the <see cref="From"/> method.
+    /// </returns>
+    /// <exception cref="ValueObjectValidationException">Thrown when the value can be parsed, but is not valid.</exception>
+    public static global::System.Boolean TryParse(string s, global::System.Globalization.NumberStyles style, global::System.IFormatProvider provider, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+ out CustomerType result) {
+        if(System.Int32.TryParse(s, style, provider, out var r)) {
+            result = From(r);
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc cref="int.TryParse(string?, System.IFormatProvider?, out int)"/>
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// The value created via the <see cref="From"/> method.
+    /// </returns>
+    /// <exception cref="ValueObjectValidationException">Thrown when the value can be parsed, but is not valid.</exception>
+    public static global::System.Boolean TryParse(string s, global::System.IFormatProvider provider, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+ out CustomerType result) {
+        if(System.Int32.TryParse(s, provider, out var r)) {
+            result = From(r);
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc cref="int.TryParse(string?, out int)"/>
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// The value created via the <see cref="From"/> method.
+    /// </returns>
+    /// <exception cref="ValueObjectValidationException">Thrown when the value can be parsed, but is not valid.</exception>
+    public static global::System.Boolean TryParse(string s, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+ out CustomerType result) {
+        if(System.Int32.TryParse(s, out var r)) {
+            result = From(r);
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+
+        public readonly override global::System.Int32 GetHashCode() => global::System.Collections.Generic.EqualityComparer<System.Int32>.Default.GetHashCode(_value);
+
+        /// <summary>Returns the string representation of the underlying type</summary>
+    /// <inheritdoc cref="System.Int32.ToString()" />
+    public readonly override global::System.String ToString() => Value.ToString();
+
+        private readonly void EnsureInitialized()
         {
             if (!_isInitialized)
             {
@@ -277,7 +300,6 @@ return false;
                 throw new global::Intellenum.IntellenumValidationException(message);
             }
         }
-
 
         
 // instance...
@@ -292,11 +314,7 @@ public static readonly CustomerType Gold = new CustomerType(1);
 
 public static readonly CustomerType Diamond = new CustomerType(2);
 
-
-        /// <summary>Returns the string representation of the underlying <see cref="System.Int32" />.</summary>
-    /// <inheritdoc cref="System.Int32.ToString()" />
-    public override global::System.String ToString() => Value.ToString();
-
+ 
         
         class CustomerTypeSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<CustomerType>
         {
@@ -366,12 +384,16 @@ public static readonly CustomerType Diamond = new CustomerType(2);
                 _t = t;
             }
 
+            public global::System.Boolean IsInitialized => _t._isInitialized;
             public global::System.String UnderlyingType => "System.Int32";
-            public System.Int32 Value => _t.Value ;
+            public global::System.String Value => _t._isInitialized ? _t._value.ToString() : "[not initialized]" ;
 
-            public global::System.String Conversions => @"[global::System.Text.Json.Serialization.JsonConverter(typeof(CustomerTypeSystemTextJsonConverter))]
-[global::System.ComponentModel.TypeConverter(typeof(CustomerTypeTypeConverter))]
-";
+            #if DEBUG
+            public global::System.String CreatedWith => _t._stackTrace?.ToString() ?? "the From method";
+            #endif
+
+            public global::System.String Conversions => @"Default";
                 }
-    }
+
+}
 }

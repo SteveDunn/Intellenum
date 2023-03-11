@@ -26,7 +26,7 @@
 
 
     <ItemGroup>
-        <TestPath Include="../src/local-global-packages" />
+        <TestPath Include="../../local-global-packages" />
     </ItemGroup>
     <Target Name="OnlyIfExists" Condition="Exists(@(TestPath))">
         <Message Text="Please run Test.ps1 to build the latest local nuget package that these tests consume" Importance="high" />
@@ -48,11 +48,11 @@
     </ItemGroup>
 
     <ItemGroup Condition=" '$(UseLocallyBuiltPackage)' != ''">
-        <PackageReference Include="Intellenum" Version="999.9.12525408" />
+        <PackageReference Include="Intellenum" Version="999.9.*" />
     </ItemGroup>
 
     <ItemGroup Condition=" '$(UseLocallyBuiltPackage)' == ''">
-        <PackageReference Include="Intellenum" Version="999.9.12525408" />
+        <PackageReference Include="Intellenum" Version="0.0.1" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
