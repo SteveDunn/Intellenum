@@ -58,13 +58,48 @@ public {itemUnderlyingType} Value
         }}
 
         /// <summary>
-        /// Builds an instance from a value.
+        /// Builds an instance from an enum value.
         /// </summary>
         /// <param name=""value"">The value.</param>
-        /// <returns>An instance of this type.</returns>
+        /// <returns>The matching enum, or an exception.</returns>
         public static {className} FromValue({itemUnderlyingType} value)
         {{
-            return  From(value);
+            {Util.GenerateFromValueImplementation(item)}
+        }}            
+
+        /// <summary>
+        /// Tries to get an instance based on value.
+        /// </summary>
+        /// <param name=""value"">The value.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static bool TryFromValue({itemUnderlyingType} value, out {className} instance)
+        {{
+            {Util.GenerateTryFromValueImplementation(item)}
+        }}        
+
+        public static bool ContainsValue({itemUnderlyingType} value)
+        {{
+            {Util.GenerateContainsValueImplementation(item)}
+        }}        
+
+        /// <summary>
+        /// Gets the matching instance based on name.
+        /// </summary>
+        /// <param name=""name"">The name.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static {className} FromName(string name)
+        {{
+            {Util.GenerateFromNameImplementation(item)}
+        }}
+
+        /// <summary>
+        /// Tries to get the matching instance from a name.
+        /// </summary>
+        /// <param name=""name"">The name.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static bool TryFromName(string name, out {className} instance)
+        {{
+            {Util.GenerateTryFromNameImplementation(item)}
         }}
 
 

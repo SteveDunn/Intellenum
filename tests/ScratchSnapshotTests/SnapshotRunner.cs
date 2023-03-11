@@ -13,7 +13,7 @@ using VerifyTests;
 using VerifyXunit;
 using Xunit.Abstractions;
 
-namespace SnapshotTests
+namespace ScratchSnapshotTests
 {
     public class SnapshotRunner<T> where T : IIncrementalGenerator, new()
     {
@@ -107,9 +107,13 @@ namespace SnapshotTests
                 using var scope = new AssertionScope();
 
                 var (diagnostics, output) = GetGeneratedOutput(_source, eachFramework);
-                diagnostics.Should().BeEmpty(@$"because the following source code should compile on {eachFramework}: " + _source);
-
+                
                 var outputFolder = Path.Combine(_path, SnapshotUtils.GetSnapshotDirectoryName(eachFramework, _locale));
+
+                //todo: remove
+                await File.WriteAllTextAsync(@"c:\git\intellenum\tests\scratchsnapshottests\test.cs", output);
+                
+                diagnostics.Should().BeEmpty(@$"because the following source code should compile on {eachFramework}: " + _source);
 
                 verifySettings ??= new VerifySettings();
                 verifySettings.AutoVerify();

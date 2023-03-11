@@ -200,6 +200,7 @@ namespace Shared
 
         public (ImmutableArray<Diagnostic> Diagnostics, string Output) GetGeneratedOutput<T>(
             bool ignoreInitialCompilationErrors,
+            bool ignoreFinalCompilationErrors,
             MetadataReference? intellenumAttributeMetadata = null)
             where T : IIncrementalGenerator, new()
         {
@@ -247,16 +248,16 @@ namespace Shared
                 return (generatorDiags, string.Empty);
             }
 
-            //if (finalDiags.Length != 0 && !ignoreFinalCompilationErrors)
-            if (finalDiags.Length != 0)
+            if (finalDiags.Length != 0 && !ignoreFinalCompilationErrors)
             {
                 return (finalDiags, string.Empty);
             }
 
             var trees = outputCompilation.SyntaxTrees.ToList();
 
+            var diagsToUse = ignoreFinalCompilationErrors ? finalDiags : generatorDiags;
 
-            return (generatorDiags, trees.Count != originalTreeCount ? trees[trees.Count - 1].ToString() : string.Empty);
+            return (diagsToUse, trees.Count != originalTreeCount ? trees[trees.Count - 1].ToString() : string.Empty);
         }
     }
 }

@@ -255,4 +255,121 @@ causes Rider's debugger to crash.
     
         return source;
     }
+
+    public static string GenerateContainsValueImplementation(VoWorkItem item)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (var eachInstance in item.InstanceProperties)
+        {
+            generate(eachInstance);
+        }
+        
+        sb.AppendLine("""return false;""");
+
+        return sb.ToString();
+
+        void generate(InstanceProperties i)
+            {
+                sb.AppendLine(
+                    $$"""
+    if(value == {{i.Name}}.Value) return true;
+""");
+            }
+    }
+
+    public static string GenerateFromValueImplementation(VoWorkItem item)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (var eachInstance in item.InstanceProperties)
+        {
+            generate(eachInstance);
+        }
+        
+        sb.Append("""throw new global::System.InvalidOperationException($"No match enums with a value of '{value}'");""");
+
+        return sb.ToString();
+
+        void generate(InstanceProperties i)
+            {
+                sb.AppendLine(
+                    $$"""
+    if(value == {{i.Name}}.Value) return {{i.Name}};
+""");
+            }
+    }
+
+    public static string GenerateFromNameImplementation(VoWorkItem item)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (var eachInstance in item.InstanceProperties)
+        {
+            generate(eachInstance);
+        }
+        
+        sb.Append("""throw new global::System.InvalidOperationException($"No match enums with a value of '{name}'");""");
+
+        return sb.ToString();
+
+        void generate(InstanceProperties i)
+            {
+                sb.AppendLine(
+                    $$"""
+    if(name == "{{i.Name}}") return {{i.Name}};
+""");
+            }
+    }
+
+    public static string GenerateTryFromNameImplementation(VoWorkItem item)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (var eachInstance in item.InstanceProperties)
+        {
+            generate(eachInstance);
+        }
+        
+        sb.AppendLine("""
+instance = default;
+return false;
+""");
+
+        return sb.ToString();
+
+        void generate(InstanceProperties i)
+            {
+                sb.AppendLine(
+                    $$"""
+    if(name == "{{i.Name}}") {
+        instance = {{i.Name}}; 
+        return true;
+    }
+""");
+            }
+    }
+
+    public static string GenerateTryFromValueImplementation(VoWorkItem item)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (var eachInstance in item.InstanceProperties)
+        {
+            generate(eachInstance);
+        }
+        
+        sb.AppendLine("""
+instance = default;
+return false;
+""");
+
+        return sb.ToString();
+
+        void generate(InstanceProperties i)
+            {
+                sb.AppendLine(
+                    $$"""
+    if(value == {{i.Name}}.Value) {
+        instance = {{i.Name}}; 
+        return true;
+    }
+""");
+            }
+    }
 }

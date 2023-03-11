@@ -75,6 +75,17 @@ using Intellenum;
             _isInitialized = true;
         }
 
+        
+        /// <summary>
+        /// Builds an instance from a value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>An instance of this type.</returns>
+        public static CustomerType FromValue(System.Int32 value)
+        {
+            return  From(value);
+        }
+
         /// <summary>
         /// Builds an instance from the provided underlying type.
         /// </summary>
