@@ -8,14 +8,13 @@ namespace Scratch;
 [Instance("Gold", 2)]
 public partial class CustomerType
 {
-    
 }
 
 
 public class UnitTest1
 {
     [Fact]
-    public void Test1()
+    public void General()
     {
         CustomerType t1 = CustomerType.Standard;
         CustomerType t2 = CustomerType.Gold;
@@ -45,6 +44,15 @@ public class UnitTest1
         CustomerType ct3;
         CustomerType.TryFromName("FOO", out ct3).Should().BeFalse();
 
+        CustomerType ctv1;
+        CustomerType.TryFromValue(1, out ctv1).Should().BeTrue();
+        ctv1.Should().Be(CustomerType.Standard);
+
+        CustomerType ctv2;
+        CustomerType.TryFromValue(2, out ctv2).Should().BeTrue();
+        ctv2.Should().Be(CustomerType.Gold);
+
+        CustomerType.TryFromValue(666, out _).Should().BeFalse();
 
 
 
