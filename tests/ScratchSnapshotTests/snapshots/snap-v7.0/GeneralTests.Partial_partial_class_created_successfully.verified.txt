@@ -65,14 +65,18 @@ public System.Int32 Value
 #endif
             _isInitialized = false;
             _value = default;
+            Name = "[UNDEFINED]";
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
-        private CustomerType(System.Int32 value)
+        private CustomerType(string name, System.Int32 value)
         {
             _value = value;
+            Name = name;
             _isInitialized = true;
         }
+
+        public string Name { get; }
 
         /// <summary>
         /// Builds an instance from an enum value.
@@ -81,10 +85,9 @@ public System.Int32 Value
         /// <returns>The matching enum, or an exception.</returns>
         public static CustomerType FromValue(System.Int32 value)
         {
-                if(value == Normal.Value) return Normal;
-    if(value == Gold.Value) return Gold;
-    if(value == Diamond.Value) return Diamond;
-throw new global::System.InvalidOperationException($"No match enums with a value of '{value}'");
+                bool b = TryFromValue(value, out var ret);
+    if(b) return ret;
+    throw new global::System.InvalidOperationException($"No matching enums with a value of '{value}'");
         }            
 
         /// <summary>
@@ -94,30 +97,27 @@ throw new global::System.InvalidOperationException($"No match enums with a value
         /// <returns>The matching enum, or an exception.</returns>
         public static bool TryFromValue(System.Int32 value, out CustomerType instance)
         {
-                if(value == Normal.Value) {
-        instance = Normal; 
+            switch (value) 
+{
+    case 0:
+        instance = CustomerType.Normal; 
         return true;
-    }
-    if(value == Gold.Value) {
-        instance = Gold; 
+    case 1:
+        instance = CustomerType.Gold; 
         return true;
-    }
-    if(value == Diamond.Value) {
-        instance = Diamond; 
+    case 2:
+        instance = CustomerType.Diamond; 
         return true;
-    }
-instance = default;
-return false;
+    default:
+        instance = default;
+        return false;
+}
 
         }        
 
-        public static bool ContainsValue(System.Int32 value)
+        public static bool IsDefined(System.Int32 value)
         {
-                if(value == Normal.Value) return true;
-    if(value == Gold.Value) return true;
-    if(value == Diamond.Value) return true;
-return false;
-
+                return TryFromValue(value, out _);
         }        
 
         /// <summary>
@@ -127,10 +127,9 @@ return false;
         /// <returns>The matching enum, or an exception.</returns>
         public static CustomerType FromName(string name)
         {
-                if(name == "Normal") return Normal;
-    if(name == "Gold") return Gold;
-    if(name == "Diamond") return Diamond;
-throw new global::System.InvalidOperationException($"No match enums with a value of '{name}'");
+                bool b = TryFromName(name, out var ret);
+    if(b) return ret;
+    throw new global::System.InvalidOperationException($"No matching enums named '{name}'");
         }
 
         /// <summary>
@@ -140,21 +139,27 @@ throw new global::System.InvalidOperationException($"No match enums with a value
         /// <returns>The matching enum, or an exception.</returns>
         public static bool TryFromName(string name, out CustomerType instance)
         {
-                if(name == "Normal") {
-        instance = Normal; 
+            switch (name) 
+{
+    case nameof(CustomerType.Normal):
+        instance = CustomerType.Normal; 
         return true;
-    }
-    if(name == "Gold") {
-        instance = Gold; 
+    case nameof(CustomerType.Gold):
+        instance = CustomerType.Gold; 
         return true;
-    }
-    if(name == "Diamond") {
-        instance = Diamond; 
+    case nameof(CustomerType.Diamond):
+        instance = CustomerType.Diamond; 
         return true;
-    }
-instance = default;
-return false;
+    default:
+        instance = default;
+        return false;
+}
 
+        }
+
+        public static bool IsNamedDefined(string name)
+        {
+            return TryFromName(name, out _);
         }
 
 
@@ -163,13 +168,11 @@ return false;
         /// </summary>
         /// <param name="value">The underlying type.</param>
         /// <returns>An instance of this type.</returns>
-        public static CustomerType From(System.Int32 value)
+        private static CustomerType From(string name, System.Int32 value)
         {
             
 
-            
-
-            CustomerType instance = new CustomerType(value);
+            CustomerType instance = new CustomerType(name, value);
 
             
 
@@ -182,14 +185,12 @@ return false;
         {
             
 
-            
-
                     if(value == Normal.Value) return Normal;
         if(value == Gold.Value) return Gold;
         if(value == Diamond.Value) return Diamond;
 
 
-            return new CustomerType(value);
+            return FromValue(value);
         }
 
         public global::System.Boolean Equals(CustomerType other)
@@ -242,7 +243,7 @@ return false;
         public static global::System.Boolean operator ==(System.Int32 left, CustomerType right) => Equals(left, right.Value);
         public static global::System.Boolean operator !=(System.Int32 left, CustomerType right) => !Equals(left, right.Value);
 
-        public static explicit operator CustomerType(System.Int32 value) => From(value);
+        public static explicit operator CustomerType(System.Int32 value) => FromValue(value);
         public static explicit operator System.Int32(CustomerType value) => value.Value;
 
         public int CompareTo(CustomerType other) => Value.CompareTo(other.Value);
@@ -282,15 +283,15 @@ return false;
         
 // instance...
 
-public static readonly CustomerType Normal = new CustomerType(0);
+public static readonly CustomerType Normal = new CustomerType("Normal",0);
 
 // instance...
 
-public static readonly CustomerType Gold = new CustomerType(1);
+public static readonly CustomerType Gold = new CustomerType("Gold",1);
 
 // instance...
 
-public static readonly CustomerType Diamond = new CustomerType(2);
+public static readonly CustomerType Diamond = new CustomerType("Diamond",2);
 
 
         /// <summary>Returns the string representation of the underlying <see cref="System.Int32" />.</summary>

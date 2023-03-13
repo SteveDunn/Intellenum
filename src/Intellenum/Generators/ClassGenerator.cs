@@ -48,14 +48,18 @@ public {itemUnderlyingType} Value
 #endif
             _isInitialized = false;
             _value = default;
+            Name = ""[UNDEFINED]"";
         }}
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
-        private {className}({itemUnderlyingType} value)
+        private {className}(string name, {itemUnderlyingType} value)
         {{
             _value = value;
+            Name = name;
             _isInitialized = true;
         }}
+
+        public string Name {{ get; }}
 
         /// <summary>
         /// Builds an instance from an enum value.
@@ -77,9 +81,9 @@ public {itemUnderlyingType} Value
             {Util.GenerateTryFromValueImplementation(item)}
         }}        
 
-        public static bool ContainsValue({itemUnderlyingType} value)
+        public static bool IsDefined({itemUnderlyingType} value)
         {{
-            {Util.GenerateContainsValueImplementation(item)}
+            {Util.GenerateIsDefinedImplementation(item)}
         }}        
 
         /// <summary>
@@ -102,19 +106,22 @@ public {itemUnderlyingType} Value
             {Util.GenerateTryFromNameImplementation(item)}
         }}
 
+        public static bool IsNamedDefined(string name)
+        {{
+            {Util.GenerateIsNameDefinedImplementation(item)}
+        }}
+
 
         /// <summary>
         /// Builds an instance from the provided underlying type.
         /// </summary>
         /// <param name=""value"">The underlying type.</param>
         /// <returns>An instance of this type.</returns>
-        public static {className} From({itemUnderlyingType} value)
+        private static {className} From(string name, {itemUnderlyingType} value)
         {{
             {GenerateNullCheckIfNeeded(item)}
 
-            {Util.GenerateNormalizeInputMethodIfNeeded(item)}
-
-            {className} instance = new {className}(value);
+            {className} instance = new {className}(name, value);
 
             {Util.GenerateValidation(item)}
 
@@ -127,11 +134,9 @@ public {itemUnderlyingType} Value
         {{
             {GenerateNullCheckIfNeeded(item)}
 
-            {Util.GenerateNormalizeInputMethodIfNeeded(item)}
-
             {Util.GenerateCallToValidateForDeserializing(item)}
 
-            return new {className}(value);
+            return FromValue(value);
         }}
 
         public global::System.Boolean Equals({className} other)
@@ -184,7 +189,7 @@ public {itemUnderlyingType} Value
         public static global::System.Boolean operator ==({itemUnderlyingType} left, {className} right) => Equals(left, right.Value);
         public static global::System.Boolean operator !=({itemUnderlyingType} left, {className} right) => !Equals(left, right.Value);
 
-        public static explicit operator {className}({itemUnderlyingType} value) => From(value);
+        public static explicit operator {className}({itemUnderlyingType} value) => FromValue(value);
         public static explicit operator {itemUnderlyingType}({className} value) => value.Value;
 
         {Util.GenerateIComparableImplementationIfNeeded(item, tds)}

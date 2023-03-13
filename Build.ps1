@@ -87,7 +87,7 @@ $version = Get999VersionWithUniquePatch
 # **NOTE** - we don't want these 999.9.9.x packages ending up in %userprofile%\.nuget\packages because it'll polute it.
 
 exec { & dotnet restore Intellenum.sln --packages $localPackages --no-cache --verbosity $verbosity }
-exec { & dotnet pack ./src/Intellenum -c Debug -o:$localPackages /p:ForceVersion=$version --include-symbols --version-suffix:dev --no-restore --verbosity $verbosity }
+exec { & dotnet pack ./src/Intellenum -c Release -o:$localPackages /p:ForceVersion=$version --include-symbols --version-suffix:dev --no-restore --verbosity $verbosity }
 
 WriteStage("Cleaning and building consumers (tests and samples)")
 

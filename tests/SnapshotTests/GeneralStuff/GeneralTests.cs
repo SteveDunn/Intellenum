@@ -8,23 +8,6 @@ namespace SnapshotTests.GeneralStuff
     public class GeneralTests
     {
         [Fact]
-        public Task Partial_struct_created_successfully()
-        {
-            var source = @"using Intellenum;
-namespace Whatever;
-
-[Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
-[Instance(""Diamond"", 2)]
-public partial struct CustomerType
-{
-}";
-
-            return RunTest(source);
-        }
-
-        [Fact]
         public Task Partial_partial_class_created_successfully()
         {
             var source = @"using Intellenum;

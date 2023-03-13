@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumerTests", "tests\Cons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scratch", "Scratch\Scratch.csproj", "{53C7CAAF-5A7F-4AF0-9C9E-216F13A054D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "tests\Intellenum.Benchmarks\Benchmarks\Benchmarks.csproj", "{53289848-CDBE-426A-B55C-467851F5BF4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{53C7CAAF-5A7F-4AF0-9C9E-216F13A054D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53C7CAAF-5A7F-4AF0-9C9E-216F13A054D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53C7CAAF-5A7F-4AF0-9C9E-216F13A054D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53289848-CDBE-426A-B55C-467851F5BF4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53289848-CDBE-426A-B55C-467851F5BF4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53289848-CDBE-426A-B55C-467851F5BF4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53289848-CDBE-426A-B55C-467851F5BF4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
