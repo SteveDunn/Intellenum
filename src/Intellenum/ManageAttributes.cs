@@ -63,7 +63,6 @@ internal static class ManageAttributes
         INamedTypeSymbol? underlyingType = null;
         Conversions conversions = Conversions.Default;
         Customizations customizations = Customizations.None;
-        DeserializationStrictness deserializationStrictness = DeserializationStrictness.Default;
         DebuggerAttributeGeneration debuggerAttributes = DebuggerAttributeGeneration.Default;
 
         bool hasErroredAttributes = false;
@@ -118,9 +117,6 @@ internal static class ManageAttributes
                         case "customizations":
                             customizations = (Customizations) (typedConstant.Value ?? Customizations.None);
                             break;
-                        case "deserializationStrictness":
-                            deserializationStrictness = (DeserializationStrictness) (typedConstant.Value ?? Customizations.None);
-                            break;
                         case "debuggerAttributes":
                             debuggerAttributes = (DebuggerAttributeGeneration) (typedConstant.Value ?? DebuggerAttributeGeneration.Full);
                             break;
@@ -153,21 +149,10 @@ internal static class ManageAttributes
             }
         }
 
-        if (!deserializationStrictness.IsValidFlags())
-        {
-            var syntax = matchingAttribute.ApplicationSyntaxReference?.GetSyntax();
-            if (syntax is not null)
-            {
-                buildResult.AddDiagnostic(DiagnosticsCatalogue.InvalidDeserializationStrictness(syntax.GetLocation()));
-            }
-        }
-
         buildResult.ResultingConfiguration = new IntellenumConfiguration(
             underlyingType,
-            invalidExceptionType,
             conversions,
             customizations,
-            deserializationStrictness,
             debuggerAttributes);
 
         return buildResult;
@@ -186,17 +171,10 @@ internal static class ManageAttributes
                 : attributeData.AttributeClass!.TypeArguments[0] as INamedTypeSymbol;
             switch (args.Length)
             {
-                case 5:
-                    if (args[4].Value != null)
-                    {
-                        debuggerAttributes = (DebuggerAttributeGeneration) args[4].Value!;
-                    }
-
-                    goto case 4;
                 case 4:
                     if (args[3].Value != null)
                     {
-                        deserializationStrictness = (DeserializationStrictness) args[3].Value!;
+                        debuggerAttributes = (DebuggerAttributeGeneration) args[4].Value!;
                     }
 
                     goto case 3;
@@ -229,17 +207,10 @@ internal static class ManageAttributes
         {
             switch (args.Length)
             {
-                case 6:
-                    if (args[5].Value != null)
-                    {
-                        debuggerAttributes = (DebuggerAttributeGeneration) args[5].Value!;
-                    }
-
-                    goto case 5;
                 case 5:
                     if (args[4].Value != null)
                     {
-                        deserializationStrictness = (DeserializationStrictness) args[4].Value!;
+                        debuggerAttributes = (DebuggerAttributeGeneration) args[5].Value!;
                     }
 
                     goto case 4;

@@ -18,14 +18,12 @@ namespace Intellenum
         /// <param name="conversions">Any conversions that need to be done for this type, e.g. to be serialized etc.</param>
         /// <param name="throws">The type of exception that is thrown when validation fails.</param>
         /// <param name="customizations">Any customizations, for instance, treating numbers in [de]serialization as strings.</param>
-        /// <param name="deserializationStrictness">The strictness of validation when deserializing.</param>
         /// <param name="debuggerAttributes">Controls how debugger attributes are generated. This is useful in Rider where the attributes crash Rider's debugger.</param>
         public IntellenumDefaultsAttribute(
             Type? underlyingType = null,
             Conversions conversions = Conversions.Default,
             Type? throws = null,
             Customizations customizations = Customizations.None,
-            DeserializationStrictness deserializationStrictness = DeserializationStrictness.AllowValidAndKnownInstances,
             DebuggerAttributeGeneration debuggerAttributes = DebuggerAttributeGeneration.Default)
         {
             // UnderlyingType = underlyingType ?? typeof(int);

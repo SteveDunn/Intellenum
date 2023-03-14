@@ -75,28 +75,6 @@ internal static class BuildWorkItems
 
         ThrowIfToStringOverrideOnRecordIsUnsealed(target, context, toStringInfo);
 
-        MethodDeclarationSyntax? validateMethod = null;
-        MethodDeclarationSyntax? normalizeInputMethod = null;
-
-        // add any validator or normalize methods it finds
-        foreach (var memberDeclarationSyntax in voTypeSyntax.Members)
-        {
-            if (memberDeclarationSyntax is MethodDeclarationSyntax mds)
-            {
-                string? methodName = mds.Identifier.Value?.ToString();
-
-                if (TryHandleValidateMethod(methodName, mds, context))
-                {
-                    validateMethod = mds;
-                }
-
-                if (TryHandleNormalizeMethod(methodName, mds, context, config, target))
-                {
-                    normalizeInputMethod = mds;
-                }
-            }
-        }
-
         ReportErrorIfVoTypeIsSameAsUnderlyingType(context, voSymbolInformation, config);
 
         ReportErrorIfUnderlyingTypeIsCollection(context, config, voSymbolInformation);
@@ -111,12 +89,8 @@ internal static class BuildWorkItems
             HasToString = toStringInfo.HasToString,
             UnderlyingType = config.UnderlyingType ?? throw new InvalidOperationException("No underlying type"),
             Conversions = config.Conversions,
-            DeserializationStrictness = config.DeserializationStrictness,
             DebuggerAttributes = config.DebuggerAttributes,
             Customizations = config.Customizations,
-            TypeForValidationExceptions = config.ValidationExceptionType,
-            ValidateMethod = validateMethod,
-            NormalizeInputMethod = normalizeInputMethod,
             FullNamespace = voSymbolInformation.FullNamespace()
         };
     }
@@ -246,69 +220,6 @@ internal static class BuildWorkItems
         return reported;
     }
 
-
-    private static bool TryHandleNormalizeMethod(
-        string? methodName, 
-        MethodDeclarationSyntax mds,
-        SourceProductionContext context, 
-        IntellenumConfiguration config, 
-        VoTarget target)
-    {
-        if (StringComparer.OrdinalIgnoreCase.Compare(methodName, "normalizeinput") != 0)
-        {
-            return false;
-        }
-
-        if (!(IsMethodStatic(mds)))
-        {
-            context.ReportDiagnostic(DiagnosticsCatalogue.NormalizeInputMethodMustBeStatic(mds));
-            return false;
-        }
-
-        if (mds.ParameterList.Parameters.Count != 1)
-        {
-            context.ReportDiagnostic(DiagnosticsCatalogue.NormalizeInputMethodTakeOneParameterOfUnderlyingType(mds));
-            return false;
-        }
-
-        if (!AreSameType(mds.ParameterList.Parameters[0].Type, config.UnderlyingType, target.SemanticModel))
-        {
-            context.ReportDiagnostic(DiagnosticsCatalogue.NormalizeInputMethodTakeOneParameterOfUnderlyingType(mds));
-            return false;
-        }
-
-        if (!AreSameType(mds.ReturnType, config.UnderlyingType, target.SemanticModel))
-        {
-            context.ReportDiagnostic(DiagnosticsCatalogue.NormalizeInputMethodMustReturnUnderlyingType(mds));
-            return false;
-        }
-
-        return true;
-    }
-
-    private static bool TryHandleValidateMethod(string? methodName, MethodDeclarationSyntax mds, SourceProductionContext context)
-    {
-        if (StringComparer.OrdinalIgnoreCase.Compare(methodName, "validate") != 0)
-        {
-            return false;
-        }
-
-        if (!IsMethodStatic(mds))
-        {
-            context.ReportDiagnostic(DiagnosticsCatalogue.ValidationMustBeStatic(mds));
-            return false;
-        }
-
-        TypeSyntax returnTypeSyntax = mds.ReturnType;
-
-        if (returnTypeSyntax.ToString() != "Validation")
-        {
-            context.ReportDiagnostic(DiagnosticsCatalogue.ValidationMustReturnValidationType(mds));
-            return false;
-        }
-
-        return true;
-    }
 
     private static bool AreSameType(
         TypeSyntax? typeSyntax,

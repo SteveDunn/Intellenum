@@ -6,17 +6,13 @@ namespace Intellenum;
 public readonly struct IntellenumConfiguration
 {
     public IntellenumConfiguration(INamedTypeSymbol? underlyingType,
-        INamedTypeSymbol? validationExceptionType,
         Conversions conversions,
         Customizations customizations,
-        DeserializationStrictness deserializationStrictness,
         DebuggerAttributeGeneration debuggerAttributes)
     {
         UnderlyingType = underlyingType;
-        ValidationExceptionType = validationExceptionType;
         Conversions = conversions;
         Customizations = customizations;
-        DeserializationStrictness = deserializationStrictness;
         DebuggerAttributes = debuggerAttributes;
     }
 
@@ -41,14 +37,6 @@ public readonly struct IntellenumConfiguration
             (var specificValue, _) => specificValue
         };
 
-        var strictness = (localValues.DeserializationStrictness, globalValues?.DeserializationStrictness) switch
-        {
-            (DeserializationStrictness.Default, null) => DefaultInstance.DeserializationStrictness,
-            (DeserializationStrictness.Default, DeserializationStrictness.Default) => DefaultInstance.DeserializationStrictness,
-            (DeserializationStrictness.Default, var globalDefault) => globalDefault.Value,
-            (var specificValue, _) => specificValue
-        };
-
         var debuggerAttributes = (localValues.DebuggerAttributes, globalValues?.DebuggerAttributes) switch
         {
             (DebuggerAttributeGeneration.Default, null) => DefaultInstance.DebuggerAttributes,
@@ -57,20 +45,16 @@ public readonly struct IntellenumConfiguration
             (var specificValue, _) => specificValue
         };
 
-        var validationExceptionType = localValues.ValidationExceptionType ?? globalValues?.ValidationExceptionType ?? DefaultInstance.ValidationExceptionType;
         var underlyingType = localValues.UnderlyingType ?? globalValues?.UnderlyingType ?? funcForDefaultUnderlyingType?.Invoke();
 
-        return new IntellenumConfiguration(underlyingType, validationExceptionType, conversions, customizations, strictness, debuggerAttributes);
+        return new IntellenumConfiguration(underlyingType, conversions, customizations, debuggerAttributes);
     }
 
     public INamedTypeSymbol? UnderlyingType { get; }
     
-    public INamedTypeSymbol? ValidationExceptionType { get; }
-
     public Conversions Conversions { get; }
     
     public Customizations Customizations { get; }
-    public DeserializationStrictness DeserializationStrictness { get; }
     
     public DebuggerAttributeGeneration DebuggerAttributes { get; }
 
@@ -79,10 +63,8 @@ public readonly struct IntellenumConfiguration
     // ReSharper disable once MemberCanBePrivate.Global
     public static readonly IntellenumConfiguration DefaultInstance = new(
         underlyingType: null,
-        validationExceptionType: null,
         // ReSharper disable once RedundantNameQualifier
         conversions: Conversions.Default,
         customizations: Customizations.None,
-        deserializationStrictness: DeserializationStrictness.Default,
         debuggerAttributes: DebuggerAttributeGeneration.Full);
 }

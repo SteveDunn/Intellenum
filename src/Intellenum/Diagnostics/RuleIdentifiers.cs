@@ -24,7 +24,6 @@ internal static class RuleIdentifiers
     public const string InvalidCustomizations = "VOG019";
     public const string RecordToStringOverloadShouldBeSealed = "VOG020";
     public const string TypeShouldBePartial = "VOG021";
-    public const string InvalidDeserializationStrictness = "VOG022";
     public const string InstanceValueCannotBeConverted = "VOG023";
     public const string DuplicateTypesFound = "VOG024";
     public const string DoNotUseReflection = "VOG025";

@@ -14,9 +14,13 @@ Console.WriteLine(SECustomerType.Standard < SECustomerType.Gold);
 
 Console.WriteLine(SmartStringString.Standard < SmartStringString.Gold); 
 
-Console.WriteLine(IECustomerType.Standard < IECustomerType.Gold); 
+Console.WriteLine(IECustomerType.Standard < IECustomerType.Gold);
 
-// BenchmarkRunner.Run<TryFromNameValueBenchmarks>();
+BenchmarkRunner.Run(new[]
+{
+    typeof(TryFromNameValueBenchmarks),
+    typeof(ContainsValueBenchmarks)
+});
 
 
 public enum ECustomerType

@@ -18,10 +18,8 @@ namespace Intellenum
         public IntellenumAttribute(
             Conversions conversions = Conversions.Default,
             Type? throws = null!,
-            Customizations customizations = Customizations.None,
-            DeserializationStrictness deserializationStrictness = DeserializationStrictness.AllowValidAndKnownInstances,
             DebuggerAttributeGeneration debuggerAttributes = DebuggerAttributeGeneration.Default)
-            : base(typeof(T), conversions, throws, customizations, deserializationStrictness, debuggerAttributes)
+            : base(typeof(T), conversions, throws, debuggerAttributes)
         {
         }
     }
@@ -41,8 +39,6 @@ namespace Intellenum
             Type? underlyingType = null!,
             Conversions conversions = Conversions.Default,
             Type? throws = null!,
-            Customizations customizations = Customizations.None,
-            DeserializationStrictness deserializationStrictness = DeserializationStrictness.AllowValidAndKnownInstances,
             DebuggerAttributeGeneration debuggerAttributes = DebuggerAttributeGeneration.Default)
         {
             // UnderlyingType = underlyingType;

@@ -127,8 +127,6 @@ public {itemUnderlyingType} Value
 
             {className} instance = new {className}(name, value);
 
-            {Util.GenerateValidation(item)}
-
             return instance;
         }}
 
@@ -225,7 +223,8 @@ public {itemUnderlyingType} Value
                 global::System.String message = ""Use of uninitialized Value Object."";
 #endif
 
-                throw new {item.ValidationExceptionFullName}(message);
+                // todo: remove this
+                throw new global::System.InvalidOperationException(message);
             }}
         }}
 
@@ -245,7 +244,7 @@ public {itemUnderlyingType} Value
         voWorkItem.IsValueType ? string.Empty
             : $@"            if (value is null)
             {{
-                throw new {voWorkItem.ValidationExceptionFullName}(""Cannot create a value object with null."");
+                throw new global::System.InvalidOperationException(""Cannot create a value object with null."");
             }}
 ";
 }

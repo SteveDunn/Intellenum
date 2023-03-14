@@ -24,50 +24,18 @@ public static class Util
     };
 
 
-    public static string GenerateValidation(VoWorkItem workItem)
-    {
-        if (workItem.ValidateMethod != null)
-            return @$"var validation = {workItem.TypeToAugment.Identifier}.{workItem.ValidateMethod.Identifier.Value}(value);
-            if (validation != Intellenum.Validation.Ok)
-            {{
-                throw new {workItem.ValidationExceptionFullName}(validation.ErrorMessage);
-            }}
-";
-        return string.Empty;
-    }
-
     public static string GenerateCallToValidateForDeserializing(VoWorkItem workItem)
     {
         StringBuilder sb = new StringBuilder();
 
-        if (workItem.DeserializationStrictness.HasFlag(DeserializationStrictness.AllowKnownInstances))
+        foreach (var eachInstance in workItem.InstanceProperties)
         {
-            foreach (var eachInstance in workItem.InstanceProperties)
-            {
-                string escapedName = EscapeIfRequired(eachInstance.Name);
-                sb.AppendLine($"        if(value == {escapedName}.Value) return {escapedName};");
-            }
-        }
-
-        if (workItem.ValidateMethod == null)
-        {
-            return sb.ToString();
-        }
-
-        if (workItem.DeserializationStrictness.HasFlag(DeserializationStrictness.RunMyValidationMethod))
-        {
-            sb.AppendLine(@$"var validation = {workItem.TypeToAugment.Identifier}.{workItem.ValidateMethod.Identifier.Value}(value);
-            if (validation != Intellenum.Validation.Ok)
-            {{
-                throw new {workItem.ValidationExceptionFullName}(validation.ErrorMessage);
-            }}");
+            string escapedName = EscapeIfRequired(eachInstance.Name);
+            sb.AppendLine($"        if(value == {escapedName}.Value) return {escapedName};");
         }
 
         return sb.ToString();
     }
-
-    public static string GenerateNormalizeInputMethodIfNeeded(VoWorkItem workItem) => string.Empty;
-
 
     public static string EscapeIfRequired(string name)
     {

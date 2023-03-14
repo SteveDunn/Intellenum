@@ -9,10 +9,7 @@ public class VoWorkItem
 {
     private INamedTypeSymbol _underlyingType = null!;
     private string _underlyingTypeFullName = null!;
-    public MethodDeclarationSyntax? NormalizeInputMethod { get; set; }
     
-    public MethodDeclarationSyntax? ValidateMethod { get; set; }
-
     public INamedTypeSymbol UnderlyingType
     {
         get => _underlyingType;
@@ -37,13 +34,7 @@ public class VoWorkItem
 
     public Conversions Conversions { get; set; }
     
-    public DeserializationStrictness DeserializationStrictness { get; set; }
-    
     public Customizations Customizations { get; set; }
-
-    public INamedTypeSymbol? TypeForValidationExceptions { get; set; } = null!;
-
-    public string ValidationExceptionFullName => TypeForValidationExceptions?.FullName() ?? "global::Intellenum.IntellenumValidationException";
 
     public string VoTypeName => TypeToAugment.Identifier.ToString();
     

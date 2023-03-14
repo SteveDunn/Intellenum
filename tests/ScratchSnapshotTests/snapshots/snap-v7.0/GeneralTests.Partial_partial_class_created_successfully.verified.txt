@@ -178,8 +178,6 @@ public System.Int32 Value
 
             CustomerType instance = new CustomerType(name, value);
 
-            
-
             return instance;
         }
 
@@ -284,7 +282,8 @@ public System.Int32 Value
                 global::System.String message = "Use of uninitialized Value Object.";
 #endif
 
-                throw new global::Intellenum.IntellenumValidationException(message);
+                // todo: remove this
+                throw new global::System.InvalidOperationException(message);
             }
         }
 
