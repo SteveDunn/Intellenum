@@ -18,7 +18,11 @@ using Intellenum;
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute(""{Util.GenerateYourAssemblyName()}"", ""{Util.GenerateYourAssemblyVersion()}"")]
     {Util.GenerateAnyConversionAttributes(tds, item)}
     {Util.GenerateDebugAttributes(item, className, itemUnderlyingType)}
-    {Util.GenerateModifiersFor(tds)} class {className} : global::System.IEquatable<{className}>, global::System.IEquatable<{itemUnderlyingType}> {Util.GenerateIComparableHeaderIfNeeded(", ", item, tds)}
+    {Util.GenerateModifiersFor(tds)} class {className} : 
+        global::System.IEquatable<{className}>, 
+        global::System.IEquatable<{itemUnderlyingType}>, 
+        global::System.IComparable, 
+        global::System.IComparable<{className}> 
     {{
 #if DEBUG    
         private readonly global::System.Diagnostics.StackTrace _stackTrace = null;
@@ -188,6 +192,11 @@ public {itemUnderlyingType} Value
 
         public static global::System.Boolean operator ==({itemUnderlyingType} left, {className} right) => Equals(left, right.Value);
         public static global::System.Boolean operator !=({itemUnderlyingType} left, {className} right) => !Equals(left, right.Value);
+        
+        public static global::System.Boolean operator <({className} left, {className} right) => left.CompareTo(right) < 0;
+        public static global::System.Boolean operator <=({className} left, {className} right) => left.CompareTo(right) <= 0;
+        public static global::System.Boolean operator >({className} left, {className} right) => left.CompareTo(right) > 0;
+        public static global::System.Boolean operator >=({className} left, {className} right) => left.CompareTo(right) >= 0;
 
         public static explicit operator {className}({itemUnderlyingType} value) => FromValue(value);
         public static explicit operator {itemUnderlyingType}({className} value) => value.Value;

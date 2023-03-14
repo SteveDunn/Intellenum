@@ -22,6 +22,11 @@ public class UnitTest1
         CustomerType x = CustomerType.FromValue(1);
 
         (t1 == t2).Should().BeFalse();
+        
+        (t1 == 1).Should().BeTrue();
+        (t1 != 2).Should().BeTrue();
+
+        (t1 != t2).Should().BeTrue();
 
         (t1 == x).Should().BeTrue();
 
@@ -54,7 +59,11 @@ public class UnitTest1
 
         CustomerType.TryFromValue(666, out _).Should().BeFalse();
 
+        (CustomerType.Standard < CustomerType.Gold).Should().BeTrue();
+        (CustomerType.Gold < CustomerType.Standard).Should().BeFalse();
 
+        ((int) t1 == t1).Should().BeTrue();
+        ((int) t1 == 1).Should().BeTrue();
 
         //CustomerType.f
 

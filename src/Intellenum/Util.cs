@@ -197,17 +197,6 @@ public static class Util
     /// <inheritdoc cref=""{item.UnderlyingTypeFullName}.ToString()"" />
     public readonly override global::System.String ToString() => Value.ToString();";
 
-    public static string GenerateIComparableHeaderIfNeeded(string precedingText, VoWorkItem item,
-        TypeDeclarationSyntax tds)
-    {
-        if (item.UnderlyingType.ImplementsInterfaceOrBaseClass(typeof(IComparable<>)))
-        {
-            return $"{precedingText} global::System.IComparable<{tds.Identifier}>, global::System.IComparable";
-        }
-    
-        return string.Empty;
-    }
-
     public static string GenerateIComparableImplementationIfNeeded(VoWorkItem item, TypeDeclarationSyntax tds)
     {
         INamedTypeSymbol? primitiveSymbol = item.UnderlyingType;

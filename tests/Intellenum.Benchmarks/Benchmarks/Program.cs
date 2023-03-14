@@ -5,7 +5,18 @@ using BenchmarkDotNet.Running;
 using Intellenum;
 using NetEscapades.EnumGenerators;
 
-BenchmarkRunner.Run<TryFromNameValueBenchmarks>();
+Console.WriteLine(ECustomerType.Standard < ECustomerType.Gold); 
+Console.WriteLine(ECustomerType.Gold < ECustomerType.Standard); 
+
+Console.WriteLine(EGCustomerType.Standard < EGCustomerType.Gold); 
+
+Console.WriteLine(SECustomerType.Standard < SECustomerType.Gold); 
+
+Console.WriteLine(SmartStringString.Standard < SmartStringString.Gold); 
+
+Console.WriteLine(IECustomerType.Standard < IECustomerType.Gold); 
+
+// BenchmarkRunner.Run<TryFromNameValueBenchmarks>();
 
 
 public enum ECustomerType
@@ -32,6 +43,16 @@ public enum EGCustomerType
 [Instance("Platinum", 3)]
 public partial class IECustomerType
 {
+}
+
+public class SmartStringString : SmartEnum<SmartStringString, string>
+{
+    public static readonly SmartStringString Standard = new(nameof(Standard), "Standard");
+    public static readonly SmartStringString Gold = new(nameof(Gold), "Gold");
+
+    public SmartStringString(string name, string value) : base(name, value)
+    {
+    }
 }
 
 public class SECustomerType : SmartEnum<SECustomerType>
