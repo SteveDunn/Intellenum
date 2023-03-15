@@ -13,9 +13,11 @@ public partial class CustomerType
 [Intellenum]
 public partial class Condiment
 {
-    public static readonly Condiment Salt = From("Salt", 1);
-    public static readonly Condiment Pepper = From("Pepper", 2);
-
+    static Condiment()
+    {
+        Instance("Salt", 1);
+        Instance("Pepper", 2);
+    }
 }
 
 
