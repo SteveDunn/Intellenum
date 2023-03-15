@@ -32,13 +32,16 @@ public partial class CustomerType
     }
 }
 ```
-
-It source generates backing code for lightning fast and allocation-free lookups, e.g. `FromName`, `FromValue` (and their equivalent `Try...` methods):
+... you can then treat the type just like an enum:
 
 ```csharp
+```csharp
 if(type = CustomerType.Standard) Reject();
-if(type = CustomerType.Standard) Accept();
+if(type = CustomerType.Gold) Accept();
 ```
+
+Intellenum generates backing code for lightning fast and allocation-free lookups, e.g. `FromName`, `FromValue` (and their equivalent `Try...` methods):
+
 
 > NOTE: Intellenum is in pre-release at the moment, so probably isn't production ready and the API might (and probably will change).
 > But feel free to kick the tyres and provide feedback. It's not far off being complete as it borrows a lot of code and features from [Vogen](https://github.com/SteveDunn/Vogen)
