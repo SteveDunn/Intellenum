@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Intellenum.Diagnostics;
+using Intellenum.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace Intellenum;
 
@@ -68,8 +70,10 @@ internal static class BuildWorkItems
 
         ReportErrorIfNestedType(target, context, voSymbolInformation);
 
-        IEnumerable<InstanceProperties> instanceProperties =
+        var instanceProperties =
             TryBuildInstanceProperties(allAttributes, voSymbolInformation, context, config.UnderlyingType).ToList();
+
+        instanceProperties.AddRange(TryBuildExplicitInstanceProperties(allAttributes, voSymbolInformation, context, config.UnderlyingType, target.SemanticModel).ToList());
 
         var toStringInfo = HasToStringOverload(voSymbolInformation);
 
@@ -212,6 +216,7 @@ internal static class BuildWorkItems
         foreach (IMethodSymbol? eachConstructor in allConstructors)
         {
             if (eachConstructor.IsImplicitlyDeclared) continue;
+            if (eachConstructor.IsStatic) continue;
 
             context.ReportDiagnostic(DiagnosticsCatalogue.CannotHaveUserConstructors(eachConstructor));
             reported = true;
@@ -244,5 +249,83 @@ internal static class BuildWorkItems
         var props = BuildInstanceProperties.Build(matchingAttributes, context, voClass, underlyingType);
         
         return props.Where(a => a is not null)!;
+    }
+
+    private static IEnumerable<InstanceProperties> TryBuildExplicitInstanceProperties(ImmutableArray<AttributeData> attributes,
+        INamedTypeSymbol voClass,
+        SourceProductionContext context,
+        INamedTypeSymbol? underlyingType,
+        SemanticModel semanticModel)
+    {
+        // find all public fields
+        
+        // we're dealing with syntax here as there's no model yet - the only symbol we have is the constructor.
+
+
+
+        var nodes = semanticModel.SyntaxTree.GetRoot().DescendantNodes().OfType<InvocationExpressionSyntax>();
+
+        var members = voClass.Constructors;
+        var constructor = members.FirstOrDefault(m => m.IsStatic && m.IsPrivate());
+        
+        if (constructor is null) yield break;
+
+
+        var constructorDeclaringSyntaxReferences = constructor.DeclaringSyntaxReferences;
+        var decl = constructorDeclaringSyntaxReferences.Single();
+        var syntax = decl.GetSyntax();
+        
+        var invocations = syntax.DescendantNodes().OfType<InvocationExpressionSyntax>();
+
+        var instanceInvocations = invocations.Where(IsCallingInstance);
+        
+        foreach (var eachInvocation in instanceInvocations)
+        {
+            ArgumentSyntax first = eachInvocation.ArgumentList.Arguments[0];
+                
+            //first.Expression as StringLiteralExpression
+            var firstAsString = (first.Expression as LiteralExpressionSyntax)?.Token.Value as string;
+            if (firstAsString is null) throw new InvalidOperationException("Expected string literal as name parameter to Instance method");
+
+            ArgumentSyntax second = eachInvocation.ArgumentList.Arguments[1];
+            var secondAsString = second.ToString();
+
+            yield return new InstanceProperties(firstAsString, secondAsString, secondAsString);
+        }
+
+
+        if (constructor is null) yield break;
+
+        // SyntaxNode root = semanticModel.SyntaxTree.GetRoot();
+        //     
+        // {
+        //     if (memberSymbol is IFieldSymbol fs)
+        //     {
+        //         if (!fs.IsStatic) continue;
+        //         if (!fs.IsPublic()) continue;
+        //
+        //         bool hit = SymbolEqualityComparer.Default.Equals(fs.Type, voClass);
+        //
+        //         if (!hit) continue;
+        //
+        //         string vat = "";
+        //         object val = null!;
+        //         yield return new ExplicitInstanceProperties(fs.Name, vat, val);
+        //     }
+        // }
+        
+        
+        // that are of type [this Intellenum type]
+        // get the name of the property
+        // and the value
+        // and yield it
+        yield break;
+    }
+
+    private static bool IsCallingInstance(InvocationExpressionSyntax arg)
+    {
+        var nodes = arg.DescendantNodes().OfType<IdentifierNameSyntax>();
+        var v = nodes.SingleOrDefault(n => n.Identifier.ToString() == "Instance");
+        return v is not null;
     }
 }

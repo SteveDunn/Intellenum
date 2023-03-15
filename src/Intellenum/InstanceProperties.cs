@@ -2,7 +2,7 @@
 
 public class InstanceProperties
 {
-    public InstanceProperties(string name, string valueAsText, object value, string tripleSlashComments)
+    public InstanceProperties(string name, string valueAsText, object value, string tripleSlashComments = "")
     {
         Name = name;
         ValueAsText = valueAsText;

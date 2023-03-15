@@ -130,6 +130,12 @@ public {itemUnderlyingType} Value
             return instance;
         }}
 
+        // placeholder method used by the source generator
+        // to generate physical instances (e.g. public static readonly MyEnum Item1 = new...)
+        private static void Instance(string name, {itemUnderlyingType} value)
+        {{
+        }}
+
         // only called internally when something has been deserialized into
         // its primitive type.
         private static {className} Deserialize({itemUnderlyingType} value)

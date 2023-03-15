@@ -232,9 +232,9 @@ switch (value)
 """);
         foreach (var eachInstance in item.InstanceProperties)
         {
-            generate(eachInstance);
+            generate(eachInstance.Value, eachInstance.Name);
         }
-        
+
         sb.AppendLine("""
     default:
         instance = default;
@@ -244,12 +244,12 @@ switch (value)
 
         return sb.ToString();
 
-        void generate(InstanceProperties i)
+        void generate(object value, string name)
         {
             sb.AppendLine(
                 $$"""
-    case {{i.Value}}:
-        instance = {{item.VoTypeName}}.{{i.Name}}; 
+    case {{value}}:
+        instance = {{item.VoTypeName}}.{{name}}; 
         return true;
 """);
 
@@ -266,9 +266,9 @@ switch (name)
 
         foreach (var eachInstance in item.InstanceProperties)
         {
-            generate(eachInstance);
+            generate(eachInstance.Name);
         }
-        
+
         sb.AppendLine("""
     default:
         instance = default;
@@ -278,12 +278,12 @@ switch (name)
 
         return sb.ToString();
 
-        void generate(InstanceProperties i)
+        void generate(string name)
             {
                 sb.AppendLine(
                     $$"""
-    case nameof({{item.VoTypeName}}.{{i.Name}}):
-        instance = {{item.VoTypeName}}.{{i.Name}}; 
+    case nameof({{item.VoTypeName}}.{{name}}):
+        instance = {{item.VoTypeName}}.{{name}}; 
         return true;
 """);
             }

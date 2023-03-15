@@ -10,6 +10,32 @@ public partial class CustomerType
 {
 }
 
+[Intellenum]
+public partial class Condiment
+{
+    public static readonly Condiment Salt = From("Salt", 1);
+    public static readonly Condiment Pepper = From("Pepper", 2);
+
+}
+
+
+public class ExplicitInstances
+{
+    [Fact]
+    public void General()
+    {
+        Condiment c1 = Condiment.Salt;
+        Condiment c2 = Condiment.Pepper;
+
+        (c1 == c2).Should().BeFalse();
+
+        (c1 < c2).Should().BeTrue();
+
+        var f1 = Condiment.FromName("Salt");
+        f1.Should().Be(c1);
+
+    }
+}
 
 public class UnitTest1
 {

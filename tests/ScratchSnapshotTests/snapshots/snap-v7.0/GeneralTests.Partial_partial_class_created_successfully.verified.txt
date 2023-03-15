@@ -181,6 +181,12 @@ public System.Int32 Value
             return instance;
         }
 
+        // placeholder method used by the source generator
+        // to generate physical instances (e.g. public static readonly MyEnum Item1 = new...)
+        private static void Instance(string name, System.Int32 value)
+        {
+        }
+
         // only called internally when something has been deserialized into
         // its primitive type.
         private static CustomerType Deserialize(System.Int32 value)

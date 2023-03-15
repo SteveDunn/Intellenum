@@ -23,10 +23,13 @@ Given the following code:
 
 ```csharp
 [Intellenum]
-[Instance("Standard", 1)]
-[Instance("Gold", 2)]
 public partial class CustomerType
 {
+    static CustomerType()
+    {
+        Instance("Standard", 1);
+        Instance("Gold", 2);
+    }
 }
 ```
 

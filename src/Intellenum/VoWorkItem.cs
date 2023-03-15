@@ -33,14 +33,14 @@ public class VoWorkItem
     public string FullNamespace { get; set; } = string.Empty;
 
     public Conversions Conversions { get; set; }
-    
+
     public Customizations Customizations { get; set; }
 
     public string VoTypeName => TypeToAugment.Identifier.ToString();
-    
+
     public string UnderlyingTypeFullName => _underlyingTypeFullName;
 
     public bool HasToString { get; set; }
-    
+
     public DebuggerAttributeGeneration DebuggerAttributes { get; set; }
 }
