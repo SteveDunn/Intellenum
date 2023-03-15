@@ -33,10 +33,15 @@ public partial class CustomerType
 }
 ```
 
+It source generates backing code for lightning fast and allocation-free lookups, e.g. `FromName`, `FromValue` (and their equivalent `Try...` methods):
+
+```csharp
+if(type = CustomerType.Standard) Reject();
+if(type = CustomerType.Standard) Accept();
+```
+
 > NOTE: Intellenum is in pre-release at the moment, so probably isn't production ready and the API might (and probably will change).
 > But feel free to kick the tyres and provide feedback. It's not far off being complete as it borrows a lot of code and features from [Vogen](https://github.com/SteveDunn/Vogen)
-
-It source generates backing code for lightning fast and allocation-free lookups, e.g. `FromName`, `FromValue` (and their equivalent `Try...` methods).
 
 ## Features
 
@@ -60,10 +65,13 @@ Using Intellenum is as easy as importing the namespace and using the provided AP
 using Intellenum;
 
 [Intellenum]
-[Instance("Standard", 1)]
-[Instance("Gold", 2)]
 public partial class CustomerType
 {
+    static CustomerType() 
+    {
+        Instance("Standard", 1);
+        Instance("Gold", 2);
+    }
 }
 
 // some tests
@@ -106,5 +114,15 @@ public partial class CustomerType
 
         CustomerType.TryFromValue(666, out _).Should().BeFalse();
 
+```
 
+Note that you can also declare instances as attributres:
+
+```csharp
+[Intellenum]
+[Instance("Standard", 1)]
+[Instance("Gold", 2)]
+public partial class CustomerType
+{
+}
 ```
