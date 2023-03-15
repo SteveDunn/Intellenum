@@ -8,7 +8,6 @@ using Intellenum.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace Intellenum;
 
@@ -73,7 +72,7 @@ internal static class BuildWorkItems
         var instanceProperties =
             TryBuildInstanceProperties(allAttributes, voSymbolInformation, context, config.UnderlyingType).ToList();
 
-        instanceProperties.AddRange(TryBuildExplicitInstanceProperties(allAttributes, voSymbolInformation, context, config.UnderlyingType, target.SemanticModel).ToList());
+        instanceProperties.AddRange(TryBuildExplicitInstanceProperties(voSymbolInformation).ToList());
 
         var toStringInfo = HasToStringOverload(voSymbolInformation);
 
@@ -225,18 +224,6 @@ internal static class BuildWorkItems
         return reported;
     }
 
-
-    private static bool AreSameType(
-        TypeSyntax? typeSyntax,
-        INamedTypeSymbol? expectedType,
-        SemanticModel targetSemanticModel)
-    {
-        INamedTypeSymbol? fptSymbol = targetSemanticModel.GetSymbolInfo(typeSyntax!).Symbol as INamedTypeSymbol;
-        return SymbolEqualityComparer.Default.Equals(fptSymbol, expectedType);
-    }
-
-    private static bool IsMethodStatic(MethodDeclarationSyntax mds) => mds.DescendantTokens().Any(t => t.IsKind(SyntaxKind.StaticKeyword));
-
     private static IEnumerable<InstanceProperties> TryBuildInstanceProperties(
         ImmutableArray<AttributeData> attributes,
         INamedTypeSymbol voClass,
@@ -251,75 +238,32 @@ internal static class BuildWorkItems
         return props.Where(a => a is not null)!;
     }
 
-    private static IEnumerable<InstanceProperties> TryBuildExplicitInstanceProperties(ImmutableArray<AttributeData> attributes,
-        INamedTypeSymbol voClass,
-        SourceProductionContext context,
-        INamedTypeSymbol? underlyingType,
-        SemanticModel semanticModel)
+    private static IEnumerable<InstanceProperties> TryBuildExplicitInstanceProperties(INamedTypeSymbol voClass)
     {
-        // find all public fields
-        
-        // we're dealing with syntax here as there's no model yet - the only symbol we have is the constructor.
-
-
-
-        var nodes = semanticModel.SyntaxTree.GetRoot().DescendantNodes().OfType<InvocationExpressionSyntax>();
-
-        var members = voClass.Constructors;
-        var constructor = members.FirstOrDefault(m => m.IsStatic && m.IsPrivate());
+        var constructor = voClass.Constructors.FirstOrDefault(m => m.IsStatic && m.IsPrivate());
         
         if (constructor is null) yield break;
 
-
-        var constructorDeclaringSyntaxReferences = constructor.DeclaringSyntaxReferences;
-        var decl = constructorDeclaringSyntaxReferences.Single();
+        var decl = constructor.DeclaringSyntaxReferences.Single();
         var syntax = decl.GetSyntax();
-        
-        var invocations = syntax.DescendantNodes().OfType<InvocationExpressionSyntax>();
 
-        var instanceInvocations = invocations.Where(IsCallingInstance);
+        var instanceInvocations = syntax.DescendantNodes().OfType<InvocationExpressionSyntax>().Where(IsCallingInstance);
         
         foreach (var eachInvocation in instanceInvocations)
         {
             ArgumentSyntax first = eachInvocation.ArgumentList.Arguments[0];
                 
-            //first.Expression as StringLiteralExpression
             var firstAsString = (first.Expression as LiteralExpressionSyntax)?.Token.Value as string;
-            if (firstAsString is null) throw new InvalidOperationException("Expected string literal as name parameter to Instance method");
+            if (firstAsString is null)
+            {
+                throw new InvalidOperationException("Expected string literal as name parameter to Instance method");
+            }
 
             ArgumentSyntax second = eachInvocation.ArgumentList.Arguments[1];
             var secondAsString = second.ToString();
 
             yield return new InstanceProperties(firstAsString, secondAsString, secondAsString);
         }
-
-
-        if (constructor is null) yield break;
-
-        // SyntaxNode root = semanticModel.SyntaxTree.GetRoot();
-        //     
-        // {
-        //     if (memberSymbol is IFieldSymbol fs)
-        //     {
-        //         if (!fs.IsStatic) continue;
-        //         if (!fs.IsPublic()) continue;
-        //
-        //         bool hit = SymbolEqualityComparer.Default.Equals(fs.Type, voClass);
-        //
-        //         if (!hit) continue;
-        //
-        //         string vat = "";
-        //         object val = null!;
-        //         yield return new ExplicitInstanceProperties(fs.Name, vat, val);
-        //     }
-        // }
-        
-        
-        // that are of type [this Intellenum type]
-        // get the name of the property
-        // and the value
-        // and yield it
-        yield break;
     }
 
     private static bool IsCallingInstance(InvocationExpressionSyntax arg)
