@@ -70,9 +70,10 @@ internal static class BuildWorkItems
         ReportErrorIfNestedType(target, context, voSymbolInformation);
 
         var instanceProperties =
-            TryBuildInstanceProperties(allAttributes, voSymbolInformation, context, config.UnderlyingType).ToList();
+            FindInstancesFromInstanceAttribute(allAttributes, voSymbolInformation, context, config.UnderlyingType).ToList();
 
-        instanceProperties.AddRange(TryBuildExplicitInstanceProperties(voSymbolInformation).ToList());
+        instanceProperties.AddRange(FindInstancesFromInstanceMethodInStaticConstructor(voSymbolInformation).ToList());
+        instanceProperties.AddRange(FindInstancesFromNewStatements(voSymbolInformation).ToList());
 
         var toStringInfo = HasToStringOverload(voSymbolInformation);
 
@@ -224,7 +225,7 @@ internal static class BuildWorkItems
         return reported;
     }
 
-    private static IEnumerable<InstanceProperties> TryBuildInstanceProperties(
+    private static IEnumerable<InstanceProperties> FindInstancesFromInstanceAttribute(
         ImmutableArray<AttributeData> attributes,
         INamedTypeSymbol voClass,
         SourceProductionContext context, 
@@ -233,18 +234,20 @@ internal static class BuildWorkItems
         IEnumerable<AttributeData> matchingAttributes =
             attributes.Where(a => a.AttributeClass?.FullName() is "Intellenum.InstanceAttribute");
 
-        var props = BuildInstanceProperties.Build(matchingAttributes, context, voClass, underlyingType);
+        var props = BuildInstancePropertiesFromAttributes.Build(matchingAttributes, context, voClass, underlyingType);
         
         return props.Where(a => a is not null)!;
     }
 
-    private static IEnumerable<InstanceProperties> TryBuildExplicitInstanceProperties(INamedTypeSymbol voClass)
+    private static IEnumerable<InstanceProperties> FindInstancesFromInstanceMethodInStaticConstructor(INamedTypeSymbol voClass)
     {
         var constructor = voClass.Constructors.FirstOrDefault(m => m.IsStatic && m.IsPrivate());
         
         if (constructor is null) yield break;
 
-        var decl = constructor.DeclaringSyntaxReferences.Single();
+        var decl = constructor.DeclaringSyntaxReferences.SingleOrDefault();
+        if (decl is null) yield break;
+        
         var syntax = decl.GetSyntax();
 
         var instanceInvocations = syntax.DescendantNodes().OfType<InvocationExpressionSyntax>().Where(IsCallingInstance);
@@ -262,7 +265,44 @@ internal static class BuildWorkItems
             ArgumentSyntax second = eachInvocation.ArgumentList.Arguments[1];
             var secondAsString = second.ToString();
 
-            yield return new InstanceProperties(firstAsString, secondAsString, secondAsString);
+            yield return new InstanceProperties(InstanceSource.FromInstanceMethod, firstAsString, secondAsString, secondAsString);
+        }
+    }
+
+    private static IEnumerable<InstanceProperties> FindInstancesFromNewStatements(INamedTypeSymbol voClass)
+    {
+        var publicStaticMembers = voClass.GetMembers().Where(m => m.IsStatic && m.IsPublic());
+        
+        var hits = publicStaticMembers.Where(m => SymbolEqualityComparer.Default.Equals(m.GetMemberType(), voClass));
+        
+        // we have the field
+        foreach (ISymbol each in hits)
+        {
+            var decl = each.DeclaringSyntaxReferences.SingleOrDefault();
+            
+            if (decl is null) continue;
+        
+            var syntax = decl.GetSyntax();
+
+            var newExpression = syntax.DescendantNodes().OfType<ObjectCreationExpressionSyntax>().SingleOrDefault();
+            if(newExpression is null) continue;
+
+            var args = newExpression.ArgumentList;
+            if (args is null) continue;
+            if (args.Arguments.Count != 2) continue;
+            
+            ArgumentSyntax first = args.Arguments[0];
+                
+            var firstAsString = (first.Expression as LiteralExpressionSyntax)?.Token.Value as string;
+            if (firstAsString is null)
+            {
+                throw new InvalidOperationException("Expected string literal as name parameter to Instance method");
+            }
+
+            ArgumentSyntax second = args.Arguments[1];
+            var secondAsString = second.ToString();
+
+            yield return new InstanceProperties(InstanceSource.FromNewExpression, firstAsString, secondAsString, secondAsString);
         }
     }
 
@@ -272,4 +312,11 @@ internal static class BuildWorkItems
         var v = nodes.SingleOrDefault(n => n.Identifier.ToString() == "Instance");
         return v is not null;
     }
+}
+
+public enum InstanceSource
+{
+    FromAttribute,
+    FromInstanceMethod,
+    FromNewExpression
 }

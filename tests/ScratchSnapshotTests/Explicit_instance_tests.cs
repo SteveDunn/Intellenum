@@ -8,7 +8,25 @@ namespace ScratchSnapshotTests
     public class Explicit_instance_tests
     {
         [Fact]
-        public Task Explicit_instances()
+        public Task Explicit_instances_using_new()
+        {
+            var source = """
+    using Intellenum;
+    namespace Whatever;
+
+    [Intellenum]
+    [Instance("Platinum", 3)]
+    public partial class CustomerType
+    {
+        public static CustomerType Standard = new CustomerType("Standard", 1);
+    }
+    """;
+
+            return RunTest(source);
+        }
+
+        [Fact]
+        public Task Explicit_instances_using_Instance_method()
         {
             var source = """
     using Intellenum;

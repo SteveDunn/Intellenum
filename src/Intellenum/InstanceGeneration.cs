@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
@@ -18,7 +19,7 @@ public static class InstanceGeneration
 
         StringBuilder sb = new StringBuilder();
 
-        foreach (InstanceProperties each in item.InstanceProperties)
+        foreach (InstanceProperties each in item.InstanceProperties.Where(i => i.Source is not InstanceSource.FromNewExpression))
         {
             sb.AppendLine(GenerateInstance(each, classDeclarationSyntax, item.FullNamespace));
         }

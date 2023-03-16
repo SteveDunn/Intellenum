@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Intellenum
 {
-    internal static class BuildInstanceProperties
+    internal static class BuildInstancePropertiesFromAttributes
     {
         public static IEnumerable<InstanceProperties?> Build(
             IEnumerable<AttributeData> allAttributes,
@@ -109,6 +109,7 @@ namespace Intellenum
             }
 
             return new InstanceProperties(
+                InstanceSource.FromAttribute,
                 (string)nameConstant.Value!, 
                 r.Value,
                 valueConstant.Value!, 
