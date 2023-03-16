@@ -309,6 +309,14 @@ public static readonly CustomerType Standard = new CustomerType("Standard",1);
 
 public static readonly CustomerType Diamond = new CustomerType("Diamond",3);
 
+        
+        public static global::System.Collections.Generic.IEnumerable<CustomerType> List()
+        {
+            yield return Standard;
+yield return Diamond;
+yield return Gold;
+
+        }        
 
         /// <summary>Returns the string representation of the underlying <see cref="System.Int32" />.</summary>
     /// <inheritdoc cref="System.Int32.ToString()" />

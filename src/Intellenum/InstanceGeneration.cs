@@ -10,6 +10,23 @@ namespace Intellenum;
 
 public static class InstanceGeneration
 {
+    public static string GenerateIEnumerableYields(VoWorkItem item)
+    {
+        if (item.InstanceProperties.Count == 0)
+        {
+            return "yield break";
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        foreach (InstanceProperties each in item.InstanceProperties)
+        {
+            sb.AppendLine($"yield return {each.Name};");
+        }
+
+        return sb.ToString();
+    }
+
     public static string GenerateAnyInstances(TypeDeclarationSyntax classDeclarationSyntax, VoWorkItem item)
     {
         if (item.InstanceProperties.Count == 0)
@@ -178,7 +195,7 @@ public static class InstanceGeneration
         catch (Exception e)
         {
             return new(false, string.Empty,
-                $"Instance value named {propertyName} has an attribute with a '{propertyValue.GetType()}' of '{propertyValue}' which cannot be converted to the underlying type of '{underlyingType}' - {e.Message}");
+                $"Instance value named {propertyName} has an attribute with a '{propertyValue?.GetType()}' of '{propertyValue}' which cannot be converted to the underlying type of '{underlyingType}' - {e.Message}");
         }
     }
 }

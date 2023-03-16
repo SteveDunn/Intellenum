@@ -302,10 +302,16 @@ public static readonly CustomerType Gold = new CustomerType("Gold",1);
 
 public static readonly CustomerType Diamond = new CustomerType("Diamond",2);
 
+        
+        public static global::System.Collections.Generic.IEnumerable<CustomerType> List()
+        {
+            yield return Gold;
+yield return Diamond;
 
-        /// <summary>Returns the string representation of the underlying <see cref="System.Int32" />.</summary>
-    /// <inheritdoc cref="System.Int32.ToString()" />
-    public override global::System.String ToString() => Value.ToString();
+        }        
+
+        /// <summary>Returns the name of the enum.</summary>
+    public override global::System.String ToString() => Name;
 
         
         class CustomerTypeSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<CustomerType>

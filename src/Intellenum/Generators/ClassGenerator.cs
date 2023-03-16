@@ -242,6 +242,11 @@ public {itemUnderlyingType} Value
 
 
         {InstanceGeneration.GenerateAnyInstances(tds, item)}
+        
+        public static global::System.Collections.Generic.IEnumerable<{className}> List()
+        {{
+            {InstanceGeneration.GenerateIEnumerableYields(item)}
+        }}        
 
         {Util.GenerateToString(item)}
 

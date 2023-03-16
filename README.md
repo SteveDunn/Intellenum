@@ -79,13 +79,15 @@ public partial class CustomerType
 
 ## Features
 
+* `FromName()` and `FromValue()` (and `TryFrom...`)
 * Generates enum definitions in various ways:
   * attributes `[Instance("Foo", 1)]`
   * explicitly with `new MyEnum("Foo", 1)`
   * instance method in a static constructor: `Instance("Foo", 1);`
 * Ability to quickly convert enums to and from strings
 * Ability to quickly deconstruct enums to name and value
-* Deconstruct (`(name, value) = CustomTypes.Gold`)
+* Deconstruct (`(name, value) = CustomerTypes.Gold`)
+* Get items (`CustomerTypes.List()`)
 
 ## Installation
 
