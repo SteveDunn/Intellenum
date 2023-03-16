@@ -156,5 +156,22 @@ public partial class CustomerType
 
 ```
 
+# FAQ
+
+## How fast is it?
+
+Very fast! Here's a comparison of various libraries (and the default `enum` in C#) for finding if a value exists:
+
+| Method         | Mean         | Error       | StdDev      | Median       | Gen0   | Allocated |
+|----------------|-------------|-------------|-------------|--------------|--------|-----------|
+| StandardEnums  | 107.4646 ns | 1.1617 ns   | 1.0867 ns   | 107.3232 ns  | 0.0057 | 96 B      |
+| Intellenums    | 0.0022 ns   | 0.0031 ns   | 0.0027 ns   | 0.0010 ns    | -      | -         |
+| EnumGenerators | 0.0113 ns   | 0.0108 ns   | 0.0101 ns   | 0.0095 ns    | -      | -         |
+| SmartEnums     | 13.1542 ns  | 0.0863 ns   | 0.0720 ns   | 13.1441 ns   | -      | -         |
+
+
+
+
+
 > NOTE: Intellenum is in pre-release at the moment, so probably isn't production ready and the API might (and probably will change).
 > But feel free to kick the tyres and provide feedback. It's not far off being complete as it borrows a lot of code and features from [Vogen](https://github.com/SteveDunn/Vogen)
