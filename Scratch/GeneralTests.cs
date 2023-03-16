@@ -1,75 +1,8 @@
-using Intellenum;
-using FluentAssertions;
+﻿using FluentAssertions;
 
 namespace Scratch;
 
-[Intellenum]
-[Instance("Standard", 1)]
-[Instance("Gold", 2)]
-public partial class CustomerType
-{
-}
-
-[Intellenum]
-public partial class Condiment
-{
-    static Condiment()
-    {
-        Instance("Salt", 1);
-        Instance("Pepper", 2);
-    }
-}
-
-[Intellenum]
-[Instance("Salt", 1)]
-[Instance("Pepper", 2)]
-public partial class CondimentMixedInstances
-{
-    public static readonly CondimentMixedInstances Mayo = new CondimentMixedInstances("Mayo", 5);
-    public static readonly CondimentMixedInstances Ketchup = new CondimentMixedInstances("Ketchup", 6);
-
-    static CondimentMixedInstances()
-    {
-        Instance("Vinegar", 3);
-        Instance("Mustard", 4);
-    }
-}
-
-
-public class ExplicitInstances
-{
-    [Fact]
-    public void MixedInstances()
-    {
-        CondimentMixedInstances c1 = CondimentMixedInstances.Salt;
-        CondimentMixedInstances c2 = CondimentMixedInstances.Pepper;
-
-        (c1 == c2).Should().BeFalse();
-
-        (c1 < c2).Should().BeTrue();
-
-        var f1 = CondimentMixedInstances.FromName("Salt");
-        f1.Should().Be(c1);
-
-    }
-
-    [Fact]
-    public void General()
-    {
-        Condiment c1 = Condiment.Salt;
-        Condiment c2 = Condiment.Pepper;
-
-        (c1 == c2).Should().BeFalse();
-
-        (c1 < c2).Should().BeTrue();
-
-        var f1 = Condiment.FromName("Salt");
-        f1.Should().Be(c1);
-
-    }
-}
-
-public class UnitTest1
+public class GeneralTests
 {
     [Fact]
     public void General()
@@ -122,8 +55,5 @@ public class UnitTest1
 
         ((int) t1 == t1).Should().BeTrue();
         ((int) t1 == 1).Should().BeTrue();
-
-        //CustomerType.f
-
     }
 }

@@ -42,15 +42,50 @@ if(type = CustomerType.Gold) Accept();
 
 Intellenum generates backing code for lightning fast and allocation-free lookups, e.g. `FromName`, `FromValue` (and their equivalent `Try...` methods):
 
+There are other ways to declare instances of the enum. You can declare them directly:
+```csharp
+[Intellenum]
+public partial class CustomerType
+{
+    public static readonly CustomerType Standard = new CustomerType("Standard", 1);
+    public static readonly CustomerType Gold = new CustomerType("Gold", 2);
+}
+```
 
-> NOTE: Intellenum is in pre-release at the moment, so probably isn't production ready and the API might (and probably will change).
-> But feel free to kick the tyres and provide feedback. It's not far off being complete as it borrows a lot of code and features from [Vogen](https://github.com/SteveDunn/Vogen)
+... or you can use attributes:
+
+```csharp
+[Intellenum]
+[Instance("Standard", 1)]
+[Instance("Gold", 2)]
+public partial class CustomerType { }
+```
+
+... or mix them up!
+
+```csharp
+[Intellenum]
+[Instance("Standard", 1)]
+public partial class CustomerType 
+{
+    public static readonly CustomerType Standard = new CustomerType("Gold", 2);
+
+    static CustomerType()
+    {
+        Instance("Diamond", 3);
+    }
+ }
+```
 
 ## Features
 
-* Generates enum definitions from attributes (if you don't like attributes, other mechanisms are coming)
+* Generates enum definitions in various ways:
+  * attributes `[Instance("Foo", 1)]`
+  * explicitly with `new MyEnum("Foo", 1)`
+  * instance method in a static constructor: `Instance("Foo", 1);`
 * Ability to quickly convert enums to and from strings
 * Ability to quickly deconstruct enums to name and value
+* Deconstruct (`(name, value) = CustomTypes.Gold`)
 
 ## Installation
 
@@ -119,13 +154,5 @@ public partial class CustomerType
 
 ```
 
-Note that you can also declare instances as attributres:
-
-```csharp
-[Intellenum]
-[Instance("Standard", 1)]
-[Instance("Gold", 2)]
-public partial class CustomerType
-{
-}
-```
+> NOTE: Intellenum is in pre-release at the moment, so probably isn't production ready and the API might (and probably will change).
+> But feel free to kick the tyres and provide feedback. It's not far off being complete as it borrows a lot of code and features from [Vogen](https://github.com/SteveDunn/Vogen)

@@ -122,7 +122,13 @@ public System.Int32 Value
         public static bool IsDefined(System.Int32 value)
         {
                 return TryFromValue(value, out _);
-        }        
+        }
+
+        public void Deconstruct(out string Name, out System.Int32 Value)
+        {
+            Name = this.Name;
+            Value = this.Value;
+        }
 
         /// <summary>
         /// Gets the matching instance based on name.
@@ -257,7 +263,7 @@ public System.Int32 Value
         public static global::System.Boolean operator >=(CustomerType left, CustomerType right) => left.CompareTo(right) >= 0;
 
         public static explicit operator CustomerType(System.Int32 value) => FromValue(value);
-        public static explicit operator System.Int32(CustomerType value) => value.Value;
+        public static implicit operator System.Int32(CustomerType value) => value.Value;
 
         public int CompareTo(CustomerType other) => Value.CompareTo(other.Value);
         public int CompareTo(object other) {

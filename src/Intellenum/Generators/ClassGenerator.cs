@@ -88,7 +88,13 @@ public {itemUnderlyingType} Value
         public static bool IsDefined({itemUnderlyingType} value)
         {{
             {Util.GenerateIsDefinedImplementation(item)}
-        }}        
+        }}
+
+        public void Deconstruct(out string Name, out {itemUnderlyingType} Value)
+        {{
+            Name = this.Name;
+            Value = this.Value;
+        }}
 
         /// <summary>
         /// Gets the matching instance based on name.
@@ -203,7 +209,7 @@ public {itemUnderlyingType} Value
         public static global::System.Boolean operator >=({className} left, {className} right) => left.CompareTo(right) >= 0;
 
         public static explicit operator {className}({itemUnderlyingType} value) => FromValue(value);
-        public static explicit operator {itemUnderlyingType}({className} value) => value.Value;
+        public static implicit operator {itemUnderlyingType}({className} value) => value.Value;
 
         {Util.GenerateIComparableImplementationIfNeeded(item, tds)}
 

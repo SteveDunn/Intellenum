@@ -106,6 +106,9 @@ public System.Int32 Value
     case 1:
         instance = CustomerType.Standard; 
         return true;
+    case 3:
+        instance = CustomerType.Diamond; 
+        return true;
     case 2:
         instance = CustomerType.Gold; 
         return true;
@@ -151,6 +154,9 @@ public System.Int32 Value
     case nameof(CustomerType.Standard):
         instance = CustomerType.Standard; 
         return true;
+    case nameof(CustomerType.Diamond):
+        instance = CustomerType.Diamond; 
+        return true;
     case nameof(CustomerType.Gold):
         instance = CustomerType.Gold; 
         return true;
@@ -194,6 +200,7 @@ public System.Int32 Value
             
 
                     if(value == Standard.Value) return Standard;
+        if(value == Diamond.Value) return Diamond;
         if(value == Gold.Value) return Gold;
 
 
@@ -294,6 +301,14 @@ public System.Int32 Value
 
 
         
+// instance...
+
+public static readonly CustomerType Standard = new CustomerType("Standard",1);
+
+// instance...
+
+public static readonly CustomerType Diamond = new CustomerType("Diamond",3);
+
 
         /// <summary>Returns the string representation of the underlying <see cref="System.Int32" />.</summary>
     /// <inheritdoc cref="System.Int32.ToString()" />

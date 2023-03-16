@@ -112,7 +112,7 @@ namespace ScratchSnapshotTests
 
                 //todo: remove
                 #if DEBUG
-                await File.WriteAllTextAsync(@"c:\git\intellenum\tests\scratchsnapshottests\test.cs", output);
+                // await File.WriteAllTextAsync(@"c:\git\intellenum\tests\scratchsnapshottests\test.cs", output);
                 #endif
                 
                 diagnostics.Should().BeEmpty(@$"because the following source code should compile on {eachFramework}: " + _source);
