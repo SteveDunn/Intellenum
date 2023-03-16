@@ -39,6 +39,24 @@
     <ProjectReference Include="..\..\src\Intellenum\Intellenum.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="DisallowAbstractTests.cs" />
+    <Compile Remove="DisallowDuplicateAttributesTests.cs" />
+    <Compile Remove="DisallowNonPartialTests.cs" />
+    <Compile Remove="DoNotUseDefaultAnalyzerTests.cs" />
+    <Compile Remove="DoNotUseConstructorTests.cs" />
+    <Compile Remove="ToStringOverrrideTests.cs" />
+    <Compile Remove="GlobalConfig\HappyTests.cs" />
+    <Compile Remove="GlobalConfig\SadTests.cs" />
+    <Compile Remove="LocalConfig\HappyTests.cs" />
+    <Compile Remove="LocalConfig\SadTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="GlobalConfig\" />
+    <Folder Include="LocalConfig\" />
+  </ItemGroup>
 </Project>
 
 

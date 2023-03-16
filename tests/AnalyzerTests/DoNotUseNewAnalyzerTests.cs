@@ -11,21 +11,6 @@ namespace AnalyzerTests
 {
     public class DoNotUseNewAnalyzerTests
     {
-        private class Types : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                yield return new[] {"partial class"};
-                yield return new[] {"partial struct"};
-                yield return new[] {"readonly partial struct"};
-                yield return new[] {"partial record class"};
-                yield return new[] {"partial record struct"};
-                yield return new[] {"readonly partial record struct"};
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        }
-
         //No diagnostics expected to show up
         [Fact]
         public async Task NoDiagnosticsForEmptyCode()
@@ -34,15 +19,34 @@ namespace AnalyzerTests
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
 
-        [Theory]
-        [ClassData(typeof(Types))]
-        public async Task Disallow_new_for_creating_value_objects(string type)
+        [Fact]
+        public async Task Allow_new_for_newing_up_inside_of_type_itself()
+        {
+            var source = @"using Intellenum;
+namespace Whatever;
+
+[Intellenum(typeof(int))]
+public partial class Condiments 
+{
+    // just for the test - it's generated in real life
+    public Condiments(string name, int value) { }
+    
+    public static readonly Condiments Salt = new Condiments(""Salt"", 1); 
+}
+";
+            await Run(
+                source,
+                Enumerable.Empty<DiagnosticResult>());
+        }
+
+        [Fact]
+        public async Task Disallow_new_for_newing_up_outside_of_type_itself()
         {
             var source = $@"using Intellenum;
 namespace Whatever;
 
 [Intellenum(typeof(int))]
-public {type} MyVo {{ }}
+public partial class MyVo {{ }}
 
 public class Test {{
     public Test() {{
@@ -56,16 +60,15 @@ public class Test {{
                 WithDiagnostics("VOG010", DiagnosticSeverity.Error, "MyVo", 0, 1));
         }
 
-        [Theory]
-        [ClassData(typeof(Types))]
-        public async Task Disallow_new_for_method_return_type(string type)
+        [Fact]
+        public async Task Disallow_new_for_method_return_type()
         {
             var source = $@"
 using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public {type} MyVo {{ }}
+public partial class MyVo {{ }}
 
 public class Test {{
     public MyVo Get() => {{|#0:new MyVo()|}};
@@ -78,16 +81,15 @@ public class Test {{
                 WithDiagnostics("VOG010", DiagnosticSeverity.Error, "MyVo", 0, 1));
         }
 
-        [Theory]
-        [ClassData(typeof(Types))]
-        public async Task Disallow_new_from_local_function(string type)
+        [Fact]
+        public async Task Disallow_new_from_local_function()
         {
             var source = $@"
 using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public {type} MyVo {{ }}
+public partial class MyVo {{ }}
 
 public class Test {{
     public Test() {{
@@ -102,9 +104,8 @@ public class Test {{
                 WithDiagnostics("VOG010", DiagnosticSeverity.Error, "MyVo", 0, 1));
         }
 
-        [Theory]
-        [ClassData(typeof(Types))]
-        public async Task Disallow_new_from_func(string type)
+        [Fact]
+        public async Task Disallow_new_from_func()
         {
             var source = $@"
 using System;
@@ -113,7 +114,7 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public {type} MyVo {{ }}
+public partial class MyVo {{ }}
 
 public class Test {{
         Func<MyVo> f = () =>  {{|#0:new MyVo()|}};

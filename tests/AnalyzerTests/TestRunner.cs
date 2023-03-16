@@ -83,7 +83,7 @@ namespace AnalyzerTests
             var results = new ProjectBuilder()
                 .WithSource(source)
                 .WithTargetFramework(targetFramework)
-                .GetGeneratedOutput<T>(ignoreInitialCompilationErrors);
+                .GetGeneratedOutput<T>(ignoreInitialCompilationErrors, false);
 
             return results;
         }

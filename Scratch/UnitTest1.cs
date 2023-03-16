@@ -20,9 +20,39 @@ public partial class Condiment
     }
 }
 
+[Intellenum]
+[Instance("Salt", 1)]
+[Instance("Pepper", 2)]
+public partial class CondimentMixedInstances
+{
+    public static readonly CondimentMixedInstances Mayo = new CondimentMixedInstances("Mayo", 5);
+    public static readonly CondimentMixedInstances Ketchup = new CondimentMixedInstances("Ketchup", 6);
+
+    static CondimentMixedInstances()
+    {
+        Instance("Vinegar", 3);
+        Instance("Mustard", 4);
+    }
+}
+
 
 public class ExplicitInstances
 {
+    [Fact]
+    public void MixedInstances()
+    {
+        CondimentMixedInstances c1 = CondimentMixedInstances.Salt;
+        CondimentMixedInstances c2 = CondimentMixedInstances.Pepper;
+
+        (c1 == c2).Should().BeFalse();
+
+        (c1 < c2).Should().BeTrue();
+
+        var f1 = CondimentMixedInstances.FromName("Salt");
+        f1.Should().Be(c1);
+
+    }
+
     [Fact]
     public void General()
     {

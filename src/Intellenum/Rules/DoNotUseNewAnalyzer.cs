@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 using Intellenum.Diagnostics;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
 
@@ -43,9 +44,22 @@ public class DoNotUseNewAnalyzer : DiagnosticAnalyzer
         if (c.Type is not INamedTypeSymbol symbol) return;
 
         if (!VoFilter.IsTarget(symbol)) return;
-        
+        if (IsContainedWithinIntellenumTypeItself(c)) return;
+
         var diagnostic = DiagnosticsCatalogue.BuildDiagnostic(_rule, symbol.Name, context.Operation.Syntax.GetLocation());
 
         context.ReportDiagnostic(diagnostic);
+    }
+
+    private static bool IsContainedWithinIntellenumTypeItself(IObjectCreationOperation c)
+    {
+        SyntaxNode? syntaxNode = c.Syntax;
+        while (syntaxNode is not null)
+        {
+            if (syntaxNode is ClassDeclarationSyntax) break;
+            syntaxNode = syntaxNode.Parent;
+        }
+
+        return syntaxNode is ClassDeclarationSyntax cds && VoFilter.IsTarget(cds);
     }
 }
