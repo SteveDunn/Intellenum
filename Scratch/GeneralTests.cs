@@ -16,7 +16,7 @@ public class GeneralTests
     {
         ECustomerType.Gold.ToString().Should().Be("Gold");    
         CustomerType t1 = CustomerType.Standard;
-        t1.ToString().Should().Be("1");
+        t1.ToString().Should().Be("Standard");
     }
 
     [Fact]
