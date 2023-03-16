@@ -20,6 +20,14 @@ public class GeneralTests
     }
 
     [Fact]
+    public void SwitchTests()
+    {
+        ECustomerType.Gold.ToString().Should().Be("Gold");    
+        CustomerType t1 = CustomerType.Standard;
+        t1.ToString().Should().Be("Standard");
+    }
+
+    [Fact]
     public void General()
     {
         CustomerType t1 = CustomerType.Standard;
