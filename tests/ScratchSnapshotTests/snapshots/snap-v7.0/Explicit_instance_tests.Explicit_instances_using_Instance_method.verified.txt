@@ -116,10 +116,13 @@ public System.Int32 Value
 
         }        
 
-        public static bool IsDefined(System.Int32 value)
+        public static bool IsDefined(System.Int32 value) => value switch
         {
-                return TryFromValue(value, out _);
-        }
+            1 => true,
+2 => true,
+_ => false
+
+        };
 
         public void Deconstruct(out string Name, out System.Int32 Value)
         {

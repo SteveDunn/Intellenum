@@ -35,9 +35,6 @@ public class TryFromNameValueBenchmarks
     {
         bool ret = false;
 
-        // var s = IECustomerType.Gold;
-        // var n = nameof(IECustomerType.Gold);
-
         ret |= EGCustomerTypeExtensions.TryParse("Standard", out _);
         ret |= EGCustomerTypeExtensions.TryParse("Gold", out _);
         ret |= EGCustomerTypeExtensions.TryParse("Diamond", out _);

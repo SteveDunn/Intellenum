@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Intellenum.Generators.Conversions;
@@ -197,10 +198,21 @@ causes Rider's debugger to crash.
         return source;
     }
 
-    public static string GenerateIsDefinedImplementation(VoWorkItem item) =>
-        """
-    return TryFromValue(value, out _);
-""";
+    public static string GenerateIsDefinedSwitchExpressions(VoWorkItem item)
+    {
+        StringBuilder sb = new StringBuilder();
+        
+        foreach (var each in item.InstanceProperties)
+        {
+            var b = InstanceGeneration.TryBuildInstanceValueAsText(each.Name, each.Value, item.UnderlyingType.FullName());
+            if (!b.Success) throw new InvalidOperationException(b.ErrorMessage);
+            sb.AppendLine($"{b.Value} => true,");
+        }
+        
+        sb.AppendLine("_ => false");
+
+        return sb.ToString();
+    }
 
     public static string GenerateFromValueImplementation(VoWorkItem item) =>
         """
@@ -223,9 +235,13 @@ causes Rider's debugger to crash.
 switch (value) 
 {
 """);
-        foreach (var eachInstance in item.InstanceProperties)
+        foreach (var each in item.InstanceProperties)
         {
-            generate(eachInstance.Value, eachInstance.Name);
+            var b = InstanceGeneration.TryBuildInstanceValueAsText(each.Name, each.Value, item.UnderlyingType.FullName());
+            if (!b.Success) throw new InvalidOperationException(b.ErrorMessage);
+
+
+            generate(b.Value, each.Name);
         }
 
         sb.AppendLine("""

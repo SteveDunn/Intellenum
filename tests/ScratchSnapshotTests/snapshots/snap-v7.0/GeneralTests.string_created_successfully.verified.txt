@@ -34,10 +34,10 @@ namespace Whatever
 [global::System.ComponentModel.TypeConverter(typeof(CustomerTypeTypeConverter))]
 
     [global::System.Diagnostics.DebuggerTypeProxyAttribute(typeof(CustomerTypeDebugView))]
-    [global::System.Diagnostics.DebuggerDisplayAttribute("Underlying type: System.Int32, Value = { _value }")]
+    [global::System.Diagnostics.DebuggerDisplayAttribute("Underlying type: System.String, Value = { _value }")]
     public partial class CustomerType : 
         global::System.IEquatable<CustomerType>, 
-        global::System.IEquatable<System.Int32>, 
+        global::System.IEquatable<System.String>, 
         global::System.IComparable, 
         global::System.IComparable<CustomerType> 
     {
@@ -45,12 +45,12 @@ namespace Whatever
         private readonly global::System.Diagnostics.StackTrace _stackTrace = null;
 #endif
         private readonly global::System.Boolean _isInitialized;
-        private readonly System.Int32 _value;
+        private readonly System.String _value;
         
 /// <summary>
-/// Gets the underlying <see cref="System.Int32" /> value if set, otherwise a <see cref="IntellenumValidationException" /> is thrown.
+/// Gets the underlying <see cref="System.String" /> value if set, otherwise a <see cref="IntellenumValidationException" /> is thrown.
 /// </summary>
-public System.Int32 Value
+public System.String Value
         {
             [global::System.Diagnostics.DebuggerStepThroughAttribute]
             get
@@ -73,7 +73,7 @@ public System.Int32 Value
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
-        private CustomerType(string name, System.Int32 value)
+        private CustomerType(string name, System.String value)
         {
             _value = value;
             Name = name;
@@ -87,7 +87,7 @@ public System.Int32 Value
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static CustomerType FromValue(System.Int32 value)
+        public static CustomerType FromValue(System.String value)
         {
                 bool b = TryFromValue(value, out var ret);
     if(b) return ret;
@@ -99,18 +99,18 @@ public System.Int32 Value
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static bool TryFromValue(System.Int32 value, out CustomerType instance)
+        public static bool TryFromValue(System.String value, out CustomerType instance)
         {
             switch (value) 
 {
-    case 1:
-        instance = CustomerType.Standard; 
+    case "n":
+        instance = CustomerType.Normal; 
         return true;
-    case 3:
-        instance = CustomerType.Diamond; 
-        return true;
-    case 2:
+    case "g":
         instance = CustomerType.Gold; 
+        return true;
+    case "d":
+        instance = CustomerType.Diamond; 
         return true;
     default:
         instance = default;
@@ -119,16 +119,16 @@ public System.Int32 Value
 
         }        
 
-        public static bool IsDefined(System.Int32 value) => value switch
+        public static bool IsDefined(System.String value) => value switch
         {
-            1 => true,
-3 => true,
-2 => true,
+            "n" => true,
+"g" => true,
+"d" => true,
 _ => false
 
         };
 
-        public void Deconstruct(out string Name, out System.Int32 Value)
+        public void Deconstruct(out string Name, out System.String Value)
         {
             Name = this.Name;
             Value = this.Value;
@@ -155,14 +155,14 @@ _ => false
         {
             switch (name) 
 {
-    case nameof(CustomerType.Standard):
-        instance = CustomerType.Standard; 
-        return true;
-    case nameof(CustomerType.Diamond):
-        instance = CustomerType.Diamond; 
+    case nameof(CustomerType.Normal):
+        instance = CustomerType.Normal; 
         return true;
     case nameof(CustomerType.Gold):
         instance = CustomerType.Gold; 
+        return true;
+    case nameof(CustomerType.Diamond):
+        instance = CustomerType.Diamond; 
         return true;
     default:
         instance = default;
@@ -182,9 +182,13 @@ _ => false
         /// </summary>
         /// <param name="value">The underlying type.</param>
         /// <returns>An instance of this type.</returns>
-        private static CustomerType From(string name, System.Int32 value)
+        private static CustomerType From(string name, System.String value)
         {
-            
+                        if (value is null)
+            {
+                throw new global::System.InvalidOperationException("Cannot create a value object with null.");
+            }
+
 
             CustomerType instance = new CustomerType(name, value);
 
@@ -193,19 +197,23 @@ _ => false
 
         // placeholder method used by the source generator
         // to generate physical instances (e.g. public static readonly MyEnum Item1 = new...)
-        private static void Instance(string name, System.Int32 value)
+        private static void Instance(string name, System.String value)
         {
         }
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static CustomerType Deserialize(System.Int32 value)
+        private static CustomerType Deserialize(System.String value)
         {
-            
+                        if (value is null)
+            {
+                throw new global::System.InvalidOperationException("Cannot create a value object with null.");
+            }
 
-                    if(value == Standard.Value) return Standard;
-        if(value == Diamond.Value) return Diamond;
+
+                    if(value == Normal.Value) return Normal;
         if(value == Gold.Value) return Gold;
+        if(value == Diamond.Value) return Diamond;
 
 
             return FromValue(value);
@@ -227,10 +235,10 @@ _ => false
                 return true;
             }
 
-            return GetType() == other.GetType() && global::System.Collections.Generic.EqualityComparer<System.Int32>.Default.Equals(Value, other.Value);
+            return GetType() == other.GetType() && global::System.Collections.Generic.EqualityComparer<System.String>.Default.Equals(Value, other.Value);
         }
 
-        public global::System.Boolean Equals(System.Int32 primitive) => Value.Equals(primitive);
+        public global::System.Boolean Equals(System.String primitive) => Value.Equals(primitive);
 
         public override global::System.Boolean Equals(global::System.Object obj)
         {
@@ -255,19 +263,19 @@ _ => false
         public static global::System.Boolean operator ==(CustomerType left, CustomerType right) => Equals(left, right);
         public static global::System.Boolean operator !=(CustomerType left, CustomerType right) => !Equals(left, right);
 
-        public static global::System.Boolean operator ==(CustomerType left, System.Int32 right) => Equals(left.Value, right);
-        public static global::System.Boolean operator !=(CustomerType left, System.Int32 right) => !Equals(left.Value, right);
+        public static global::System.Boolean operator ==(CustomerType left, System.String right) => Equals(left.Value, right);
+        public static global::System.Boolean operator !=(CustomerType left, System.String right) => !Equals(left.Value, right);
 
-        public static global::System.Boolean operator ==(System.Int32 left, CustomerType right) => Equals(left, right.Value);
-        public static global::System.Boolean operator !=(System.Int32 left, CustomerType right) => !Equals(left, right.Value);
+        public static global::System.Boolean operator ==(System.String left, CustomerType right) => Equals(left, right.Value);
+        public static global::System.Boolean operator !=(System.String left, CustomerType right) => !Equals(left, right.Value);
         
         public static global::System.Boolean operator <(CustomerType left, CustomerType right) => left.CompareTo(right) < 0;
         public static global::System.Boolean operator <=(CustomerType left, CustomerType right) => left.CompareTo(right) <= 0;
         public static global::System.Boolean operator >(CustomerType left, CustomerType right) => left.CompareTo(right) > 0;
         public static global::System.Boolean operator >=(CustomerType left, CustomerType right) => left.CompareTo(right) >= 0;
 
-        public static explicit operator CustomerType(System.Int32 value) => FromValue(value);
-        public static implicit operator System.Int32(CustomerType value) => value.Value;
+        public static explicit operator CustomerType(System.String value) => FromValue(value);
+        public static implicit operator System.String(CustomerType value) => value.Value;
 
         public int CompareTo(CustomerType other) => Value.CompareTo(other.Value);
         public int CompareTo(object other) {
@@ -283,7 +291,7 @@ _ => false
                 global::System.Int32 hash = (global::System.Int32) 2166136261;
                 hash = (hash * 16777619) ^ Value.GetHashCode();
                 hash = (hash * 16777619) ^ GetType().GetHashCode();
-                hash = (hash * 16777619) ^ global::System.Collections.Generic.EqualityComparer<System.Int32>.Default.GetHashCode();
+                hash = (hash * 16777619) ^ global::System.Collections.Generic.EqualityComparer<System.String>.Default.GetHashCode();
                 return hash;
             }
         }
@@ -307,18 +315,22 @@ _ => false
         
 // instance...
 
-public static readonly CustomerType Standard = new CustomerType("Standard",1);
+public static readonly CustomerType Normal = new CustomerType("Normal","n");
 
 // instance...
 
-public static readonly CustomerType Diamond = new CustomerType("Diamond",3);
+public static readonly CustomerType Gold = new CustomerType("Gold","g");
+
+// instance...
+
+public static readonly CustomerType Diamond = new CustomerType("Diamond","d");
 
         
         public static global::System.Collections.Generic.IEnumerable<CustomerType> List()
         {
-            yield return Standard;
-yield return Diamond;
+            yield return Normal;
 yield return Gold;
+yield return Diamond;
 
         }        
 
@@ -330,12 +342,12 @@ yield return Gold;
         {
             public override CustomerType Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return CustomerType.Deserialize(reader.GetInt32());
+                return CustomerType.Deserialize(reader.GetString());
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, CustomerType value, global::System.Text.Json.JsonSerializerOptions options)
             {
-                writer.WriteNumberValue(value.Value);
+                writer.WriteStringValue(value.Value);
             }
         }
 
@@ -344,36 +356,32 @@ yield return Gold;
         {
             public override global::System.Boolean CanConvertFrom(global::System.ComponentModel.ITypeDescriptorContext context, global::System.Type sourceType)
             {
-                return sourceType == typeof(global::System.Int32) || sourceType == typeof(global::System.String) || base.CanConvertFrom(context, sourceType);
+                return sourceType == typeof(global::System.String) || base.CanConvertFrom(context, sourceType);
             }
 
             public override global::System.Object ConvertFrom(global::System.ComponentModel.ITypeDescriptorContext context, global::System.Globalization.CultureInfo culture, global::System.Object value)
             {
-                return value switch
+                var stringValue = value as global::System.String;
+                if (stringValue is not null)
                 {
-                    global::System.Int32 intValue => CustomerType.Deserialize(intValue),
-                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.Int32.TryParse(stringValue, out var result) => CustomerType.Deserialize(result),
-                    _ => base.ConvertFrom(context, culture, value),
-                };
+                    return CustomerType.Deserialize(stringValue);
+                }
+
+                return base.ConvertFrom(context, culture, value);
             }
 
             public override bool CanConvertTo(global::System.ComponentModel.ITypeDescriptorContext context, global::System.Type sourceType)
             {
-                return sourceType == typeof(global::System.Int32) || sourceType == typeof(global::System.String) || base.CanConvertTo(context, sourceType);
+                return sourceType == typeof(global::System.String) || base.CanConvertTo(context, sourceType);
             }
 
             public override object ConvertTo(global::System.ComponentModel.ITypeDescriptorContext context, global::System.Globalization.CultureInfo culture, global::System.Object value, global::System.Type destinationType)
             {
                 if (value is CustomerType idValue)
                 {
-                    if (destinationType == typeof(global::System.Int32))
-                    {
-                        return idValue.Value;
-                    }
-
                     if (destinationType == typeof(global::System.String))
                     {
-                        return idValue.Value.ToString();
+                        return idValue.Value;
                     }
                 }
 
@@ -394,8 +402,8 @@ yield return Gold;
                 _t = t;
             }
 
-            public global::System.String UnderlyingType => "System.Int32";
-            public System.Int32 Value => _t.Value ;
+            public global::System.String UnderlyingType => "System.String";
+            public System.String Value => _t.Value ;
 
             public global::System.String Conversions => @"[global::System.Text.Json.Serialization.JsonConverter(typeof(CustomerTypeSystemTextJsonConverter))]
 [global::System.ComponentModel.TypeConverter(typeof(CustomerTypeTypeConverter))]

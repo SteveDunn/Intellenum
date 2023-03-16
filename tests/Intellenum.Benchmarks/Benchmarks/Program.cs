@@ -16,6 +16,9 @@ Console.WriteLine(SmartStringString.Standard < SmartStringString.Gold);
 
 Console.WriteLine(IECustomerType.Standard < IECustomerType.Gold);
 
+
+EGCustomerTypeExtensions.IsDefined((EGCustomerType) 666);
+
 BenchmarkRunner.Run(new[]
 {
     typeof(TryFromNameValueBenchmarks),

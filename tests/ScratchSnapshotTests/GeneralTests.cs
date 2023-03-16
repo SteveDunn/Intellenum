@@ -8,7 +8,7 @@ namespace ScratchSnapshotTests
     public class GeneralTests
     {
         [Fact]
-        public Task Partial_partial_class_created_successfully()
+        public Task int_created_successfully()
         {
             var source = """
     using Intellenum;
@@ -18,6 +18,25 @@ namespace ScratchSnapshotTests
     [Instance("Normal", 0)]
     [Instance("Gold", 1)]
     [Instance("Diamond", 2)]
+    public partial class CustomerType
+    {
+    }
+    """;
+
+            return RunTest(source);
+        }
+
+        [Fact]
+        public Task string_created_successfully()
+        {
+            var source = """
+    using Intellenum;
+    namespace Whatever;
+
+    [Intellenum<string>]
+    [Instance("Normal", "n")]
+    [Instance("Gold", "g")]
+    [Instance("Diamond", "d")]
     public partial class CustomerType
     {
     }

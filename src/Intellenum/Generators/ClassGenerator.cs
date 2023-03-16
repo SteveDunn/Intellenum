@@ -85,10 +85,10 @@ public {itemUnderlyingType} Value
             {Util.GenerateTryFromValueImplementation(item)}
         }}        
 
-        public static bool IsDefined({itemUnderlyingType} value)
+        public static bool IsDefined({itemUnderlyingType} value) => value switch
         {{
-            {Util.GenerateIsDefinedImplementation(item)}
-        }}
+            {Util.GenerateIsDefinedSwitchExpressions(item)}
+        }};
 
         public void Deconstruct(out string Name, out {itemUnderlyingType} Value)
         {{
