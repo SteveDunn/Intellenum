@@ -160,17 +160,44 @@ public partial class CustomerType
 
 ## How fast is it?
 
-Very fast! Here's a comparison of various libraries (and the default `enum` in C#) for finding if a value exists:
+Very fast! Here's some comparisons of various libraries (and the default `enum` in C#) 
+
+### `IsDefined`
+... or `TryFromValue`
 
 | Method          | Mean          | Error       | StdDev      | Median       | Gen0   | Allocated |
 |-----------------|---------------|-------------|-------------|--------------|--------|-----------|
 | StandardEnums   | 107.4646 ns   | 1.1617 ns   | 1.0867 ns   | 107.3232 ns  | 0.0057 | 96 B      |
 | EnumGenerators  | 0.0113 ns     | 0.0108 ns   | 0.0101 ns   | 0.0095 ns    | -      | -         |
 | SmartEnums      | 13.1542 ns    | 0.0863 ns   | 0.0720 ns   | 13.1441 ns   | -      | -         |
-| **Intellenums** | **0.0022 ns** | 0.0031 ns   | 0.0027 ns   | 0.0010 ns    | -      | -         |
+| **Intellenums** | **0.0022 ns** | **0.0031 ns**   | **0.0027 ns**   | **0.0010 ns**    | **-**      | **-**         |
 
+### `ToString()`
 
+| Method          | Mean          | Error       | StdDev      | Gen0   | Allocated  |
+|-----------------|---------------|-------------|-------------|--------|------------|
+| StandardEnums   | 11.9803 ns    | 0.0961 ns   | 0.0852 ns   | 0.0014 | 24 B       |
+| EnumGenerators  | 1.5292 ns     | 0.0230 ns   | 0.0215 ns   | -      | -          |
+| SmartEnums      | 0.8921 ns     | 0.0109 ns   | 0.0096 ns   | -      | -          |
+| **Intellenums** | **0.8934 ns** | **0.0193 ns**   | **0.0180 ns**   | **-**      | **-**          |
 
+### `FromName()`
+
+| Method         | Mean        | Error      | StdDev     | Allocated |
+|----------------|------------|------------|------------|-----------|
+| StandardEnums  | 123.937 ns | 0.5615 ns  | 0.4977 ns  | -         |
+| EnumGenerators | 9.067 ns   | 0.0523 ns  | 0.0489 ns  | -         |
+| SmartEnums     | 30.719 ns  | 0.4043 ns  | 0.3782 ns  | -         |
+| **Intellenums**    | **11.460 ns** | **0.2545 ns** | **0.2380 ns** | **-**         |
+
+### `Value`
+_note that EnumGenerators isn't here as we use the standard C# enum to get its value_
+
+| Method         | Mean       | Error      | StdDev     | Allocated |
+|----------------|-----------|------------|------------|-----------|
+| StandardEnums  | 0.0000 ns | 0.0000 ns  | 0.0000 ns  | -         |
+| SmartEnums     | 0.3225 ns | 0.0082 ns  | 0.0076 ns  | -         |
+| **Intellenums**   | **0.1295 ns** | **0.0129 ns** | **0.0121 ns** | **-**         |
 
 
 > NOTE: Intellenum is in pre-release at the moment, so probably isn't production ready and the API might (and probably will change).

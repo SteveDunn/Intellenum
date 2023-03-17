@@ -55,7 +55,7 @@ public System.Int32 Value
             [global::System.Diagnostics.DebuggerStepThroughAttribute]
             get
             {
-                EnsureInitialized();
+                // EnsureInitialized();
                 return _value;
             }
         }

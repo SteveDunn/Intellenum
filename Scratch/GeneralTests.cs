@@ -20,11 +20,12 @@ public class GeneralTests
     }
 
     [Fact]
-    public void SwitchTests()
+    public void ValueTests()
     {
-        ECustomerType.Gold.ToString().Should().Be("Gold");    
         CustomerType t1 = CustomerType.Standard;
-        t1.ToString().Should().Be("Standard");
+        CustomerType t2 = CustomerType.Gold;
+        t1.Value.Should().Be(1);
+        t2.Value.Should().Be(2);
     }
 
     [Fact]

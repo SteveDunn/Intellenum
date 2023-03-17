@@ -55,7 +55,7 @@ public System.String Value
             [global::System.Diagnostics.DebuggerStepThroughAttribute]
             get
             {
-                EnsureInitialized();
+                // EnsureInitialized();
                 return _value;
             }
         }

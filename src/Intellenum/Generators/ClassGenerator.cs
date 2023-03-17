@@ -38,7 +38,7 @@ public {itemUnderlyingType} Value
             [global::System.Diagnostics.DebuggerStepThroughAttribute]
             get
             {{
-                EnsureInitialized();
+                // EnsureInitialized();
                 return _value;
             }}
         }}
