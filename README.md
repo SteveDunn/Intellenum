@@ -192,12 +192,16 @@ Very fast! Here's some comparisons of various libraries (and the default `enum` 
 
 ### `Value`
 _note that EnumGenerators isn't here as we use the standard C# enum to get its value_
-
 | Method         | Mean       | Error      | StdDev     | Allocated |
 |----------------|-----------|------------|------------|-----------|
-| StandardEnums  | 0.0000 ns | 0.0000 ns  | 0.0000 ns  | -         |
-| SmartEnums     | 0.3225 ns | 0.0082 ns  | 0.0076 ns  | -         |
-| **Intellenums**   | **0.1295 ns** | **0.0129 ns** | **0.0121 ns** | **-**         |
+| StandardEnums  | 0.0092 ns | 0.0082 ns  | 0.0077 ns  | -         |
+| SmartEnums     | 0.3246 ns | 0.0082 ns  | 0.0069 ns  | -         |
+| **Intellenums**   | **0.3198 ns** | **0.0103 ns** | **0.0096 ns** | **-**         |
+
+Note that Intellenums also has a `ValueCheck` property which throws if the
+value hasn't been initialised. This takes twice as long. This isn't usually a problem
+but if you're in a very tight loop and you're sure everything is initialized, then use
+`Value` instead
 
 
 > NOTE: Intellenum is in pre-release at the moment, so probably isn't production ready and the API might (and probably will change).

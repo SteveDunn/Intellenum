@@ -30,18 +30,45 @@ using Intellenum;
         private readonly global::System.Boolean _isInitialized;
         private readonly {itemUnderlyingType} _value;
         
-/// <summary>
-/// Gets the underlying <see cref=""{itemUnderlyingType}"" /> value if set, otherwise a <see cref=""{nameof(IntellenumValidationException)}"" /> is thrown.
-/// </summary>
-public {itemUnderlyingType} Value
+        /// <summary>
+        /// Gets the underlying <see cref=""{itemUnderlyingType}"" /> value if set, otherwise a <see cref=""{nameof(IntellenumValidationException)}"" /> is thrown.
+        /// </summary>
+        public {itemUnderlyingType} ValueChecked
         {{
+            [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
             [global::System.Diagnostics.DebuggerStepThroughAttribute]
             get
             {{
-                // EnsureInitialized();
+                if(!_isInitialized) Throw();
                 return _value;
             }}
         }}
+
+        /// <summary>
+        /// Gets the underlying <see cref=""{itemUnderlyingType}"" /> value if set, otherwise default
+        /// </summary>
+        public {itemUnderlyingType} Value
+        {{
+            [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+            [global::System.Diagnostics.DebuggerStepThroughAttribute]
+            get
+            {{
+                return _value;
+            }}
+        }}
+
+private void Throw()
+{{
+#if DEBUG
+                global::System.String message = ""Use of uninitialized Value Object at: "" + _stackTrace ?? """";
+#else
+                global::System.String message = ""Use of uninitialized Value Object."";
+#endif
+
+                // todo: remove this
+                throw new global::System.InvalidOperationException(message);
+
+}}
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
