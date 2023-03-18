@@ -46,7 +46,7 @@ namespace Intellenum.Rules
                 diagnostic);
         }
 
-        private async Task<Document> GenerateValidationMethodAsync(Document document,
+        private static async Task<Document> GenerateValidationMethodAsync(Document document,
             ImmutableArray<Diagnostic> contextDiagnostics,
             TypeDeclarationSyntax typeDecl,
             CancellationToken cancellationToken)

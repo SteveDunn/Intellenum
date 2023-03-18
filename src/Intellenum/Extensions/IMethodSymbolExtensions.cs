@@ -9,6 +9,9 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+// ReSharper disable UnusedMember.Local
+// ReSharper disable PossibleNullReferenceException
+// ReSharper disable AssignNullToNotNullAttribute
 #if HAS_IOPERATION
 using System.Threading;
 using Microsoft.CodeAnalysis.Operations;

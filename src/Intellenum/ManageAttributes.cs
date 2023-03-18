@@ -6,6 +6,7 @@ using Intellenum.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+// ReSharper disable NullableWarningSuppressionIsUsed
 
 namespace Intellenum;
 
@@ -59,7 +60,6 @@ internal static class ManageAttributes
     {
         IntellenumConfigurationBuildResult buildResult = new IntellenumConfigurationBuildResult();
 
-        INamedTypeSymbol? invalidExceptionType = null;
         INamedTypeSymbol? underlyingType = null;
         Conversions conversions = Conversions.Default;
         Customizations customizations = Customizations.None;
@@ -67,7 +67,9 @@ internal static class ManageAttributes
 
         bool hasErroredAttributes = false;
 
-        var isBaseGenericType = matchingAttribute.AttributeClass!.BaseType!.IsGenericType;
+        INamedTypeSymbol attrClass = matchingAttribute.AttributeClass ?? throw new InvalidOperationException("Expected an attribute class");
+        
+        var isBaseGenericType = attrClass.BaseType!.IsGenericType;
         if (!matchingAttribute.ConstructorArguments.IsEmpty || isBaseGenericType)
         {
             // make sure we don't have any errors
@@ -82,7 +84,7 @@ internal static class ManageAttributes
             }
 
             // find which constructor to use, it could be the generic attribute (> C# 11), or the non-generic.
-            if (matchingAttribute.AttributeClass!.IsGenericType || isBaseGenericType)
+            if (attrClass.IsGenericType || isBaseGenericType)
             {
                 PopulateFromGenericAttribute(matchingAttribute, args);
             }
@@ -109,7 +111,6 @@ internal static class ManageAttributes
                             underlyingType = (INamedTypeSymbol?) typedConstant.Value!;
                             break;
                         case "invalidExceptionType":
-                            invalidExceptionType = (INamedTypeSymbol?) typedConstant.Value!;
                             break;
                         case "conversions":
                             conversions = (Conversions) (typedConstant.Value ?? Conversions.Default);
@@ -227,32 +228,6 @@ internal static class ManageAttributes
                     break;
             }
         }
-    }
-
-    private static void BuildAnyIssuesWithTheException(
-        INamedTypeSymbol? invalidExceptionType, 
-        IntellenumConfigurationBuildResult buildResult)
-    {
-        if (invalidExceptionType == null)
-        {
-            return;
-        }
-
-        if (!invalidExceptionType.ImplementsInterfaceOrBaseClass(typeof(Exception)))
-        {
-            buildResult.AddDiagnostic(DiagnosticsCatalogue.CustomExceptionMustDeriveFromException(invalidExceptionType));
-        }
-
-        var allConstructors = invalidExceptionType.Constructors.Where(c => c.DeclaredAccessibility == Accessibility.Public);
-
-        var singleParameterConstructors = allConstructors.Where(c => c.Parameters.Length == 1);
-
-        if (singleParameterConstructors.Any(c => c.Parameters.Single().Type.Name == "String"))
-        {
-            return;
-        }
-
-        buildResult.AddDiagnostic(DiagnosticsCatalogue.CustomExceptionMustHaveValidConstructor(invalidExceptionType));
     }
 
     /// <summary>
