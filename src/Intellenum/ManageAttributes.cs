@@ -171,26 +171,20 @@ internal static class ManageAttributes
                 : attributeData.AttributeClass!.TypeArguments[0] as INamedTypeSymbol;
             switch (args.Length)
             {
-                case 4:
-                    if (args[3].Value != null)
-                    {
-                        debuggerAttributes = (DebuggerAttributeGeneration) args[4].Value!;
-                    }
-
-                    goto case 3;
                 case 3:
                     if (args[2].Value != null)
                     {
-                        customizations = (Customizations) args[2].Value!;
+                        debuggerAttributes = (DebuggerAttributeGeneration) args[2].Value!;
                     }
 
                     goto case 2;
                 case 2:
-                    invalidExceptionType = (INamedTypeSymbol?) args[1].Value;
+                    if (args[1].Value != null)
+                    {
+                        customizations = (Customizations) args[1].Value!;
+                    }
 
-                    BuildAnyIssuesWithTheException(invalidExceptionType, buildResult);
                     goto case 1;
-
                 case 1:
                     if (args[0].Value != null)
                     {
@@ -207,26 +201,20 @@ internal static class ManageAttributes
         {
             switch (args.Length)
             {
-                case 5:
-                    if (args[4].Value != null)
-                    {
-                        debuggerAttributes = (DebuggerAttributeGeneration) args[5].Value!;
-                    }
-
-                    goto case 4;
                 case 4:
                     if (args[3].Value != null)
                     {
-                        customizations = (Customizations) args[3].Value!;
+                        debuggerAttributes = (DebuggerAttributeGeneration) args[3].Value!;
                     }
 
                     goto case 3;
                 case 3:
-                    invalidExceptionType = (INamedTypeSymbol?) args[2].Value;
+                    if (args[2].Value != null)
+                    {
+                        customizations = (Customizations) args[2].Value!;
+                    }
 
-                    BuildAnyIssuesWithTheException(invalidExceptionType, buildResult);
                     goto case 2;
-
                 case 2:
                     if (args[1].Value != null)
                     {

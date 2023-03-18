@@ -88,52 +88,6 @@ public partial class CustomerType
     }
     
     [SkippableFact]
-    public Task Validation_with_PascalCased_validate_method()
-    {
-        return RunTest(@"using Intellenum;
-
-namespace Whatever;
-
-[Intellenum<int>]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
-public partial class CustomerType
-{
-    private static Validation Validate(int value)
-    {
-        if (value > 0)
-            return Validation.Ok;
-
-        return Validation.Invalid(""must be greater than zero"");
-    }
-}
-");
-    }
-
-    [SkippableFact]
-    public Task Validation_with_camelCased_validate_method()
-    {
-        return RunTest(@"using Intellenum;
-
-namespace Whatever;
-
-[Intellenum<int>]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
-public partial class CustomerType
-{
-    private static Validation validate(int value)
-    {
-        if (value > 0)
-            return Validation.Ok;
-
-        return Validation.Invalid(""must be greater than zero"");
-    }
-}
-");
-    }
-
-    [SkippableFact]
     public Task Instance_names_can_have_reserved_keywords()
     {
         return RunTest("""
@@ -146,13 +100,6 @@ public partial class CustomerType
             [Instance(name: "@event", value: 69)]
             public partial class CustomerType
             {
-                private static Validation validate(int value)
-                {
-                    if (value > 0)
-                        return Validation.Ok;
-
-                    return Validation.Invalid("must be greater than zero");
-                }
             }
 
             """);
@@ -171,13 +118,6 @@ namespace @double;
 [Instance(name: ""@void"", value: 666)]
 public partial class @class
 {
-    private static Validation validate(int value)
-    {
-        if (value > 0)
-            return Validation.Ok;
-
-        return Validation.Invalid(""must be greater than zero"");
-    }
 }
 ");
     }

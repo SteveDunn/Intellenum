@@ -1,5 +1,8 @@
 ﻿// ReSharper disable UnusedParameter.Local
 
+// Note that these attributes are just placeholders for the source generator. Nothing
+// is actually stored in fields, they're just read at compile time.
+
 using System;
 
 namespace Intellenum
@@ -17,9 +20,8 @@ namespace Intellenum
         // using parameter indexes (i.e. it expected param 0 to be the underlying type etc.
         public IntellenumAttribute(
             Conversions conversions = Conversions.Default,
-            Type? throws = null!,
             DebuggerAttributeGeneration debuggerAttributes = DebuggerAttributeGeneration.Default)
-            : base(typeof(T), conversions, throws, debuggerAttributes)
+            : base(typeof(T), conversions, debuggerAttributes)
         {
         }
     }
@@ -38,28 +40,8 @@ namespace Intellenum
         public IntellenumAttribute(
             Type? underlyingType = null!,
             Conversions conversions = Conversions.Default,
-            Type? throws = null!,
             DebuggerAttributeGeneration debuggerAttributes = DebuggerAttributeGeneration.Default)
         {
-            // UnderlyingType = underlyingType;
-            // Conversions = conversions;
-            // ValidationExceptionType = throws;
-            // Customizations = customizations;
-            // DeserializationStrictness = deserializationStrictness;
-            // OmitDebugAttributes = omitDebugAttributes;
         }
-
-        // public Type? UnderlyingType { get; }
-        //
-        // public Type? ValidationExceptionType { get; }
-        //
-        // public Conversions Conversions { get; }
-        //
-        // public Customizations Customizations { get; }
-        //
-        // public DeserializationStrictness DeserializationStrictness { get; } =
-        //     DeserializationStrictness.AllowValidAndKnownInstances;
-        //
-        // public bool OmitDebugAttributes { get; }
     }
 }

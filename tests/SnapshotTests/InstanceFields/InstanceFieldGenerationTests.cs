@@ -39,15 +39,8 @@ namespace Whatever;
 [Intellenum]
 [Instance(name: ""@class"", value: 42)]
 [Instance(name: ""@event"", value: 69)]
-public partial struct CSharpSymbol
+public partial class CSharpSymbol
 {
-    private static Validation validate(int value)
-    {
-        if (value > 0)
-            return Validation.Ok;
-
-        return Validation.Invalid(""must be greater than zero"");
-    }
 }
 ";
 

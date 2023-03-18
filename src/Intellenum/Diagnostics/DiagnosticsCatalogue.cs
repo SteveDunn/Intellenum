@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Intellenum.Diagnostics;
 
@@ -58,31 +57,6 @@ internal static class DiagnosticsCatalogue
         "Invalid underlying type",
         "Type '{0}' has the same underlying type - must specify a primitive underlying type");
 
-    private static readonly DiagnosticDescriptor _validationMustReturnValidationType = CreateDescriptor(
-        RuleIdentifiers.ValidationMustReturnValidationType,
-        "Validation returns incorrect type",
-        "{0} must return a Validation type");
-
-    private static readonly DiagnosticDescriptor _normalizeInputMethodMustReturnSameUnderlyingType = CreateDescriptor(
-        RuleIdentifiers.NormalizeInputMethodMustReturnSameUnderlyingType,
-        "NormalizeInput returns incorrect type",
-        "{0} must return the same underlying type");
-    
-    private static readonly DiagnosticDescriptor _normalizeInputMethodTakeOneParameterOfUnderlyingType = CreateDescriptor(
-        RuleIdentifiers.NormalizeInputMethodTakeOneParameterOfUnderlyingType,
-        "NormalizeInput accepts wrong type",
-        "{0} must accept one parameter of the same type as the underlying type");
-
-    private static readonly DiagnosticDescriptor _validationMustBeStatic = CreateDescriptor(
-        RuleIdentifiers.ValidationMustBeStatic,
-        "Validation must be static",
-        "{0} must be static");
-
-    private static readonly DiagnosticDescriptor _normalizeInputMethodMustBeStatic = CreateDescriptor(
-        RuleIdentifiers.NormalizeInputMethodMustBeStatic,
-        "NormalizeInput must be static",
-        "{0} must be static");
-
     private static readonly DiagnosticDescriptor _instanceMethodCannotHaveNullArgumentName = CreateDescriptor(
         RuleIdentifiers.InstanceMethodCannotHaveNullArgumentName,
         "Instance attribute cannot have null name",
@@ -118,21 +92,6 @@ internal static class DiagnosticsCatalogue
 
     public static Diagnostic TypeCannotBeAbstract(INamedTypeSymbol typeModel) => 
         Create(_typeCannotBeAbstract, typeModel.Locations, typeModel.Name);
-
-    public static Diagnostic ValidationMustReturnValidationType(MethodDeclarationSyntax member) => 
-        Create(_validationMustReturnValidationType, member.GetLocation(), member.Identifier);
-
-    public static Diagnostic NormalizeInputMethodMustReturnUnderlyingType(MethodDeclarationSyntax member) => 
-        Create(_normalizeInputMethodMustReturnSameUnderlyingType, member.GetLocation(), member.Identifier);
-
-    public static Diagnostic NormalizeInputMethodTakeOneParameterOfUnderlyingType(MethodDeclarationSyntax member) => 
-        Create(_normalizeInputMethodTakeOneParameterOfUnderlyingType, member.GetLocation(), member.Identifier);
-
-    public static Diagnostic ValidationMustBeStatic(MethodDeclarationSyntax member) => 
-        Create(_validationMustBeStatic, member.GetLocation(), member.Identifier);
-
-    public static Diagnostic NormalizeInputMethodMustBeStatic(MethodDeclarationSyntax member) => 
-        Create(_normalizeInputMethodMustBeStatic, member.GetLocation(), member.Identifier);
 
     public static Diagnostic RecordToStringOverloadShouldBeSealed(Location location, string voClassName) => 
         BuildDiagnostic(_recordToStringOverloadShouldBeSealed, voClassName, location);
@@ -184,9 +143,6 @@ internal static class DiagnosticsCatalogue
 
     public static Diagnostic BuildDiagnostic(DiagnosticDescriptor descriptor, string name, Location location) => 
         Diagnostic.Create(descriptor, location, name);
-
-    public static Diagnostic BuildDiagnostic(DiagnosticDescriptor descriptor, string name) => 
-        Diagnostic.Create(descriptor, null, name);
 
     private static Diagnostic Create(DiagnosticDescriptor descriptor, IEnumerable<Location> locations, params object?[] args)
     {

@@ -42,7 +42,6 @@ public partial class CustomerType
 {
 }");
 
-
         [Fact]
         public Task Produces_instances() =>
             RunTest(@"using Intellenum;
@@ -61,28 +60,6 @@ public partial class CustomerType
 ");
 
         [Fact]
-        public Task Validation_with_PascalCased_validate_method() =>
-            RunTest(@"using Intellenum;
-
-namespace Whatever;
-
-[Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
-[Instance(""Diamond"", 2)]
-public partial class CustomerType
-{
-    private static Validation Validate(int value)
-    {
-        if (value > 0)
-            return Validation.Ok;
-
-        return Validation.Invalid(""must be greater than zero"");
-    }
-}
-");
-
-        [Fact]
         public Task Namespace_names_can_have_reserved_keywords() =>
             RunTest(@"using Intellenum;
 
@@ -95,13 +72,6 @@ namespace @double;
 [Instance(name: ""@void"", value: 666)]
 public partial class @class
 {
-    private static Validation validate(int value)
-    {
-        if (value > 0)
-            return Validation.Ok;
-
-        return Validation.Invalid(""must be greater than zero"");
-    }
 }
 ");
     }

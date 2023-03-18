@@ -65,8 +65,7 @@ private void Throw()
                 global::System.String message = ""Use of uninitialized Value Object."";
 #endif
 
-                // todo: remove this
-                throw new global::System.InvalidOperationException(message);
+                throw new {nameof(IntellenumValidationException)}(message);
 
 }}
 
