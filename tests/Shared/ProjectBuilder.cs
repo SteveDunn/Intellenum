@@ -135,7 +135,7 @@ namespace Shared
 
         private static Task<string[]> GetNuGetReferences(string packageName, string version, string path)
         {
-            var task = _cache.GetOrAdd(packageName + '@' + version + ':' + path, key =>
+            var task = _cache.GetOrAdd(packageName + '@' + version + ':' + path, _ =>
             {
                 return new Lazy<Task<string[]>>(Download);
             });

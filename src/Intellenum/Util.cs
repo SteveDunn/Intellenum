@@ -92,7 +92,7 @@ public static class Util
         return sb.ToString();
     }
 
-    public static string GenerateAnyConversionAttributesForDebuggerProxy(TypeDeclarationSyntax tds, VoWorkItem item) => item.Conversions.ToString();
+    public static string GenerateAnyConversionAttributesForDebuggerProxy(VoWorkItem item) => item.Conversions.ToString();
 
     public static string GenerateAnyConversionBodies(TypeDeclarationSyntax tds, VoWorkItem item)
     {
@@ -124,7 +124,7 @@ public static class Util
             public global::System.String CreatedWith => _t._stackTrace?.ToString() ?? ""the From method"";
             #endif
 
-            public global::System.String Conversions => @""{Util.GenerateAnyConversionAttributesForDebuggerProxy(tds, item)}"";
+            public global::System.String Conversions => @""{Util.GenerateAnyConversionAttributesForDebuggerProxy(item)}"";
                 }}";
 
         return code;

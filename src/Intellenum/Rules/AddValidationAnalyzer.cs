@@ -24,6 +24,7 @@ namespace Intellenum.Rules
             Resources.ResourceManager,
             typeof(Resources));
         
+        // ReSharper disable once InconsistentNaming
         private const string Category = "Usage";
 
         private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
