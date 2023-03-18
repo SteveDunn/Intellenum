@@ -32,10 +32,11 @@ namespace Whatever
 
                 void validate(ImmutableArray<Diagnostic> diagnostics)
                 {
-                    diagnostics.Single().GetMessage().Should().Be(
-                        "MyInstanceTests must have at least 1 instance");
+                    DiagnosticCollection d = new(diagnostics);
 
-                    diagnostics.Single().Id.Should().Be("VOG026");
+                    d.Count.Should().Be(1);
+                    
+                    d.HasError("VOG026", "MyInstanceTests must have at least 1 instance");
                 }
 
                 return Task.CompletedTask;
@@ -61,20 +62,19 @@ namespace Whatever
 
                 new TestRunner<IntellenumGenerator>()
                     .WithSource(source)
-                    .ValidateWith(Validate)
+                    .ValidateWith(validate)
                     .RunOnAllFrameworks();
 
-                void Validate(ImmutableArray<Diagnostic> diagnostics)
+                void validate(ImmutableArray<Diagnostic> diagnostics)
                 {
+                    DiagnosticCollection d = new(diagnostics);
+                    d.Count.Should().Be(2);
 #if NET7_0_OR_GREATER
-            diagnostics.Single().GetMessage().Should().Be(
-                "MyInstanceTests cannot be converted. Instance value named Invalid has an attribute with a 'System.String' of '1.23x' which cannot be converted to the underlying type of 'System.Single' - The input string '1.23x' was not in a correct format.");
+                    d.HasError("VOG023", "MyInstanceTests cannot be converted. Instance value named Invalid has an attribute with a 'System.String' of '1.23x' which cannot be converted to the underlying type of 'System.Single' - The input string '1.23x' was not in a correct format.");
 #else
-                    diagnostics.Single().GetMessage().Should().Be(
-                        "MyInstanceTests cannot be converted. Instance value named Invalid has an attribute with a 'System.String' of '1.23x' which cannot be converted to the underlying type of 'System.Single' - Input string was not in a correct format.");
+                    d.HasError("VOG023", "MyInstanceTests cannot be converted. Instance value named Invalid has an attribute with a 'System.String' of '1.23x' which cannot be converted to the underlying type of 'System.Single' - Input string was not in a correct format.");
 
 #endif
-                    diagnostics.Single().Id.Should().Be("VOG023");
                 }
 
                 return Task.CompletedTask;
@@ -100,11 +100,10 @@ namespace Whatever
 
                 void Validate(ImmutableArray<Diagnostic> diagnostics)
                 {
-                    diagnostics.Should().HaveCount(1);
-                    diagnostics.Single().GetMessage().Should().Contain(
-                        "MyInstanceTests cannot be converted. Instance value named Invalid has an attribute with a 'System.String' of 'x2022-13-99' which cannot be converted to the underlying type of 'System.DateTime'");
-
-                    diagnostics.Single().Id.Should().Be("VOG023");
+                    diagnostics.Should().HaveCount(2);
+                    diagnostics.Should().ContainSingle(d => d.GetMessage(null).StartsWith(
+                        "MyInstanceTests cannot be converted. Instance value named Invalid has an attribute with a 'System.String' of 'x2022-13-99' which cannot be converted to the underlying type of 'System.DateTime'") && d.Id == "VOG023");
+                    diagnostics.Should().ContainSingle(d => d.Id == "VOG023");
                 }
 
                 return Task.CompletedTask;
@@ -130,11 +129,10 @@ namespace Whatever
 
                 void Validate(ImmutableArray<Diagnostic> diagnostics)
                 {
-                    diagnostics.Should().HaveCount(1);
-                    diagnostics.Single().GetMessage().Should().Contain(
-                        "MyInstanceTests cannot be converted. Instance value named Invalid has an attribute with a 'System.String' of 'x2022-13-99' which cannot be converted to the underlying type of 'System.DateTimeOffset'");
-
-                    diagnostics.Single().Id.Should().Be("VOG023");
+                    var d = new DiagnosticCollection(diagnostics);
+                    d.Count.Should().Be(2);
+                    d.HasErrorContaining("MyInstanceTests cannot be converted. Instance value named Invalid has an attribute with a 'System.String' of 'x2022-13-99' which cannot be converted to the underlying type of 'System.DateTimeOffset'");
+                    d.HasId("VOG023");
                 }
 
                 return Task.CompletedTask;

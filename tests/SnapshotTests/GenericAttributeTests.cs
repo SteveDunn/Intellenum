@@ -17,7 +17,7 @@ namespace Whatever;
 [Intellenum<int>]
 [Instance(""Normal"", 0)]
 [Instance(""Gold"", 1)]
-public partial struct CustomerType
+public partial class CustomerType
 {
 }";
 
@@ -37,7 +37,7 @@ public partial struct CustomerType
 [Intellenum<int>]
 [Instance(""Normal"", 0)]
 [Instance(""Gold"", 1)]
-public partial struct CustomerType
+public partial class CustomerType
 {
 }");
 
@@ -55,7 +55,7 @@ namespace Whatever;
 [Instance(name: ""Unspecified2"", value: -3, tripleSlashComment: ""<some_xml>whatever</some_xml"")]
 [Instance(name: ""Unspecified3"", value: -4)]
 [Instance(name: ""Preferred"", value: 42)]
-public partial struct CustomerType
+public partial class CustomerType
 {
 }
 ");
@@ -81,7 +81,7 @@ public class CustomGenericAttribute : IntellenumAttribute<long>
 [Instance(name: ""Unspecified2"", value: -3, tripleSlashComment: ""<some_xml>whatever</some_xml"")]
 [Instance(name: ""Unspecified3"", value: -4)]
 [Instance(name: ""Cust42"", value: 42)]
-public partial struct CustomerType
+public partial class CustomerType
 {
 }
 ");
@@ -97,7 +97,7 @@ namespace Whatever;
 [Intellenum<int>]
 [Instance(""Normal"", 0)]
 [Instance(""Gold"", 1)]
-public partial struct CustomerType
+public partial class CustomerType
 {
     private static Validation Validate(int value)
     {
@@ -120,7 +120,7 @@ namespace Whatever;
 [Intellenum<int>]
 [Instance(""Normal"", 0)]
 [Instance(""Gold"", 1)]
-public partial struct CustomerType
+public partial class CustomerType
 {
     private static Validation validate(int value)
     {
@@ -144,7 +144,7 @@ public partial struct CustomerType
             [Intellenum<int>]
             [Instance(name: "@class", value: 42)]
             [Instance(name: "@event", value: 69)]
-            public partial struct CustomerType
+            public partial class CustomerType
             {
                 private static Validation validate(int value)
                 {
@@ -169,7 +169,7 @@ namespace @double;
 [Instance(name: ""@struct"", value: 42)]
 [Instance(name: ""@event"", value: 69)]
 [Instance(name: ""@void"", value: 666)]
-public partial struct @class
+public partial class @class
 {
     private static Validation validate(int value)
     {
