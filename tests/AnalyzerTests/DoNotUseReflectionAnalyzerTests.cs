@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Testing;
@@ -9,21 +8,6 @@ namespace AnalyzerTests
 {
     public class DoNotUseReflectionAnalyzerTests
     {
-        private class Types : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                yield return new[] {"partial class"};
-                yield return new[] {"partial struct"};
-                yield return new[] {"readonly partial struct"};
-                yield return new[] {"partial record class"};
-                yield return new[] {"partial record struct"};
-                yield return new[] {"readonly partial record struct"};
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        }
-
         //No diagnostics expected to show up
         [Fact]
         public async Task NoDiagnosticsForEmptyCode()
@@ -32,9 +16,8 @@ namespace AnalyzerTests
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
 
-        [Theory]
-        [ClassData(typeof(Types))]
-        public async Task Disallows_generic_method(string type)
+        [Fact]
+        public async Task Disallows_generic_method()
         {
             var source = $@"using Intellenum;
 using System;
@@ -48,7 +31,7 @@ public class Test {{
 }}
 
 [Intellenum(typeof(int))]
-public {type} MyVo {{ }}
+public partial class MyVo {{ }}
 ";
             
             await Run(
@@ -56,9 +39,8 @@ public {type} MyVo {{ }}
                 WithDiagnostics("VOG025", DiagnosticSeverity.Error, 0));
         }
 
-        [Theory]
-        [ClassData(typeof(Types))]
-        public async Task Disallows_non_generic_method(string type)
+        [Fact]
+        public async Task Disallows_non_generic_method()
         {
             var source = $@"using Intellenum;
 using System;
@@ -72,7 +54,7 @@ public class Test {{
 }}
 
 [Intellenum(typeof(int))]
-public {type} MyVo {{ }}
+public partial class MyVo {{ }}
 ";
             
             await Run(
