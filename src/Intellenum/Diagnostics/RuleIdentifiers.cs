@@ -27,4 +27,5 @@ internal static class RuleIdentifiers
     public const string InstanceValueCannotBeConverted = "VOG023";
     public const string DuplicateTypesFound = "VOG024";
     public const string DoNotUseReflection = "VOG025";
+    public const string MustHaveInstances = "VOG026";
 }

@@ -26,6 +26,24 @@ namespace ScratchSnapshotTests
         }
 
         [Fact]
+        public Task Explicit_instances_using_target_typed_new()
+        {
+            var source = """
+    using Intellenum;
+    namespace Whatever;
+
+    [Intellenum]
+    public partial class CustomerType
+    {
+        public static CustomerType Standard = new("Standard", 1);
+        public static CustomerType Gold = new("Gold", 2);
+    }
+    """;
+
+            return RunTest(source);
+        }
+
+        [Fact]
         public Task Explicit_instances_using_Instance_method()
         {
             var source = """
@@ -92,7 +110,7 @@ namespace ScratchSnapshotTests
             new SnapshotRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .IgnoreInitialCompilationErrors()
-                .IgnoreFinalCompilationErrors()
+                //.IgnoreFinalCompilationErrors()
                 .RunOnAllFrameworks();
     }
 }

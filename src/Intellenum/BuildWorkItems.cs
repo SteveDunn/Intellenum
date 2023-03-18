@@ -82,6 +82,8 @@ internal static class BuildWorkItems
         ReportErrorIfVoTypeIsSameAsUnderlyingType(context, voSymbolInformation, config);
 
         ReportErrorIfUnderlyingTypeIsCollection(context, config, voSymbolInformation);
+        
+        ReportErrorIfNoInstancesFound(instanceProperties, context, voSymbolInformation);
 
         var isValueType = IsUnderlyingAValueType(config);
 
@@ -188,6 +190,16 @@ internal static class BuildWorkItems
         }
     }
 
+    private static void ReportErrorIfNoInstancesFound(List<InstanceProperties> instancePropertiesList,
+        SourceProductionContext context,
+        INamedTypeSymbol voSymbolInformation)
+    {
+        if(instancePropertiesList.Count == 0)
+        {
+            context.ReportDiagnostic(DiagnosticsCatalogue.MustHaveInstances(voSymbolInformation));
+        }
+    }
+
     private static void ReportErrorIfVoTypeIsSameAsUnderlyingType(SourceProductionContext context,
         INamedTypeSymbol voSymbolInformation, IntellenumConfiguration config)
     {
@@ -284,7 +296,8 @@ internal static class BuildWorkItems
         
             var syntax = decl.GetSyntax();
 
-            var newExpression = syntax.DescendantNodes().OfType<ObjectCreationExpressionSyntax>().SingleOrDefault();
+            BaseObjectCreationExpressionSyntax? newExpression = syntax.DescendantNodes().OfType<BaseObjectCreationExpressionSyntax>().SingleOrDefault();
+            //newExpression ??= syntax.DescendantNodes().OfType<ImplicitObjectCreationExpressionSyntax>().SingleOrDefault();
             if(newExpression is null) continue;
 
             var args = newExpression.ArgumentList;

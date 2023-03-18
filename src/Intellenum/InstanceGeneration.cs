@@ -14,7 +14,7 @@ public static class InstanceGeneration
     {
         if (item.InstanceProperties.Count == 0)
         {
-            return "yield break";
+            return "yield break;";
         }
 
         StringBuilder sb = new StringBuilder();

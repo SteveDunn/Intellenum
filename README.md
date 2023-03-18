@@ -204,5 +204,5 @@ but if you're in a very tight loop and you're sure everything is initialized, th
 `Value` instead
 
 
-> NOTE: Intellenum is in pre-release at the moment, so probably isn't production ready and the API might (and probably will change).
+> NOTE: Intellenum is in pre-release at the moment, so probably isn't production ready and the API might (and probably will) change.
 > But feel free to kick the tyres and provide feedback. It's not far off being complete as it borrows a lot of code and features from [Vogen](https://github.com/SteveDunn/Vogen)

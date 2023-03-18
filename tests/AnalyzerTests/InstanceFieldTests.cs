@@ -11,6 +11,39 @@ namespace AnalyzerTests
     [UsesVerify]
     public class InstanceFieldTests
     {
+        public class When_there_are_no_instances_a_diagnostic_is_emitted
+        {
+            [Fact]
+            public Task No_instances()
+            {
+                string declaration = $@"using System;
+  [Intellenum]
+  public partial class MyInstanceTests {{ }}";
+                var source = @"using Intellenum;
+namespace Whatever
+{
+" + declaration + @"
+}";
+
+                new TestRunner<IntellenumGenerator>()
+                    .WithSource(source)
+                    .ValidateWith(validate)
+                    .RunOnAllFrameworks();
+
+                void validate(ImmutableArray<Diagnostic> diagnostics)
+                {
+                    diagnostics.Single().GetMessage().Should().Be(
+                        "MyInstanceTests must have at least 1 instance");
+
+                    diagnostics.Single().Id.Should().Be("VOG026");
+                }
+
+                return Task.CompletedTask;
+            }
+        }
+        
+        
+        
         public class When_values_cannot_be_converted_to_their_underlying_types
         {
             [Fact]
