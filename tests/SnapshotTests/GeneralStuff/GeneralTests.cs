@@ -38,7 +38,7 @@ public partial class CustomerType
 [Instance(""Normal"", 0)]
 [Instance(""Gold"", 1)]
 [Instance(""Diamond"", 2)]
-public partial struct CustomerType
+public partial class CustomerType
 {
 }");
 
@@ -55,7 +55,7 @@ namespace Whatever;
 [Instance(name: ""Gold"", value: -3, tripleSlashComment: ""<some_xml>whatever</some_xml"")]
 [Instance(name: ""Diamond"", value: -4)]
 [Instance(name: ""Legacy"", value: 42)]
-public partial struct CustomerType
+public partial class CustomerType
 {
 }
 ");
@@ -70,7 +70,7 @@ namespace Whatever;
 [Instance(""Normal"", 0)]
 [Instance(""Gold"", 1)]
 [Instance(""Diamond"", 2)]
-public partial struct CustomerType
+public partial class CustomerType
 {
     private static Validation Validate(int value)
     {
@@ -83,29 +83,6 @@ public partial struct CustomerType
 ");
 
         [Fact]
-        public Task Validation_with_camelCased_validate_method() =>
-            RunTest(@"using Intellenum;
-
-namespace Whatever;
-
-[Intellenum]
-[Instance(""Normal"", 1);
-[Instance(""Gold"", 2);
-[Instance(""Diamond"", 3);
-public partial struct MemberType
-{
-    private static Validation validate(int value)
-    {
-        if (value > 0)
-            return Validation.Ok;
-
-        return Validation.Invalid(""must be greater than zero"");
-    }
-}
-");
-
-
-        [Fact]
         public Task Namespace_names_can_have_reserved_keywords() =>
             RunTest(@"using Intellenum;
 
@@ -116,7 +93,7 @@ namespace @double;
 [Instance(name: ""@double"", value: 52)]
 [Instance(name: ""@event"", value: 69)]
 [Instance(name: ""@void"", value: 666)]
-public partial struct @class
+public partial class @class
 {
     private static Validation validate(int value)
     {

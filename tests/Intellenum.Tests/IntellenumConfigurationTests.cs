@@ -26,12 +26,10 @@ namespace Intellenum.Tests
             }
 
             private static IntellenumConfiguration ConfigWithOmitDebugAs(DebuggerAttributeGeneration debuggerAttributes) =>
-                new IntellenumConfiguration(
-                    null,
+                new(
                     null,
                     Conversions.Default,
                     Customizations.None,
-                    DeserializationStrictness.Default,
                     debuggerAttributes);
         }
 
@@ -48,10 +46,8 @@ namespace Intellenum.Tests
             private static IntellenumConfiguration ConfigWithOmitConversionsAs(Conversions conversions) =>
                 new IntellenumConfiguration(
                     null,
-                    null,
                     conversions,
                     Customizations.None,
-                    DeserializationStrictness.Default,
                     DebuggerAttributeGeneration.Full);
         }
     }
