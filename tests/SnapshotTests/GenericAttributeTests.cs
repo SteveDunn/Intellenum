@@ -9,7 +9,7 @@ namespace SnapshotTests;
 public class GenericAttributeTests
 {
     [SkippableFact]
-    public Task Partial_struct_created_successfully()
+    public Task Partial_class_created_successfully()
     {
         var source = @"using Intellenum;
 namespace Whatever;

@@ -17,17 +17,6 @@
     <DefineConstants>$(DefineConstants);THOROUGH</DefineConstants>
 </PropertyGroup>
 
-<ItemGroup>
-  <Compile Remove="Config\GlobalConfigTests.cs" />
-  <Compile Remove="Config\LocalConfigTests.cs" />
-  <Compile Remove="ConversionPermutations\PermutationsOfConversions.cs" />
-  <Compile Remove="ConversionPermutations\PermutationsOfConversionsTests.cs" />
-  <Compile Remove="Escaping\GenerationOfEscapedTypesTests.cs" />
-  <Compile Remove="GenerationPermutations\GenerationPermutationTests.cs" />
-  <Compile Remove="InstanceFields\InstanceFieldGenerationTests.cs" />
-  <Compile Remove="ToString\ToStringGenerationTests.cs" />
-</ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="GitHubActionsTestLogger" Version="2.0.1">
       <PrivateAssets>all</PrivateAssets>

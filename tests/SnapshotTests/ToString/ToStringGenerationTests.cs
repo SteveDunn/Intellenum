@@ -14,49 +14,45 @@ public class ToStringGenerationTests
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            foreach (string type in Factory.TypeVariations)
+            yield return new object[]
             {
-                yield return new object[]
-                {
-                    type,
-                    CreateClassName(type, ToStringMethod.None),
-                    ToStringMethod.None,
-                };
+                CreateClassName(ToStringMethod.None),
+                ToStringMethod.None,
+            };
 
-                yield return new object[]
-                {
-                    type,
-                    CreateClassName(type, ToStringMethod.Method),
-                    ToStringMethod.Method,
-                };
+            yield return new object[]
+            {
+                CreateClassName(ToStringMethod.Method),
+                ToStringMethod.Method,
+            };
 
-                yield return new object[]
-                {
-                    type,
-                    CreateClassName(type, ToStringMethod.ExpressionBodiedMethod),
-                    ToStringMethod.ExpressionBodiedMethod,
-                };
-            }
+            yield return new object[]
+            {
+                CreateClassName(ToStringMethod.ExpressionBodiedMethod),
+                ToStringMethod.ExpressionBodiedMethod,
+            };
         }
 
-        private static string CreateClassName(string type, ToStringMethod toStringMethod) =>
-            type.Replace(" ", "_") + "_" + toStringMethod;
+        private static string CreateClassName(ToStringMethod toStringMethod) => $"partial_class_{toStringMethod}";
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
     [Theory]
     [ClassData(typeof(Types))]
-    public Task Test(string type, string className, ToStringMethod addToStringMethod)
+    public Task Test(string className, ToStringMethod addToStringMethod)
     {
-        string declaration = $@"
-  [Intellenum]
-  public {type} {className} {{ {WriteToStringMethod(addToStringMethod, type.EndsWith("record class") || type.EndsWith("record"))} }}";
-        var source = @"using Intellenum;
-namespace Whatever
-{
-" + declaration + @"
-}";
+        var source = $$"""
+            using Intellenum;
+            namespace Whatever
+            {
+              [Intellenum]
+              [Instance("One", 1)]
+              public partial class {{className}} { 
+                {{WriteToStringMethod(addToStringMethod)}} 
+              }
+            }
+            """;
 
         return new SnapshotRunner<IntellenumGenerator>()
             .WithSource(source)
@@ -64,9 +60,9 @@ namespace Whatever
             .RunOnAllFrameworks();
     }
 
-    private static string WriteToStringMethod(ToStringMethod toStringMethod, bool isARecordClass)
+    private static string WriteToStringMethod(ToStringMethod toStringMethod)
     {
-        string s = isARecordClass ? "public override sealed string ToString()" : "public override string ToString()";
+        string s = "public override string ToString()";
         return toStringMethod switch
         {
             ToStringMethod.None => string.Empty,

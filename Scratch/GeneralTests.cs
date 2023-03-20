@@ -3,6 +3,7 @@ using Xunit.Abstractions;
 
 namespace Scratch;
 
+
 public class GeneralTests
 {
     enum ECustomerType

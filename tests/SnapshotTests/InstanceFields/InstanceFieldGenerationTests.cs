@@ -19,7 +19,7 @@ namespace Whatever;
 
 [Intellenum(typeof(bool))]
 [Instance("Invalid", false)]
-public partial struct BooleanThing
+public partial class BooleanThing
 {
 }
 """;
@@ -94,20 +94,17 @@ public class TestData : IEnumerable<object[]>
 {
     public IEnumerator<object[]> GetEnumerator()
     {
-        foreach (string type in Factory.TypeVariations)
+        string type = "partial class";
+        
+        foreach ((string underlyingType, string instanceValue) in _underlyingTypes)
         {
-            {
-                foreach ((string underlyingType, string instanceValue) in _underlyingTypes)
-                {
-                    var qualifiedType = "public " + type;
-                    yield return new object[]
-                        {qualifiedType, underlyingType, instanceValue, CreateClassName(qualifiedType, underlyingType)};
+            var qualifiedType = "public " + type;
+            yield return new object[]
+                { qualifiedType, underlyingType, instanceValue, CreateClassName(qualifiedType, underlyingType) };
 
-                    qualifiedType = "internal " + type;
-                    yield return new object[]
-                        {qualifiedType, underlyingType, instanceValue, CreateClassName(qualifiedType, underlyingType)};
-                }
-            }
+            qualifiedType = "internal " + type;
+            yield return new object[]
+                { qualifiedType, underlyingType, instanceValue, CreateClassName(qualifiedType, underlyingType) };
         }
     }
 

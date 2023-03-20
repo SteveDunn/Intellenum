@@ -21,7 +21,7 @@ namespace Whatever;
 [Intellenum]
 [Instance(""Normal"", 0)]
 [Instance(""Gold"", 1)]
-public partial struct CustomerType
+public partial class CustomerType
 {
 }";
 
@@ -44,7 +44,7 @@ namespace Whatever;
 [Intellenum]
 [Instance(""Normal"", 0)]
 [Instance(""Gold"", 1)]
-public partial struct CustomerType
+public partial class CustomerType
 {
 }";
 
@@ -66,7 +66,7 @@ namespace Whatever;
 [Intellenum]
 [Instance(""Normal"", 0)]
 [Instance(""Gold"", 1)]
-public partial struct CustomerType { }
+public partial class CustomerType { }
 ";
 
         return new SnapshotRunner<IntellenumGenerator>()
@@ -80,14 +80,14 @@ public partial struct CustomerType { }
         var source = @"using System;
 using Intellenum;
 
-[assembly: IntellenumDefaults(conversions: Conversions.DapperTypeHandler]
+[assembly: IntellenumDefaults(conversions: Conversions.DapperTypeHandler)]
 
 namespace Whatever;
 
 [Intellenum]
 [Instance(""Normal"", 0)]
 [Instance(""Gold"", 1)]
-public partial struct CustomerType
+public partial class CustomerType
 {
 }
 ";
@@ -108,9 +108,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
-public partial struct CustomerType
+[Instance(""Normal"", ""0"")]
+[Instance(""Gold"", ""1"")]
+public partial class CustomerType
 {
 }
 ";

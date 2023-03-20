@@ -18,23 +18,21 @@ public class GenerationPermutationTests
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            foreach (string type in Factory.TypeVariations)
+            foreach (string conversion in _conversions)
             {
-                foreach (string conversion in _conversions)
+                foreach (string underlyingType in Factory.UnderlyingTypes)
                 {
-                    foreach (string underlyingType in Factory.UnderlyingTypes)
+                    foreach (string accessModifier in _accessModifiers)
                     {
-                        foreach (string accessModifier in _accessModifiers)
+                        var qualifiedType = $"{accessModifier} partial class";
+                        yield return new object[]
                         {
-                            var qualifiedType = $"{accessModifier} {type}";
-                            yield return new object[]
-                            {
-                                qualifiedType, 
-                                conversion, 
-                                underlyingType,
-                                CreateClassName(qualifiedType, conversion, underlyingType)
-                            };
-                        }
+                            qualifiedType,
+                            Factory.InstanceCallFor(underlyingType),
+                            conversion,
+                            underlyingType,
+                            CreateClassName(qualifiedType, conversion, underlyingType)
+                        };
                     }
                 }
             }
@@ -72,7 +70,7 @@ public class GenerationPermutationTests
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
-    private Task Run(string type, string conversions, string underlyingType, string className, string locale)
+    private Task Run(string type, string instanceCall, string conversions, string underlyingType, string className, string locale)
     {
         _logger.WriteLine($"Running permutation, type: {type}, conversion: {conversions}, underlyingType: {underlyingType}, className: {className}, locale: {locale}");
 
@@ -80,15 +78,27 @@ public class GenerationPermutationTests
 
         if (underlyingType.Length == 0)
         {
-            declaration = $@"
-  [Intellenum(conversions: {conversions})]
-  {type} {className} {{ }}";
+            declaration = $$"""
+    [Intellenum(conversions: {{conversions}})]
+    {{type}} {{className}} 
+    {
+        static {{className}}() {
+            {{instanceCall}}
+        }
+    }
+""";
         }
         else
         {
-            declaration = $@"
-  [Intellenum(conversions: {conversions}, underlyingType: typeof({underlyingType}))]
-  {type} {className} {{ }}";
+            declaration = $$"""
+    [Intellenum(conversions: {{conversions}}, underlyingType: typeof({{underlyingType}}))]
+    {{type}} {{className}} { 
+
+        static {{className}}() {
+            {{instanceCall}}
+        }
+    }
+""";
         }
 
         var source = @"using Intellenum;
@@ -98,6 +108,7 @@ namespace Whatever
 }";
 
         return new SnapshotRunner<IntellenumGenerator>()
+            .IgnoreInitialCompilationErrors()
             .WithLogger(_logger)
             .WithSource(source)
             .WithLocale(locale)
@@ -107,8 +118,9 @@ namespace Whatever
 
     [Theory]
     [ClassData(typeof(Types))]
-    public Task GenerationTest(string type, string conversions, string underlyingType, string className) => Run(
+    public Task GenerationTest(string type, string instanceCall, string conversions, string underlyingType, string className) => Run(
         type,
+        instanceCall,
         conversions,
         underlyingType,
         className,
@@ -118,8 +130,9 @@ namespace Whatever
     [Theory]
     [UseCulture("fr-FR")]
     [ClassData(typeof(Types))]
-    public Task GenerationTests_FR(string type, string conversions, string underlyingType, string className) => Run(
+    public Task GenerationTests_FR(string type, string attribute, string conversions, string underlyingType, string className) => Run(
         type,
+        attribute,
         conversions,
         underlyingType,
         className,
@@ -128,8 +141,9 @@ namespace Whatever
     [Theory]
     [UseCulture("en-US")]
     [ClassData(typeof(Types))]
-    public Task GenerationTests_US(string type, string conversions, string underlyingType, string className) => Run(
+    public Task GenerationTests_US(string type, string attribute, string conversions, string underlyingType, string className) => Run(
         type,
+        attribute,
         conversions,
         underlyingType,
         className,

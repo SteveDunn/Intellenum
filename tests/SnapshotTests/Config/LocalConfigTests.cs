@@ -17,7 +17,7 @@ namespace Whatever;
 [Intellenum(debuggerAttributes: DebuggerAttributeGeneration.Basic)]
 [Instance(""Normal"", 0)]
 [Instance(""Gold"", 1)]
-public partial struct CustomerType
+public partial class CustomerType
 {
 }";
 
@@ -36,7 +36,7 @@ namespace Whatever;
 [Intellenum]
 [Instance(""Normal"", 0)]
 [Instance(""Gold"", 1)]
-public partial struct CustomerType
+public partial class CustomerType
 {
 }";
 
@@ -55,7 +55,7 @@ namespace Whatever;
 [Intellenum]
 [Instance(name: ""Basic"", value: 0, tripleSlashComment: ""a short description that'll show up in intellisense"")]
 [Instance(name: ""Gold"", value: 1, tripleSlashComment: ""another short description that'll show up in intellisense"")]
-public partial struct CustomerType
+public partial class CustomerType
 {
 }";
 
@@ -72,9 +72,9 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum(typeof(float))]
-[Instance(""Normal"", 0.1f]
-[Instance(""Gold"", 0.2f]
-public partial struct CustomerType
+[Instance(""Normal"", 0.1f)]
+[Instance(""Gold"", 0.2f)]
+public partial class CustomerType
 {
 }";
 
@@ -93,7 +93,7 @@ namespace Whatever;
 [Intellenum(conversions: Conversions.None)]
 [Instance(""Normal"", 0)]
 [Instance(""Gold"", 1)]
-public partial struct CustomerType { }";
+public partial class CustomerType { }";
 
         return new SnapshotRunner<IntellenumGenerator>()
             .WithSource(source)
@@ -113,7 +113,7 @@ namespace Whatever;
 [Intellenum(underlyingType:typeof(float))]
 [Instance(""Normal"", 0)]
 [Instance(""Gold"", 1)]
-public partial struct CustomerType
+public partial class CustomerType
 {
 }
 ";

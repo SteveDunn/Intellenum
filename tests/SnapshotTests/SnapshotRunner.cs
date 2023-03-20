@@ -110,6 +110,12 @@ namespace SnapshotTests
                 diagnostics.Should().BeEmpty(@$"because the following source code should compile on {eachFramework}: " + _source);
 
                 var outputFolder = Path.Combine(_path, SnapshotUtils.GetSnapshotDirectoryName(eachFramework, _locale));
+                
+                //todo: remove
+#if DEBUG
+                //await File.WriteAllTextAsync(@"c:\git\intellenum\tests\scratchsnapshottests\test.cs", output);
+#endif
+
 
                 verifySettings ??= new VerifySettings();
                 verifySettings.AutoVerify();
