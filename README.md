@@ -35,7 +35,6 @@ public partial class CustomerType
 ... you can then treat the type just like an enum:
 
 ```csharp
-```csharp
 if(type = CustomerType.Standard) Reject();
 if(type = CustomerType.Gold) Accept();
 ```

@@ -203,9 +203,9 @@ causes Rider's debugger to crash.
         
         foreach (var each in item.InstanceProperties)
         {
-            var b = InstanceGeneration.TryBuildInstanceValueAsText(each.Name, each.Value, item.UnderlyingType.FullName());
-            if (!b.Success) throw new InvalidOperationException(b.ErrorMessage);
-            sb.AppendLine($"{b.Value} => true,");
+            // var b = InstanceGeneration.TryBuildInstanceValueAsText(each.Name, each.Value, item.UnderlyingType.FullName());
+            // if (!b.Success) throw new InvalidOperationException(b.ErrorMessage);
+            sb.AppendLine($"{each.ValueAsText} => true,");
         }
         
         sb.AppendLine("_ => false");
@@ -236,11 +236,11 @@ switch (value)
 """);
         foreach (var each in item.InstanceProperties)
         {
-            var b = InstanceGeneration.TryBuildInstanceValueAsText(each.Name, each.Value, item.UnderlyingType.FullName());
-            if (!b.Success) throw new InvalidOperationException(b.ErrorMessage);
+            // var b = InstanceGeneration.TryBuildInstanceValueAsText(each.Name, each.Value, item.UnderlyingType.FullName());
+            // if (!b.Success) throw new InvalidOperationException(b.ErrorMessage);
 
 
-            generate(b.Value, each.Name);
+            generate(each.ValueAsText, each.Name);
         }
 
         sb.AppendLine("""

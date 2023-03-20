@@ -32,6 +32,14 @@ BenchmarkRunner.Run(new[]
 // });
 
 
+public enum EDecimal : decimal
+{
+    Standard,
+    Gold,
+    Diamond,
+    Platinum
+}
+
 public enum ECustomerType
 {
     Standard,
