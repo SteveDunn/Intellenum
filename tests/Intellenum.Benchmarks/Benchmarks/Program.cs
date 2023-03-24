@@ -32,13 +32,47 @@ BenchmarkRunner.Run(new[]
 // });
 
 
-public enum EDecimal : decimal
+
+
+[Intellenum<Foo>]
+public partial class FooEnum
 {
-    Standard,
-    Gold,
-    Diamond,
-    Platinum
+    static FooEnum()
+    {
+        Instance("Item3", new Foo("a", 1));
+        Instance("Item4", new Foo("b", 2));
+    }
+
+    public static readonly FooEnum Item1 = new("Item1", new Foo("a", 1));
+    public static readonly FooEnum Item2 = new("Item2", new Foo("b", 2));
 }
+
+public record class Foo(string Name, int Age) : IComparable<Foo>
+{
+    public int CompareTo(Foo? other) => Age.CompareTo(other?.Age);
+}
+
+[Intellenum<string>]
+[Instance("Normal", "n")]
+[Instance("Gold", "g")]
+[Instance("Diamond", "d")]
+public partial class CustomerType
+{
+}
+
+[Intellenum<decimal>]
+public partial class MinimumWageInUK
+{
+    static MinimumWageInUK()
+    {
+        Instance("Apprentice", 4.3m);
+        Instance("UnderEighteen", 4.62m);
+        Instance("EighteenToTwenty", 6.56m);
+        Instance("TwentyOneAndOver", 8.36m);
+        Instance("TwentyFiveAndOver", 8.91m);
+    }
+}
+
 
 public enum ECustomerType
 {

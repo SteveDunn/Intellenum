@@ -1,6 +1,6 @@
-﻿namespace Vogen.Examples.SyntaxExamples
+﻿namespace Intellenum.Examples.SyntaxExamples
 {
-    [ValueObject]
+    [Intellenum]
     public readonly partial struct MyReadOnlyVo
     {
     }

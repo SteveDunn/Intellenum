@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Intellenum.Examples.Types;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
 using LinqToDB.Mapping;
 using Microsoft.Data.Sqlite;
-using Vogen.Examples.Types;
 
-namespace Vogen.Examples.SerializationAndConversion
+namespace Intellenum.Examples.SerializationAndConversion
 {
 	public class LinqToDbExamples : IScenario
 	{

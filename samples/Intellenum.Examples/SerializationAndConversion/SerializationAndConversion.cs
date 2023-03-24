@@ -2,11 +2,10 @@
 #pragma warning disable CS0219
 using System;
 using System.Threading.Tasks;
-using Vogen.Examples.Types;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace Vogen.Examples.SerializationAndConversion
+namespace Intellenum.Examples.SerializationAndConversion
 {
     public class SerializationAndConversionExamples : IScenario
     {

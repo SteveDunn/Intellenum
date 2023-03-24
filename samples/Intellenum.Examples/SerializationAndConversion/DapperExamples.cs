@@ -4,9 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.Sqlite;
-using Vogen.Examples.Types;
 
-namespace Vogen.Examples.SerializationAndConversion
+namespace Intellenum.Examples.SerializationAndConversion
 {
     public class DapperExamples : IScenario
     {

@@ -1,7 +1,7 @@
 ﻿// ReSharper disable UnusedVariable
 #pragma warning disable CS0219
 
-namespace Vogen.Examples.SyntaxExamples.NoDefaulting
+namespace Intellenum.Examples.SyntaxExamples.NoDefaulting
 {
     /*
         You shouldn't be allowed to `default` a Value Object as it bypasses
@@ -48,9 +48,9 @@ namespace Vogen.Examples.SyntaxExamples.NoDefaulting
         // public CustomerId GetCustomerId() => new CustomerId();
     }
 
-    [ValueObject]
+    [Intellenum]
     public partial struct CustomerId { }
 
-    [ValueObject]
+    [Intellenum]
     public partial class VendorId { }
 }

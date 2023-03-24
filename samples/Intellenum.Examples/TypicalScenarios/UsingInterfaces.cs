@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Vogen.Examples.TypicalScenarios.UsingInterfaces
+namespace Intellenum.Examples.TypicalScenarios.UsingInterfaces
 {
     /// <summary>
     /// Scenario: I want my IDs to have a common interface so that I can pass them to a method that
@@ -28,12 +28,12 @@ namespace Vogen.Examples.TypicalScenarios.UsingInterfaces
     }
 
     // defaults to int
-    [ValueObject]
+    [Intellenum]
     internal readonly partial struct CustomerId : IHaveAnId<int>
     {
     }
 
-    [ValueObject]
+    [Intellenum]
     internal partial struct AccountId : IHaveAnId<int>
     {
     }
@@ -42,7 +42,7 @@ namespace Vogen.Examples.TypicalScenarios.UsingInterfaces
     // then be aware that there could be severe overhead of wrapping a reference type
     // as a value type. One of the  goals of Vogen is to not add too much overhead
     // (in terms of memory/speed) over using the primitive type itself.
-    [ValueObject]
+    [Intellenum]
     internal partial class Id : IHaveAnId<int> { }
     
     internal class DerivedId1 : Id { }

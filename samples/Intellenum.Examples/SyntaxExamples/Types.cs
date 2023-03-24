@@ -1,4 +1,4 @@
-﻿namespace Vogen.Examples.SyntaxExamples;
+﻿namespace Intellenum.Examples.SyntaxExamples;
 
 #pragma warning disable CS0219
 

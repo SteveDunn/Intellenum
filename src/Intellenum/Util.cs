@@ -197,28 +197,41 @@ causes Rider's debugger to crash.
         return source;
     }
 
-    public static string GenerateIsDefinedSwitchExpressions(VoWorkItem item)
+    public static string GenerateIsDefinedBody(VoWorkItem item)
     {
-        StringBuilder sb = new StringBuilder();
-        
-        foreach (var each in item.InstanceProperties)
-        {
-            // var b = InstanceGeneration.TryBuildInstanceValueAsText(each.Name, each.Value, item.UnderlyingType.FullName());
-            // if (!b.Success) throw new InvalidOperationException(b.ErrorMessage);
-            sb.AppendLine($"{each.ValueAsText} => true,");
-        }
-        
-        sb.AppendLine("_ => false");
+        return item.IsConstant
+            ? $"return value switch {{ {generateForConstant()} }};"
+            : "return _valuesToEnums.Value.TryGetValue(value, out _);";
 
-        return sb.ToString();
+        string generateForConstant()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var each in item.InstanceProperties)
+            {
+                sb.AppendLine($"{each.ValueAsText} => true,");
+            }
+
+            sb.AppendLine("_ => false");
+
+            return sb.ToString();
+        }
     }
 
-    public static string GenerateFromValueImplementation(VoWorkItem item) =>
-        """
+    public static string GenerateFromValueImplementation(VoWorkItem item)
+    {
+        if (item.IsConstant)
+            return """
     bool b = TryFromValue(value, out var ret);
     if(b) return ret;
     throw new global::System.InvalidOperationException($"No matching enums with a value of '{value}'");
 """;
+        return """
+    bool b =  _valuesToEnums.Value.TryGetValue(value, out var ret);
+    if(b) return ret;
+    throw new global::System.InvalidOperationException($"No matching enums with a value of '{value}'");
+""";
+    }
 
     public static string GenerateFromNameImplementation(VoWorkItem item) =>
         """
@@ -229,43 +242,55 @@ causes Rider's debugger to crash.
 
     public static string GenerateTryFromValueImplementation(VoWorkItem item)
     {
-        StringBuilder sb = new StringBuilder();
-        sb.AppendLine("""
+        if (item.IsConstant) return generateFromConstant();
+
+        return "return  _valuesToEnums.Value.TryGetValue(value, out instance);";
+
+        string generateFromConstant()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(
+                """
 switch (value) 
 {
 """);
-        foreach (var each in item.InstanceProperties)
-        {
-            // var b = InstanceGeneration.TryBuildInstanceValueAsText(each.Name, each.Value, item.UnderlyingType.FullName());
-            // if (!b.Success) throw new InvalidOperationException(b.ErrorMessage);
+            foreach (var each in item.InstanceProperties)
+            {
+                // var b = InstanceGeneration.TryBuildInstanceValueAsText(each.Name, each.Value, item.UnderlyingType.FullName());
+                // if (!b.Success) throw new InvalidOperationException(b.ErrorMessage);
 
 
-            generate(each.ValueAsText, each.Name);
-        }
+                generate(each.ValueAsText, each.Name);
+            }
 
-        sb.AppendLine("""
+            sb.AppendLine(
+                """
     default:
         instance = default;
         return false;
 }
 """);
 
-        return sb.ToString();
+            return sb.ToString();
 
-        void generate(object value, string name)
-        {
-            sb.AppendLine(
-                $$"""
+
+            void generate(object value, string name)
+            {
+                sb.AppendLine(
+                    $$"""
     case {{value}}:
         instance = {{item.VoTypeName}}.{{name}}; 
         return true;
 """);
 
+            }
         }
     }
 
     public static string GenerateTryFromNameImplementation(VoWorkItem item)
     {
+        if (!item.IsConstant) return "return _namesToEnums.Value.TryGetValue(name, out instance);";      
+        
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("""
 switch (name) 
@@ -301,4 +326,61 @@ switch (name)
         """
 return TryFromName(name, out _);
 """;
+
+    public static string GenerateLazyLookupsIfNeeded(VoWorkItem item)
+    {
+        if (!item.IsConstant)
+        {
+            return $$"""
+        private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, {{item.UnderlyingTypeFullName}}>> _namesToValues = new( () =>
+        new()
+        {
+            {{ GenerateLazyLookupEntries(item, prop => new($"\"{prop.Name}\"", $"{prop.Name}.Value")) }}
+        });
+        private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, {{item.VoTypeName}}>> _namesToEnums = new( () =>
+        new()
+        {
+            {{ GenerateLazyLookupEntries(item, prop => new($"\"{prop.Name}\"", $"{prop.Name}")) }}
+        });
+        private static readonly System.Lazy<System.Collections.Generic.Dictionary<{{item.VoTypeName}}, {{item.UnderlyingTypeFullName}}>> _enumsToValues = new( () =>
+        new()
+        {
+            {{ GenerateLazyLookupEntries(item, prop => new($"{prop.Name}", $"{prop.Name}.Value")) }}
+        });
+        private static readonly System.Lazy<System.Collections.Generic.Dictionary<{{item.UnderlyingTypeFullName}}, string>> _valuesToNames = new( () =>
+        new()
+        {
+            {{ GenerateLazyLookupEntries(item, prop => new($"{prop.Name}.Value", $"\"{prop.Name}\"")) }}
+        });
+        private static readonly System.Lazy<System.Collections.Generic.Dictionary<{{item.UnderlyingTypeFullName}}, {{item.VoTypeName}}>> _valuesToEnums = new( () =>
+        new()
+        {
+            {{ GenerateLazyLookupEntries(item, prop => new($"{prop.Name}.Value", $"{prop.Name}")) }}
+        });
+""";
+        }
+
+        return string.Empty;
+    }
+
+    private static string GenerateLazyLookupEntries(VoWorkItem item, Func<InstanceProperties, (string, string)> callback)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        foreach (var eachItem in item.InstanceProperties)
+        {
+            var (first, second) = callback(eachItem);
+            sb.AppendLine($"{{ {first}, {second} }},");
+        }
+
+        return sb.ToString();
+    }
+
+    public static string TryWriteNamespaceIfSpecified(VoWorkItem item)
+    {
+        if (!string.IsNullOrEmpty(item.UnderlyingType.FullNamespace()))
+            return "using " + item.UnderlyingType.FullNamespace() + ";";
+
+        return string.Empty;
+    }
 }

@@ -7,10 +7,59 @@ using System.Linq;
 using Microsoft.CodeAnalysis.Diagnostics;
 #endif
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace Intellenum.Extensions
 {
+    public static class GeneralExtensions
+    {
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
+        public static T? SingleOrDefault<T>(this IEnumerable<T?> source, string message)
+        {
+            try
+            {
+                return source.SingleOrDefault();
+            }
+            catch (Exception e)
+            {
+                try
+                {
+                    throw new InvalidOperationException($"There were {source.Count()} item(s) found in the collection. {message}", e);
+                }
+                catch (Exception e2)
+                {
+                    throw new InvalidOperationException("There were none or multiple items found in the collection. " + message, e2);
+
+                }
+            }
+        }
+
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
+        public static T? SingleOrDefault<T>(this IEnumerable<T?> source, Func<T?, bool> func, string message)
+        {
+            try
+            {
+                return source.SingleOrDefault(func);
+            }
+            catch (Exception e)
+            {
+                try
+                {
+                    throw new InvalidOperationException($"There were {source.Count()} item(s) found in the collection. {message}", e);
+                }
+                catch (Exception e2)
+                {
+                    throw new InvalidOperationException("There were none or multiple items found in the collection. " + message, e2);
+
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// Provides extensions to <see cref="Compilation"/>.
     /// </summary>

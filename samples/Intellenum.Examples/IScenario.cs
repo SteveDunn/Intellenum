@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Vogen.Examples;
+namespace Intellenum.Examples;
 
 public interface IScenario
 {

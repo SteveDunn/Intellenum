@@ -65,7 +65,10 @@ internal static class BuildWorkItems
             return null;
         }
 
-        var config = IntellenumConfiguration.Combine(localConfig.Value, globalConfig, () => compilation.GetSpecialType(SpecialType.System_Int32));
+        var config = IntellenumConfiguration.Combine(
+            localConfig.Value,
+            globalConfig,
+            () => compilation.GetSpecialType(SpecialType.System_Int32));
 
         ReportErrorIfNestedType(target, context, voSymbolInformation);
 
@@ -77,18 +80,19 @@ internal static class BuildWorkItems
 
         var toStringInfo = HasToStringOverload(voSymbolInformation);
 
-        ThrowIfToStringOverrideOnRecordIsUnsealed(target, context, toStringInfo);
+        ReportErrorIfVoTypeIsSameAsUnderlyingType(context, voSymbolInformation, config.UnderlyingType);
 
-        ReportErrorIfVoTypeIsSameAsUnderlyingType(context, voSymbolInformation, config);
-
-        ReportErrorIfUnderlyingTypeIsCollection(context, config, voSymbolInformation);
+        ReportErrorIfUnderlyingTypeIsCollection(context, voSymbolInformation, config.UnderlyingType);
         
         ReportErrorIfNoInstancesFound(instanceProperties, context, voSymbolInformation);
 
-        var isValueType = IsUnderlyingAValueType(config);
+        var isValueType = IsUnderlyingAValueType(config.UnderlyingType);
 
+        bool isConstant = IsUnderlyingACompileTimeConstant(config.UnderlyingType);
+        
         return new VoWorkItem
         {
+            IsConstant = isConstant,
             InstanceProperties = instanceProperties.ToList(),
             TypeToAugment = voTypeSyntax,
             IsValueType = isValueType,
@@ -99,18 +103,6 @@ internal static class BuildWorkItems
             Customizations = config.Customizations,
             FullNamespace = voSymbolInformation.FullNamespace()
         };
-    }
-
-    private static void ThrowIfToStringOverrideOnRecordIsUnsealed(VoTarget target, SourceProductionContext context,
-        ToStringInfo info)
-    {
-        if (info.HasToString && info.IsRecordClass  && !info.IsSealed)
-        {
-            context.ReportDiagnostic(
-                DiagnosticsCatalogue.RecordToStringOverloadShouldBeSealed(
-                    info.Method!.Locations[0],
-                    target.VoSymbolInformation.Name));
-        }
     }
 
     private record struct ToStringInfo(bool HasToString, bool IsRecordClass, bool IsSealed, IMethodSymbol? Method);
@@ -169,24 +161,33 @@ internal static class BuildWorkItems
         }
     }
 
-    private static bool IsUnderlyingAValueType(IntellenumConfiguration config)
-    {
-        bool isValueType = true;
-        if (config.UnderlyingType != null)
+    private static bool IsUnderlyingAValueType(INamedTypeSymbol underlyingType) => underlyingType.IsValueType;
+
+    private static bool IsUnderlyingACompileTimeConstant(INamedTypeSymbol underlyingType) =>
+        underlyingType.SpecialType switch
         {
-            isValueType = config.UnderlyingType.IsValueType;
-        }
+            SpecialType.System_Byte => true,
+            SpecialType.System_SByte => true,
+            SpecialType.System_Int16 => true,
+            SpecialType.System_UInt16 => true,
+            SpecialType.System_Int32 => true,
+            SpecialType.System_UInt32 => true,
+            SpecialType.System_Int64 => true,
+            SpecialType.System_UInt64 => true,
+            SpecialType.System_String => true,
+            SpecialType.System_Decimal => true,
+            _ => false,
+        };
 
-        return isValueType;
-    }
-
-    private static void ReportErrorIfUnderlyingTypeIsCollection(SourceProductionContext context, IntellenumConfiguration config,
-        INamedTypeSymbol voSymbolInformation)
+    private static void ReportErrorIfUnderlyingTypeIsCollection(
+        SourceProductionContext context,
+        INamedTypeSymbol voSymbolInformation,
+        INamedTypeSymbol underlyingType)
     {
-        if (config.UnderlyingType.ImplementsInterfaceOrBaseClass(typeof(ICollection)))
+        if (underlyingType.ImplementsInterfaceOrBaseClass(typeof(ICollection)))
         {
             context.ReportDiagnostic(
-                DiagnosticsCatalogue.UnderlyingTypeCannotBeCollection(voSymbolInformation, config.UnderlyingType!));
+                DiagnosticsCatalogue.UnderlyingTypeCannotBeCollection(voSymbolInformation, underlyingType));
         }
     }
 
@@ -200,10 +201,12 @@ internal static class BuildWorkItems
         }
     }
 
-    private static void ReportErrorIfVoTypeIsSameAsUnderlyingType(SourceProductionContext context,
-        INamedTypeSymbol voSymbolInformation, IntellenumConfiguration config)
+    private static void ReportErrorIfVoTypeIsSameAsUnderlyingType(
+        SourceProductionContext context,
+        INamedTypeSymbol voSymbolInformation,
+        INamedTypeSymbol underlyingType)
     {
-        if (SymbolEqualityComparer.Default.Equals(voSymbolInformation, config.UnderlyingType))
+        if (SymbolEqualityComparer.Default.Equals(voSymbolInformation, underlyingType))
         {
             context.ReportDiagnostic(DiagnosticsCatalogue.UnderlyingTypeMustNotBeSameAsValueObjectType(voSymbolInformation));
         }
@@ -257,7 +260,7 @@ internal static class BuildWorkItems
         
         if (constructor is null) yield break;
 
-        var decl = constructor.DeclaringSyntaxReferences.SingleOrDefault();
+        var decl = constructor.DeclaringSyntaxReferences.SingleOrDefault("Expected exactly one syntax reference for constructor");
         if (decl is null) yield break;
         
         var syntax = decl.GetSyntax();
@@ -285,18 +288,30 @@ internal static class BuildWorkItems
     {
         var publicStaticMembers = voClass.GetMembers().Where(m => m.IsStatic && m.IsPublic());
         
-        var hits = publicStaticMembers.Where(m => SymbolEqualityComparer.Default.Equals(m.GetMemberType(), voClass));
+        var hits = publicStaticMembers.Where(symbol => isSameSymbol(symbol));
         
         // we have the field
         foreach (ISymbol each in hits)
         {
-            var decl = each.DeclaringSyntaxReferences.SingleOrDefault();
+            var decl = each.DeclaringSyntaxReferences.SingleOrDefault("Expected zero or at most, one, declaring syntax reference for field");
             
             if (decl is null) continue;
         
             var syntax = decl.GetSyntax();
 
-            BaseObjectCreationExpressionSyntax? newExpression = syntax.DescendantNodes().OfType<BaseObjectCreationExpressionSyntax>().SingleOrDefault();
+            var allConstructors = syntax.DescendantNodes().OfType<BaseObjectCreationExpressionSyntax>();
+            
+            var newExpressions = allConstructors.Where(c => c.ArgumentList?.Arguments.Count == 2).ToList();
+
+            var implicitNews = newExpressions.OfType<ImplicitObjectCreationExpressionSyntax>()
+                .Where(x => IsMatch(x, voClass.Name)).ToList();
+                
+            IEnumerable<BaseObjectCreationExpressionSyntax> explicitNews = newExpressions.OfType<ObjectCreationExpressionSyntax>()
+                .Where(c => c.Type is IdentifierNameSyntax ins && ins.Identifier.Text == voClass.Name);
+            
+            var combined = implicitNews.Concat(explicitNews);
+            
+            BaseObjectCreationExpressionSyntax? newExpression = combined.SingleOrDefault("Expected exactly one new statement from the combined implicit and explicit new statements");
             //newExpression ??= syntax.DescendantNodes().OfType<ImplicitObjectCreationExpressionSyntax>().SingleOrDefault();
             if(newExpression is null) continue;
 
@@ -309,7 +324,7 @@ internal static class BuildWorkItems
             var firstAsString = (first.Expression as LiteralExpressionSyntax)?.Token.Value as string;
             if (firstAsString is null)
             {
-                throw new InvalidOperationException("Expected string literal as name parameter to Instance method");
+                throw new InvalidOperationException($"Expected string literal as name parameter to a parameter of the constructor for creating a type of '{voClass.Name}'");
             }
 
             ArgumentSyntax second = args.Arguments[1];
@@ -317,12 +332,26 @@ internal static class BuildWorkItems
 
             yield return new InstanceProperties(InstanceSource.FromNewExpression, firstAsString, secondAsString, secondAsString);
         }
+
+        bool isSameSymbol(ISymbol m)
+        {
+            return SymbolEqualityComparer.Default.Equals(m.GetMemberType(), voClass);
+            // return SymbolEqualityComparer.Default.Equals(m.GetMemberType(), config.UnderlyingType);
+        }
+    }
+
+    private static bool IsMatch(ImplicitObjectCreationExpressionSyntax ine, string expectedType)
+    {
+        var fieldDeclarationSyntax = ine.Ancestors().OfType<FieldDeclarationSyntax>().FirstOrDefault();
+        if (fieldDeclarationSyntax is null) return false;
+        string x = fieldDeclarationSyntax.Declaration.Type.ToString();
+        return x == expectedType;
     }
 
     private static bool IsCallingInstance(InvocationExpressionSyntax arg)
     {
         var nodes = arg.DescendantNodes().OfType<IdentifierNameSyntax>();
-        var v = nodes.SingleOrDefault(n => n.Identifier.ToString() == "Instance");
+        var v = nodes.SingleOrDefault(n => n?.Identifier.ToString() == "Instance", "Expected zero or at most, one, instance of IdentifierNameSystem with the text 'Instance'");
         return v is not null;
     }
 }

@@ -10,8 +10,55 @@ namespace AnalyzerTests
     [UsesVerify]
     public class InstanceFieldTests
     {
-        public class When_there_are_no_instances_a_diagnostic_is_emitted
+        public class When_there_instances
         {
+            [Fact]
+            public Task Of_a_customType()
+            {
+                string source = $$"""
+using System;
+using Intellenum;
+
+namespace Whatever;
+
+[Intellenum<Foo>]
+public partial class FooEnum
+{
+    // just for the test - it's generated in real life
+    // public FooEnum(string name, Foo value) { }
+
+
+    public static readonly FooEnum Item1 = new("Item1", new Foo("a", 1));
+    public static readonly FooEnum Item2 = new("Item2", new Foo("b", 2));
+}
+
+public record class Foo(string Name, int Age) : IComparable<Foo>
+{
+    public int CompareTo(Foo other) => Age.CompareTo(other.Age);
+}
+
+""";
+
+                new TestRunner<IntellenumGenerator>()
+                    .WithSource(source)
+                    .ValidateWith(validate)
+                    .RunOnAllFrameworks(true);
+
+                void validate(ImmutableArray<Diagnostic> diagnostics)
+                {
+                    DiagnosticCollection d = new(diagnostics);
+
+                    d.Count.Should().Be(0);
+                }
+
+                return Task.CompletedTask;
+            }
+
+        }
+
+        public class When_there_are_no_instances_a_diagnostic_is_emitted
+            {
+            
             [Fact]
             public Task No_instances()
             {
@@ -94,15 +141,15 @@ namespace Whatever
 
                 new TestRunner<IntellenumGenerator>()
                     .WithSource(source)
-                    .ValidateWith(Validate)
+                    .ValidateWith(validate)
                     .RunOnAllFrameworks();
 
-                void Validate(ImmutableArray<Diagnostic> diagnostics)
+                void validate(ImmutableArray<Diagnostic> diagnostics)
                 {
                     diagnostics.Should().HaveCount(2);
-                    diagnostics.Should().ContainSingle(d => d.GetMessage(null).StartsWith(
-                        "MyInstanceTests cannot be converted. Instance value named Invalid has an attribute with a 'System.String' of 'x2022-13-99' which cannot be converted to the underlying type of 'System.DateTime'") && d.Id == "VOG023");
-                    diagnostics.Should().ContainSingle(d => d.Id == "VOG023");
+                    diagnostics.Should().ContainSingle(d => d.GetMessage(null).Contains(
+                        "The string 'x2022-13-99' was not recognized as a valid DateTime") && d.Id == "VOG023");
+                    diagnostics.Should().ContainSingle(d => d.Id == "VOG026");
                 }
 
                 return Task.CompletedTask;

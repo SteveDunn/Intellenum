@@ -3,9 +3,16 @@ using Microsoft.CodeAnalysis;
 
 namespace Intellenum;
 
+public readonly record struct CombinedIntellenumConfiguration(INamedTypeSymbol UnderlyingType,
+    Conversions Conversions,
+    Customizations Customizations,
+    DebuggerAttributeGeneration DebuggerAttributes);
+
+
 public readonly struct IntellenumConfiguration
 {
-    public IntellenumConfiguration(INamedTypeSymbol? underlyingType,
+    public IntellenumConfiguration(
+        INamedTypeSymbol? underlyingType,
         Conversions conversions,
         Customizations customizations,
         DebuggerAttributeGeneration debuggerAttributes)
@@ -16,17 +23,17 @@ public readonly struct IntellenumConfiguration
         DebuggerAttributes = debuggerAttributes;
     }
 
-    public static IntellenumConfiguration Combine(
+    public static CombinedIntellenumConfiguration Combine(
         IntellenumConfiguration localValues,
         IntellenumConfiguration? globalValues,
-        Func<INamedTypeSymbol>? funcForDefaultUnderlyingType = null)
+        Func<INamedTypeSymbol> funcForDefaultUnderlyingType)
     {
         var conversions = (localValues.Conversions, globalValues?.Conversions) switch
         {
             (Conversions.Default, null) => DefaultInstance.Conversions,
             (Conversions.Default, Conversions.Default) => DefaultInstance.Conversions,
             (Conversions.Default, var globalDefault) => globalDefault.Value,
-            (var specificValue, _) => specificValue
+            var (specificValue, _) => specificValue
         };
 
         var customizations = (localValues.Customizations, globalValues?.Customizations) switch
@@ -45,9 +52,9 @@ public readonly struct IntellenumConfiguration
             (var specificValue, _) => specificValue
         };
 
-        var underlyingType = localValues.UnderlyingType ?? globalValues?.UnderlyingType ?? funcForDefaultUnderlyingType?.Invoke();
+        INamedTypeSymbol underlyingType = localValues.UnderlyingType ?? globalValues?.UnderlyingType ?? funcForDefaultUnderlyingType.Invoke();
 
-        return new IntellenumConfiguration(underlyingType, conversions, customizations, debuggerAttributes);
+        return new CombinedIntellenumConfiguration(underlyingType, conversions, customizations, debuggerAttributes);
     }
 
     public INamedTypeSymbol? UnderlyingType { get; }

@@ -24,6 +24,7 @@
 #pragma warning disable CS1591
 
 using Intellenum;
+using System;
 
 namespace Whatever
 {
@@ -41,6 +42,8 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<CustomerType> 
     {
+        
+
 #if DEBUG    
         private readonly global::System.Diagnostics.StackTrace _stackTrace = null;
 #endif
@@ -145,14 +148,14 @@ private void Throw()
 
         }        
 
-        public static bool IsDefined(System.String value) => value switch
+        public static bool IsDefined(System.String value)
         {
-            "n" => true,
+            return value switch { "n" => true,
 "g" => true,
 "d" => true,
 _ => false
-
-        };
+ };
+        }
 
         public void Deconstruct(out string Name, out System.String Value)
         {

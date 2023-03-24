@@ -2,7 +2,7 @@
 // ReSharper disable ArrangeConstructorOrDestructorBody
 // ReSharper disable PartialTypeWithSinglePart
 
-namespace Vogen.Examples.SyntaxExamples
+namespace Intellenum.Examples.SyntaxExamples
 {
     /*
      * Value Objects can be in nested namespaces, but cannot be in a nested class.
@@ -12,7 +12,7 @@ namespace Vogen.Examples.SyntaxExamples
     {
         namespace Namespace2
         {
-            [ValueObject]
+            [Intellenum]
             public partial struct NestedType
             {
             }
@@ -28,7 +28,7 @@ namespace Vogen.Examples.SyntaxExamples
                 internal class AndAnother
                 {
                     // uncomment to get error VOG001: Type 'NestedType' cannot be nested - remove it from inside AndAnother
-                    // [ValueObject(typeof(int))]
+                    // [Intellenum(typeof(int))]
                     public partial struct NestedType
                     {
                     }

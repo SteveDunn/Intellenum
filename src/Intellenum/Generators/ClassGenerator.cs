@@ -12,6 +12,7 @@ public class ClassGenerator : IGenerateSourceCode
         
         return $@"
 using Intellenum;
+{Util.TryWriteNamespaceIfSpecified(item)}
 
 {Util.WriteStartNamespace(item.FullNamespace)}
     [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage] 
@@ -24,6 +25,8 @@ using Intellenum;
         global::System.IComparable, 
         global::System.IComparable<{className}> 
     {{
+        {Util.GenerateLazyLookupsIfNeeded(item)}
+
 #if DEBUG    
         private readonly global::System.Diagnostics.StackTrace _stackTrace = null;
 #endif
@@ -111,10 +114,10 @@ private void Throw()
             {Util.GenerateTryFromValueImplementation(item)}
         }}        
 
-        public static bool IsDefined({itemUnderlyingType} value) => value switch
+        public static bool IsDefined({itemUnderlyingType} value)
         {{
-            {Util.GenerateIsDefinedSwitchExpressions(item)}
-        }};
+            {Util.GenerateIsDefinedBody(item)}
+        }}
 
         public void Deconstruct(out string Name, out {itemUnderlyingType} Value)
         {{

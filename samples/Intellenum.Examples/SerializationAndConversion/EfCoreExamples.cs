@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Intellenum.Examples.Types;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Vogen.Examples.Types;
 
-namespace Vogen.Examples.SerializationAndConversion
+namespace Intellenum.Examples.SerializationAndConversion
 {
     public class EfCoreExamples : IScenario
     {

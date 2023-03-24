@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Microsoft.CodeAnalysis;
 using Xunit;
 
 namespace Intellenum.Tests
@@ -12,7 +13,8 @@ namespace Intellenum.Tests
             {
                 var result = IntellenumConfiguration.Combine(
                     ConfigWithOmitDebugAs(DebuggerAttributeGeneration.Basic),
-                    ConfigWithOmitDebugAs(DebuggerAttributeGeneration.Full));
+                    ConfigWithOmitDebugAs(DebuggerAttributeGeneration.Full),
+                    () => new DummyNamedTypeSymbol());
 
                 result.DebuggerAttributes.Should().Be(DebuggerAttributeGeneration.Basic);
             }
@@ -20,7 +22,10 @@ namespace Intellenum.Tests
             [Fact]
             public void Uses_global_when_local_not_specified()
             {
-                var result = IntellenumConfiguration.Combine(ConfigWithOmitDebugAs(DebuggerAttributeGeneration.Default), ConfigWithOmitDebugAs(DebuggerAttributeGeneration.Basic));
+                var result = IntellenumConfiguration.Combine(
+                    ConfigWithOmitDebugAs(DebuggerAttributeGeneration.Default),
+                    ConfigWithOmitDebugAs(DebuggerAttributeGeneration.Basic),
+                    () => new DummyNamedTypeSymbol());
 
                 result.DebuggerAttributes.Should().Be(DebuggerAttributeGeneration.Basic);
             }
@@ -38,7 +43,12 @@ namespace Intellenum.Tests
             [Fact]
             public void Local_beats_global_when_specified()
             {
-                var result = IntellenumConfiguration.Combine(ConfigWithOmitConversionsAs(Conversions.EfCoreValueConverter), ConfigWithOmitConversionsAs(Conversions.NewtonsoftJson));
+                // create a dummy INamedTypeSymbol
+                INamedTypeSymbol defaultType = new DummyNamedTypeSymbol();  
+                var result = IntellenumConfiguration.Combine(
+                    ConfigWithOmitConversionsAs(Conversions.EfCoreValueConverter),
+                    ConfigWithOmitConversionsAs(Conversions.NewtonsoftJson),
+                    () => defaultType);
 
                 result.Conversions.Should().Be(Conversions.EfCoreValueConverter);
             }

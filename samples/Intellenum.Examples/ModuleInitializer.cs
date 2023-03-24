@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using Dapper;
+using Intellenum.Examples.Types;
 using LinqToDB.Mapping;
-using Vogen.Examples.Types;
 
-namespace Vogen.Examples;
+namespace Intellenum.Examples;
 
 public static class ModuleInitializer
 {

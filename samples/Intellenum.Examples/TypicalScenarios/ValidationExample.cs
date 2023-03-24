@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Vogen.Examples.TypicalScenarios.ValidationExamples
+namespace Intellenum.Examples.TypicalScenarios.ValidationExamples
 {
-    [ValueObject<string>]
+    [Intellenum<string>]
 
     public partial class Dave
     {

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 // ReSharper disable RedundantCast
 
-namespace Vogen.Examples.TypicalScenarios.Instances
+namespace Intellenum.Examples.TypicalScenarios.Instances
 {
 
     /*
@@ -27,7 +27,7 @@ namespace Vogen.Examples.TypicalScenarios.Instances
     }
 
 
-    [ValueObject<float>]
+    [Intellenum<float>]
     [Instance("Freezing", 0.0f)]
     [Instance("Boiling", 100.0f)]
     [Instance("AbsoluteZero", -273.15f)]
@@ -42,7 +42,7 @@ namespace Vogen.Examples.TypicalScenarios.Instances
      * that nobody else can. This is useful for creating special instances
      * that represent concepts such as 'invalid' and 'unspecified'.
      */
-    [ValueObject]
+    [Intellenum]
     [Instance("Unspecified", -1)]
     [Instance("Invalid", -2)]
     public readonly partial struct Age
@@ -51,7 +51,7 @@ namespace Vogen.Examples.TypicalScenarios.Instances
             value > 0 ? Validation.Ok : Validation.Invalid("Must be greater than zero.");
     }
 
-    [ValueObject]
+    [Intellenum]
     [Instance("Unspecified", 0)]
     [Instance("Invalid", -1)]
     public partial class VendorId
@@ -60,7 +60,7 @@ namespace Vogen.Examples.TypicalScenarios.Instances
             value > 0 ? Validation.Ok : Validation.Invalid("Must be greater than zero.");
     }
 
-    [ValueObject<string>]
+    [Intellenum<string>]
     [Instance("Invalid", "[INVALID]")]
     public partial class VendorName
     {

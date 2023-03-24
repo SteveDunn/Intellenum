@@ -2,45 +2,37 @@
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+#pragma warning disable CS8618
 
 namespace Intellenum;
 
 public class VoWorkItem
 {
-    private INamedTypeSymbol _underlyingType = null!;
-    private string _underlyingTypeFullName = null!;
-    
-    public INamedTypeSymbol UnderlyingType
-    {
-        get => _underlyingType;
-        set
-        {
-            _underlyingType = value;
-            _underlyingTypeFullName = value.FullName() ?? value?.Name ?? throw new InvalidOperationException(
-                "No underlying type specified - please file a bug at https://github.com/SteveDunn/Intellenum/issues/new?assignees=&labels=bug&template=BUG_REPORT.yml");
-        }
-    }
+    public INamedTypeSymbol UnderlyingType { get; init; }
 
     /// <summary>
     /// The syntax information for the type to augment.
     /// </summary>
-    public TypeDeclarationSyntax TypeToAugment { get; set; } = null!;
+    public TypeDeclarationSyntax TypeToAugment { get; init; }
     
-    public bool IsValueType { get; set; }
+    public bool IsValueType { get; init; }
 
-    public List<InstanceProperties> InstanceProperties { get; set; } = new();
+    public List<InstanceProperties> InstanceProperties { get; init; } = new();
 
-    public string FullNamespace { get; set; } = string.Empty;
+    public  string FullNamespace { get; init; } = string.Empty;
 
-    public Conversions Conversions { get; set; }
+    public Conversions Conversions { get; init; }
 
-    public Customizations Customizations { get; set; }
+    public Customizations Customizations { get; init; }
 
     public string VoTypeName => TypeToAugment.Identifier.ToString();
 
-    public string UnderlyingTypeFullName => _underlyingTypeFullName;
+    public string UnderlyingTypeFullName =>  UnderlyingType.FullName() ?? UnderlyingType.Name ?? throw new InvalidOperationException(
+        "No underlying type specified - please file a bug at https://github.com/SteveDunn/Intellenum/issues/new?assignees=&labels=bug&template=BUG_REPORT.yml");
 
-    public bool HasToString { get; set; }
+    public bool HasToString { get; init; }
 
-    public DebuggerAttributeGeneration DebuggerAttributes { get; set; }
+    public DebuggerAttributeGeneration DebuggerAttributes { get; init; }
+
+    public bool IsConstant { get; init; }
 }

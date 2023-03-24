@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Vogen.Examples.TypicalScenarios.Normalization
+namespace Intellenum.Examples.TypicalScenarios.Normalization
 {
     // Represent a string scraped from some other text, e.g. a web-page, online article, etc.
     // It cannot be empty, or start / end with whitespace.
     // We have a normalization method that first normalizes the string, then the
     // validation method that validates it.
-    [ValueObject<string>]
+    [Intellenum<string>]
     public partial class ScrapedString
     {
         private static Validation Validate(string value)

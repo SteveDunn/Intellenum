@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Vogen.Examples.TypicalScenarios.ExplicitCasting
+namespace Intellenum.Examples.TypicalScenarios.ExplicitCasting
 {
     internal class ExplicitCastingScenario : IScenario
     {
@@ -22,7 +22,7 @@ namespace Vogen.Examples.TypicalScenarios.ExplicitCasting
     }
 
     // defaults to int
-    [ValueObject]
+    [Intellenum]
     internal readonly partial struct Score
     {
     }

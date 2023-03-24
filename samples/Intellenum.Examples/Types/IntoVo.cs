@@ -1,40 +1,40 @@
-﻿namespace Vogen.Examples.Types;
+﻿namespace Intellenum.Examples.Types;
 
 // the underlying type can be omitted and is defaulted to int
-[ValueObject]
+[Intellenum]
 public partial struct MyValueObject { }
 
 // the underlying type can be specified
-[ValueObject(typeof(int))]
+[Intellenum(typeof(int))]
 public partial struct MyValueObject2 { }
 
 // conversions can be specified, but if not, it defaults to TypeConverter and SystemTextJson
-[ValueObject(conversions: Conversions.None, underlyingType: typeof(int))]
+[Intellenum(conversions: Conversions.None, underlyingType: typeof(int))]
 public partial struct IntVo { }
 
-[ValueObject<int>(conversions: Conversions.None)]
+[Intellenum<int>(conversions: Conversions.None)]
 public partial struct IntGenericVo { }
 
-[ValueObject<int>(conversions: Conversions.None)]
+[Intellenum<int>(conversions: Conversions.None)]
 public partial struct NoConverterIntVo { }
 
-[ValueObject(conversions: Conversions.TypeConverter)]
+[Intellenum(conversions: Conversions.TypeConverter)]
 public partial struct NoJsonIntVo { }
 
-[ValueObject(conversions: Conversions.NewtonsoftJson)]
+[Intellenum(conversions: Conversions.NewtonsoftJson)]
 public partial struct NewtonsoftJsonIntVo { }
 
-[ValueObject(conversions: Conversions.SystemTextJson)]
+[Intellenum(conversions: Conversions.SystemTextJson)]
 public partial struct SystemTextJsonIntVo { }
 
-[ValueObject(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson)]
+[Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson)]
 public partial struct BothJsonIntVo { }
 
-[ValueObject(conversions: Conversions.EfCoreValueConverter)]
+[Intellenum(conversions: Conversions.EfCoreValueConverter)]
 public partial struct EfCoreIntVo { }
 
-[ValueObject(conversions: Conversions.DapperTypeHandler)]
+[Intellenum(conversions: Conversions.DapperTypeHandler)]
 public partial struct DapperIntVo { }
 
-[ValueObject(conversions: Conversions.LinqToDbValueConverter)]
+[Intellenum(conversions: Conversions.LinqToDbValueConverter)]
 public partial struct LinqToDbIntVo { }

@@ -195,7 +195,7 @@ public static class InstanceGeneration
         catch (Exception e)
         {
             return new(false, string.Empty,
-                $"Instance value named {propertyName} has an attribute with a '{propertyValue?.GetType()}' of '{propertyValue}' which cannot be converted to the underlying type of '{underlyingType}' - {e.Message}");
+                $"Named instance '{propertyName}' has a value type '{propertyValue?.GetType()}' of '{propertyValue}' which cannot be converted to the underlying type of '{underlyingType}' - {e.Message}");
         }
     }
 }

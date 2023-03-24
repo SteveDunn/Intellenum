@@ -1,11 +1,11 @@
-﻿namespace Vogen.Examples.SyntaxExamples.NoUserDefinedConstructors
+﻿namespace Intellenum.Examples.SyntaxExamples.NoUserDefinedConstructors
 {
     /*
         You shouldn't be allowed to use a default constructor as it could bypass
         any validation you might have added.
     */
 
-    [ValueObject]
+    [Intellenum]
     public partial struct CustomerId
     {
         private static Validation Validate(in int value) =>
@@ -21,7 +21,7 @@
         // public CustomerId(int v1, int v2) : this(v1) { }
     }
 
-    [ValueObject]
+    [Intellenum]
     public partial class VendorId
     {
         private static Validation Validate(in int value) =>

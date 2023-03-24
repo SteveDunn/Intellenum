@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Vogen.Examples.TypicalScenarios.Basic
+namespace Intellenum.Examples.TypicalScenarios.Basic
 {
     internal class BasicExamples : IScenario
     {
@@ -18,47 +18,47 @@ namespace Vogen.Examples.TypicalScenarios.Basic
     }
 
     // defaults to int
-    [ValueObject]
+    [Intellenum]
     internal readonly partial struct Score
     {
     }
 
     // can be internal structs
-    [ValueObject]
+    [Intellenum]
     internal partial struct Centimeter
     {
     }
 
     // can be internal classes
-    [ValueObject]
+    [Intellenum]
     internal partial class Meter
     {
     }
 
     // can be readonly internal 
-    [ValueObject]
+    [Intellenum]
     internal readonly partial struct Furlong
     {
     }
 
     // can be internal sealed
-    [ValueObject]
+    [Intellenum]
     internal sealed partial class Lumens
     {
     }
 
-    [ValueObject]
+    [Intellenum]
     public partial class CustomerId
     {
     }
 
-    [ValueObject]
+    [Intellenum]
     public partial class SupplierId
     {
     }
 
     // defaults to int, but configured to throw an AmountException
-    [ValueObject(throws: typeof(AmountException))]
+    [Intellenum(throws: typeof(AmountException))]
     public partial class Amount
     {
         private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid("Must be > 0"); // throws an AmountException

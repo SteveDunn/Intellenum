@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Vogen.Examples.SyntaxExamples
+namespace Intellenum.Examples.SyntaxExamples
 {
-     [ValueObject<TimeSpan>]
+     [Intellenum<TimeSpan>]
      public partial struct Duration
      {
          private static Validation Validate(TimeSpan timeSpan) =>

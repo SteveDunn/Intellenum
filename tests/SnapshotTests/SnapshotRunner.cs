@@ -113,7 +113,7 @@ namespace SnapshotTests
                 
                 //todo: remove
 #if DEBUG
-                //await File.WriteAllTextAsync(@"c:\git\intellenum\tests\scratchsnapshottests\test.cs", output);
+                // await File.WriteAllTextAsync(@"c:\git\intellenum\tests\scratchsnapshottests\test.cs", output);
 #endif
 
 

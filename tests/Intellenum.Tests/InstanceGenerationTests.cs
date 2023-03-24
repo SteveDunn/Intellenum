@@ -214,7 +214,7 @@ public class InstanceGenerationTests
                 r.Success.Should().BeFalse();
                 r.ErrorMessage.Should()
                     .Match(
-                        $"Instance value named foo has an attribute with a 'System.String' of '{input}' which cannot be converted to the underlying type of '{fullName}' - * was not recognized as a valid DateTime.");
+                        $"Named instance 'foo' has a value type '{input.GetType().FullName}' of '{input}' which cannot be converted to the underlying type of '{fullName}' - * was not recognized as a valid DateTime.");
             }
         }
 
@@ -236,7 +236,7 @@ public class InstanceGenerationTests
                 r.Success.Should().BeFalse();
                 r.ErrorMessage.Should()
                     .Contain(
-                        $"Instance value named foo has an attribute with a '{input.GetType().FullName}' of '{input}' which cannot be converted to the underlying type of '{fullName}' - Ticks must be between DateTime.MinValue.Ticks and DateTime.MaxValue.Ticks");
+                        $"Named instance 'foo' has a value type '{input.GetType().FullName}' of '{input}' which cannot be converted to the underlying type of '{fullName}' - Ticks must be between DateTime.MinValue.Ticks and DateTime.MaxValue.Ticks");
             }
         }
 
