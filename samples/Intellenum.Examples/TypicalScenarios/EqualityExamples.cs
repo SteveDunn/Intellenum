@@ -11,7 +11,9 @@ namespace Intellenum.Examples.TypicalScenarios.Equality
         {
 
             // error CS0019: Operator '==' cannot be applied to operands of type 'Age' and 'Centigrade'
-            // Console.WriteLine(Age.From(1) == Centigrade.From(1)); // true
+            Console.WriteLine(Centigrade.AbsoluteZero == Centigrade.FromName("AbsoluteZero")); // true
+            Console.WriteLine(Centigrade.AbsoluteZero == Centigrade.FromValue(-273.15m)); // true
+            Console.WriteLine(Centigrade.AbsoluteZero == -273.15m); // true
 
             return Task.CompletedTask;
         }

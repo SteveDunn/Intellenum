@@ -23,7 +23,7 @@ namespace Intellenum.Examples.SerializationAndConversion
 			var connection = new SqliteConnection("DataSource=:memory:");
 			connection.Open();
 
-			var original = new TestEntity { Id = LinqToDbStringVo.From("foo!") };
+			var original = new TestEntity { Id = LinqToDbStringVo.Item1};
 			using (var context = new TestDbContext(connection))
 			{
 				context.CreateTable<TestEntity>();

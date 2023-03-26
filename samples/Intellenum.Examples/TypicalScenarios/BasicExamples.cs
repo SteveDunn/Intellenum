@@ -11,7 +11,7 @@ namespace Intellenum.Examples.TypicalScenarios.Basic
             //      Argument 1: cannot convert from 'SupplierId' to 'CustomerId'
             // new CustomerProcessor().Process(SupplierId.From(123), SupplierId.From(321), Amount.From(123));
 
-            new CustomerProcessor().Process(CustomerId.From(123), SupplierId.From(321), Amount.From(123));
+            new CustomerProcessor().Process(CustomerType.FromName("Standard"), SupplierType.FromValue(1));
 
             return Task.CompletedTask;
         }
@@ -19,61 +19,48 @@ namespace Intellenum.Examples.TypicalScenarios.Basic
 
     // defaults to int
     [Intellenum]
-    internal readonly partial struct Score
+    [Instance("Won", 2)]
+    [Instance("Drawn", 1)]
+    [Instance("Lost", 0)]
+    internal partial class Score
     {
     }
 
-    // can be internal structs
+    // can be internal class
     [Intellenum]
-    internal partial struct Centimeter
-    {
-    }
-
-    // can be internal classes
-    [Intellenum]
-    internal partial class Meter
-    {
-    }
-
-    // can be readonly internal 
-    [Intellenum]
-    internal readonly partial struct Furlong
+    [Instance("Accepted", 0)]
+    [Instance("Shipped", 1)]
+    internal partial class OrderStatus
     {
     }
 
     // can be internal sealed
     [Intellenum]
-    internal sealed partial class Lumens
+    [Instance("Warm", 1)]
+    [Instance("Bright", 5)]
+    internal sealed partial class LumenType
     {
     }
 
     [Intellenum]
-    public partial class CustomerId
-    {
-    }
-
-    [Intellenum]
-    public partial class SupplierId
-    {
-    }
-
-    // defaults to int, but configured to throw an AmountException
-    [Intellenum(throws: typeof(AmountException))]
-    public partial class Amount
-    {
-        private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid("Must be > 0"); // throws an AmountException
-    }
-
-    public class AmountException : Exception
-    {
-        public AmountException(string message) : base(message)
-        {
-        }
-    }
+    [Instance("Standard", 0)]
+    [Instance("Gold", 1)]
     
+    public partial class CustomerType
+    {
+    }
+
+    [Intellenum]
+    [Instance("Standard", 0)]
+    [Instance("Preferred", 1)]
+
+    public partial class SupplierType
+    {
+    }
+
     internal class CustomerProcessor
     {
-        internal void Process(CustomerId customerId, SupplierId supplierId, Amount amount) =>
-            Console.WriteLine($"Processing customer {customerId}, supplier {supplierId}, with amount {amount}");
+        internal void Process(CustomerType customerType, SupplierType supplierType) =>
+            Console.WriteLine($"Processing customer {customerType}, supplier {supplierType}");
     }
 }

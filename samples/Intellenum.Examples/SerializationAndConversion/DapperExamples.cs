@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using Intellenum.Examples.Types;
 using Microsoft.Data.Sqlite;
 
 namespace Intellenum.Examples.SerializationAndConversion

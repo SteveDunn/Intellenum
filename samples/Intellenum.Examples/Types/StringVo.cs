@@ -1,29 +1,47 @@
 ﻿namespace Intellenum.Examples.Types
 {
     [Intellenum<string>(conversions: Conversions.None)]
-    public partial struct StringVo { }
+    [Instance("Item1", "Item1")]
+    [Instance("Item2", "Item2")]
+    public partial class StringVo { }
 
     [Intellenum<string>(conversions: Conversions.None)]
-    public partial struct NoConverterStringVo { }
+    [Instance("Item1", "Item1")]
+    [Instance("Item2", "Item2")]
+    public partial class NoConverterStringVo { }
 
     [Intellenum<string>(conversions: Conversions.TypeConverter)]
-    public partial struct NoJsonStringVo { }
+    [Instance("Item1", "Item1")]
+    [Instance("Item2", "Item2")]
+    public partial class NoJsonStringVo { }
 
     [Intellenum<string>(conversions: Conversions.NewtonsoftJson)]
-    public partial struct NewtonsoftJsonStringVo { }
+    [Instance("Item1", "Item1")]
+    [Instance("Item2", "Item2")]
+    public partial class NewtonsoftJsonStringVo { }
 
     [Intellenum<string>(conversions: Conversions.SystemTextJson)]
-    public partial struct SystemTextJsonStringVo { }
+    [Instance("Item1", "Item1")]
+    [Instance("Item2", "Item2")]
+    public partial class SystemTextJsonStringVo { }
 
     [Intellenum<string>(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson)]
-    public partial struct BothJsonStringVo { }
+    [Instance("Item1", "Item1")]
+    [Instance("Item2", "Item2")]
+    public partial class BothJsonStringVo { }
 
     [Intellenum<string>(conversions: Conversions.EfCoreValueConverter)]
-    public partial struct EfCoreStringVo { }
+    [Instance("Item1", "Item1")]
+    [Instance("Item2", "Item2")]
+    public partial class EfCoreStringVo { }
 
     [Intellenum<string>(conversions: Conversions.DapperTypeHandler)]
-    public partial struct DapperStringVo { }
+    [Instance("Item1", "Item1")]
+    [Instance("Item2", "Item2")]
+    public partial class DapperStringVo { }
 
     [Intellenum<string>(conversions: Conversions.LinqToDbValueConverter)]
-    public partial struct LinqToDbStringVo { }
+    [Instance("Item1", "Item1")]
+    [Instance("Item2", "Item2")]
+    public partial class LinqToDbStringVo { }
 }

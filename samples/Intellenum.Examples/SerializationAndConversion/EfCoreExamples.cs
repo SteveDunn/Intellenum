@@ -24,7 +24,7 @@ namespace Intellenum.Examples.SerializationAndConversion
                 .UseSqlite(connection)
                 .Options;
 
-            var original = new TestEntity { Id = EfCoreStringVo.From("foo!") };
+            var original = new TestEntity { Id = EfCoreStringVo.Item1 };
             using (var context = new TestDbContext(options))
             {
                 context.Database.EnsureCreated();

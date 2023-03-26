@@ -8,10 +8,11 @@ namespace Intellenum.Examples.TypicalScenarios.ExplicitCasting
         public Task Run()
         {
             // We can create an instance with an explicit cast. If there is validation, it is still run.
-            Score score1 = (Score) 20;
-            Score score2 = Score.From(20);
+            ScoreType score1 = (ScoreType)2;
+            ScoreType score2 = ScoreType.FromValue(2);
             
             Console.WriteLine(score1 == score2); // true
+            Console.WriteLine(score1 == ScoreType.Won); // true
             
             // We can cast an instance to the underlying type too
             int score3 = (int) score2;
@@ -23,7 +24,10 @@ namespace Intellenum.Examples.TypicalScenarios.ExplicitCasting
 
     // defaults to int
     [Intellenum]
-    internal readonly partial struct Score
+    [Instance("Won", 2)]
+    [Instance("Drawn", 1)]
+    [Instance("Lost", 0)]
+    internal partial class ScoreType
     {
     }
 }
