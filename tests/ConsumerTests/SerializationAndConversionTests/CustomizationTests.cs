@@ -167,7 +167,7 @@ public class CustomizationTests
 
         var deserialized = JsonSerializer.Deserialize<Container>(serialized);
 
-        deserialized.ByteHolder_as_a_string.Value.Should().Be(123);
+        deserialized.ByteHolder_as_a_string.Value.Should().Be(1);
         deserialized.ByteHolder_normal.Value.Should().Be(123);
     }
 }

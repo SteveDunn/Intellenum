@@ -19,16 +19,9 @@ public partial class MyVoInt_should_not_bypass_validation
 }
 
 [Intellenum<string>(Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter)]
-[Instance("Item1", "Item1")]
-[Instance("Item2", "Item2")]
-public partial class MyVoString_should_not_bypass_validation
-{
-}
-
-[Intellenum<string>(Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter)]
-[Instance("Item1", "Item1")]
-[Instance("Item2", "Item2")]
-public partial class MyVoString_should_bypass_validation
+[Instance("Item1", "Item1!")]
+[Instance("Item2", "Item2!")]
+public partial class MyVoString
 {
 }
 #endregion
@@ -59,7 +52,7 @@ public class DeserializationValidationDbContext : DbContext
             {
                 builder
                     .Property(x => x.Id)
-                    .HasConversion(new MyVoString_should_not_bypass_validation.EfCoreValueConverter())
+                    .HasConversion(new MyVoString.EfCoreValueConverter())
                     .ValueGeneratedNever();
             });
     }
@@ -88,7 +81,7 @@ public class DeserializationValidationTestIntEntity
 
 public class DeserializationValidationTestStringEntity
 {
-    public MyVoString_should_not_bypass_validation? Id { get; set; }
+    public MyVoString? Id { get; set; }
 }
 #endregion
 
@@ -103,8 +96,8 @@ public class DeserializationValidationTestLinqToDbTestIntEntity
 public class DeserializationValidationTestLinqToDbTestStringEntity
 {
     [Column(DataType = DataType.VarChar)]
-    [ValueConverter(ConverterType = typeof(MyVoString_should_not_bypass_validation.LinqToDbValueConverter))]
-    public MyVoString_should_not_bypass_validation? Id { get; set; }
+    [ValueConverter(ConverterType = typeof(MyVoString.LinqToDbValueConverter))]
+    public MyVoString? Id { get; set; }
 }
 #endregion
 #endregion

@@ -35,20 +35,6 @@ using Intellenum;
 
         {InstanceGeneration.GeneratePrivateConstructionInitialisationIfNeeded(item)}
 
-//        /// <summary>
-//        /// Gets the underlying <see cref=""{itemUnderlyingType}"" /> value if set, otherwise a <see cref=""{nameof(IntellenumValidationException)}"" /> is thrown.
-//        /// </summary>
-//        public {itemUnderlyingType} ValueChecked
-//        {{
-//            [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-//            [global::System.Diagnostics.DebuggerStepThroughAttribute]                                                                                                     
-//            get
-//            {{
-//                if(!_isInitialized) Throw();
-//                return _value;
-//            }}
-//        }}
-
         /// <summary>
         /// Gets the underlying <see cref=""{itemUnderlyingType}"" /> value if set, otherwise default
         /// </summary>

@@ -69,7 +69,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             string serializedVo = NewtonsoftJsonSerializer.SerializeObject(vo);
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonFloatVo>(serializedVo)!;
 
-            deserializedVo.Value.Should().Be(123.45f);
+            deserializedVo.Value.Should().Be(2.2f);
         }
 
         [Fact]
@@ -80,7 +80,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             string serializedVo = SystemTextJsonSerializer.Serialize(vo);
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonFloatVo>(serializedVo)!;
 
-            deserializedVo.Value.Should().Be(123.45f);
+            deserializedVo.Value.Should().Be(2.2f);
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromFloat_WithNewtonsoftJsonProvider()
         {
-            var value = 123;
+            var value = 1.1f;
             var vo = NewtonsoftJsonFloatVo.Item1;
             var serializedFloat = NewtonsoftJsonSerializer.SerializeObject(value);
 
@@ -109,7 +109,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromFloat_WithSystemTextJsonProvider()
         {
-            var value = 123;
+            var value = 1.1f;
             var vo = SystemTextJsonFloatVo.Item1;
             var serializedFloat = SystemTextJsonSerializer.Serialize(value);
 
@@ -213,7 +213,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            var parameters = new { Value = 123.45f };
+            var parameters = new { Value = 2.2f };
             IEnumerable<DapperFloatVo> results = await connection.QueryAsync<DapperFloatVo>("SELECT @Value", parameters);
 
             var value = Assert.Single(results);
@@ -247,8 +247,8 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         }
 
         [Theory]
-        [InlineData((float)123.45)]
-        [InlineData("123.45")]
+        [InlineData((float)1.1)]
+        [InlineData("1.1")]
         public void TypeConverter_CanConvertToAndFrom(object value)
         {
             var converter = TypeDescriptor.GetConverter(typeof(NoJsonFloatVo));
@@ -257,7 +257,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             
             var id = converter.ConvertFrom(null!, culture, value);
             Assert.IsType<NoJsonFloatVo>(id);
-            Assert.Equal(NoJsonFloatVo.Item2, id);
+            Assert.Equal(NoJsonFloatVo.Item1, id);
 
             object reconverted = converter.ConvertTo(null, culture, id, value.GetType());
             Assert.Equal(value, reconverted);

@@ -74,7 +74,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromLong_WithNewtonsoftJsonProvider()
         {
-            var value = 123D;
+            var value = 1.1D;
             var vo = NewtonsoftJsonDoubleVo.Item1;
             var serializedLong = NewtonsoftJsonSerializer.SerializeObject(value);
 
@@ -86,7 +86,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromLong_WithSystemTextJsonProvider()
         {
-            var value = 123D;
+            var value = 1.1D;
             var vo = SystemTextJsonDoubleVo.Item1;
             var serializedLong = SystemTextJsonSerializer.Serialize(value);
 
@@ -190,7 +190,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            var parameters = new { Value = 123.45d };
+            var parameters = new { Value = 1.1D };
             IEnumerable<DapperDoubleVo> results = await connection.QueryAsync<DapperDoubleVo>("SELECT @Value", parameters);
 
             var value = Assert.Single(results);
@@ -224,8 +224,8 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         }
 
         [Theory]
-        [InlineData(123.45D)]
-        [InlineData("123.45")]
+        [InlineData(1.1D)]
+        [InlineData("1.1D")]
         public void TypeConverter_CanConvertToAndFrom(object value)
         {
             var culture = new CultureInfo("en-US");
@@ -247,7 +247,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             string serializedVo = NewtonsoftJsonSerializer.SerializeObject(vo);
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonDoubleVo>(serializedVo)!;
 
-            deserializedVo.Value.Should().Be(123.45);
+            deserializedVo.Value.Should().Be(1.1D);
         }
 
         [Fact]
@@ -258,7 +258,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             string serializedVo = SystemTextJsonSerializer.Serialize(vo);
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDoubleVo>(serializedVo)!;
 
-            deserializedVo.Value.Should().Be(123.45);
+            deserializedVo.Value.Should().Be(1.1D);
         }
 
         [Fact]
@@ -269,7 +269,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             string serializedVo = SystemTextJsonSerializer.Serialize(vo);
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDoubleVo_number_as_string>(serializedVo)!;
 
-            deserializedVo.Value.Should().Be(123.45);
+            deserializedVo.Value.Should().Be(1.1D);
         }
 
         public class TestDbContext : DbContext

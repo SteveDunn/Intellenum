@@ -21,7 +21,7 @@ public static class ModuleInitialization
 
 #if NET7_0_OR_GREATER
         SqlMapper.AddTypeHandler(new ConsumerTests.GenericDeserializationValidationTests.MyVoInt_should_not_bypass_validation.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new ConsumerTests.GenericDeserializationValidationTests.MyVoString_should_not_bypass_validation.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new ConsumerTests.GenericDeserializationValidationTests.MyVoString.DapperTypeHandler());
 #endif
 
         SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperFooVo.DapperTypeHandler());

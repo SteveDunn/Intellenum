@@ -80,7 +80,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromLong_WithNewtonsoftJsonProvider()
         {
-            var value = 123.45m;
+            var value = 1.1m;
             var vo = NewtonsoftJsonDecimalVo.Item1;
             var serializedLong = NewtonsoftJsonSerializer.SerializeObject(value);
 
@@ -92,7 +92,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromLong_WithSystemTextJsonProvider()
         {
-            var value = 123.45m;
+            var value = 1.1m;
             var vo = SystemTextJsonDecimalVo.Item1;
             var serializedLong = SystemTextJsonSerializer.Serialize(value);
 
@@ -196,7 +196,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            var parameters = new { Value = 123.45m };
+            var parameters = new { Value = 1.1m };
             IEnumerable<DapperDecimalVo> results = await connection.QueryAsync<DapperDecimalVo>("SELECT @Value", parameters);
 
             DapperDecimalVo value = Assert.Single(results);
@@ -233,12 +233,12 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         public void TypeConverter_CanConvertToAndFromDecimal()
         {
             var converter = TypeDescriptor.GetConverter(typeof(NoJsonDecimalVo));
-            var id = converter.ConvertFrom(123.45m);
+            var id = converter.ConvertFrom(1.1m);
             Assert.IsType<NoJsonDecimalVo>(id);
             Assert.Equal(NoJsonDecimalVo.Item1, id);
 
             var reconverted = converter.ConvertTo(id, typeof(decimal));
-            Assert.Equal(123.45m, reconverted);
+            Assert.Equal(1.1m, reconverted);
         }
 
         [Fact]
@@ -247,12 +247,12 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             var culture = new CultureInfo("en-US");
 
             var converter = TypeDescriptor.GetConverter(typeof(NoJsonDecimalVo));
-            var id = converter.ConvertFrom(null!, culture, "123.45");
+            var id = converter.ConvertFrom(null!, culture, "1.1");
             Assert.IsType<NoJsonDecimalVo>(id);
             Assert.Equal(NoJsonDecimalVo.Item1, id);
 
             var reconverted = converter.ConvertTo(null, culture, id, typeof(string));
-            Assert.Equal("123.45", reconverted);
+            Assert.Equal("1.1", reconverted);
         }
         
         [Fact]
@@ -263,7 +263,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             string serializedVo = NewtonsoftJsonSerializer.SerializeObject(vo);
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonDecimalVo>(serializedVo)!;
 
-            deserializedVo.Value.Should().Be(123.45m);
+            deserializedVo.Value.Should().Be(1.1m);
         }
 
         [Fact]
@@ -274,7 +274,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             string serializedVo = SystemTextJsonSerializer.Serialize(vo);
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDecimalVo>(serializedVo)!;
 
-            deserializedVo.Value.Should().Be(123.45m);
+            deserializedVo.Value.Should().Be(1.1m);
         }
 
         [Fact]
@@ -285,7 +285,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             string serializedVo = SystemTextJsonSerializer.Serialize(vo);
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDecimalVo_Treating_number_as_string>(serializedVo)!;
 
-            deserializedVo.Value.Should().Be(123.45m);
+            deserializedVo.Value.Should().Be(1.1m);
         }
         
 

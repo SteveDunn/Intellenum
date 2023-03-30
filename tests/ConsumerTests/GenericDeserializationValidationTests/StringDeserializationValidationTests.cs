@@ -17,40 +17,18 @@ namespace ConsumerTests.GenericDeserializationValidationTests;
 public class StringDeserializationValidationTests
 {
     [Fact]
-    public async void Deserialization_dapper_should_not_bypass_validation_pass()
+    public async void Deserialization_dapper()
     {
         using var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();
 
-        var actual = (await connection.QueryAsync<MyVoString_should_not_bypass_validation>("SELECT 'abcdefghijk'")).AsList()[0].Value;
+        var actual = (await connection.QueryAsync<MyVoString>("SELECT 'Item1!'")).AsList()[0].Value;
 
-        actual.Should().Be("abcdefghijk");
+        actual.Should().Be("Item1!");
     }
 
     [Fact]
-    public async Task Deserialization_dapper_should_not_bypass_validation_fail()
-    {
-        using var connection = new SqliteConnection("DataSource=:memory:");
-        await connection.OpenAsync();
-
-        Func<Task<string>> vo = async () => (await connection.QueryAsync<MyVoString_should_not_bypass_validation>("SELECT 'abc'")).AsList()[0].Value;
-
-        await vo.Should().ThrowExactlyAsync<IntellenumValidationException>().WithMessage("length must be greater than ten characters");
-    }
-
-    [Fact]
-    public async Task Deserialization_dapper_should_bypass_validation_fail()
-    {
-        using var connection = new SqliteConnection("DataSource=:memory:");
-        await connection.OpenAsync();
-
-         MyVoString_should_bypass_validation? vo = (await connection.QueryAsync<MyVoString_should_bypass_validation>("SELECT 'abc'")).AsList()[0];
-
-         vo.Value.Should().Be("abc");
-    }
-
-    [Fact]
-    public async void Deserialization_efcore_should_not_bypass_validation_pass()
+    public async void Deserialization_efcore()
     {
         var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();
@@ -61,114 +39,53 @@ public class StringDeserializationValidationTests
 
         using (var context = new DeserializationValidationDbContext(options))
         {
-            var actual = await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.SingleAsync(context.StringEntities!.FromSqlRaw("SELECT 'abcdefghijk' As Id"));
-            actual.Id!.Value.Should().Be("abcdefghijk");
+            var actual = await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.SingleAsync(context.StringEntities!.FromSqlRaw("SELECT 'Item1!' As Id"));
+            actual.Id!.Value.Should().Be("Item1!");
         }
     }
 
     [Fact]
-    public async void Deserialization_efcore_should_not_bypass_validation_fail()
-    {
-        var connection = new SqliteConnection("DataSource=:memory:");
-        await connection.OpenAsync();
-
-        var options = new DbContextOptionsBuilder<DeserializationValidationDbContext>()
-            .UseSqlite(connection)
-            .Options;
-
-        using (var context = new DeserializationValidationDbContext(options))
-        {
-            Func<Task<string>> vo = async () => (await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.SingleAsync(context.StringEntities!.FromSqlRaw("SELECT 'abc' As Id"))).Id!.Value;
-            await vo.Should().ThrowExactlyAsync<IntellenumValidationException>().WithMessage("length must be greater than ten characters");
-        }
-    }
-    [Fact]
-    public async void Deserialization_linqtodb_should_not_bypass_validation_pass()
+    public async void Deserialization_linqtodb()
     {
         var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();
 
         using (var context = new DeserializationValidationDataConnection(connection))
         {
-            var actual = await LinqToDB.AsyncExtensions.SingleAsync(context.FromSql<DeserializationValidationTestLinqToDbTestStringEntity>("SELECT 'abcdefghijk' As Id"));
-            actual.Id!.Value.Should().Be("abcdefghijk");
+            var actual = await LinqToDB.AsyncExtensions.SingleAsync(context.FromSql<DeserializationValidationTestLinqToDbTestStringEntity>("SELECT 'Item1!' As Id"));
+            actual.Id!.Value.Should().Be("Item1!");
         }
     }
 
     [Fact]
-    public async void Deserialization_linqtodb_should_not_bypass_validation_fail()
+    public void TypeConversion()
     {
-        var connection = new SqliteConnection("DataSource=:memory:");
-        await connection.OpenAsync();
+        var converter = TypeDescriptor.GetConverter(typeof(MyVoString));
+        var validValue = "Item1!";
 
-        //var original = new TestEntity { Id = LinqToDbStringVo.From("foo!") };
-        using (var context = new DeserializationValidationDataConnection(connection))
-        {
-            Func<Task<string>> vo = async () => (await LinqToDB.AsyncExtensions.SingleAsync(context.FromSql<DeserializationValidationTestLinqToDbTestStringEntity>("SELECT 'abc' As Id"))).Id!.Value;
-            await vo.Should().ThrowExactlyAsync<IntellenumValidationException>().WithMessage("length must be greater than ten characters");
-        }
+        var actual = ((MyVoString?) converter.ConvertFrom(validValue))!.Value;
+
+        actual.Should().Be("Item1!");
     }
 
     [Fact]
-    public void TypeConversion_should_not_bypass_validation_pass()
+    public void Deserialization_systemtextjson()
     {
-        var converter = TypeDescriptor.GetConverter(typeof(MyVoString_should_not_bypass_validation));
-        var validValue = "abcdefghijk";
+        var validValue = SystemTextJsonSerializer.Serialize(MyVoString.Item1);
 
-        var actual = ((MyVoString_should_not_bypass_validation?) converter.ConvertFrom(validValue))!.Value;
+        var actual = SystemTextJsonSerializer.Deserialize<MyVoString>(validValue)!.Value;
 
-        actual.Should().Be("abcdefghijk");
+        actual.Should().Be("Item1!");
     }
 
     [Fact]
-    public void TypeConversion_should_not_bypass_validation_fail()
+    public void Deserialization_newtonsoft()
     {
-        var converter = TypeDescriptor.GetConverter(typeof(MyVoString_should_not_bypass_validation));
-        var invalidValue = "abc";
+        var validValue = NewtonsoftJsonSerializer.SerializeObject(MyVoString.Item1);
 
-        Action vo = () => converter.ConvertFrom(invalidValue);
+        var actual = NewtonsoftJsonSerializer.DeserializeObject<MyVoString>(validValue)!.Value;
 
-        vo.Should().ThrowExactly<IntellenumValidationException>().WithMessage("length must be greater than ten characters");
-    }
-
-    [Fact]
-    public void Deserialization_systemtextjson_should_not_bypass_validation_pass()
-    {
-        var validValue = SystemTextJsonSerializer.Serialize(MyVoString_should_not_bypass_validation.Item1);
-
-        var actual = SystemTextJsonSerializer.Deserialize<MyVoString_should_not_bypass_validation>(validValue)!.Value;
-
-        actual.Should().Be("abcdefghijk");
-    }
-
-    [Fact]
-    public void Deserialization_systemtextjson_should_not_bypass_validation_fail()
-    {
-        var invalidValue = SystemTextJsonSerializer.Serialize(MyVoString_should_not_bypass_validation.Item1).Replace("abcdefghijk", "abc");
-
-        Action vo = () => SystemTextJsonSerializer.Deserialize<MyVoString_should_not_bypass_validation>(invalidValue);
-
-        vo.Should().ThrowExactly<IntellenumValidationException>().WithMessage("length must be greater than ten characters");
-    }
-
-    [Fact]
-    public void Deserialization_newtonsoft_should_not_bypass_validation_pass()
-    {
-        var validValue = NewtonsoftJsonSerializer.SerializeObject(MyVoString_should_not_bypass_validation.Item1);
-
-        var actual = NewtonsoftJsonSerializer.DeserializeObject<MyVoString_should_not_bypass_validation>(validValue)!.Value;
-
-        actual.Should().Be("abcdefghijk");
-    }
-
-    [Fact]
-    public void Deserialization_newtonsoft_should_not_bypass_validation_fail()
-    {
-        var invalidValue = NewtonsoftJsonSerializer.SerializeObject(MyVoString_should_not_bypass_validation.Item1).Replace("abcdefghijk", "abc");
-
-        Func<string> vo = () => NewtonsoftJsonSerializer.DeserializeObject<MyVoString_should_not_bypass_validation>(invalidValue)!.Value;
-
-        vo.Should().ThrowExactly<IntellenumValidationException>().WithMessage("length must be greater than ten characters");
+        actual.Should().Be("Item1!");
     }
 }
 #endif

@@ -52,20 +52,6 @@ namespace Whatever
 
         
 
-//        /// <summary>
-//        /// Gets the underlying <see cref="System.Int32" /> value if set, otherwise a <see cref="IntellenumValidationException" /> is thrown.
-//        /// </summary>
-//        public System.Int32 ValueChecked
-//        {
-//            [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-//            [global::System.Diagnostics.DebuggerStepThroughAttribute]                                                                                                     
-//            get
-//            {
-//                if(!_isInitialized) Throw();
-//                return _value;
-//            }
-//        }
-
         /// <summary>
         /// Gets the underlying <see cref="System.Int32" /> value if set, otherwise default
         /// </summary>

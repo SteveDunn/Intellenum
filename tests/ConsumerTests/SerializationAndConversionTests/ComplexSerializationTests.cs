@@ -47,7 +47,7 @@ public class ComplexSerializationTests
         deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonBoolVo.Value.Should().Be(true);
         deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonBoolVo.Value.Should().Be(true);
         deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonByteVo.Value.Should().Be(1);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonCharVo.Value.Should().Be('2');
+        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonCharVo.Value.Should().Be('b');
         deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDateTimeOffsetVo.Value.Should().Be(new DateTimeOffset(2020, 12, 13, 23, 59, 59, 999, TimeSpan.Zero));
         deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDateTimeVo.Value.Should().Be(new DateTime(2020, 12, 13, 23, 59, 59, 999));
         deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDecimalVo.Value.Should().Be(3.33m);

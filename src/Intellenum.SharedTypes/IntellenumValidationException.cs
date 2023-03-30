@@ -26,28 +26,6 @@ public class IntellenumException : Exception
 }
 
 [Serializable]
-public class IntellenumValidationException : IntellenumException
-{
-    public IntellenumValidationException()
-    {
-    }
-
-    public IntellenumValidationException(string message) : base(message)
-    {
-    }
-
-    public IntellenumValidationException(string message, Exception inner) : base(message, inner)
-    {
-    }
-
-    protected IntellenumValidationException(
-        SerializationInfo info,
-        StreamingContext context) : base(info, context)
-    {
-    }
-}
-
-[Serializable]
 public class IntellenumUninitialisedException : IntellenumException
 {
     public IntellenumUninitialisedException()
