@@ -1,32 +1,55 @@
-﻿namespace Vogen.IntegrationTests.TestTypes.ClassVos
+﻿namespace Intellenum.IntegrationTests.TestTypes.ClassVos
 {
-    [ValueObject(conversions: Conversions.None, underlyingType: typeof(double))]
-    public partial class DoubleVo { }
+    [Intellenum(conversions: Conversions.None, underlyingType: typeof(double))]
+    [Instance("Item1", 1.1d)]
+    [Instance("Item2", 2.2d)]
+    public partial class DoubleVo
+    {
+        
+    }
 
-    [ValueObject(conversions: Conversions.None, underlyingType: typeof(double))]
+    [Intellenum(conversions: Conversions.None, underlyingType: typeof(double))]
+    [Instance("Item1", 1.1d)]
+    [Instance("Item2", 2.2d)]
     public partial class NoConverterDoubleVo { }
 
-    [ValueObject(conversions: Conversions.TypeConverter, underlyingType: typeof(double))]
+    [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(double))]
+    [Instance("Item1", 1.1d)]
+    [Instance("Item2", 2.2d)]
     public partial class NoJsonDoubleVo { }
 
-    [ValueObject(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(double))]
+    [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(double))]
+    [Instance("Item1", 1.1d)]
+    [Instance("Item2", 2.2d)]
     public partial class NewtonsoftJsonDoubleVo { }
 
-    [ValueObject(conversions: Conversions.SystemTextJson, underlyingType: typeof(double))]
+    [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(double))]
+    [Instance("Item1", 1.1d)]
+    [Instance("Item2", 2.2d)]
     public partial class SystemTextJsonDoubleVo { }
 
-    [ValueObject(conversions: Conversions.SystemTextJson, underlyingType: typeof(double), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+    [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(double), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+    [Instance("Item1", 1.1d)]
+    [Instance("Item2", 2.2d)]
     public partial class SystemTextJsonDoubleVo_number_as_string { }
 
-    [ValueObject(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(double))]
+    [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(double))]
+    [Instance("Item1", 1.1d)]
+    [Instance("Item2", 2.2d)]
     public partial class BothJsonDoubleVo { }
 
-    [ValueObject(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(double))]
+    [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(double))]
+    [Instance("Item1", 1.1d)]
+    [Instance("Item2", 2.2d)]
     public partial class EfCoreDoubleVo { }
 
-    [ValueObject(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(double))]
+    [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(double))]
+    [Instance("Item1", 1.1d)]
+    [Instance("Item2", 2.2d)]
     public partial class DapperDoubleVo { }
 
-    [ValueObject(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(double))]
+    [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(double))]
+    [Instance("Item1", 1.1d)]
+    [Instance("Item2", 2.2d)]
     public partial class LinqToDbDoubleVo { }
 }

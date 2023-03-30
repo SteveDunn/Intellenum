@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Vogen.IntegrationTests.TestTypes.ClassVos;
+using Intellenum.IntegrationTests.TestTypes.ClassVos;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
@@ -26,46 +26,45 @@ using LinqToDB.Mapping;
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable SuspiciousTypeConversion.Global
 
-namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
+namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 {
-    [ValueObject(underlyingType: typeof(TimeOnly))]
-    public readonly partial struct AnotherTimeOnlyVo { }
+    [Intellenum(underlyingType: typeof(TimeOnly))]
+    public partial class AnotherTimeOnlyVo
+    {
+        static AnotherTimeOnlyVo()
+        {
+            Instance("Item1", new TimeOnly(1, 2, 3, 4));
+            Instance("Item2", new TimeOnly(5, 6, 7, 8));
+        }
+
+    }
 
     public class TimeOnlyVoTests
     {
-        private static readonly TimeOnly _time1 = new TimeOnly(13, 12, 59, 123);
-        private static readonly TimeOnly _time2 = new TimeOnly(1, 59, 58, 123);
-        
         [Fact]
         public void equality_between_same_value_objects()
         {
-            TimeOnlyVo.From(_time1).Equals(TimeOnlyVo.From(_time1)).Should().BeTrue();
-            (TimeOnlyVo.From(_time1) == TimeOnlyVo.From(_time1)).Should().BeTrue();
+            TimeOnlyVo.Item1.Equals(TimeOnlyVo.Item1).Should().BeTrue();
+            (TimeOnlyVo.Item1 == TimeOnlyVo.Item1).Should().BeTrue();
 
-            (TimeOnlyVo.From(_time1) != TimeOnlyVo.From(_time2)).Should().BeTrue();
-            (TimeOnlyVo.From(_time1) == TimeOnlyVo.From(_time2)).Should().BeFalse();
+            (TimeOnlyVo.Item1 != TimeOnlyVo.Item2).Should().BeTrue();
+            (TimeOnlyVo.Item1 == TimeOnlyVo.Item2).Should().BeFalse();
 
-            TimeOnlyVo.From(_time1).Equals(TimeOnlyVo.From(_time1)).Should().BeTrue();
-            (TimeOnlyVo.From(_time1) == TimeOnlyVo.From(_time1)).Should().BeTrue();
+            TimeOnlyVo.Item1.Equals(TimeOnlyVo.Item1).Should().BeTrue();
+            (TimeOnlyVo.Item1 == TimeOnlyVo.Item1).Should().BeTrue();
 
-            var original = TimeOnlyVo.From(_time1);
-            var other = TimeOnlyVo.From(_time1);
+            var original = TimeOnlyVo.Item1;
+            var other = TimeOnlyVo.Item1;
 
             ((original as IEquatable<TimeOnlyVo>).Equals(other)).Should().BeTrue();
             ((other as IEquatable<TimeOnlyVo>).Equals(original)).Should().BeTrue();
-        }
-
-        [Fact]
-        public void equality_between_different_value_objects()
-        {
-            TimeOnlyVo.From(_time1).Equals(AnotherTimeOnlyVo.From(_time1)).Should().BeFalse();
         }
 
 #if NET7_0_OR_GREATER
         [Fact]
         public void CanSerializeToString_WithNewtonsoftJsonProvider()
         {
-            var g1 = NewtonsoftJsonTimeOnlyVo.From(_time1);
+            var g1 = NewtonsoftJsonTimeOnlyVo.Item1;
 
             string serialized = NewtonsoftJsonSerializer.SerializeObject(g1);
             string serializedString = NewtonsoftJsonSerializer.SerializeObject(g1.Value);
@@ -76,7 +75,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToString_WithSystemTextJsonProvider()
         {
-            var vo = SystemTextJsonTimeOnlyVo.From(_time1);
+            var vo = SystemTextJsonTimeOnlyVo.Item1;
 
             string serializedVo = SystemTextJsonSerializer.Serialize(vo);
             string serializedString = SystemTextJsonSerializer.Serialize(vo.Value);
@@ -87,9 +86,8 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromString_WithNewtonsoftJsonProvider()
         {
-            var value = _time1;
-            var vo = NewtonsoftJsonTimeOnlyVo.From(value);
-            var serializedString = NewtonsoftJsonSerializer.SerializeObject(value);
+            var vo = NewtonsoftJsonTimeOnlyVo.Item1;
+            var serializedString = NewtonsoftJsonSerializer.SerializeObject(NewtonsoftJsonTimeOnlyVo.Item1.Value.ToString());
 
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonTimeOnlyVo>(serializedString);
 
@@ -99,9 +97,8 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromString_WithSystemTextJsonProvider()
         {
-            var value = _time1;
-            var vo = SystemTextJsonTimeOnlyVo.From(value);
-            var serializedString = SystemTextJsonSerializer.Serialize(value);
+            var vo = SystemTextJsonTimeOnlyVo.Item1;
+            var serializedString = SystemTextJsonSerializer.Serialize(SystemTextJsonTimeOnlyVo.Item1.Value.ToString());
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonTimeOnlyVo>(serializedString);
 
@@ -111,7 +108,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToString_WithBothJsonConverters()
         {
-            var vo = BothJsonTimeOnlyVo.From(_time1);
+            var vo = BothJsonTimeOnlyVo.Item1;
 
             var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(vo);
             var serializedString1 = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
@@ -126,11 +123,11 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueProperty()
         {
-            var vo = NoJsonTimeOnlyVo.From(_time1);
+            var vo = NoJsonTimeOnlyVo.Item1;
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"" + _time1.ToString("o") + "\"}";
+            var expected = "{\"Value\":\"" + NoJsonTimeOnlyVo.Item1.Value.ToString("o") + "\"}";
 
             serialized.Should().Be(expected);
         }
@@ -138,11 +135,11 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var vo = NoJsonTimeOnlyVo.From(_time1);
+            var vo = NoJsonTimeOnlyVo.Item1;
 
             var serialized = NewtonsoftJsonSerializer.SerializeObject(vo);
 
-            var expected = $"\"{_time1:o}\"";
+            var expected = $"\"{NoJsonTimeOnlyVo.Item1.Value:o}\"";
 
             Assert.Equal(expected, serialized);
         }
@@ -150,12 +147,12 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoTypeConverter_SerializesWithValueProperty()
         {
-            var vo = NoConverterTimeOnlyVo.From(_time1);
+            var vo = NoConverterTimeOnlyVo.Item1;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"" + _time1.ToString("o") + "\"}";
+            var expected = "{\"Value\":\"" + NoConverterTimeOnlyVo.Item1.Value.ToString("o") + "\"}";
 
             newtonsoft.Should().Be(expected);
             systemText.Should().Be(expected);
@@ -172,7 +169,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
                 .UseSqlite(connection)
                 .Options;
 
-            var original = new EfCoreTestEntity { Id = EfCoreTimeOnlyVo.From(_time1) };
+            var original = new EfCoreTestEntity { Id = EfCoreTimeOnlyVo.Item1 };
             using (var context = new TestDbContext(options))
             {
                 context.Database.EnsureCreated();
@@ -193,11 +190,11 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            IEnumerable<DapperTimeOnlyVo> results = await connection.QueryAsync<DapperTimeOnlyVo>("SELECT '13:12:11.999'");
+            IEnumerable<DapperTimeOnlyVo> results = await connection.QueryAsync<DapperTimeOnlyVo>("SELECT '05:06:07.08'");
 
             DapperTimeOnlyVo actual = Assert.Single(results);
 
-            var expected = DapperTimeOnlyVo.From(new TimeOnly(13,12,11, 999));
+            var expected = DapperTimeOnlyVo.Item2;
             actual.Should().Be(expected);
         }
 
@@ -207,7 +204,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
 
-            var original = new LinqToDbTestEntity { Id = LinqToDbTimeOnlyVo.From(_time1) };
+            var original = new LinqToDbTestEntity { Id = LinqToDbTimeOnlyVo.Item1 };
             using (var context = new DataConnection(
                 SQLiteTools.GetDataProvider("SQLite.MS"),
                 connection,
@@ -228,7 +225,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Theory]
-        [InlineData("13:12:11.123")]
+        [InlineData("05:06:07.08")]
         public void TypeConverter_CanConvertToAndFrom(string value)
         {
             var converter = TypeDescriptor.GetConverter(typeof(NoJsonTimeOnlyVo));
@@ -236,7 +233,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
             
             Assert.IsType<NoJsonTimeOnlyVo>(voAsObject);
 
-            NoJsonTimeOnlyVo expected = NoJsonTimeOnlyVo.From(TimeOnly.Parse(value, CultureInfo.InvariantCulture));
+            NoJsonTimeOnlyVo expected = NoJsonTimeOnlyVo.Item2;
             
             Assert.Equal(expected, voAsObject);
 

@@ -49,20 +49,22 @@ namespace Whatever
 #endif
         private readonly global::System.Boolean _isInitialized;
         private readonly System.String _value;
+
         
-        /// <summary>
-        /// Gets the underlying <see cref="System.String" /> value if set, otherwise a <see cref="IntellenumValidationException" /> is thrown.
-        /// </summary>
-        public System.String ValueChecked
-        {
-            [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-            [global::System.Diagnostics.DebuggerStepThroughAttribute]
-            get
-            {
-                if(!_isInitialized) Throw();
-                return _value;
-            }
-        }
+
+//        /// <summary>
+//        /// Gets the underlying <see cref="System.String" /> value if set, otherwise a <see cref="IntellenumValidationException" /> is thrown.
+//        /// </summary>
+//        public System.String ValueChecked
+//        {
+//            [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+//            [global::System.Diagnostics.DebuggerStepThroughAttribute]                                                                                                     
+//            get
+//            {
+//                if(!_isInitialized) Throw();
+//                return _value;
+//            }
+//        }
 
         /// <summary>
         /// Gets the underlying <see cref="System.String" /> value if set, otherwise default
@@ -85,7 +87,7 @@ private void Throw()
                 global::System.String message = "Use of uninitialized Value Object.";
 #endif
 
-                throw new IntellenumValidationException(message);
+                throw new IntellenumUninitialisedException(message);
 
 }
 
@@ -102,14 +104,22 @@ private void Throw()
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
-        private CustomerType(string name, System.String value)
+        private CustomerType(System.String value)
         {
             _value = value;
-            Name = name;
+            Name = "[INFERRED-TO-BE-REPLACED!]";
+            _isInitialized = true;
+        }        
+
+        [global::System.Diagnostics.DebuggerStepThroughAttribute]
+        private CustomerType(string enumName, System.String value)
+        {
+            _value = value;
+            Name = enumName;
             _isInitialized = true;
         }
 
-        public string Name { get; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Builds an instance from an enum value.
@@ -120,7 +130,7 @@ private void Throw()
         {
                 bool b = TryFromValue(value, out var ret);
     if(b) return ret;
-    throw new global::System.InvalidOperationException($"No matching enums with a value of '{value}'");
+    throw new IntellenumMatchFailedException($"CustomerType has no matching instances with a value of '{value}'");
         }            
 
         /// <summary>
@@ -172,7 +182,7 @@ _ => false
         {
                 bool b = TryFromName(name, out var ret);
     if(b) return ret;
-    throw new global::System.InvalidOperationException($"No matching enums named '{name}'");
+    throw new IntellenumMatchFailedException($"CustomerType has no matching instances named '{name}'");
         }
 
         /// <summary>
@@ -184,13 +194,13 @@ _ => false
         {
             switch (name) 
 {
-    case nameof(CustomerType.Normal):
+    case ("Normal"):
         instance = CustomerType.Normal; 
         return true;
-    case nameof(CustomerType.Gold):
+    case ("Gold"):
         instance = CustomerType.Gold; 
         return true;
-    case nameof(CustomerType.Diamond):
+    case ("Diamond"):
         instance = CustomerType.Diamond; 
         return true;
     default:
@@ -215,7 +225,7 @@ _ => false
         {
                         if (value is null)
             {
-                throw new global::System.InvalidOperationException("Cannot create a value object with null.");
+                throw new IntellenumCreationFailedException("Cannot create an Intellenum instance with a null.");
             }
 
 
@@ -236,7 +246,7 @@ _ => false
         {
                         if (value is null)
             {
-                throw new global::System.InvalidOperationException("Cannot create a value object with null.");
+                throw new IntellenumCreationFailedException("Cannot create an Intellenum instance with a null.");
             }
 
 
@@ -325,22 +335,6 @@ _ => false
             }
         }
 
-        private void EnsureInitialized()
-        {
-            if (!_isInitialized)
-            {
-#if DEBUG
-                global::System.String message = "Use of uninitialized Value Object at: " + _stackTrace ?? "";
-#else
-                global::System.String message = "Use of uninitialized Value Object.";
-#endif
-
-                // todo: remove this
-                throw new global::System.InvalidOperationException(message);
-            }
-        }
-
-
         
 // instance...
 
@@ -421,6 +415,8 @@ yield return Diamond;
 
 
 
+        
+        
 
         internal sealed class CustomerTypeDebugView
         {

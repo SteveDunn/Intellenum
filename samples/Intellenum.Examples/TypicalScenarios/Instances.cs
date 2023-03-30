@@ -21,9 +21,17 @@ namespace Intellenum.Examples.TypicalScenarios.Instances
             var invalidVi = VendorInformation.FromTextFile();
 
             Console.WriteLine((bool) (invalidVi.VendorId == VendorType.Invalid)); // true
+            
+            Console.WriteLine(ImpliedFieldName.Instance1);
 
             return Task.CompletedTask;
         }
+    }
+
+    [Intellenum]
+    public partial class ImpliedFieldName
+    {
+        public static readonly ImpliedFieldName Instance1 = new(1);
     }
 
 

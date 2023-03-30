@@ -1,10 +1,11 @@
-﻿using System;
+﻿#if NET7_0_OR_GREATER
+
+using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
-using Xunit;
-using Vogen;
+using Intellenum;
 using Dapper;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
@@ -13,7 +14,6 @@ using LinqToDB;
 
 namespace ConsumerTests.GenericDeserializationValidationTests;
 
-#if NET7_0_OR_GREATER
 public class StringDeserializationValidationTests
 {
     [Fact]
@@ -35,7 +35,7 @@ public class StringDeserializationValidationTests
 
         Func<Task<string>> vo = async () => (await connection.QueryAsync<MyVoString_should_not_bypass_validation>("SELECT 'abc'")).AsList()[0].Value;
 
-        await vo.Should().ThrowExactlyAsync<ValueObjectValidationException>().WithMessage("length must be greater than ten characters");
+        await vo.Should().ThrowExactlyAsync<IntellenumValidationException>().WithMessage("length must be greater than ten characters");
     }
 
     [Fact]
@@ -79,7 +79,7 @@ public class StringDeserializationValidationTests
         using (var context = new DeserializationValidationDbContext(options))
         {
             Func<Task<string>> vo = async () => (await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.SingleAsync(context.StringEntities!.FromSqlRaw("SELECT 'abc' As Id"))).Id!.Value;
-            await vo.Should().ThrowExactlyAsync<ValueObjectValidationException>().WithMessage("length must be greater than ten characters");
+            await vo.Should().ThrowExactlyAsync<IntellenumValidationException>().WithMessage("length must be greater than ten characters");
         }
     }
     [Fact]
@@ -105,7 +105,7 @@ public class StringDeserializationValidationTests
         using (var context = new DeserializationValidationDataConnection(connection))
         {
             Func<Task<string>> vo = async () => (await LinqToDB.AsyncExtensions.SingleAsync(context.FromSql<DeserializationValidationTestLinqToDbTestStringEntity>("SELECT 'abc' As Id"))).Id!.Value;
-            await vo.Should().ThrowExactlyAsync<ValueObjectValidationException>().WithMessage("length must be greater than ten characters");
+            await vo.Should().ThrowExactlyAsync<IntellenumValidationException>().WithMessage("length must be greater than ten characters");
         }
     }
 
@@ -128,13 +128,13 @@ public class StringDeserializationValidationTests
 
         Action vo = () => converter.ConvertFrom(invalidValue);
 
-        vo.Should().ThrowExactly<ValueObjectValidationException>().WithMessage("length must be greater than ten characters");
+        vo.Should().ThrowExactly<IntellenumValidationException>().WithMessage("length must be greater than ten characters");
     }
 
     [Fact]
     public void Deserialization_systemtextjson_should_not_bypass_validation_pass()
     {
-        var validValue = SystemTextJsonSerializer.Serialize(MyVoString_should_not_bypass_validation.From("abcdefghijk"));
+        var validValue = SystemTextJsonSerializer.Serialize(MyVoString_should_not_bypass_validation.Item1);
 
         var actual = SystemTextJsonSerializer.Deserialize<MyVoString_should_not_bypass_validation>(validValue)!.Value;
 
@@ -144,17 +144,17 @@ public class StringDeserializationValidationTests
     [Fact]
     public void Deserialization_systemtextjson_should_not_bypass_validation_fail()
     {
-        var invalidValue = SystemTextJsonSerializer.Serialize(MyVoString_should_not_bypass_validation.From("abcdefghijk")).Replace("abcdefghijk", "abc");
+        var invalidValue = SystemTextJsonSerializer.Serialize(MyVoString_should_not_bypass_validation.Item1).Replace("abcdefghijk", "abc");
 
         Action vo = () => SystemTextJsonSerializer.Deserialize<MyVoString_should_not_bypass_validation>(invalidValue);
 
-        vo.Should().ThrowExactly<ValueObjectValidationException>().WithMessage("length must be greater than ten characters");
+        vo.Should().ThrowExactly<IntellenumValidationException>().WithMessage("length must be greater than ten characters");
     }
 
     [Fact]
     public void Deserialization_newtonsoft_should_not_bypass_validation_pass()
     {
-        var validValue = NewtonsoftJsonSerializer.SerializeObject(MyVoString_should_not_bypass_validation.From("abcdefghijk"));
+        var validValue = NewtonsoftJsonSerializer.SerializeObject(MyVoString_should_not_bypass_validation.Item1);
 
         var actual = NewtonsoftJsonSerializer.DeserializeObject<MyVoString_should_not_bypass_validation>(validValue)!.Value;
 
@@ -164,11 +164,11 @@ public class StringDeserializationValidationTests
     [Fact]
     public void Deserialization_newtonsoft_should_not_bypass_validation_fail()
     {
-        var invalidValue = NewtonsoftJsonSerializer.SerializeObject(MyVoString_should_not_bypass_validation.From("abcdefghijk")).Replace("abcdefghijk", "abc");
+        var invalidValue = NewtonsoftJsonSerializer.SerializeObject(MyVoString_should_not_bypass_validation.Item1).Replace("abcdefghijk", "abc");
 
         Func<string> vo = () => NewtonsoftJsonSerializer.DeserializeObject<MyVoString_should_not_bypass_validation>(invalidValue)!.Value;
 
-        vo.Should().ThrowExactly<ValueObjectValidationException>().WithMessage("length must be greater than ten characters");
+        vo.Should().ThrowExactly<IntellenumValidationException>().WithMessage("length must be greater than ten characters");
     }
 }
 #endif

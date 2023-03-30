@@ -20,8 +20,9 @@ namespace Intellenum
         // using parameter indexes (i.e. it expected param 0 to be the underlying type etc.
         public IntellenumAttribute(
             Conversions conversions = Conversions.Default,
+            Customizations customizations = Customizations.None,
             DebuggerAttributeGeneration debuggerAttributes = DebuggerAttributeGeneration.Default)
-            : base(typeof(T), conversions, debuggerAttributes)
+            : base(typeof(T), conversions, customizations, debuggerAttributes)
         {
         }
     }
@@ -40,6 +41,7 @@ namespace Intellenum
         public IntellenumAttribute(
             Type? underlyingType = null!,
             Conversions conversions = Conversions.Default,
+            Customizations customizations = Customizations.None,
             DebuggerAttributeGeneration debuggerAttributes = DebuggerAttributeGeneration.Default)
         {
         }

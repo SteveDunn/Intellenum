@@ -57,6 +57,19 @@ namespace Intellenum.Examples.TypicalScenarios.Basic
     public partial class SupplierType
     {
     }
+    
+    [Intellenum<Foo>]
+    public partial class FooEnum
+    {
+        public static readonly FooEnum Item1 = new("Item1", new Foo("a", 1));
+        public static readonly FooEnum Item2=  new("Item2", new Foo("b", 2));
+    }
+
+    public record class Foo(string Name, int Age) : IComparable<Foo>
+    {
+        public int CompareTo(Foo other) => Age.CompareTo(other.Age);
+    }
+
 
     internal class CustomerProcessor
     {

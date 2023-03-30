@@ -1,27 +1,17 @@
-﻿namespace Vogen.Tests.Types;
+﻿namespace Intellenum.Tests.Types;
 
-[ValueObject(typeof(int))]
+[Intellenum(typeof(int))]
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
 public partial class MyInt
 {
-    private static Validation Validate(int value)
-    {
-        if (value > 0)
-            return Validation.Ok;
-
-        return Validation.Invalid("must be greater than zero");
-    }
 }
 
 #if NET7_0_OR_GREATER
-[ValueObject<int>]
+[Intellenum<int>]
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
 public partial class MyIntGeneric
 {
-    private static Validation Validate(int value)
-    {
-        if (value > 0)
-            return Validation.Ok;
-
-        return Validation.Invalid("must be greater than zero");
-    }
 }
 #endif

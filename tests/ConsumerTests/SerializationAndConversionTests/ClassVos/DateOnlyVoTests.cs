@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Vogen.IntegrationTests.TestTypes.ClassVos;
+using Intellenum.IntegrationTests.TestTypes.ClassVos;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
@@ -26,46 +26,44 @@ using LinqToDB.Mapping;
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable SuspiciousTypeConversion.Global
 
-namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
+namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 {
-    [ValueObject(underlyingType: typeof(DateOnly))]
-    public readonly partial struct AnotherDateOnlyVo { }
+    [Intellenum(underlyingType: typeof(DateOnly))]
+    public partial class AnotherDateOnlyVo {
+        static AnotherDateOnlyVo()
+        {
+            Instance("JanFirst", new DateOnly(2021, 1, 1));
+            Instance("JanSecond", new DateOnly(2021, 1, 2));
+        }
+
+ }
 
     public class DateOnlyVoTests
     {
-        private static readonly DateOnly _date1 = new DateOnly(1970, 6, 10);
-        private static readonly DateOnly _date2 = new DateOnly(2022, 12, 27);
-        
         [Fact]
         public void equality_between_same_value_objects()
         {
-            DateOnlyVo.From(_date1).Equals(DateOnlyVo.From(_date1)).Should().BeTrue();
-            (DateOnlyVo.From(_date1) == DateOnlyVo.From(_date1)).Should().BeTrue();
+            DateOnlyVo.JanFirst.Equals(DateOnlyVo.JanFirst).Should().BeTrue();
+            (DateOnlyVo.JanFirst == DateOnlyVo.JanFirst).Should().BeTrue();
 
-            (DateOnlyVo.From(_date1) != DateOnlyVo.From(_date2)).Should().BeTrue();
-            (DateOnlyVo.From(_date1) == DateOnlyVo.From(_date2)).Should().BeFalse();
+            (DateOnlyVo.JanFirst != DateOnlyVo.JanSecond).Should().BeTrue();
+            (DateOnlyVo.JanFirst == DateOnlyVo.JanSecond).Should().BeFalse();
 
-            DateOnlyVo.From(_date1).Equals(DateOnlyVo.From(_date1)).Should().BeTrue();
-            (DateOnlyVo.From(_date1) == DateOnlyVo.From(_date1)).Should().BeTrue();
+            DateOnlyVo.JanFirst.Equals(DateOnlyVo.JanFirst).Should().BeTrue();
+            (DateOnlyVo.JanFirst == DateOnlyVo.JanFirst).Should().BeTrue();
 
-            var original = DateOnlyVo.From(_date1);
-            var other = DateOnlyVo.From(_date1);
+            var original = DateOnlyVo.JanFirst;
+            var other = DateOnlyVo.JanFirst;
 
             ((original as IEquatable<DateOnlyVo>).Equals(other)).Should().BeTrue();
             ((other as IEquatable<DateOnlyVo>).Equals(original)).Should().BeTrue();
-        }
-
-        [Fact]
-        public void equality_between_different_value_objects()
-        {
-            DateOnlyVo.From(_date1).Equals(AnotherDateOnlyVo.From(_date1)).Should().BeFalse();
         }
 
 #if NET7_0_OR_GREATER
         [Fact]
         public void CanSerializeToString_WithNewtonsoftJsonProvider()
         {
-            var g1 = NewtonsoftJsonDateOnlyVo.From(_date1);
+            var g1 = NewtonsoftJsonDateOnlyVo.JanFirst;
 
             string serialized = NewtonsoftJsonSerializer.SerializeObject(g1);
             string serializedString = NewtonsoftJsonSerializer.SerializeObject(g1.Value);
@@ -76,7 +74,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToString_WithSystemTextJsonProvider()
         {
-            var vo = SystemTextJsonDateOnlyVo.From(_date1);
+            var vo = SystemTextJsonDateOnlyVo.JanFirst;
 
             string serializedVo = SystemTextJsonSerializer.Serialize(vo);
             string serializedString = SystemTextJsonSerializer.Serialize(vo.Value);
@@ -87,8 +85,8 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromString_WithNewtonsoftJsonProvider()
         {
-            var value = _date1;
-            var vo = NewtonsoftJsonDateOnlyVo.From(value);
+            var value = NewtonsoftJsonDateOnlyVo.JanFirst.Value;
+            var vo = NewtonsoftJsonDateOnlyVo.JanFirst;
             var serializedString = NewtonsoftJsonSerializer.SerializeObject(value);
 
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonDateOnlyVo>(serializedString);
@@ -99,9 +97,8 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromString_WithSystemTextJsonProvider()
         {
-            var value = _date1;
-            var vo = SystemTextJsonDateOnlyVo.From(value);
-            var serializedString = SystemTextJsonSerializer.Serialize(value);
+            var vo = SystemTextJsonDateOnlyVo.JanFirst;
+            var serializedString = SystemTextJsonSerializer.Serialize(NewtonsoftJsonDateOnlyVo.JanFirst.Value);
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDateOnlyVo>(serializedString);
 
@@ -111,7 +108,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToString_WithBothJsonConverters()
         {
-            var vo = BothJsonDateOnlyVo.From(_date1);
+            var vo = BothJsonDateOnlyVo.JanFirst;
 
             var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(vo);
             var serializedString1 = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
@@ -126,11 +123,11 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueProperty()
         {
-            var vo = NoJsonDateOnlyVo.From(_date1);
+            var vo = NoJsonDateOnlyVo.JanFirst;
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"" + _date1.ToString("O") + "\"}";
+            var expected = "{\"Value\":\"" + NewtonsoftJsonDateOnlyVo.JanFirst.Value.ToString("O") + "\"}";
 
             serialized.Should().Be(expected);
         }
@@ -138,11 +135,11 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var vo = NoJsonDateOnlyVo.From(_date1);
+            var vo = NoJsonDateOnlyVo.JanFirst;
 
             var serialized = NewtonsoftJsonSerializer.SerializeObject(vo);
 
-            var expected = $"\"{_date1:o}\"";
+            var expected = $"\"{NewtonsoftJsonDateOnlyVo.JanFirst.Value:o}\"";
 
             Assert.Equal(expected, serialized);
         }
@@ -150,12 +147,12 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoTypeConverter_SerializesWithValueProperty()
         {
-            var vo = NoConverterDateOnlyVo.From(_date1);
+            var vo = NoConverterDateOnlyVo.JanFirst;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"" + _date1.ToString("O") + "\"}";
+            var expected = "{\"Value\":\"" + NewtonsoftJsonDateOnlyVo.JanFirst.Value.ToString("O") + "\"}";
 
             newtonsoft.Should().Be(expected);
             systemText.Should().Be(expected);
@@ -172,7 +169,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
                 .UseSqlite(connection)
                 .Options;
 
-            var original = new EfCoreTestEntity { Id = EfCoreDateOnlyVo.From(_date1) };
+            var original = new EfCoreTestEntity { Id = EfCoreDateOnlyVo.JanFirst };
             using (var context = new TestDbContext(options))
             {
                 context.Database.EnsureCreated();
@@ -193,11 +190,11 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            IEnumerable<DapperDateOnlyVo> results = await connection.QueryAsync<DapperDateOnlyVo>("SELECT '2022-01-15'");
+            IEnumerable<DapperDateOnlyVo> results = await connection.QueryAsync<DapperDateOnlyVo>("SELECT '2021-01-01'");
 
             DapperDateOnlyVo actual = Assert.Single(results);
 
-            var expected = DapperDateOnlyVo.From(new DateOnly(2022,01,15));
+            var expected = DapperDateOnlyVo.JanFirst;
             actual.Should().Be(expected);
         }
 
@@ -207,7 +204,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
 
-            var original = new LinqToDbTestEntity { Id = LinqToDbDateOnlyVo.From(_date1) };
+            var original = new LinqToDbTestEntity { Id = LinqToDbDateOnlyVo.JanFirst };
             using (var context = new DataConnection(
                 SQLiteTools.GetDataProvider("SQLite.MS"),
                 connection,
@@ -227,17 +224,16 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
             }
         }
 
-        [Theory]
-        [InlineData("2022-01-15")]
-        public void TypeConverter_CanConvertToAndFrom(string value)
+        [Fact]
+        public void TypeConverter_CanConvertToAndFrom()
         {
             var converter = TypeDescriptor.GetConverter(typeof(NoJsonDateOnlyVo));
-            var id = converter.ConvertFrom(value);
+            var id = converter.ConvertFrom("2021-01-01");
             Assert.IsType<NoJsonDateOnlyVo>(id);
-            Assert.Equal(NoJsonDateOnlyVo.From(DateOnly.ParseExact(value, "O", CultureInfo.InvariantCulture)), id);
+            Assert.Equal(NoJsonDateOnlyVo.JanFirst, id);
 
-            var reconverted = converter.ConvertTo(id, value.GetType());
-            Assert.Equal(value, reconverted);
+            var reconverted = converter.ConvertTo(id, typeof(string));
+            Assert.Equal("2021-01-01", reconverted);
         }
 
         public class TestDbContext : DbContext

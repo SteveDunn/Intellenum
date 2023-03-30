@@ -2,174 +2,77 @@
 using @double;
 using @bool.@byte.@short.@float.@object;
 using FluentAssertions;
-using Vogen;
-using Vogen.Tests.Types;
-using Xunit;
+using Intellenum;
+using Intellenum.Tests.Types;
 
 namespace ConsumerTests.HashCodes
 {
-    [ValueObject(typeof(int))]
-    public partial struct MyStructInt { }
+    [Intellenum(typeof(int))]
+    [Instance("Item1", 1)]
+    [Instance("Item2", 2)]
+    public partial class MyClassInt
+    {
+    }
 
-#if NET7_0_OR_GREATER
-    [ValueObject<int>]
-    public partial struct MyGenericStructInt { }
-#endif
+    [Intellenum(typeof(int))]
+    [Instance("Item1", 1)]
+    [Instance("Item2", 2)]
+    public partial class MyClassInt2
+    {
+    }
 
-    [ValueObject(typeof(int))]
-    public partial struct MyStructInt2 { }
-
-    [ValueObject(typeof(int))]
-    public partial class MyClassInt { }
-
-    [ValueObject(typeof(int))]
-    public partial record class MyRecordClassInt { }
-
-    [ValueObject(typeof(int))]
-    public partial record class MyRecordClassInt2 { }
-
-    [ValueObject(typeof(int))]
-    public partial class MyClassInt2 { }
-    
     public class HashCodeTests
     {
-        public class WithStructs
+        [Fact]
+        public void SameClassesHaveSameHashCode()
         {
-            [Fact]
-            public void Hashing()
-            {
-                (Age.From(18).GetHashCode() == Age.From(18).GetHashCode()).Should().BeTrue();
-                (Age.From(18).GetHashCode() == Age.From(19).GetHashCode()).Should().BeFalse();
-                (Age.From(18).GetHashCode() == Score.From(1).GetHashCode()).Should().BeFalse();
-                (Age.From(18).GetHashCode() == Score.From(18).GetHashCode()).Should().BeFalse();
-                (@classFromEscapedNamespace.From(123).GetHashCode() == @classFromEscapedNamespace.From(123).GetHashCode()).Should().BeTrue();
-                (@classFromEscapedNamespace.From(123).GetHashCode() == @classFromEscapedNamespace.From(666).GetHashCode()).Should().BeFalse();
-                (@classFromEscapedNamespace.From(123).GetHashCode() == @event2.From(new @record.@struct.@float.@decimal()).GetHashCode()).Should().BeFalse();
-                (@event2.From(new @record.@struct.@float.@decimal()).GetHashCode() == @classFromEscapedNamespace.From(123).GetHashCode()).Should().BeFalse();
-                (@event2.From(new @record.@struct.@float.@decimal()).GetHashCode() == @event2.From(new @record.@struct.@float.@decimal()).GetHashCode()).Should().BeTrue();
-            }
+            MyClassInt.Item1.GetHashCode().Should().Be(MyClassInt.Item1.GetHashCode());
 
-            [Fact]
-            public void SameStructsHaveSameHashCode()
-            {
-                MyStructInt.From(0).GetHashCode().Should().Be(MyStructInt.From(0).GetHashCode());
-
-                MyStructInt.From(-1).GetHashCode().Should().Be(MyStructInt.From(-1).GetHashCode());
-            }
-
-            /// <summary>
-            /// The same as record structs, GetHashCode only considers the underlying type and not the type itself.
-            /// This is because it's unlikely you'd want to compare two structs of two different types (unless they're boxed).
-            /// </summary>
-            [Fact]
-            public void DifferentStructsWithSameUnderlyingTypeAndValueHaveSameHashCode()
-            {
-                MyStructInt.From(0).GetHashCode().Should().Be(MyStructInt2.From(0).GetHashCode());
-
-                MyStructInt.From(-1).GetHashCode().Should().Be(MyStructInt2.From(-1).GetHashCode());
-
-#if NET7_0_OR_GREATER
-                MyGenericStructInt.From(0).GetHashCode().Should().Be(MyStructInt2.From(0).GetHashCode());
-
-                MyGenericStructInt.From(-1).GetHashCode().Should().Be(MyStructInt2.From(-1).GetHashCode());
-#endif
-            }
+            MyClassInt.Item2.GetHashCode().Should().Be(MyClassInt.Item2.GetHashCode());
         }
 
-        public class WithClasses
+        /// <summary>
+        /// The same as record structs, GetHashCode only considers the underlying type and not the type itself.
+        /// </summary>
+        [Fact]
+        public void DifferentClassesWithSameUnderlyingTypeAndValueHaveDifferentHashCode()
         {
-            [Fact]
-            public void SameClassesHaveSameHashCode()
+            MyClassInt.Item1.GetHashCode().Should().NotBe(MyClassInt2.Item1.GetHashCode());
+
+            MyClassInt.Item2.GetHashCode().Should().NotBe(MyClassInt2.Item2.GetHashCode());
+        }
+
+        [Fact]
+        public void Storing_1()
+        {
+            var a1 = Age.LegalVotingAge;
+            var a2 = Age.LegalDrivingAge;
+
+            var d = new Dictionary<Age, string>
             {
-                MyClassInt.From(0).GetHashCode().Should().Be(MyClassInt.From(0).GetHashCode());
+                { a1, "hello1" },
+                { a2, "hello2" }
+            };
 
-                MyClassInt.From(-1).GetHashCode().Should().Be(MyClassInt.From(-1).GetHashCode());
+            d.Count.Should().Be(2);
 
-                MyRecordClassInt.From(0).GetHashCode().Should().Be(MyRecordClassInt.From(0).GetHashCode());
+            d[a1].Should().Be("hello1");
+            d[a2].Should().Be("hello2");
+        }
 
-                MyRecordClassInt.From(-1).GetHashCode().Should().Be(MyRecordClassInt.From(-1).GetHashCode());
-            }
+        [Fact]
+        public void Storing_2()
+        {
+            var a1 = Age.LegalVotingAge;
+            var a2 = Age.LegalVotingAge;
 
-            /// <summary>
-            /// The same as record structs, GetHashCode only considers the underlying type and not the type itself.
-            /// </summary>
-            [Fact]
-            public void DifferentClassesWithSameUnderlyingTypeAndValueHaveDifferentHashCode()
-            {
-                MyClassInt.From(0).GetHashCode().Should().NotBe(MyClassInt2.From(0).GetHashCode());
+            var d = new Dictionary<Age, string> { { a1, "hello1" } };
 
-                MyClassInt.From(-1).GetHashCode().Should().NotBe(MyClassInt2.From(-1).GetHashCode());
+            d[a2] = "hello2";
 
-                MyRecordClassInt.From(0).GetHashCode().Should().NotBe(MyRecordClassInt2.From(0).GetHashCode());
+            d.Count.Should().Be(1);
 
-                MyRecordClassInt.From(-1).GetHashCode().Should().NotBe(MyRecordClassInt2.From(-1).GetHashCode());
-            }
-
-            [Fact]
-            public void Storing_1()
-            {
-                var a1 = Age.From(18);
-                var a2 = Age.From(50);
-
-                var d = new Dictionary<Age, string>
-                {
-                    { a1, "hello1" },
-                    { a2, "hello2" }
-                };
-
-                d.Count.Should().Be(2);
-
-                d[a1].Should().Be("hello1");
-                d[a2].Should().Be("hello2");
-            }
-
-            [Fact]
-            public void Storing_2()
-            {
-                var a1 = Age.From(18);
-                var a2 = Age.From(18);
-
-                var d = new Dictionary<Age, string> { { a1, "hello1" } };
-
-                d[a2] = "hello2";
-
-                d.Count.Should().Be(1);
-
-                d[a1].Should().Be("hello2");
-            }
-
-            [Fact]
-            public void Storing_3()
-            {
-                var a1 = MyRecordClassInt.From(18);
-                var a2 = MyRecordClassInt.From(50);
-
-                var d = new Dictionary<MyRecordClassInt, string>
-                {
-                    { a1, "hello1" },
-                    { a2, "hello2" }
-                };
-
-                d.Count.Should().Be(2);
-
-                d[a1].Should().Be("hello1");
-                d[a2].Should().Be("hello2");
-            }
-
-            [Fact]
-            public void Storing_4()
-            {
-                var a1 = MyRecordClassInt.From(18);
-                var a2 = MyRecordClassInt.From(18);
-
-                var d = new Dictionary<MyRecordClassInt, string> { { a1, "hello1" } };
-
-                d[a2] = "hello2";
-
-                d.Count.Should().Be(1);
-
-                d[a1].Should().Be("hello2");
-            }
+            d[a1].Should().Be("hello2");
         }
     }
 }

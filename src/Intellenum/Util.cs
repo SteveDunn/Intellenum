@@ -30,7 +30,7 @@ public static class Util
 
         foreach (var eachInstance in workItem.InstanceProperties)
         {
-            string escapedName = EscapeIfRequired(eachInstance.Name);
+            string escapedName = EscapeIfRequired(eachInstance.FieldName);
             sb.AppendLine($"        if(value == {escapedName}.Value) return {escapedName};");
         }
 
@@ -221,23 +221,23 @@ causes Rider's debugger to crash.
     public static string GenerateFromValueImplementation(VoWorkItem item)
     {
         if (item.IsConstant)
-            return """
+            return $$"""
     bool b = TryFromValue(value, out var ret);
     if(b) return ret;
-    throw new global::System.InvalidOperationException($"No matching enums with a value of '{value}'");
+    throw new {{nameof(IntellenumMatchFailedException)}}($"{{item.VoTypeName}} has no matching instances with a value of '{value}'");
 """;
-        return """
+        return $$"""
     bool b =  _valuesToEnums.Value.TryGetValue(value, out var ret);
     if(b) return ret;
-    throw new global::System.InvalidOperationException($"No matching enums with a value of '{value}'");
+    throw new {{nameof(IntellenumMatchFailedException)}}($"{{item.VoTypeName}} has no matching instances with a value of '{value}'");
 """;
     }
 
     public static string GenerateFromNameImplementation(VoWorkItem item) =>
-        """
+        $$"""
     bool b = TryFromName(name, out var ret);
     if(b) return ret;
-    throw new global::System.InvalidOperationException($"No matching enums named '{name}'");
+    throw new {{nameof(IntellenumMatchFailedException)}}($"{{item.VoTypeName}} has no matching instances named '{name}'");
 """;
 
     public static string GenerateTryFromValueImplementation(VoWorkItem item)
@@ -260,7 +260,7 @@ switch (value)
                 // if (!b.Success) throw new InvalidOperationException(b.ErrorMessage);
 
 
-                generate(each.ValueAsText, each.Name);
+                generate(each.ValueAsText, each.FieldName);
             }
 
             sb.AppendLine(
@@ -299,7 +299,7 @@ switch (name)
 
         foreach (var eachInstance in item.InstanceProperties)
         {
-            generate(eachInstance.Name);
+            generate(eachInstance.FieldName, eachInstance.EnumEnumFriendlyName);
         }
 
         sb.AppendLine("""
@@ -311,12 +311,12 @@ switch (name)
 
         return sb.ToString();
 
-        void generate(string name)
+        void generate(string fieldName, string name)
             {
                 sb.AppendLine(
                     $$"""
-    case nameof({{item.VoTypeName}}.{{name}}):
-        instance = {{item.VoTypeName}}.{{name}}; 
+    case ("{{name}}"):
+        instance = {{item.VoTypeName}}.{{fieldName}}; 
         return true;
 """);
             }
@@ -335,27 +335,27 @@ return TryFromName(name, out _);
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, {{item.UnderlyingTypeFullName}}>> _namesToValues = new( () =>
         new()
         {
-            {{ GenerateLazyLookupEntries(item, prop => new($"\"{prop.Name}\"", $"{prop.Name}.Value")) }}
+            {{ GenerateLazyLookupEntries(item, prop => new($"\"{prop.FieldName}\"", $"{prop.FieldName}.Value")) }}
         });
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, {{item.VoTypeName}}>> _namesToEnums = new( () =>
         new()
         {
-            {{ GenerateLazyLookupEntries(item, prop => new($"\"{prop.Name}\"", $"{prop.Name}")) }}
+            {{ GenerateLazyLookupEntries(item, prop => new($"\"{prop.FieldName}\"", $"{prop.FieldName}")) }}
         });
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<{{item.VoTypeName}}, {{item.UnderlyingTypeFullName}}>> _enumsToValues = new( () =>
         new()
         {
-            {{ GenerateLazyLookupEntries(item, prop => new($"{prop.Name}", $"{prop.Name}.Value")) }}
+            {{ GenerateLazyLookupEntries(item, prop => new($"{prop.FieldName}", $"{prop.FieldName}.Value")) }}
         });
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<{{item.UnderlyingTypeFullName}}, string>> _valuesToNames = new( () =>
         new()
         {
-            {{ GenerateLazyLookupEntries(item, prop => new($"{prop.Name}.Value", $"\"{prop.Name}\"")) }}
+            {{ GenerateLazyLookupEntries(item, prop => new($"{prop.FieldName}.Value", $"\"{prop.FieldName}\"")) }}
         });
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<{{item.UnderlyingTypeFullName}}, {{item.VoTypeName}}>> _valuesToEnums = new( () =>
         new()
         {
-            {{ GenerateLazyLookupEntries(item, prop => new($"{prop.Name}.Value", $"{prop.Name}")) }}
+            {{ GenerateLazyLookupEntries(item, prop => new($"{prop.FieldName}.Value", $"{prop.FieldName}")) }}
         });
 """;
         }

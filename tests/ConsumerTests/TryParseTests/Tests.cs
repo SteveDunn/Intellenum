@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using FluentAssertions;
-using Vogen;
-using Xunit;
+using Intellenum;
 
 namespace ConsumerTests.TryParseTests;
 
@@ -11,41 +10,29 @@ public class Tests
     [Fact]
     public void Integers()
     {
-        {
-            IntVoNoValidation.TryParse("1024", out var ivo).Should().BeTrue();
-            ivo.Value.Should().Be(1024);
-        }
-
-        {
-            IntVoNoValidation.TryParse("1,000", NumberStyles.AllowThousands, null, out var ivo).Should().BeTrue();
-            ivo.Value.Should().Be(1000);
-        }
+        IntVoNoValidation.TryParse("1", out var ivo).Should().BeTrue();
+        ivo.Value.Should().Be(1);
     }
 
     [Fact]
     public void Decimals()
     {
         {
-            DecimalVo.TryParse("1024.56", out var ivo).Should().BeTrue();
-            ivo.Value.Should().Be(1024.56m);
+            DecimalVo.TryParse("1.23", out var ivo).Should().BeTrue();
+            ivo.Value.Should().Be(1.23m);
         }
 
         {
-            DecimalVo.TryParse("1,000.25", NumberStyles.Number, null, out var ivo).Should().BeTrue();
-            ivo.Value.Should().Be(1000.25m);
-        }
-
-        {
-            DecimalVo.TryParse("1.000,25", NumberStyles.Number, new CultureInfo("de"), out var ivo).Should().BeTrue();
-            ivo.Value.Should().Be(1000.25m);
+            DecimalVo.TryParse("1,23", NumberStyles.Number, new CultureInfo("de"), out var ivo).Should().BeTrue();
+            ivo.Value.Should().Be(1.23m);
         }
     }
 
     [Fact]
     public void Bytes()
     {
-        ByteVo.TryParse("12", out var ivo).Should().BeTrue();
-        ivo.Value.Should().Be(12);
+        ByteVo.TryParse("1", out var ivo).Should().BeTrue();
+        ivo.Value.Should().Be(1);
     }
 
     [Fact]
@@ -58,25 +45,14 @@ public class Tests
     [Fact]
     public void Double()
     {
-        DoubleVo.TryParse("123.45", out var ivo).Should().BeTrue();
-        ivo.Value.Should().Be(123.45);
+        DoubleVo.TryParse("1.23", out var ivo).Should().BeTrue();
+        ivo.Value.Should().Be(1.23);
     }
 
     [Fact]
     public void When_parsing_fails()
     {
         IntVo.TryParse("fifty", out var ivo).Should().BeFalse();
-
-        Action a = () => _ = ivo.Value;
-
-        a.Should().ThrowExactly<ValueObjectValidationException>();
-    }
-
-    [Fact]
-    public void When_parsing_succeeds_but_fails_validation()
-    {
-        Action a = () => IntVo.TryParse("100", out var _);
-
-        a.Should().ThrowExactly<ValueObjectValidationException>().WithMessage("must be less than 100");
+        ivo.Should().BeNull();
     }
 }

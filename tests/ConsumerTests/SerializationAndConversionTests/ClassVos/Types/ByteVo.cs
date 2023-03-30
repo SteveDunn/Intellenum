@@ -1,32 +1,52 @@
-﻿namespace Vogen.IntegrationTests.TestTypes.ClassVos
+﻿namespace Intellenum.IntegrationTests.TestTypes.ClassVos
 {
-    [ValueObject(conversions: Conversions.None, underlyingType: typeof(byte))]
+    [Intellenum(conversions: Conversions.None, underlyingType: typeof(byte))]
+    [Instance("Item1", 1)]
+    [Instance("Item2", 2)]
     public partial class ByteVo { }
 
-    [ValueObject(conversions: Conversions.None, underlyingType: typeof(byte))]
+    [Intellenum(conversions: Conversions.None, underlyingType: typeof(byte))]
+    [Instance("Item1", 1)]
+    [Instance("Item2", 2)]
     public partial class NoConverterByteVo { }
 
-    [ValueObject(conversions: Conversions.TypeConverter, underlyingType: typeof(byte))]
+    [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(byte))]
+    [Instance("Item1", 1)]
+    [Instance("Item2", 2)]
     public partial class NoJsonByteVo { }
 
-    [ValueObject(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(byte))]
+    [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(byte))]
+    [Instance("Item1", 1)]
+    [Instance("Item2", 2)]
     public partial class NewtonsoftJsonByteVo { }
 
-    [ValueObject(conversions: Conversions.SystemTextJson, underlyingType: typeof(byte))]
+    [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(byte))]
+    [Instance("Item1", 1)]
+    [Instance("Item2", 2)]
     public partial class SystemTextJsonByteVo { }
 
-    [ValueObject(conversions: Conversions.SystemTextJson, underlyingType: typeof(byte), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+    [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(byte), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+    [Instance("Item1", 1)]
+    [Instance("Item2", 2)]
     public partial class SystemTextJsonByteVo_Treating_numbers_as_string { }
 
-    [ValueObject(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(byte))]
+    [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(byte))]
+    [Instance("Item1", 1)]
+    [Instance("Item2", 2)]
     public partial class BothJsonByteVo { }
 
-    [ValueObject(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(byte))]
+    [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(byte))]
+    [Instance("Item1", 1)]
+    [Instance("Item2", 2)]
     public partial class EfCoreByteVo { }
 
-    [ValueObject(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(byte))]
+    [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(byte))]
+    [Instance("Item1", 1)]
+    [Instance("Item2", 2)]
     public partial class DapperByteVo { }
 
-    [ValueObject(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(byte))]
+    [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(byte))]
+    [Instance("Item1", 1)]
+    [Instance("Item2", 2)]
     public partial class LinqToDbByteVo { }
 }

@@ -1,29 +1,47 @@
-﻿namespace Vogen.IntegrationTests.TestTypes.ClassVos
+﻿namespace Intellenum.IntegrationTests.TestTypes.ClassVos
 {
-    [ValueObject(conversions: Conversions.None, underlyingType: typeof(string))]
+    [Intellenum(conversions: Conversions.None, underlyingType: typeof(string))]
+    [Instance("Item1", "Item1")]
+    [Instance("Item2", "Item2")]
     public partial class StringVo { }
 
-    [ValueObject(conversions: Conversions.None, underlyingType: typeof(string))]
+    [Intellenum(conversions: Conversions.None, underlyingType: typeof(string))]
+    [Instance("Item1", "Item1")]
+    [Instance("Item2", "Item2")]
     public partial class NoConverterStringVo { }
 
-    [ValueObject(conversions: Conversions.TypeConverter, underlyingType: typeof(string))]
+    [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(string))]
+    [Instance("Item1", "Item1!")]
+    [Instance("Item2", "Item2!")]
     public partial class NoJsonStringVo { }
 
-    [ValueObject(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(string))]
+    [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(string))]
+    [Instance("Item1", "Item1!")]
+    [Instance("Item2", "Item2!")]
     public partial class NewtonsoftJsonStringVo { }
 
-    [ValueObject(conversions: Conversions.SystemTextJson, underlyingType: typeof(string))]
+    [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(string))]
+    [Instance("Item1", "Item1!")]
+    [Instance("Item2", "Item2!")]
     public partial class SystemTextJsonStringVo { }
 
-    [ValueObject(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(string))]
+    [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(string))]
+    [Instance("Item1", "Item1")]
+    [Instance("Item2", "Item2")]
     public partial class BothJsonStringVo { }
 
-    [ValueObject(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(string))]
+    [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(string))]
+    [Instance("Item1", "Item1")]
+    [Instance("Item2", "Item2")]
     public partial class EfCoreStringVo { }
 
-    [ValueObject(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(string))]
+    [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(string))]
+    [Instance("Item1", "Item1!")]
+    [Instance("Item2", "Item2!")]
     public partial class DapperStringVo { }
 
-    [ValueObject(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(string))]
+    [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(string))]
+    [Instance("Item1", "Item1")]
+    [Instance("Item2", "Item2")]
     public partial class LinqToDbStringVo { }
 }

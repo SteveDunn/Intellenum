@@ -1,7 +1,8 @@
-﻿namespace Vogen.Tests.Types;
+﻿namespace Intellenum.Tests.Types;
 
-[ValueObject(typeof(int))]
+[Intellenum(typeof(int))]
+[Instance("LegalVotingAge", 18)]
+[Instance("LegalDrivingAge", 17)]
 public partial class Age
 {
-    private static Validation Validate(int value) => value >= 18 ? Validation.Ok : Validation.Invalid("Must be 18 or over");
 }

@@ -1,13 +1,8 @@
-﻿namespace Vogen.Tests.Types;
+﻿namespace Intellenum.Tests.Types;
 
-[ValueObject(typeof(string))]
+[Intellenum(typeof(string))]
+[Instance("Item1", "Item1")]
+[Instance("Item2", "Item2")]
 public partial class MyString
 {
-    private static Validation Validate(string value)
-    {
-        if (value.Length > 0)
-            return Validation.Ok;
-        
-        return Validation.Invalid("length must be greater than zero");
-    }
 }

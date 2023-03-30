@@ -1,31 +1,42 @@
-﻿using System;
-using System.Globalization;
-using FluentAssertions;
-using Vogen;
-using Xunit;
+﻿using Intellenum;
 
 namespace ConsumerTests.TryParseTests;
 
-[ValueObject(typeof(int))]
-public partial struct IntVoNoValidation
+[Intellenum(typeof(int))]
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class IntVoNoValidation
 {
 }
 
-[ValueObject(typeof(int))]
-public partial struct IntVo
+[Intellenum(typeof(int))]
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class IntVo
 {
-    private static Validation Validate(int input) =>
-        input < 100 ? Validation.Ok : Validation.Invalid("must be less than 100");
 }
 
-[ValueObject(typeof(byte))]
-public partial struct ByteVo { }
+[Intellenum(typeof(byte))]
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class ByteVo { }
 
-[ValueObject(typeof(char))]
-public partial struct CharVo { }
+[Intellenum(typeof(char))]
+[Instance("Item1", 'a')]
+[Instance("Item2", 2)]
+public partial class CharVo { }
 
-[ValueObject(typeof(decimal))]
-public partial struct DecimalVo { }
+[Intellenum(typeof(decimal))]
+public partial class DecimalVo
+{
+    static DecimalVo()
+    {
+        Instance("Item1", 1.23m);
+        Instance("Item2", 3.21m);
+    }
+}
 
-[ValueObject(typeof(double))]
-public partial struct DoubleVo { }
+[Intellenum(typeof(double))]
+[Instance("Item1", 1.23d)]
+[Instance("Item2", 3.21d)]
+public partial class DoubleVo { }

@@ -1,32 +1,52 @@
-﻿namespace Vogen.IntegrationTests.TestTypes.ClassVos
+﻿namespace Intellenum.IntegrationTests.TestTypes.ClassVos
 {
-    [ValueObject(conversions: Conversions.None, underlyingType: typeof(float))]
+    [Intellenum(conversions: Conversions.None, underlyingType: typeof(float))]
+    [Instance("Item1", 1.1f)]
+    [Instance("Item2", 2.2f)]
     public partial class FloatVo { }
 
-    [ValueObject(conversions: Conversions.None, underlyingType: typeof(float))]
+    [Intellenum(conversions: Conversions.None, underlyingType: typeof(float))]
+    [Instance("Item1", 1.1f)]
+    [Instance("Item2", 2.2f)]
     public partial class NoConverterFloatVo { }
 
-    [ValueObject(conversions: Conversions.TypeConverter, underlyingType: typeof(float))]
+    [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(float))]
+    [Instance("Item1", 1.1f)]
+    [Instance("Item2", 2.2f)]
     public partial class NoJsonFloatVo { }
 
-    [ValueObject(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(float))]
+    [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(float))]
+    [Instance("Item1", 1.1f)]
+    [Instance("Item2", 2.2f)]
     public partial class NewtonsoftJsonFloatVo { }
 
-    [ValueObject(conversions: Conversions.SystemTextJson, underlyingType: typeof(float))]
+    [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(float))]
+    [Instance("Item1", 1.1f)]
+    [Instance("Item2", 2.2f)]
     public partial class SystemTextJsonFloatVo { }
 
-    [ValueObject(conversions: Conversions.SystemTextJson, underlyingType: typeof(float), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+    [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(float), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+    [Instance("Item1", 1.1f)]
+    [Instance("Item2", 2.2f)]
     public partial class SystemTextJsonFloatVo_Treating_numbers_as_string { }
 
-    [ValueObject(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(float))]
+    [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(float))]
+    [Instance("Item1", 1.1f)]
+    [Instance("Item2", 2.2f)]
     public partial class BothJsonFloatVo { }
 
-    [ValueObject(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(float))]
+    [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(float))]
+    [Instance("Item1", 1.1f)]
+    [Instance("Item2", 2.2f)]
     public partial class EfCoreFloatVo { }
 
-    [ValueObject(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(float))]
+    [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(float))]
+    [Instance("Item1", 1.1f)]
+    [Instance("Item2", 2.2f)]
     public partial class DapperFloatVo { }
 
-    [ValueObject(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(float))]
+    [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(float))]
+    [Instance("Item1", 1.1f)]
+    [Instance("Item2", 2.2f)]
     public partial class LinqToDbFloatVo { }
 }

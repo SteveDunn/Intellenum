@@ -1,77 +1,110 @@
 ﻿#nullable disable
 using FluentAssertions;
-using Vogen;
-using Xunit;
+using Intellenum;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace MediumTests.SerializationAndConversionTests;
 
-[ValueObject(underlyingType: typeof(double), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+[Intellenum(underlyingType: typeof(double), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+[Instance("Item1", 720742592373919744)]
+[Instance("Item2", 2.2d)]
 public partial class DoubleHolderId_string
 {
 }
 
-[ValueObject(underlyingType: typeof(decimal), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+[Intellenum(underlyingType: typeof(decimal), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
 public partial class DecimalHolderId_string
 {
+    static DecimalHolderId_string()
+    {
+        Instance("Item1", 720742592373919744m);
+        Instance("Item2", 2.2m);
+    }
 }
 
-[ValueObject(underlyingType: typeof(float), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+[Intellenum(underlyingType: typeof(float), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+[Instance("Item1", 720742592373919744)]
+[Instance("Item2", 2.2f)]
 public partial class FloatHolderId_string
 {
 }
 
-[ValueObject(underlyingType: typeof(long), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+[Intellenum(underlyingType: typeof(long), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+[Instance("Item1", 720742592373919744)]
+[Instance("Item2", 2)]
 public partial class LongHolderId_string
 {
 }
 
-[ValueObject(underlyingType: typeof(short), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+[Intellenum(underlyingType: typeof(short), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+[Instance("Item1", 123)]
+[Instance("Item2", 321)]
 public partial class ShortHolderId_string
 {
 }
 
-[ValueObject(underlyingType: typeof(int), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+[Intellenum(underlyingType: typeof(int), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+[Instance("Item1", 321)]
+[Instance("Item2", 2)]
 public partial class IntHolderId_string
 {
 }
 
-[ValueObject(underlyingType: typeof(byte), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+[Intellenum(underlyingType: typeof(byte), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
 public partial class ByteHolderId_string
 {
 }
 
-[ValueObject(underlyingType: typeof(double))]
+[Intellenum(underlyingType: typeof(double))]
+[Instance("Item1", 720742592373919744)]
+[Instance("Item2", 2.2d)]
 public partial class DoubleHolderId_normal
 {
 }
 
-[ValueObject(underlyingType: typeof(decimal))]
+[Intellenum(underlyingType: typeof(decimal))]
 public partial class DecimalHolderId_normal
 {
+    static DecimalHolderId_normal()
+    {
+        Instance("Item1", 720742592373919744m);
+        Instance("Item2", 2.2m);
+    }
 }
 
-[ValueObject(underlyingType: typeof(float))]
+[Intellenum(underlyingType: typeof(float))]
+[Instance("Item1", 720742592373919744)]
+[Instance("Item2", 2.2f)]
 public partial class FloatHolderId_normal
 {
 }
 
-[ValueObject(underlyingType: typeof(long))]
+[Intellenum(underlyingType: typeof(long))]
+[Instance("Item1", 720742592373919744)]
+[Instance("Item2", 2)]
 public partial class LongHolderId_normal
 {
 }
 
-[ValueObject(underlyingType: typeof(short))]
+[Intellenum(underlyingType: typeof(short))]
+[Instance("Item1", 123)]
+[Instance("Item2", 321)]
 public partial class ShortHolderId_normal
 {
 }
 
-[ValueObject(underlyingType: typeof(int))]
+[Intellenum(underlyingType: typeof(int))]
+[Instance("Item1", 321)]
+[Instance("Item2", 2)]
 public partial class IntHolderId_normal
 {
 }
 
-[ValueObject(underlyingType: typeof(byte))]
+[Intellenum(underlyingType: typeof(byte))]
+[Instance("Item1", 123)]
+[Instance("Item2", 2)]
 public partial class ByteHolderId_normal
 {
 }
@@ -100,12 +133,12 @@ public class CustomizationTests
     [Fact]
     public void CanSerializeAndDeserializeAsString()
     {
-        var holderId = DoubleHolderId_string.From(42);
+        var holderId = DoubleHolderId_string.Item1;
 
         string serialized = JsonSerializer.Serialize(holderId);
         var deserialized = JsonSerializer.Deserialize<DoubleHolderId_string>(serialized);
 
-        deserialized.Value.Should().Be(42);
+        deserialized.Value.Should().Be(DoubleHolderId_string.Item1);
     }
 
     [Fact]
@@ -113,21 +146,21 @@ public class CustomizationTests
     {
         var container  = new Container
         {
-            ByteHolder_as_a_string = ByteHolderId_string.From(123),
-            DecimalHolder_as_a_string = DecimalHolderId_string.From(720742592373919744),
-            DoubleHolder_as_a_string = DoubleHolderId_string.From(720742592373919744),
-            FloatHolder_as_a_string = FloatHolderId_string.From(720742592373919744),
-            IntHolder_as_a_string = IntHolderId_string.From(321),
-            LongHolder_as_a_string = LongHolderId_string.From(720742592373919744),
-            ShortHolder_as_a_string = ShortHolderId_string.From(123),
+            ByteHolder_as_a_string = ByteHolderId_string.Item1,
+            DecimalHolder_as_a_string = DecimalHolderId_string.Item1,
+            DoubleHolder_as_a_string = DoubleHolderId_string.Item1,
+            FloatHolder_as_a_string = FloatHolderId_string.Item1,
+            IntHolder_as_a_string = IntHolderId_string.Item1,
+            LongHolder_as_a_string = LongHolderId_string.Item1,
+            ShortHolder_as_a_string = ShortHolderId_string.Item1,
 
-            ByteHolder_normal = ByteHolderId_normal.From(123),
-            DecimalHolder_normal = DecimalHolderId_normal.From(720742592373919744),
-            DoubleHolder_normal = DoubleHolderId_normal.From(720742592373919744),
-            FloatHolder_normal = FloatHolderId_normal.From(720742592373919744),
-            IntHolder_normal = IntHolderId_normal.From(321),
-            LongHolder_normal = LongHolderId_normal.From(720742592373919744),
-            ShortHolder_normal = ShortHolderId_normal.From(123),
+            ByteHolder_normal = ByteHolderId_normal.Item1,
+            DecimalHolder_normal = DecimalHolderId_normal.Item1,
+            DoubleHolder_normal = DoubleHolderId_normal.Item1,
+            FloatHolder_normal = FloatHolderId_normal.Item1,
+            IntHolder_normal = IntHolderId_normal.Item1,
+            LongHolder_normal = LongHolderId_normal.Item1,
+            ShortHolder_normal = ShortHolderId_normal.Item1,
         };
         
         string serialized = JsonSerializer.Serialize(container);

@@ -21,7 +21,7 @@ public static class InstanceGeneration
 
         foreach (InstanceProperties each in item.InstanceProperties)
         {
-            sb.AppendLine($"yield return {each.Name};");
+            sb.AppendLine($"yield return {each.FieldName};");
         }
 
         return sb.ToString();
@@ -54,7 +54,7 @@ public static class InstanceGeneration
         return $@"
 // instance...
 
-{BuildInstanceComment(classDeclarationSyntax.Identifier, instanceProperties.TripleSlashComments, itemFullNamespace)}public static readonly {classDeclarationSyntax.Identifier} {Util.EscapeIfRequired(instanceProperties.Name)} = new {classDeclarationSyntax.Identifier}(""{instanceProperties.Name}"",{instanceValue});";
+{BuildInstanceComment(classDeclarationSyntax.Identifier, instanceProperties.TripleSlashComments, itemFullNamespace)}public static readonly {classDeclarationSyntax.Identifier} {Util.EscapeIfRequired(instanceProperties.FieldName)} = new {classDeclarationSyntax.Identifier}(""{instanceProperties.FieldName}"",{instanceValue});";
     }
 
     private static string BuildInstanceComment(SyntaxToken syntaxToken, string? commentText, string fullNamespace)
@@ -197,5 +197,32 @@ public static class InstanceGeneration
             return new(false, string.Empty,
                 $"Named instance '{propertyName}' has a value type '{propertyValue?.GetType()}' of '{propertyValue}' which cannot be converted to the underlying type of '{underlyingType}' - {e.Message}");
         }
+    }
+
+    public static string GeneratePrivateConstructionInitialisationIfNeeded(VoWorkItem item)
+    {
+        var implicitlyNamedInstances = item.InstanceProperties.Where(i => !i.ExplicitlyNamed).ToList();
+        if (implicitlyNamedInstances.Count == 0)
+        {
+            return "";
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine(
+            $$"""
+        static {{item.VoTypeName}}()
+{
+""");
+        
+        foreach (var eachInstance in implicitlyNamedInstances)
+        {
+            sb.AppendLine($"{eachInstance.FieldName}.Name = \"{eachInstance.FieldName}\";");
+        }
+        
+        sb.AppendLine(
+            $$"""
+}
+""");
+        return sb.ToString();
     }
 }

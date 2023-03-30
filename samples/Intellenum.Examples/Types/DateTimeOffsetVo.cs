@@ -14,7 +14,7 @@ namespace Intellenum.Examples.Types
         static NoConverterDateTimeOffsetVo()
         {
             Instance("Item1", DateTimeOffset.Parse("2020-01-01T00:00:00Z"));
-            Instance("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
+            Instance("Item2", DateTimeOffset.Parse("2020-01-02T00:00:00Z"));
         }
     }
 

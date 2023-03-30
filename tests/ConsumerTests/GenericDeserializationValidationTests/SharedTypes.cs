@@ -1,50 +1,35 @@
-﻿using LinqToDB;
+﻿#if NET7_0_OR_GREATER
+
+using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
 using LinqToDB.Mapping;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Vogen;
+using Intellenum;
 
 namespace ConsumerTests.GenericDeserializationValidationTests;
 
-#if NET7_0_OR_GREATER
-
 #region Value Objects
-[ValueObject<int>(Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter)]
+[Intellenum<int>(Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter)]
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
 public partial class MyVoInt_should_not_bypass_validation
 {
-    private static Validation validate(int value)
-    {
-        if (value > 0)
-            return Validation.Ok;
-
-        return Validation.Invalid("must be greater than zero");
-    }
 }
 
-[ValueObject<string>(Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter)]
+[Intellenum<string>(Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter)]
+[Instance("Item1", "Item1")]
+[Instance("Item2", "Item2")]
 public partial class MyVoString_should_not_bypass_validation
 {
-    private static Validation validate(string value)
-    {
-        if (value.Length > 10)
-            return Validation.Ok;
-
-        return Validation.Invalid("length must be greater than ten characters");
-    }
 }
 
-[ValueObject<string>(Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter, deserializationStrictness: DeserializationStrictness.AllowAnything)]
+[Intellenum<string>(Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter)]
+[Instance("Item1", "Item1")]
+[Instance("Item2", "Item2")]
 public partial class MyVoString_should_bypass_validation
 {
-    private static Validation validate(string value)
-    {
-        if (value.Length > 10)
-            return Validation.Ok;
-
-        return Validation.Invalid("length must be greater than ten characters");
-    }
 }
 #endregion
 

@@ -280,7 +280,7 @@ internal static class BuildWorkItems
             ArgumentSyntax second = eachInvocation.ArgumentList.Arguments[1];
             var secondAsString = second.ToString();
 
-            yield return new InstanceProperties(InstanceSource.FromInstanceMethod, firstAsString, secondAsString, secondAsString);
+            yield return new InstanceProperties(InstanceSource.FromInstanceMethod,  firstAsString, firstAsString, secondAsString, secondAsString);
         }
     }
 
@@ -301,7 +301,7 @@ internal static class BuildWorkItems
 
             var allConstructors = syntax.DescendantNodes().OfType<BaseObjectCreationExpressionSyntax>();
             
-            var newExpressions = allConstructors.Where(c => c.ArgumentList?.Arguments.Count == 2).ToList();
+            var newExpressions = allConstructors.Where(c => c.ArgumentList?.Arguments.Count >=1).ToList();
 
             var implicitNews = newExpressions.OfType<ImplicitObjectCreationExpressionSyntax>()
                 .Where(x => IsMatch(x, voClass.Name)).ToList();
@@ -317,20 +317,49 @@ internal static class BuildWorkItems
 
             var args = newExpression.ArgumentList;
             if (args is null) continue;
-            if (args.Arguments.Count != 2) continue;
             
-            ArgumentSyntax first = args.Arguments[0];
-                
-            var firstAsString = (first.Expression as LiteralExpressionSyntax)?.Token.Value as string;
-            if (firstAsString is null)
-            {
-                throw new InvalidOperationException($"Expected string literal as name parameter to a parameter of the constructor for creating a type of '{voClass.Name}'");
-            }
+            // we could have 1 or 2 arguments here.
+            // if it's two, then the first is the "enum name", and the second is the value (the "Field Name" is inferred from the syntax
+            // it it's just one, then the "Field Name" is the "enum name", and the value is inferred from the syntax.
 
-            ArgumentSyntax second = args.Arguments[1];
+            string fieldName = each.Name; // todo: get the field name from the syntax
+            string enumName = fieldName;
+
+            bool explicitlyNamed = false;
+            if (args.Arguments.Count >2) continue;
+
+            if (args.Arguments.Count == 2)
+            {
+                explicitlyNamed = true;
+                ArgumentSyntax first = args.Arguments[0];
+
+                var firstAsString = (first.Expression as LiteralExpressionSyntax)?.Token.Value as string;
+
+                enumName = firstAsString ?? throw new InvalidOperationException(
+                    $"Expected string literal as name parameter to a parameter of the constructor for creating a type of '{voClass.Name}'");
+            }
+            
+            int index = args.Arguments.Count == 2 ? 1 : 0;
+
+            // we don't need the expression - but would it come in handy? // todo: determine
+            ArgumentSyntax second = args.Arguments[index];
             var secondAsString = second.ToString();
 
-            yield return new InstanceProperties(InstanceSource.FromNewExpression, firstAsString, secondAsString, secondAsString);
+            // the name field makes no sense here because the name *must* be the name of the field being declared.
+            // the only thing that we could do is make it an alias if different, but users might as well declare the alias themselves as the field name.
+            // perhaps what we could do is look for a new express
+            // SmartEnum allows a different 'name' to be added, and it also allows the same 'value' to be added
+            // So we could treat this is an alias, e.g. "Item1" is the field name, and "Fred" is the name in the constructor, so 'FromName' 
+            // could look up "Fred" and return the instance with the field name "Item1"
+
+            
+            // in the static constructor, we can enumerate these and sets the values on the fields - it just means
+            // making FieldName and EnumName with private setters
+            
+            // actually, none of this will work - an explicit field *must* specify the field name, the enum name, and the value
+            // we can probably infer the enum name from the field name with a constructor overload, but that's it.
+            
+            yield return new InstanceProperties(InstanceSource.FromNewExpression, fieldName, enumName, secondAsString, secondAsString, "",  explicitlyNamed);
         }
 
         bool isSameSymbol(ISymbol m)

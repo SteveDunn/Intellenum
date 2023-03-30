@@ -4,13 +4,13 @@
 [Intellenum]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]
-public partial class MyValueObject { }
+public partial class MyIntellenum { }
 
 // the underlying type can be specified
 [Intellenum(typeof(int))]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]
-public partial class MyValueObject2 { }
+public partial class MyIntellenum2 { }
 
 // conversions can be specified, but if not, it defaults to TypeConverter and SystemTextJson
 [Intellenum(conversions: Conversions.None, underlyingType: typeof(int))]
