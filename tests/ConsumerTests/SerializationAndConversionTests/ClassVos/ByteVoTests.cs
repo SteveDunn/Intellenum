@@ -72,7 +72,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromShort_WithNewtonsoftJsonProvider()
         {
-            byte value = 123;
+            byte value = 1;
             var vo = NewtonsoftJsonByteVo.Item1;
             var serializedShort = NewtonsoftJsonSerializer.SerializeObject(value);
 
@@ -84,7 +84,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromShort_WithSystemTextJsonProvider()
         {
-            byte value = 123;
+            byte value = 1;
             var vo = SystemTextJsonByteVo.Item1;
             var serializedShort = SystemTextJsonSerializer.Serialize(value);
 
@@ -177,7 +177,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            IEnumerable<DapperByteVo> results = await connection.QueryAsync<DapperByteVo>("SELECT 123");
+            IEnumerable<DapperByteVo> results = await connection.QueryAsync<DapperByteVo>("SELECT 1");
 
             var value = Assert.Single(results);
             Assert.Equal(DapperByteVo.Item1, value);
@@ -210,8 +210,8 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Theory]
-        [InlineData((byte) 123)]
-        [InlineData("123")]
+        [InlineData((byte) 1)]
+        [InlineData("1")]
         public void TypeConverter_CanConvertToAndFrom(object value)
         {
             var converter = TypeDescriptor.GetConverter(typeof(NoJsonByteVo));

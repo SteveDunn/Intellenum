@@ -72,7 +72,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromLong_WithNewtonsoftJsonProvider()
         {
-            var value = 123L;
+            var value = 1L;
             var vo = NewtonsoftJsonLongVo.Item1;
             var serializedLong = NewtonsoftJsonSerializer.SerializeObject(value);
 
@@ -187,7 +187,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            IEnumerable<DapperLongVo> results = await connection.QueryAsync<DapperLongVo>("SELECT 123");
+            IEnumerable<DapperLongVo> results = await connection.QueryAsync<DapperLongVo>("SELECT 1");
 
             var value = Assert.Single(results);
             Assert.Equal(DapperLongVo.Item1, value);
@@ -220,8 +220,8 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Theory]
-        [InlineData(123L)]
-        [InlineData("123")]
+        [InlineData(1L)]
+        [InlineData("1")]
         public void TypeConverter_CanConvertToAndFrom(object value)
         {
             var converter = TypeDescriptor.GetConverter(typeof(NoJsonLongVo));

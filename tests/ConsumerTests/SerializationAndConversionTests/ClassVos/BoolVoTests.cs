@@ -230,9 +230,9 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Theory]
-        [InlineData(true, "Yes")]
-        [InlineData(false, "No")]
-        public void TypeConverter_CanConvertToAndFrom_bools(bool input, string expectedString)
+        [InlineData(true, "True")]
+        [InlineData(false, "False")]
+        public void TypeConverter_CanConvertToAndFrom_bools_and_the_string_output_conversion_is_the_string_representation_of_the_VALUE_as_opposed_to_ToString_which_is_the_name(bool input, string expectedString)
         {
             TypeConverter converter = TypeDescriptor.GetConverter(typeof(NoJsonBoolVo));
 

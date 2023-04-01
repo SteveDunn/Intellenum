@@ -235,7 +235,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         {
             var converter = TypeDescriptor.GetConverter(typeof(NoJsonFooVo));
 
-            object vo = converter.ConvertFrom(NoJsonFooVo.Item1);
+            object vo = converter.ConvertFrom(NoJsonFooVo.Item1.Value);
 
             Assert.IsType<NoJsonFooVo>(vo);
 

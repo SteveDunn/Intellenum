@@ -227,15 +227,16 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 
         [Theory]
         [InlineData("2022-01-15T19:08:49.5413764+00:00")]
-        public void TypeConverter_CanConvertToAndFrom(string value)
+        public void TypeConverter_CanConvertToAndFrom(string inputString)
         {
             var converter = TypeDescriptor.GetConverter(typeof(NoJsonDateTimeVo));
-            var id = converter.ConvertFrom(value);
-            Assert.IsType<NoJsonDateTimeVo>(id);
-            Assert.Equal(NoJsonDateTimeVo.Item1, id);
+            
+            var instance = converter.ConvertFrom(inputString);
+            Assert.IsType<NoJsonDateTimeVo>(instance);
+            Assert.Equal(NoJsonDateTimeVo.Item3, instance);
 
-            var reconverted = converter.ConvertTo(id, value.GetType());
-            Assert.Equal(value, reconverted);
+            var reconverted = converter.ConvertTo(instance, inputString.GetType());
+            Assert.Equal(inputString, reconverted);
         }
 
         public class TestDbContext : DbContext

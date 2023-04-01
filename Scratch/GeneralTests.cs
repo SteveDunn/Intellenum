@@ -1,6 +1,27 @@
-﻿using FluentAssertions;
+﻿#nullable disable
+
+using System.ComponentModel;
+using FluentAssertions;
+using Intellenum;
+using Intellenum.IntegrationTests.TestTypes.ClassVos;
 
 namespace Scratch;
+
+// [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(Bar))]
+// public partial class NoJsonFooVo
+// {
+//     static NoJsonFooVo()
+//     {
+//         Instance("Item1", new NoJsonFooVo(new Bar(42, "Fred")));
+//         Instance("Item2", new NoJsonFooVo(new Bar(2, "Two")));
+//     }
+// }
+
+public record struct Bar(int Age, string Name) : IComparable<Bar>
+{
+    public int CompareTo(Bar other) => Age.CompareTo(other.Age);
+}
+
 
 
 public class GeneralTests
@@ -11,6 +32,7 @@ public class GeneralTests
         Gold
     }
     
+
     [Fact]
     public void ToStringTest()
     {
