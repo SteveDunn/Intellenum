@@ -110,7 +110,7 @@ namespace ScratchSnapshotTests
             new SnapshotRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .IgnoreInitialCompilationErrors()
-                //.IgnoreFinalCompilationErrors()
+                .IgnoreFinalCompilationErrors()
                 .RunOnAllFrameworks();
     }
 }

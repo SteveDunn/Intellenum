@@ -32,20 +32,8 @@ using Intellenum;
 #endif
         private readonly global::System.Boolean _isInitialized;
         private readonly {itemUnderlyingType} _value;
-        
-        /// <summary>
-        /// Gets the underlying <see cref=""{itemUnderlyingType}"" /> value if set, otherwise a <see cref=""{nameof(IntellenumValidationException)}"" /> is thrown.
-        /// </summary>
-        public {itemUnderlyingType} ValueChecked
-        {{
-            [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-            [global::System.Diagnostics.DebuggerStepThroughAttribute]
-            get
-            {{
-                if(!_isInitialized) Throw();
-                return _value;
-            }}
-        }}
+
+        {InstanceGeneration.GeneratePrivateConstructionInitialisationIfNeeded(item)}
 
         /// <summary>
         /// Gets the underlying <see cref=""{itemUnderlyingType}"" /> value if set, otherwise default
@@ -68,7 +56,7 @@ private void Throw()
                 global::System.String message = ""Use of uninitialized Value Object."";
 #endif
 
-                throw new {nameof(IntellenumValidationException)}(message);
+                throw new {nameof(IntellenumUninitialisedException)}(message);
 
 }}
 
@@ -85,14 +73,25 @@ private void Throw()
         }}
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
-        private {className}(string name, {itemUnderlyingType} value)
+        private {className}({itemUnderlyingType} value)
         {{
             _value = value;
-            Name = name;
+            Name = ""[INFERRED-TO-BE-REPLACED!]"";
+            _isInitialized = true;
+        }}        
+
+        [global::System.Diagnostics.DebuggerStepThroughAttribute]
+        private {className}(string enumName, {itemUnderlyingType} value)
+        {{
+            _value = value;
+            Name = enumName;
             _isInitialized = true;
         }}
 
-        public string Name {{ get; }}
+        // exclude from serialization 
+
+          
+        public string Name {{ get; private set; }}
 
         /// <summary>
         /// Builds an instance from an enum value.
@@ -254,22 +253,6 @@ private void Throw()
             }}
         }}
 
-        private void EnsureInitialized()
-        {{
-            if (!_isInitialized)
-            {{
-#if DEBUG
-                global::System.String message = ""Use of uninitialized Value Object at: "" + _stackTrace ?? """";
-#else
-                global::System.String message = ""Use of uninitialized Value Object."";
-#endif
-
-                // todo: remove this
-                throw new global::System.InvalidOperationException(message);
-            }}
-        }}
-
-
         {InstanceGeneration.GenerateAnyInstances(tds, item)}
         
         public static global::System.Collections.Generic.IEnumerable<{className}> List()
@@ -280,6 +263,8 @@ private void Throw()
         {Util.GenerateToString(item)}
 
         {Util.GenerateAnyConversionBodies(tds, item)}
+        
+        {TryParseGeneration.GenerateTryParseIfNeeded(item)}
 
         {Util.GenerateDebuggerProxyForClasses(tds, item)}
     }}
@@ -290,7 +275,7 @@ private void Throw()
         voWorkItem.IsValueType ? string.Empty
             : $@"            if (value is null)
             {{
-                throw new global::System.InvalidOperationException(""Cannot create a value object with null."");
+                throw new {nameof(IntellenumCreationFailedException)}(""Cannot create an Intellenum instance with a null."");
             }}
 ";
 }

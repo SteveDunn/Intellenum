@@ -1,69 +1,68 @@
 ﻿using System;
-using Vogen;
-using Xunit;
 using FluentAssertions;
+using Intellenum;
 using FluentAssertions.Execution;
 
 namespace ConsumerTests.Instances;
 
-[ValueObject(typeof(DateTime))]
+[Intellenum(typeof(DateTime))]
 [Instance(name: "iso8601_1", value: "2022-12-13")]
 [Instance(name: "iso8601_2", value: "2022-12-13T13:14:15Z")]
 [Instance(name: "ticks_as_long", value: 638064864000000000L)]
 [Instance(name: "ticks_as_int", value: 2147483647)]
-public readonly partial struct DateTimeInstance
+public partial class DateTimeInstance
 {
 }
 
-[ValueObject(typeof(DateTimeOffset))]
+[Intellenum(typeof(DateTimeOffset))]
 [Instance(name: "iso8601_1", value: "2022-12-13")]
 [Instance(name: "iso8601_2", value: "2022-12-13T13:14:15Z")]
 [Instance(name: "ticks_as_long", value: 638064864000000000L)]
 [Instance(name: "ticks_as_int", value: 2147483647)]
-public readonly partial struct DateTimeOffsetInstance
+public partial class DateTimeOffsetInstance
 {
 }
 
-[ValueObject(typeof(float))]
+[Intellenum(typeof(float))]
 [Instance(name: "i1", value: 1.23f)]
 [Instance(name: "i2", value: 2.34)]
 [Instance(name: "i3", value: "3.45")]
 [Instance(name: "i4", value: '2')]
-public readonly partial struct MyFloatInstance
+public partial class MyFloatInstance
 {
 }
 
-[ValueObject(typeof(decimal))]
+[Intellenum(typeof(decimal))]
 [Instance(name: "i1", value: 1.23f)]
 [Instance(name: "i2", value: 2.34)]
 [Instance(name: "i3", value: "3.45")]
 [Instance(name: "i4", value: '2')]
-public readonly partial struct MyDecimalInstance
+public partial class MyDecimalInstance
 {
 }
 
-[ValueObject(typeof(double))]
+[Intellenum(typeof(double))]
 [Instance(name: "i1", value: 1.23d)]
 [Instance(name: "i2", value: 2.34)]
 [Instance(name: "i3", value: "3.45")]
 [Instance(name: "i4", value: '2')]
-public readonly partial struct MyDoubleInstance
+public partial class MyDoubleInstance
 {
 }
 
-[ValueObject(typeof(char))]
+[Intellenum(typeof(char))]
 [Instance(name: "i1", value: 1)]
 [Instance(name: "i2", value: "2")]
 [Instance(name: "i3", value: '3')]
-public readonly partial struct MyCharInstance
+public partial class MyCharInstance
 {
 }
 
-[ValueObject(typeof(byte))]
+[Intellenum(typeof(byte))]
 [Instance(name: "i1", value: 1)]
 [Instance(name: "i2", value: "2")]
 [Instance(name: "i3", value: '3')]
-public readonly partial struct MyByteInstance
+public partial class MyByteInstance
 {
 }
 
@@ -87,11 +86,11 @@ public class InstanceTests
         public void DateTimeOffset()
         {
             using var _ = new AssertionScope();
-            DateTimeOffsetInstance.iso8601_1.Value.Should().Be(new DateTimeOffset(2022, 12, 13, 0, 0, 0, TimeSpan.Zero));
-            DateTimeOffsetInstance.iso8601_2.Value.Should().Be(new DateTimeOffset(2022, 12, 13, 13, 14, 15, TimeSpan.Zero));
-            DateTimeOffsetInstance.ticks_as_long.Value.Should().Be(new DateTimeOffset(2022, 12, 13, 0, 0, 0, TimeSpan.Zero));
+            DateTimeOffsetInstance.iso8601_1.Value.Should().Be(DateTimeOffsetInstance.iso8601_1);
+            DateTimeOffsetInstance.iso8601_2.Value.Should().Be(DateTimeOffsetInstance.iso8601_2);
+            DateTimeOffsetInstance.ticks_as_long.Value.Should().Be(DateTimeOffsetInstance.ticks_as_long);
             // ticks as an Int.MaxValue is 2147483647, which is 2,147,483,647 / 10m, which is ~214 seconds, which 3 minutes, 34 seconds
-            DateTimeOffsetInstance.ticks_as_int.Value.Should().BeCloseTo(new DateTimeOffset(1, 1, 1, 0, 3, 34, 0, TimeSpan.Zero), TimeSpan.FromTicks(7483647));
+            DateTimeOffsetInstance.ticks_as_int.Value.Should().BeCloseTo(DateTimeOffsetInstance.ticks_as_int, TimeSpan.FromTicks(7483647));
         }
     }
 

@@ -51,10 +51,10 @@ namespace Intellenum
     /// <returns>
     /// The value created via the <see cref=""From""/> method.
     /// </returns>
-    /// <exception cref=""ValueObjectValidationException"">Thrown when the value can be parsed, but is not valid.</exception>
+    /// <exception cref=""IntellenumValidationException"">Thrown when the value can be parsed, but is not valid.</exception>
     public static global::System.Boolean TryParse({parameters}, {GenerateNotNullWhenAttribute()} out {item.VoTypeName} result) {{
         if({item.UnderlyingTypeFullName}.TryParse({parameterNames}, out var r)) {{
-            result = From(r);
+            result = FromValue(r);
             return true;
         }}
 

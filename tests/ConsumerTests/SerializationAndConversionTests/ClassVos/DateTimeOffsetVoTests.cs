@@ -1,18 +1,19 @@
 ﻿#nullable disable
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using Dapper;
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Xunit;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Vogen.IntegrationTests.TestTypes.ClassVos;
+using Intellenum.IntegrationTests.TestTypes.ClassVos;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
@@ -24,45 +25,46 @@ using LinqToDB.Mapping;
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable SuspiciousTypeConversion.Global
 
-namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
+namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 {
-    [ValueObject(underlyingType: typeof(DateTimeOffset))]
-    public readonly partial struct AnotherDateTimeOffsetVo { }
+    [Intellenum(underlyingType: typeof(DateTimeOffset))]
+    public partial class DateTimeOffsetVo
+    {
+        static DateTimeOffsetVo()
+        {
+            Instance("JanFirst", new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero).AddTicks(123));
+            Instance("JanSecond", new DateTimeOffset(2019, 1, 2, 14, 15, 16, TimeSpan.Zero));
+            Instance("SomethingElse", new DateTimeOffset(2022,01,15,19,08,49, TimeSpan.Zero).AddTicks(5413764));
+        }
+    }
 
     public class DateTimeOffsetVoTests
     {
-        private static readonly DateTimeOffset _date1 = new DateTimeOffset(1970, 6, 10, 14, 01, 02, TimeSpan.Zero) + TimeSpan.FromTicks(12345678);
-        private static readonly DateTimeOffset _date2 = DateTimeOffset.Now.AddMinutes(42.69);
-        
+        private readonly DateTimeOffset _date1 = DateTimeOffsetVo.JanFirst.Value;
+
         [Fact]
         public void equality_between_same_value_objects()
         {
-            DateTimeOffsetVo.From(_date1).Equals(DateTimeOffsetVo.From(_date1)).Should().BeTrue();
-            (DateTimeOffsetVo.From(_date1) == DateTimeOffsetVo.From(_date1)).Should().BeTrue();
+            DateTimeOffsetVo.JanFirst.Equals(DateTimeOffsetVo.JanFirst).Should().BeTrue();
+            (DateTimeOffsetVo.JanFirst == DateTimeOffsetVo.JanFirst).Should().BeTrue();
 
-            (DateTimeOffsetVo.From(_date1) != DateTimeOffsetVo.From(_date2)).Should().BeTrue();
-            (DateTimeOffsetVo.From(_date1) == DateTimeOffsetVo.From(_date2)).Should().BeFalse();
+            (DateTimeOffsetVo.JanFirst != DateTimeOffsetVo.JanSecond).Should().BeTrue();
+            (DateTimeOffsetVo.JanFirst == DateTimeOffsetVo.JanSecond).Should().BeFalse();
 
-            DateTimeOffsetVo.From(_date1).Equals(DateTimeOffsetVo.From(_date1)).Should().BeTrue();
-            (DateTimeOffsetVo.From(_date1) == DateTimeOffsetVo.From(_date1)).Should().BeTrue();
+            DateTimeOffsetVo.JanFirst.Equals(DateTimeOffsetVo.JanFirst).Should().BeTrue();
+            (DateTimeOffsetVo.JanFirst == DateTimeOffsetVo.JanFirst).Should().BeTrue();
 
-            var original = DateTimeOffsetVo.From(_date1);
-            var other = DateTimeOffsetVo.From(_date1);
+            var original = DateTimeOffsetVo.JanFirst;
+            var other = DateTimeOffsetVo.JanFirst;
 
             ((original as IEquatable<DateTimeOffsetVo>).Equals(other)).Should().BeTrue();
             ((other as IEquatable<DateTimeOffsetVo>).Equals(original)).Should().BeTrue();
         }
 
         [Fact]
-        public void equality_between_different_value_objects()
-        {
-            DateTimeOffsetVo.From(_date1).Equals(AnotherDateTimeOffsetVo.From(_date1)).Should().BeFalse();
-        }
-
-        [Fact]
         public void CanSerializeToString_WithNewtonsoftJsonProvider()
         {
-            var g1 = NewtonsoftJsonDateTimeOffsetVo.From(_date1);
+            var g1 = NewtonsoftJsonDateTimeOffsetVo.JanFirst;
 
             string serialized = NewtonsoftJsonSerializer.SerializeObject(g1);
             string serializedString = NewtonsoftJsonSerializer.SerializeObject(g1.Value);
@@ -73,7 +75,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToString_WithSystemTextJsonProvider()
         {
-            var vo = SystemTextJsonDateTimeOffsetVo.From(_date1);
+            var vo = SystemTextJsonDateTimeOffsetVo.JanFirst;
 
             string serializedVo = SystemTextJsonSerializer.Serialize(vo);
             string serializedString = SystemTextJsonSerializer.Serialize(vo.Value);
@@ -84,8 +86,8 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromString_WithNewtonsoftJsonProvider()
         {
-            var value = _date1;
-            var vo = NewtonsoftJsonDateTimeOffsetVo.From(value);
+            var value = NewtonsoftJsonDateTimeOffsetVo.JanFirst.Value;
+            var vo = NewtonsoftJsonDateTimeOffsetVo.JanFirst;
             var serializedString = NewtonsoftJsonSerializer.SerializeObject(value);
 
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonDateTimeOffsetVo>(serializedString);
@@ -96,8 +98,8 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromString_WithSystemTextJsonProvider()
         {
-            var value = _date1;
-            var vo = SystemTextJsonDateTimeOffsetVo.From(value);
+            var value = NewtonsoftJsonDateTimeOffsetVo.JanFirst.Value;
+            var vo = SystemTextJsonDateTimeOffsetVo.JanFirst;
             var serializedString = SystemTextJsonSerializer.Serialize(value);
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDateTimeOffsetVo>(serializedString);
@@ -108,7 +110,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToString_WithBothJsonConverters()
         {
-            var vo = BothJsonDateTimeOffsetVo.From(_date1);
+            var vo = BothJsonDateTimeOffsetVo.JanFirst;
 
             var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(vo);
             var serializedString1 = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
@@ -121,13 +123,15 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueProperty()
+        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
-            var vo = NoJsonDateTimeOffsetVo.From(_date1);
+            var vo = NoJsonDateTimeOffsetVo.JanFirst;
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"" + _date1.ToString("O") + "\"}";
+            var expected = """
+                {"Value":"2019-01-01T14:15:16+00:00","Name":"JanFirst"}
+                """;
 
             Assert.Equal(expected, serialized);
         }
@@ -135,24 +139,23 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var vo = NoJsonDateTimeOffsetVo.From(_date1);
+            var vo = NoJsonDateTimeOffsetVo.JanFirst;
 
             var serialized = NewtonsoftJsonSerializer.SerializeObject(vo);
 
-            var expected = $"\"{_date1:o}\"";
-
+            var expected = "\"2019-01-01T14:15:16.0000000+00:00\"";
             Assert.Equal(expected, serialized);
         }
 
         [Fact]
-        public void WhenNoTypeConverter_SerializesWithValueProperty()
+        public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
-            var vo = NoConverterDateTimeOffsetVo.From(_date1);
+            var vo = NoConverterDateTimeOffsetVo.JanFirst;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"" + _date1.ToString("O") + "\"}";
+            var expected = """{"Value":"2019-01-01T14:15:16+00:00","Name":"JanFirst"}""";
 
             Assert.Equal(expected, newtonsoft);
             Assert.Equal(expected, systemText);
@@ -168,7 +171,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
                 .UseSqlite(connection)
                 .Options;
 
-            var original = new EfCoreTestEntity { Id = EfCoreDateTimeOffsetVo.From(_date1) };
+            var original = new EfCoreTestEntity { Id = EfCoreDateTimeOffsetVo.JanFirst };
             using (var context = new TestDbContext(options))
             {
                 context.Database.EnsureCreated();
@@ -193,7 +196,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
 
             DapperDateTimeOffsetVo actual = Assert.Single(results);
 
-            var expected = DapperDateTimeOffsetVo.From(new DateTimeOffset(2022,01,15,19,08,49, TimeSpan.Zero).AddTicks(5413764));
+            var expected = DapperDateTimeOffsetVo.SomethingElse;
             actual.Should().Be(expected);
         }
 
@@ -203,7 +206,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
 
-            var original = new LinqToDbTestEntity { Id = LinqToDbDateTimeOffsetVo.From(_date1) };
+            var original = new LinqToDbTestEntity { Id = LinqToDbDateTimeOffsetVo.JanFirst };
             using (var context = new DataConnection(
                 SQLiteTools.GetDataProvider("SQLite.MS"),
                 connection,
@@ -230,7 +233,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
             var converter = TypeDescriptor.GetConverter(typeof(NoJsonDateTimeOffsetVo));
             var id = converter.ConvertFrom(value);
             Assert.IsType<NoJsonDateTimeOffsetVo>(id);
-            Assert.Equal(NoJsonDateTimeOffsetVo.From(DateTimeOffset.ParseExact(value, "O", CultureInfo.InvariantCulture)), id);
+            Assert.Equal(NoJsonDateTimeOffsetVo.SomethingElse, id);
 
             var reconverted = converter.ConvertTo(id, value.GetType());
             Assert.Equal(value, reconverted);

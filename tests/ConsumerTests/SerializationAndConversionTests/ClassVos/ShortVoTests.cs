@@ -8,51 +8,57 @@ using Dapper;
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Xunit;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Vogen.IntegrationTests.TestTypes.ClassVos;
+using Intellenum.IntegrationTests.TestTypes.ClassVos;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
 using LinqToDB.Mapping;
 
-namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
+// ReSharper disable EqualExpressionComparison
+#pragma warning disable 1718
+
+
+namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 {
-    [ValueObject(underlyingType: typeof(short))]
-    public partial struct AnotherShortVo { }
+    [Intellenum(underlyingType: typeof(short))]
+    [Instance("Item1", 1)]
+    [Instance("Item2", 2)]
+    public partial class AnotherShortVo { }
 
     public class ShortVoTests
     {
         [Fact]
-        public void equality_between_same_value_objects()
+        public void equality_between_same_enums()
         {
-            ShortVo.From(18).Equals(ShortVo.From(18)).Should().BeTrue();
-            (ShortVo.From(18) == ShortVo.From(18)).Should().BeTrue();
+            ShortVo.Item1.Equals(ShortVo.Item1).Should().BeTrue();
+            (ShortVo.Item1 == ShortVo.Item1).Should().BeTrue();
 
-            (ShortVo.From(18) != ShortVo.From(19)).Should().BeTrue();
-            (ShortVo.From(18) == ShortVo.From(19)).Should().BeFalse();
+            (ShortVo.Item1 != ShortVo.Item2).Should().BeTrue();
+            (ShortVo.Item1 == ShortVo.Item2).Should().BeFalse();
 
-            ShortVo.From(18).Equals(ShortVo.From(18)).Should().BeTrue();
-            (ShortVo.From(18) == ShortVo.From(18)).Should().BeTrue();
+            ShortVo.Item1.Equals(ShortVo.Item1).Should().BeTrue();
+            (ShortVo.Item1 == ShortVo.Item1).Should().BeTrue();
 
-            var original = ShortVo.From(18);
-            var other = ShortVo.From(18);
+            var original = ShortVo.Item1;
+            var other = ShortVo.Item1;
 
             ((original as IEquatable<ShortVo>).Equals(other)).Should().BeTrue();
             ((other as IEquatable<ShortVo>).Equals(original)).Should().BeTrue();
         }
 
         [Fact]
-        public void equality_between_different_value_objects()
+        public void equality_between_different_enums()
         {
-            ShortVo.From(18).Equals(AnotherShortVo.From(18)).Should().BeFalse();
+            // the implicit cast to short means this is true
+            ShortVo.Item1.Equals(AnotherShortVo.Item1).Should().BeTrue();
         }
 
         [Fact]
         public void CanSerializeToShort_WithNewtonsoftJsonProvider()
         {
-            var vo = NewtonsoftJsonShortVo.From(123);
+            var vo = NewtonsoftJsonShortVo.Item1;
 
             string serializedVo = NewtonsoftJsonSerializer.SerializeObject(vo);
             string serializedShort = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
@@ -63,7 +69,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToShort_WithSystemTextJsonProvider()
         {
-            var vo = SystemTextJsonShortVo.From(123);
+            var vo = SystemTextJsonShortVo.Item1;
 
             string serializedVo = SystemTextJsonSerializer.Serialize(vo);
             string serializedShort = SystemTextJsonSerializer.Serialize(vo.Value);
@@ -74,8 +80,8 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromShort_WithNewtonsoftJsonProvider()
         {
-            short value = 123;
-            var vo = NewtonsoftJsonShortVo.From(value);
+            short value = 1;
+            var vo = NewtonsoftJsonShortVo.Item1;
             var serializedShort = NewtonsoftJsonSerializer.SerializeObject(value);
 
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonShortVo>(serializedShort);
@@ -86,8 +92,8 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromShort_WithSystemTextJsonProvider()
         {
-            short value = 123;
-            var vo = SystemTextJsonShortVo.From(value);
+            short value = 1;
+            var vo = SystemTextJsonShortVo.Item1;
             var serializedShort = SystemTextJsonSerializer.Serialize(value);
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonShortVo>(serializedShort);
@@ -98,7 +104,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromShort_WithSystemTextJsonProvider_treating_numbers_as_string()
         {
-            var vo = SystemTextJsonShortVo_Treating_numbers_as_string.From((short) 123);
+            var vo = SystemTextJsonShortVo_Treating_numbers_as_string.Item1;
             var serializedShort = SystemTextJsonSerializer.Serialize(vo);
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonShortVo_Treating_numbers_as_string>(serializedShort);
@@ -109,7 +115,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToShort_WithBothJsonConverters()
         {
-            var vo = BothJsonShortVo.From(123);
+            var vo = BothJsonShortVo.Item1;
 
             var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(vo);
             var serializedShort1 = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
@@ -122,13 +128,13 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueProperty()
+        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
-            var vo = NoJsonShortVo.From(123);
+            var vo = NoJsonShortVo.Item1;
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":" + vo.Value + "}";
+            var expected = "{\"Value\":" + vo.Value + ",\"Name\":\"Item1\"}";
 
             Assert.Equal(expected, serialized);
         }
@@ -136,7 +142,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var vo = NoJsonShortVo.From(123);
+            var vo = NoJsonShortVo.Item1;
 
             var serialized = NewtonsoftJsonSerializer.SerializeObject(vo);
 
@@ -146,14 +152,14 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoTypeConverter_SerializesWithValueProperty()
+        public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
-            var vo = NoConverterShortVo.From(123);
+            var vo = NoConverterShortVo.Item1;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":" + vo.Value + "}";
+            var expected = """{"Value":1,"Name":"Item1"}""";
 
             Assert.Equal(expected, newtonsoft);
             Assert.Equal(expected, systemText);
@@ -169,7 +175,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
                 .UseSqlite(connection)
                 .Options;
 
-            var original = new EfCoreTestEntity { Id = EfCoreShortVo.From(123) };
+            var original = new EfCoreTestEntity { Id = EfCoreShortVo.Item1 };
             using (var context = new TestDbContext(options))
             {
                 context.Database.EnsureCreated();
@@ -190,10 +196,10 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            IEnumerable<DapperShortVo> results = await connection.QueryAsync<DapperShortVo>("SELECT 123");
+            IEnumerable<DapperShortVo> results = await connection.QueryAsync<DapperShortVo>("SELECT 1");
 
             var value = Assert.Single(results);
-            Assert.Equal(DapperShortVo.From(123), value);
+            Assert.Equal(DapperShortVo.Item1, value);
         }
 
         [Fact]
@@ -202,7 +208,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
 
-            var original = new LinqToDbTestEntity { Id = LinqToDbShortVo.From(123) };
+            var original = new LinqToDbTestEntity { Id = LinqToDbShortVo.Item1 };
             using (var context = new DataConnection(
                 SQLiteTools.GetDataProvider("SQLite.MS"),
                 connection,
@@ -223,14 +229,14 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Theory]
-        [InlineData((short)123)]
-        [InlineData("123")]
+        [InlineData((short)1)]
+        [InlineData("1")]
         public void TypeConverter_CanConvertToAndFrom(object value)
         {
             var converter = TypeDescriptor.GetConverter(typeof(NoJsonShortVo));
             var id = converter.ConvertFrom(value);
             Assert.IsType<NoJsonShortVo>(id);
-            Assert.Equal(NoJsonShortVo.From(123), id);
+            Assert.Equal(NoJsonShortVo.Item1, id);
 
             var reconverted = converter.ConvertTo(id, value.GetType());
             Assert.Equal(value, reconverted);

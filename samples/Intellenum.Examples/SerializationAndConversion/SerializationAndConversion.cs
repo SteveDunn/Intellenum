@@ -1,7 +1,7 @@
 ﻿// ReSharper disable UnusedVariable
 #pragma warning disable CS0219
-using System;
 using System.Threading.Tasks;
+using Intellenum.Examples.Types;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -9,8 +9,6 @@ namespace Intellenum.Examples.SerializationAndConversion
 {
     public class SerializationAndConversionExamples : IScenario
     {
-        private static readonly DateTimeOffset _date1 = new DateTimeOffset(1970, 6, 10, 14, 01, 02, TimeSpan.Zero) + TimeSpan.FromTicks(12345678);
-
         public Task Run()
         {
             SerializeWithNewtonsoftJson();
@@ -21,7 +19,7 @@ namespace Intellenum.Examples.SerializationAndConversion
 
         public void SerializeWithNewtonsoftJson()
         {
-            var g1 = NewtonsoftJsonDateTimeOffsetVo.From(_date1);
+            var g1 = NewtonsoftJsonDateTimeOffsetVo.Item1;
 
             string serialized = NewtonsoftJsonSerializer.SerializeObject(g1);
             string serializedString = NewtonsoftJsonSerializer.SerializeObject(g1.Value);
@@ -32,7 +30,7 @@ namespace Intellenum.Examples.SerializationAndConversion
 
         public void SerializeWithSystemTextJson()
         {
-            var foo = SystemTextJsonDateTimeOffsetVo.From(_date1);
+            var foo = SystemTextJsonDateTimeOffsetVo.Item1;
 
             string serializedFoo = SystemTextJsonSerializer.Serialize(foo);
             string serializedString = SystemTextJsonSerializer.Serialize(foo.Value);

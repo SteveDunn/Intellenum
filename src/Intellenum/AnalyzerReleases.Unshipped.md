@@ -5,4 +5,3 @@
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
-AddValidationMethod | Usage | Info | AddValidationAnalyzer

@@ -2,39 +2,63 @@
 
 // the underlying type can be omitted and is defaulted to int
 [Intellenum]
-public partial struct MyValueObject { }
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class MyIntellenum { }
 
 // the underlying type can be specified
 [Intellenum(typeof(int))]
-public partial struct MyValueObject2 { }
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class MyIntellenum2 { }
 
 // conversions can be specified, but if not, it defaults to TypeConverter and SystemTextJson
 [Intellenum(conversions: Conversions.None, underlyingType: typeof(int))]
-public partial struct IntVo { }
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class IntVo { }
 
 [Intellenum<int>(conversions: Conversions.None)]
-public partial struct IntGenericVo { }
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class IntGenericVo { }
 
 [Intellenum<int>(conversions: Conversions.None)]
-public partial struct NoConverterIntVo { }
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class NoConverterIntVo { }
 
 [Intellenum(conversions: Conversions.TypeConverter)]
-public partial struct NoJsonIntVo { }
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class NoJsonIntVo { }
 
 [Intellenum(conversions: Conversions.NewtonsoftJson)]
-public partial struct NewtonsoftJsonIntVo { }
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class NewtonsoftJsonIntVo { }
 
 [Intellenum(conversions: Conversions.SystemTextJson)]
-public partial struct SystemTextJsonIntVo { }
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class SystemTextJsonIntVo { }
 
 [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson)]
-public partial struct BothJsonIntVo { }
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class BothJsonIntVo { }
 
 [Intellenum(conversions: Conversions.EfCoreValueConverter)]
-public partial struct EfCoreIntVo { }
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class EfCoreIntVo { }
 
 [Intellenum(conversions: Conversions.DapperTypeHandler)]
-public partial struct DapperIntVo { }
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class DapperIntVo { }
 
 [Intellenum(conversions: Conversions.LinqToDbValueConverter)]
-public partial struct LinqToDbIntVo { }
+[Instance("Item1", 1)]
+[Instance("Item2", 2)]
+public partial class LinqToDbIntVo { }

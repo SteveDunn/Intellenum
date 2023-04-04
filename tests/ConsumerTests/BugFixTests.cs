@@ -1,32 +1,27 @@
-using System;
-using @double;
-using @bool.@byte.@short.@float.@object;
 using FluentAssertions;
 using Newtonsoft.Json;
-using Vogen;
-using Vogen.Tests.Types;
-using Xunit;
+using Intellenum;
 
 namespace ConsumerTests.BugFixTests
 {
     public class BugFixTests
     {
         /// <summary>
-        /// Fixes bug https://github.com/SteveDunn/Vogen/issues/344 where a field that is a ValueObject and is null when
+        /// Fixes bug https://github.com/SteveDunn/Vogen/issues/344 where a field that is a Intellenum and is null when
         /// deserialized by Newtonsoft.Json, throws an exception instead of returning null.
         /// </summary>
         [Fact]
-        public void Bug344_Can_deserialze_a_null_field()
+        public void Bug344_Can_deserialize_a_null_field()
         {
             var p = new Person
             {
-                Age = Age.From(42)
+                AgeRange = AgeRange.Senior
             };
 
             var serialized = JsonConvert.SerializeObject(p);
             var deserialized = JsonConvert.DeserializeObject<Person>(serialized)!;
 
-            deserialized.Age.Should().Be(Age.From(42));
+            deserialized.AgeRange.Should().Be(AgeRange.Senior);
             deserialized.Name.Should().BeNull();
             deserialized.Address.Should().BeNull();
         }
@@ -34,16 +29,30 @@ namespace ConsumerTests.BugFixTests
 
     public class Person
     {
-        public Age Age { get; init; }
+        public AgeRange AgeRange { get; init; } = AgeRange.Senior;
         
-        public Name? Name { get; set; }
+        public NameType? Name { get; set; }
         
         public Address? Address { get; set; }
     }
+
+    [Intellenum(conversions: Conversions.NewtonsoftJson)]
+    [Instance("Junior", 1)]
+    [Instance("Adult", 2)]
+    [Instance("Senior", 3)]
+    public partial class AgeRange
+    {
+    }
+
+    [Intellenum(typeof(string), conversions: Conversions.NewtonsoftJson)]
+    [Instance("FirstAndLast", 1)]
+    [Instance("Nickname", 2)]
+    public partial class NameType
+    {
+    }
     
-    [ValueObject(conversions: Conversions.NewtonsoftJson)] public partial struct Age { }
-    
-    [ValueObject(typeof(string), conversions: Conversions.NewtonsoftJson)] public partial class Name { }
-    
-    [ValueObject(typeof(string), conversions: Conversions.NewtonsoftJson)] public partial struct Address { }
+    [Intellenum(typeof(string), conversions: Conversions.NewtonsoftJson)] 
+    [Instance("Full", 1)]
+    [Instance("JustThePostcode", 2)]
+    public partial class Address { }
 }

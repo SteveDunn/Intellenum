@@ -1,29 +1,47 @@
-﻿namespace Vogen.IntegrationTests.TestTypes.ClassVos
+﻿namespace Intellenum.IntegrationTests.TestTypes.ClassVos
 {
-    [ValueObject(conversions: Conversions.None, underlyingType: typeof(char))]
+    [Intellenum(conversions: Conversions.None, underlyingType: typeof(char))]
+    [Instance("A", 'a')]
+    [Instance("B", 'b')]
     public partial class CharVo { }
 
-    [ValueObject(conversions: Conversions.None, underlyingType: typeof(char))]
+    [Intellenum(conversions: Conversions.None, underlyingType: typeof(char))]
+    [Instance("A", 'a')]
+    [Instance("B", 'b')]
     public partial class NoConverterCharVo { }
 
-    [ValueObject(conversions: Conversions.TypeConverter, underlyingType: typeof(char))]
+    [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(char))]
+    [Instance("A", 'a')]
+    [Instance("B", 'b')]
     public partial class NoJsonCharVo { }
 
-    [ValueObject(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(char))]
+    [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(char))]
+    [Instance("A", 'a')]
+    [Instance("B", 'b')]
     public partial class NewtonsoftJsonCharVo { }
 
-    [ValueObject(conversions: Conversions.SystemTextJson, underlyingType: typeof(char))]
+    [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(char))]
+    [Instance("A", 'a')]
+    [Instance("B", 'b')]
     public partial class SystemTextJsonCharVo { }
 
-    [ValueObject(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(char))]
+    [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(char))]
+    [Instance("A", 'a')]
+    [Instance("B", 'b')]
     public partial class BothJsonCharVo { }
 
-    [ValueObject(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(char))]
+    [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(char))]
+    [Instance("A", 'a')]
+    [Instance("B", 'b')]
     public partial class EfCoreCharVo { }
 
-    [ValueObject(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(char))]
+    [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(char))]
+    [Instance("A", 'a')]
+    [Instance("B", 'b')]
     public partial class DapperCharVo { }
 
-    [ValueObject(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(char))]
+    [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(char))]
+    [Instance("A", 'a')]
+    [Instance("B", 'b')]
     public partial class LinqToDbCharVo { }
 }

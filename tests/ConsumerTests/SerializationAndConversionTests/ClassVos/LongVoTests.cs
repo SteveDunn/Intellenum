@@ -8,51 +8,49 @@ using Dapper;
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Xunit;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Vogen.IntegrationTests.TestTypes.ClassVos;
+using Intellenum.IntegrationTests.TestTypes.ClassVos;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
 using LinqToDB.Mapping;
 
-namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
+// ReSharper disable EqualExpressionComparison
+#pragma warning disable 1718
+
+namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 {
-    [ValueObject(underlyingType: typeof(long))]
-    public partial struct AnotherLongVo { }
+    [Intellenum(underlyingType: typeof(long))]
+    [Instance("Item1", 1)]
+    [Instance("Item2", 2)]
+    public partial class AnotherLongVo { }
 
     public class LongVoTests
     {
         [Fact]
         public void equality_between_same_value_objects()
         {
-            LongVo.From(18).Equals(LongVo.From(18)).Should().BeTrue();
-            (LongVo.From(18) == LongVo.From(18)).Should().BeTrue();
+            LongVo.Item1.Equals(LongVo.Item1).Should().BeTrue();
+            (LongVo.Item1 == LongVo.Item1).Should().BeTrue();
 
-            (LongVo.From(18) != LongVo.From(19)).Should().BeTrue();
-            (LongVo.From(18) == LongVo.From(19)).Should().BeFalse();
+            (LongVo.Item1 != LongVo.Item2).Should().BeTrue();
+            (LongVo.Item1 == LongVo.Item2).Should().BeFalse();
 
-            LongVo.From(18).Equals(LongVo.From(18)).Should().BeTrue();
-            (LongVo.From(18) == LongVo.From(18)).Should().BeTrue();
+            LongVo.Item1.Equals(LongVo.Item1).Should().BeTrue();
+            (LongVo.Item1 == LongVo.Item1).Should().BeTrue();
 
-            var original = LongVo.From(18);
-            var other = LongVo.From(18);
+            var original = LongVo.Item1;
+            var other = LongVo.Item1;
 
             ((original as IEquatable<LongVo>).Equals(other)).Should().BeTrue();
             ((other as IEquatable<LongVo>).Equals(original)).Should().BeTrue();
         }
 
         [Fact]
-        public void equality_between_different_value_objects()
-        {
-            LongVo.From(18).Equals(AnotherLongVo.From(18)).Should().BeFalse();
-        }
-
-        [Fact]
         public void CanSerializeToLong_WithNewtonsoftJsonProvider()
         {
-            var vo = NewtonsoftJsonLongVo.From(123L);
+            var vo = NewtonsoftJsonLongVo.Item1;
 
             string serializedVo = NewtonsoftJsonSerializer.SerializeObject(vo);
             string serializedLong = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
@@ -63,7 +61,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToLong_WithSystemTextJsonProvider()
         {
-            var vo = SystemTextJsonLongVo.From(123L);
+            var vo = SystemTextJsonLongVo.Item1;
 
             string serializedVo = SystemTextJsonSerializer.Serialize(vo);
             string serializedLong = SystemTextJsonSerializer.Serialize(vo.Value);
@@ -74,8 +72,8 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromLong_WithNewtonsoftJsonProvider()
         {
-            var value = 123L;
-            var vo = NewtonsoftJsonLongVo.From(value);
+            var value = 1L;
+            var vo = NewtonsoftJsonLongVo.Item1;
             var serializedLong = NewtonsoftJsonSerializer.SerializeObject(value);
 
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonLongVo>(serializedLong);
@@ -86,7 +84,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromLong_WithSystemTextJsonProvider()
         {
-            var vo = SystemTextJsonLongVo.From(123L);
+            var vo = SystemTextJsonLongVo.Item1;
             var serializedLong = SystemTextJsonSerializer.Serialize(vo);
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonLongVo>(serializedLong);
@@ -97,7 +95,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromLong_WithSystemTextJsonProvider_treating_numbers_as_string()
         {
-            var vo = SystemTextJsonLongVo_Treating_numbers_as_string.From(123L);
+            var vo = SystemTextJsonLongVo_Treating_numbers_as_string.Item1;
             var serializedLong = SystemTextJsonSerializer.Serialize(vo);
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonLongVo_Treating_numbers_as_string>(serializedLong);
@@ -108,7 +106,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToLong_WithBothJsonConverters()
         {
-            var vo = BothJsonLongVo.From(123L);
+            var vo = BothJsonLongVo.Item1;
 
             var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(vo);
             var serializedLong1 = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
@@ -121,13 +119,13 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueProperty()
+        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
-            var vo = NoJsonLongVo.From(123L);
+            var vo = NoJsonLongVo.Item1;
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":" + vo.Value + "}";
+            var expected = "{\"Value\":" + vo.Value + ",\"Name\":\"Item1\"}";
 
             Assert.Equal(expected, serialized);
         }
@@ -135,7 +133,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var vo = NoJsonLongVo.From(123L);
+            var vo = NoJsonLongVo.Item1;
 
             var serialized = NewtonsoftJsonSerializer.SerializeObject(vo);
 
@@ -145,14 +143,14 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoTypeConverter_SerializesWithValueProperty()
+        public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
-            var vo = NoConverterLongVo.From(123L);
+            var vo = NoConverterLongVo.Item1;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":" + vo.Value + "}";
+            var expected = """{"Value":1,"Name":"Item1"}""";
 
             Assert.Equal(expected, newtonsoft);
             Assert.Equal(expected, systemText);
@@ -168,7 +166,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
                 .UseSqlite(connection)
                 .Options;
 
-            var original = new EfCoreTestEntity { Id = EfCoreLongVo.From(123L) };
+            var original = new EfCoreTestEntity { Id = EfCoreLongVo.Item1 };
             using (var context = new TestDbContext(options))
             {
                 context.Database.EnsureCreated();
@@ -189,10 +187,10 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            IEnumerable<DapperLongVo> results = await connection.QueryAsync<DapperLongVo>("SELECT 123");
+            IEnumerable<DapperLongVo> results = await connection.QueryAsync<DapperLongVo>("SELECT 1");
 
             var value = Assert.Single(results);
-            Assert.Equal(DapperLongVo.From(123L), value);
+            Assert.Equal(DapperLongVo.Item1, value);
         }
 
         [Fact]
@@ -201,7 +199,7 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
 
-            var original = new LinqToDbTestEntity { Id = LinqToDbLongVo.From(123) };
+            var original = new LinqToDbTestEntity { Id = LinqToDbLongVo.Item1 };
             using (var context = new DataConnection(
                 SQLiteTools.GetDataProvider("SQLite.MS"),
                 connection,
@@ -222,14 +220,14 @@ namespace Vogen.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Theory]
-        [InlineData(123L)]
-        [InlineData("123")]
+        [InlineData(1L)]
+        [InlineData("1")]
         public void TypeConverter_CanConvertToAndFrom(object value)
         {
             var converter = TypeDescriptor.GetConverter(typeof(NoJsonLongVo));
             var id = converter.ConvertFrom(value);
             Assert.IsType<NoJsonLongVo>(id);
-            Assert.Equal(NoJsonLongVo.From(123L), id);
+            Assert.Equal(NoJsonLongVo.Item1, id);
 
             var reconverted = converter.ConvertTo(id, value.GetType());
             Assert.Equal(value, reconverted);

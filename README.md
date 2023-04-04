@@ -75,7 +75,6 @@ public partial class CustomerType
     }
  }
 ```
-
 ## Features
 
 * `FromName()` and `FromValue()` (and `TryFrom...`)
@@ -197,10 +196,25 @@ _note that EnumGenerators isn't here as we use the standard C# enum to get its v
 | SmartEnums     | 0.3246 ns | 0.0082 ns  | 0.0069 ns  | -         |
 | **Intellenums**   | **0.3198 ns** | **0.0103 ns** | **0.0096 ns** | **-**         |
 
-Note that Intellenums also has a `ValueCheck` property which throws if the
-value hasn't been initialised. This takes twice as long. This isn't usually a problem
-but if you're in a very tight loop and you're sure everything is initialized, then use
-`Value` instead
+### What does `ToString` return?
+It returns the **name** of the instance.
+There is also a TypeConverter; when this is asked to convert an instance to a `string',
+it returns the **value** of the instance as a string.
+
+### What can the `TypeConverters` convert to and from?
+They can convert an underlying type back to a matching enum.
+
+### Can it serialize/deserialize?
+Yes, it can. There's various ways to do this, including:
+* System.Text.Json
+* Newtonsoft.Json
+* Dapper
+* Entity Framework Core
+* Linq2Db
+* TypeConverters
+
+Right now, Intellenum serializes using the `Value` property just like native enums.
+
 
 
 > NOTE: Intellenum is in pre-release at the moment, so probably isn't production ready and the API might (and probably will) change.

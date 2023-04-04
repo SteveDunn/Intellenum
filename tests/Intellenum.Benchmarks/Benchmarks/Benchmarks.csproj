@@ -19,7 +19,7 @@
 
     <PropertyGroup>
         <!-- Test directory-->
-        <LocalPackagesDirectory>$(MSBuildProjectDirectory)local-global-packages</LocalPackagesDirectory>
+        <LocalPackagesDirectory>$(MSBuildProjectDirectory)/../../../local-global-packages</LocalPackagesDirectory>
     </PropertyGroup>
 
     <Target Name="EnsureLocalPackagesFolderExists" BeforeTargets="Restore;CollectPackageReferences" Condition="'$(BuildingInsideVisualStudio)' == 'true'">

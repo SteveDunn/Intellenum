@@ -49,20 +49,8 @@ namespace Whatever
 #endif
         private readonly global::System.Boolean _isInitialized;
         private readonly System.Int32 _value;
+
         
-        /// <summary>
-        /// Gets the underlying <see cref="System.Int32" /> value if set, otherwise a <see cref="IntellenumValidationException" /> is thrown.
-        /// </summary>
-        public System.Int32 ValueChecked
-        {
-            [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-            [global::System.Diagnostics.DebuggerStepThroughAttribute]
-            get
-            {
-                if(!_isInitialized) Throw();
-                return _value;
-            }
-        }
 
         /// <summary>
         /// Gets the underlying <see cref="System.Int32" /> value if set, otherwise default
@@ -85,7 +73,7 @@ private void Throw()
                 global::System.String message = "Use of uninitialized Value Object.";
 #endif
 
-                throw new IntellenumValidationException(message);
+                throw new IntellenumUninitialisedException(message);
 
 }
 
@@ -102,14 +90,25 @@ private void Throw()
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
-        private CustomerType(string name, System.Int32 value)
+        private CustomerType(System.Int32 value)
         {
             _value = value;
-            Name = name;
+            Name = "[INFERRED-TO-BE-REPLACED!]";
+            _isInitialized = true;
+        }        
+
+        [global::System.Diagnostics.DebuggerStepThroughAttribute]
+        private CustomerType(string enumName, System.Int32 value)
+        {
+            _value = value;
+            Name = enumName;
             _isInitialized = true;
         }
 
-        public string Name { get; }
+        // exclude from serialization 
+
+          
+        public string Name { get; private set; }
 
         /// <summary>
         /// Builds an instance from an enum value.
@@ -120,7 +119,7 @@ private void Throw()
         {
                 bool b = TryFromValue(value, out var ret);
     if(b) return ret;
-    throw new global::System.InvalidOperationException($"No matching enums with a value of '{value}'");
+    throw new IntellenumMatchFailedException($"CustomerType has no matching instances with a value of '{value}'");
         }            
 
         /// <summary>
@@ -168,7 +167,7 @@ _ => false
         {
                 bool b = TryFromName(name, out var ret);
     if(b) return ret;
-    throw new global::System.InvalidOperationException($"No matching enums named '{name}'");
+    throw new IntellenumMatchFailedException($"CustomerType has no matching instances named '{name}'");
         }
 
         /// <summary>
@@ -180,10 +179,10 @@ _ => false
         {
             switch (name) 
 {
-    case nameof(CustomerType.Standard):
+    case ("Standard"):
         instance = CustomerType.Standard; 
         return true;
-    case nameof(CustomerType.Gold):
+    case ("Gold"):
         instance = CustomerType.Gold; 
         return true;
     default:
@@ -309,22 +308,6 @@ _ => false
             }
         }
 
-        private void EnsureInitialized()
-        {
-            if (!_isInitialized)
-            {
-#if DEBUG
-                global::System.String message = "Use of uninitialized Value Object at: " + _stackTrace ?? "";
-#else
-                global::System.String message = "Use of uninitialized Value Object.";
-#endif
-
-                // todo: remove this
-                throw new global::System.InvalidOperationException(message);
-            }
-        }
-
-
         
         
         public static global::System.Collections.Generic.IEnumerable<CustomerType> List()
@@ -395,6 +378,134 @@ yield return Gold;
 
 
 
+
+        
+        
+    /// <inheritdoc cref="int.TryParse(System.ReadOnlySpan{char}, System.Globalization.NumberStyles, System.IFormatProvider?, out int)"/>
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// The value created via the <see cref="From"/> method.
+    /// </returns>
+    /// <exception cref="IntellenumValidationException">Thrown when the value can be parsed, but is not valid.</exception>
+    public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> s, global::System.Globalization.NumberStyles style, global::System.IFormatProvider provider, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+ out CustomerType result) {
+        if(System.Int32.TryParse(s, style, provider, out var r)) {
+            result = FromValue(r);
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc cref="int.TryParse(System.ReadOnlySpan{char}, System.IFormatProvider?, out int)"/>
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// The value created via the <see cref="From"/> method.
+    /// </returns>
+    /// <exception cref="IntellenumValidationException">Thrown when the value can be parsed, but is not valid.</exception>
+    public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider provider, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+ out CustomerType result) {
+        if(System.Int32.TryParse(s, provider, out var r)) {
+            result = FromValue(r);
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc cref="int.TryParse(System.ReadOnlySpan{char}, out int)"/>
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// The value created via the <see cref="From"/> method.
+    /// </returns>
+    /// <exception cref="IntellenumValidationException">Thrown when the value can be parsed, but is not valid.</exception>
+    public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> s, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+ out CustomerType result) {
+        if(System.Int32.TryParse(s, out var r)) {
+            result = FromValue(r);
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc cref="int.TryParse(string?, System.Globalization.NumberStyles, System.IFormatProvider?, out int)"/>
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// The value created via the <see cref="From"/> method.
+    /// </returns>
+    /// <exception cref="IntellenumValidationException">Thrown when the value can be parsed, but is not valid.</exception>
+    public static global::System.Boolean TryParse(string s, global::System.Globalization.NumberStyles style, global::System.IFormatProvider provider, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+ out CustomerType result) {
+        if(System.Int32.TryParse(s, style, provider, out var r)) {
+            result = FromValue(r);
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc cref="int.TryParse(string?, System.IFormatProvider?, out int)"/>
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// The value created via the <see cref="From"/> method.
+    /// </returns>
+    /// <exception cref="IntellenumValidationException">Thrown when the value can be parsed, but is not valid.</exception>
+    public static global::System.Boolean TryParse(string s, global::System.IFormatProvider provider, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+ out CustomerType result) {
+        if(System.Int32.TryParse(s, provider, out var r)) {
+            result = FromValue(r);
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    /// <inheritdoc cref="int.TryParse(string?, out int)"/>
+    /// <summary>
+    /// </summary>
+    /// <returns>
+    /// The value created via the <see cref="From"/> method.
+    /// </returns>
+    /// <exception cref="IntellenumValidationException">Thrown when the value can be parsed, but is not valid.</exception>
+    public static global::System.Boolean TryParse(string s, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+ out CustomerType result) {
+        if(System.Int32.TryParse(s, out var r)) {
+            result = FromValue(r);
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
 
 
         internal sealed class CustomerTypeDebugView

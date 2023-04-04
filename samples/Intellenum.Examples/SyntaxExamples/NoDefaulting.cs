@@ -27,10 +27,6 @@ namespace Intellenum.Examples.SyntaxExamples.NoDefaulting
             // CustomerId v5 = new();
             // var _ = new CustomerId();
             // new CustomerId();
-
-            // this is valid syntax as it can't easily be picked up at compile time,
-            // but it throws a ValueObjectValidationException at runtime.
-            CustomerId[] customerIds = new CustomerId[10];
         }
 
         // a method can't accept a VO and default it
@@ -49,8 +45,13 @@ namespace Intellenum.Examples.SyntaxExamples.NoDefaulting
     }
 
     [Intellenum]
-    public partial struct CustomerId { }
+    [Instance("Standard", 1)]
+    [Instance("Gold", 2)]
+    public partial class CustomerType { }
 
-    [Intellenum]
-    public partial class VendorId { }
+    [Intellenum<string>]
+    [Instance("Good", "Good")]
+    [Instance("Average", "Average")]
+    [Instance("Bad", "Bad")]
+    public partial class VendorRating { }
 }

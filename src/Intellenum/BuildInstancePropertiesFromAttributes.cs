@@ -111,6 +111,7 @@ namespace Intellenum
             return new InstanceProperties(
                 InstanceSource.FromAttribute,
                 (string)nameConstant.Value!, 
+                (string)nameConstant.Value!, 
                 r.Value,
                 valueConstant.Value!, 
                 (string) (commentConstant.Value ?? string.Empty));
