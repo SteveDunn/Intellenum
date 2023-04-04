@@ -146,7 +146,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"" + vo.Value + "\"}";
+            var expected = """{"Value":"00000000-0000-0000-0000-000000000001","Name":"Item1"}""";
 
             Assert.Equal(expected, newtonsoft);
             Assert.Equal(expected, systemText);

@@ -9,8 +9,8 @@ namespace Intellenum.IntegrationTests.TestTypes.ClassVos
     {
         static TimeOnlyVo()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 4));
-            Instance("Item2", new TimeOnly(5, 6, 7, 8));
+            Instance("Item1", new TimeOnly(1, 2, 3, 04));
+            Instance("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -19,8 +19,8 @@ namespace Intellenum.IntegrationTests.TestTypes.ClassVos
     {
         static NoConverterTimeOnlyVo()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 4));
-            Instance("Item2", new TimeOnly(5, 6, 7, 8));
+            Instance("Item1", new TimeOnly(1, 2, 3, 04));
+            Instance("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -29,8 +29,8 @@ namespace Intellenum.IntegrationTests.TestTypes.ClassVos
     {
         static NoJsonTimeOnlyVo()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 4));
-            Instance("Item2", new TimeOnly(5, 6, 7, 8));
+            Instance("Item1", new TimeOnly(1, 2, 3, 04));
+            Instance("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -39,8 +39,8 @@ namespace Intellenum.IntegrationTests.TestTypes.ClassVos
     {
         static NewtonsoftJsonTimeOnlyVo()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 4));
-            Instance("Item2", new TimeOnly(5, 6, 7, 8));
+            Instance("Item1", new TimeOnly(1, 2, 3, 04));
+            Instance("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -49,8 +49,8 @@ namespace Intellenum.IntegrationTests.TestTypes.ClassVos
     {
         static SystemTextJsonTimeOnlyVo()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 4));
-            Instance("Item2", new TimeOnly(5, 6, 7, 8));
+            Instance("Item1", new TimeOnly(1, 2, 3, 04));
+            Instance("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -60,8 +60,8 @@ namespace Intellenum.IntegrationTests.TestTypes.ClassVos
     {
         static BothJsonTimeOnlyVo()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 4));
-            Instance("Item2", new TimeOnly(5, 6, 7, 8));
+            Instance("Item1", new TimeOnly(1, 2, 3, 04));
+            Instance("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -71,8 +71,8 @@ namespace Intellenum.IntegrationTests.TestTypes.ClassVos
     {
         static EfCoreTimeOnlyVo()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 4));
-            Instance("Item2", new TimeOnly(5, 6, 7, 8));
+            Instance("Item1", new TimeOnly(1, 2, 3, 04));
+            Instance("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -81,8 +81,8 @@ namespace Intellenum.IntegrationTests.TestTypes.ClassVos
     {
         static DapperTimeOnlyVo()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 4));
-            Instance("Item2", new TimeOnly(5, 6, 7, 8));
+            Instance("Item1", new TimeOnly(1, 2, 3, 04));
+            Instance("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -91,8 +91,8 @@ namespace Intellenum.IntegrationTests.TestTypes.ClassVos
     {
         static LinqToDbTimeOnlyVo()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 4));
-            Instance("Item2", new TimeOnly(5, 6, 7, 8));
+            Instance("Item1", new TimeOnly(1, 2, 3, 04));
+            Instance("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 }

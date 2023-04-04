@@ -152,7 +152,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"" + NewtonsoftJsonDateOnlyVo.JanFirst.Value.ToString("O") + "\"}";
+            var expected = """{"Value":"2021-01-01","Name":"JanFirst"}""";
 
             newtonsoft.Should().Be(expected);
             systemText.Should().Be(expected);

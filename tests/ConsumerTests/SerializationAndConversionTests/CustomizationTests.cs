@@ -6,7 +6,7 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 namespace MediumTests.SerializationAndConversionTests;
 
 [Intellenum(underlyingType: typeof(double), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
-[Instance("Item1", 720742592373919744)]
+[Instance("Item1", 720742592373919744d)]
 [Instance("Item2", 2.2d)]
 public partial class DoubleHolderId_string
 {

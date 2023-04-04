@@ -143,7 +143,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":true}";
+            var expected = """{"Value":true,"Name":"Yes"}""";
 
             Assert.Equal(expected, newtonsoft);
             Assert.Equal(expected, systemText);
@@ -215,15 +215,28 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Theory]
         [InlineData("true",  "True")]
         [InlineData("True",  "True")]
-        [InlineData("false", "False")]
-        [InlineData("False", "False")]
-        public void TypeConverter_CanConvertToAndFrom_strings(object input, string expectedString)
+        public void TypeConverter_CanConvertToAndFrom_strings_1(object input, string expectedString)
         {
             TypeConverter converter = TypeDescriptor.GetConverter(typeof(NoJsonBoolVo));
             
             object converted = converter.ConvertFrom(input);
             Assert.IsType<NoJsonBoolVo>(converted);
             Assert.Equal(NoJsonBoolVo.Yes, converted);
+
+            object reconverted = converter.ConvertTo(converted, input.GetType());
+            Assert.Equal(expectedString, reconverted);
+        }
+
+        [Theory]
+        [InlineData("false", "False")]
+        [InlineData("False", "False")]
+        public void TypeConverter_CanConvertToAndFrom_strings_2(object input, string expectedString)
+        {
+            TypeConverter converter = TypeDescriptor.GetConverter(typeof(NoJsonBoolVo));
+            
+            object converted = converter.ConvertFrom(input);
+            Assert.IsType<NoJsonBoolVo>(converted);
+            Assert.Equal(NoJsonBoolVo.No, converted);
 
             object reconverted = converter.ConvertTo(converted, input.GetType());
             Assert.Equal(expectedString, reconverted);

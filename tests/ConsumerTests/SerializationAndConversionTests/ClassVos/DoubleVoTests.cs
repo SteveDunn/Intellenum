@@ -128,7 +128,11 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
+#if !NET5_0_OR_GREATER
+            var expected = """{"Value":1.1000000000000001,"Name":"Item1"}""";
+#else
             var expected = """{"Value":1.1,"Name":"Item1"}""";
+#endif
 
             Assert.Equal(expected, serialized);
         }
@@ -153,7 +157,11 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
+#if !NET5_0_OR_GREATER
+            var expected = """{"Value":1.1000000000000001,"Name":"Item1"}""";
+#else
             var expected = """{"Value":1.1,"Name":"Item1"}""";
+#endif
 
             Assert.Equal(expected, newtonsoft);
             Assert.Equal(expected, systemText);

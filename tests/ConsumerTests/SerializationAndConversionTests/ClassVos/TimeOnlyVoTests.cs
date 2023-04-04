@@ -153,7 +153,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"" + NoConverterTimeOnlyVo.Item1.Value.ToString("o") + "\"}";
+            var expected = """{"Value":"01:02:03.0040000","Name":"Item1"}""";
 
             newtonsoft.Should().Be(expected);
             systemText.Should().Be(expected);
@@ -191,7 +191,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            IEnumerable<DapperTimeOnlyVo> results = await connection.QueryAsync<DapperTimeOnlyVo>("SELECT '05:06:07.08'");
+            IEnumerable<DapperTimeOnlyVo> results = await connection.QueryAsync<DapperTimeOnlyVo>("SELECT '05:06:07.008'");
 
             DapperTimeOnlyVo actual = Assert.Single(results);
 
@@ -226,7 +226,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Theory]
-        [InlineData("05:06:07.08")]
+        [InlineData("05:06:07.008")]
         public void TypeConverter_CanConvertToAndFrom(string value)
         {
             var converter = TypeDescriptor.GetConverter(typeof(NoJsonTimeOnlyVo));

@@ -42,8 +42,8 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             var original = AnotherByteVo.Eighteen;
             var other = AnotherByteVo.Eighteen;
 
-            ((original as IEquatable<ByteVo>).Equals(other)).Should().BeTrue();
-            ((other as IEquatable<ByteVo>).Equals(original)).Should().BeTrue();
+            ((original as IEquatable<AnotherByteVo>).Equals(other)).Should().BeTrue();
+            ((other as IEquatable<AnotherByteVo>).Equals(original)).Should().BeTrue();
         }
 
 

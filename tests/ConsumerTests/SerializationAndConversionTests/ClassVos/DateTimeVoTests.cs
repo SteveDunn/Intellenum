@@ -86,7 +86,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromString_WithNewtonsoftJsonProvider()
         {
-            var value = _date1;
+            var value = NewtonsoftJsonDateTimeVo.Item1.Value;
             var vo = NewtonsoftJsonDateTimeVo.Item1;
             var serializedString = NewtonsoftJsonSerializer.SerializeObject(value);
 
@@ -98,7 +98,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromString_WithSystemTextJsonProvider()
         {
-            var value = _date1;
+            var value = NewtonsoftJsonDateTimeVo.Item1.Value;
             var vo = SystemTextJsonDateTimeVo.Item1;
             var serializedString = SystemTextJsonSerializer.Serialize(value);
 
@@ -154,7 +154,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"" + _date1.ToString("O") + "\"}";
+            var expected = """{"Value":"2019-12-13T14:15:16","Name":"Item1"}""";
 
             newtonsoft.Should().Be(expected);
             systemText.Should().Be(expected);
