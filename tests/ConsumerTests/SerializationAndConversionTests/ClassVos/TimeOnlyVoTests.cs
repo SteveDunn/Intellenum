@@ -41,6 +41,9 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 
     public class TimeOnlyVoTests
     {
+        private static readonly TimeOnly _time1 = new TimeOnly(13, 12, 59, 123);
+        private static readonly TimeOnly _time2 = new TimeOnly(1, 59, 58, 123);
+
         [Fact]
         public void equality_between_same_value_objects()
         {
@@ -86,23 +89,21 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromString_WithNewtonsoftJsonProvider()
         {
-            var vo = NewtonsoftJsonTimeOnlyVo.Item1;
-            var serializedString = NewtonsoftJsonSerializer.SerializeObject(NewtonsoftJsonTimeOnlyVo.Item1.Value.ToString());
+            var serializedString = NewtonsoftJsonSerializer.SerializeObject(NewtonsoftJsonTimeOnlyVo.Item1);
 
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonTimeOnlyVo>(serializedString);
 
-            Assert.Equal(vo, deserializedVo);
+            Assert.Equal(deserializedVo, NewtonsoftJsonTimeOnlyVo.Item1);
         }
         
         [Fact]
         public void CanDeserializeFromString_WithSystemTextJsonProvider()
         {
-            var vo = SystemTextJsonTimeOnlyVo.Item1;
-            var serializedString = SystemTextJsonSerializer.Serialize(SystemTextJsonTimeOnlyVo.Item1.Value.ToString());
+            var serializedString = SystemTextJsonSerializer.Serialize(SystemTextJsonTimeOnlyVo.Item1);
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonTimeOnlyVo>(serializedString);
 
-            Assert.Equal(vo, deserializedVo);
+            Assert.Equal(deserializedVo, SystemTextJsonTimeOnlyVo.Item1);
         }
 
         [Fact]
@@ -121,13 +122,13 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueProperty()
+        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
             var vo = NoJsonTimeOnlyVo.Item1;
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"" + NoJsonTimeOnlyVo.Item1.Value.ToString("o") + "\"}";
+            var expected = "{\"Value\":\"" + NoJsonTimeOnlyVo.Item1.Value.ToString("o") + "\",\"Name\":\"Item1\"}";
 
             serialized.Should().Be(expected);
         }
@@ -145,7 +146,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoTypeConverter_SerializesWithValueProperty()
+        public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
             var vo = NoConverterTimeOnlyVo.Item1;
 

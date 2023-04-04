@@ -40,7 +40,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 
     public class DateTimeVoTests
     {
-        private readonly DateTime _date1 = NoJsonDateTimeVo.Item1.Value;
+        private readonly DateTime _date1 = new DateTime(2019, 12, 13, 14, 15, 16, DateTimeKind.Utc) + TimeSpan.FromTicks(12345678);
 
         [Fact]
         public void equality_between_same_value_objects()
@@ -123,13 +123,13 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueProperty()
+        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
             var vo = NoJsonDateTimeVo.Item1;
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"" + _date1.ToString("O") + "\"}";
+            var expected = "{\"Value\":\"" + _date1.ToString("O") + "\",\"Name\":\"Item1\"}";
 
             serialized.Should().Be(expected);
         }
@@ -147,7 +147,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoTypeConverter_SerializesWithValueProperty()
+        public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
             var vo = NoConverterDateTimeVo.Item1;
 

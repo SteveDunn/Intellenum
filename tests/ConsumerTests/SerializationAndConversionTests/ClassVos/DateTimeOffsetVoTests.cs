@@ -1,9 +1,11 @@
 ﻿#nullable disable
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using Dapper;
 using FluentAssertions;
@@ -30,7 +32,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
     {
         static DateTimeOffsetVo()
         {
-            Instance("JanFirst", new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero));
+            Instance("JanFirst", new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero).AddTicks(123));
             Instance("JanSecond", new DateTimeOffset(2019, 1, 2, 14, 15, 16, TimeSpan.Zero));
             Instance("SomethingElse", new DateTimeOffset(2022,01,15,19,08,49, TimeSpan.Zero).AddTicks(5413764));
         }
@@ -121,13 +123,15 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueProperty()
+        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
             var vo = NoJsonDateTimeOffsetVo.JanFirst;
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"" + _date1.ToString("O") + "\"}";
+            var expected = """
+                {"Value":"2019-01-01T14:15:16+00:00","Name":"JanFirst"}
+                """;
 
             Assert.Equal(expected, serialized);
         }
@@ -145,7 +149,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoTypeConverter_SerializesWithValueProperty()
+        public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
             var vo = NoConverterDateTimeOffsetVo.JanFirst;
 

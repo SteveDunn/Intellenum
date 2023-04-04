@@ -92,8 +92,6 @@ public static class Util
         return sb.ToString();
     }
 
-    public static string GenerateAnyConversionAttributesForDebuggerProxy(VoWorkItem item) => item.Conversions.ToString();
-
     public static string GenerateAnyConversionBodies(TypeDeclarationSyntax tds, VoWorkItem item)
     {
         StringBuilder sb = new StringBuilder();
@@ -103,31 +101,6 @@ public static class Util
         }
 
         return sb.ToString();
-    }
-
-    public static string GenerateDebuggerProxyForStructs(TypeDeclarationSyntax tds, VoWorkItem item)
-    {
-        string code = $@"internal sealed class {item.VoTypeName}DebugView
-        {{
-            private readonly {item.VoTypeName} _t;
-
-            {item.VoTypeName}DebugView({item.VoTypeName} t)
-            {{
-                _t = t;
-            }}
-
-            public global::System.Boolean IsInitialized => _t._isInitialized;
-            public global::System.String UnderlyingType => ""{item.UnderlyingTypeFullName}"";
-            public global::System.String Value => _t._isInitialized ? _t._value.ToString() : ""[not initialized]"" ;
-
-            #if DEBUG
-            public global::System.String CreatedWith => _t._stackTrace?.ToString() ?? ""the From method"";
-            #endif
-
-            public global::System.String Conversions => @""{Util.GenerateAnyConversionAttributesForDebuggerProxy(item)}"";
-                }}";
-
-        return code;
     }
 
     public static string GenerateDebuggerProxyForClasses(TypeDeclarationSyntax tds, VoWorkItem item)

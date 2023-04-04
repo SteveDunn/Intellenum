@@ -126,13 +126,15 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueProperty()
+        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
             var vo = NoJsonFooVo.Item1;
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":{\"Age\":42,\"Name\":\"Fred\"}}";
+            var expected = """
+                {"Value":{"Age":42,"Name":"Fred"},"Name":"Item1"}
+                """;
 
             Assert.Equal(expected, serialized);
         }
@@ -148,7 +150,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 
             var serialized = NewtonsoftJsonSerializer.SerializeObject(foo);
 
-            var expected = "{\"Value\":{\"Age\":42,\"Name\":\"Fred\"}}";
+            var expected = "{\"Value\":{\"Age\":42,\"Name\":\"Fred\"},\"Name\":\"Item1\"}";
 
             Assert.Equal(expected, serialized);
         }
@@ -161,7 +163,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":{\"Age\":42,\"Name\":\"Fred\"}}";
+            var expected = "{\"Value\":{\"Age\":1,\"Name\":\"One\"},\"Name\":\"Item1\"}";
 
             Assert.Equal(expected, newtonsoft);
             Assert.Equal(expected, systemText);

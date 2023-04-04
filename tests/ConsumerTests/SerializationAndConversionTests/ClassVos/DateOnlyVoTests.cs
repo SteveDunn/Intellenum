@@ -121,13 +121,13 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueProperty()
+        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
             var vo = NoJsonDateOnlyVo.JanFirst;
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"" + NewtonsoftJsonDateOnlyVo.JanFirst.Value.ToString("O") + "\"}";
+            var expected = "{\"Value\":\"" + NewtonsoftJsonDateOnlyVo.JanFirst.Value.ToString("O") + "\",\"Name\":\"JanFirst\"}";
 
             serialized.Should().Be(expected);
         }
@@ -145,7 +145,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoTypeConverter_SerializesWithValueProperty()
+        public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
             var vo = NoConverterDateOnlyVo.JanFirst;
 

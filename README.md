@@ -75,7 +75,6 @@ public partial class CustomerType
     }
  }
 ```
-
 ## Features
 
 * `FromName()` and `FromValue()` (and `TryFrom...`)
@@ -203,7 +202,19 @@ There is also a TypeConverter; when this is asked to convert an instance to a `s
 it returns the **value** of the instance as a string.
 
 ### What can the `TypeConverters` convert to and from?
-They can convert an underlying type back to a matching enum. 
+They can convert an underlying type back to a matching enum.
+
+### Can it serialize/deserialize?
+Yes, it can. There's various ways to do this, including:
+* System.Text.Json
+* Newtonsoft.Json
+* Dapper
+* Entity Framework Core
+* Linq2Db
+* TypeConverters
+
+Right now, Intellenum serializes using the `Value` property just like native enums.
+
 
 
 > NOTE: Intellenum is in pre-release at the moment, so probably isn't production ready and the API might (and probably will) change.

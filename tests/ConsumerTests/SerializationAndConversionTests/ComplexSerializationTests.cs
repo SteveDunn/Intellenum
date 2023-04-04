@@ -48,16 +48,16 @@ public class ComplexSerializationTests
         deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonBoolVo.Value.Should().Be(true);
         deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonByteVo.Value.Should().Be(1);
         deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonCharVo.Value.Should().Be('b');
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDateTimeOffsetVo.Value.Should().Be(new DateTimeOffset(2020, 12, 13, 23, 59, 59, 999, TimeSpan.Zero));
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDateTimeVo.Value.Should().Be(new DateTime(2020, 12, 13, 23, 59, 59, 999));
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDecimalVo.Value.Should().Be(3.33m);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDoubleVo.Value.Should().Be(4.44d);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonFloatVo.Value.Should().Be(5.55f);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonFooVo.Value.Age.Should().Be(42);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonFooVo.Value.Name.Should().Be("Fred");
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonGuidVo.Value.Should().Be(Guid.Empty);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonIntVo.Value.Should().Be(6);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonLongVo.Value.Should().Be(7L);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonStringVo.Value.Should().Be("8");
+        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDateTimeOffsetVo.Value.Should().Be(new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero));
+        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDateTimeVo.Value.Should().Be(new DateTime(2019, 12, 13, 14, 15, 16));
+        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDecimalVo.Value.Should().Be(1.1m);
+        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDoubleVo.Value.Should().Be(1.1d);
+        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonFloatVo.Value.Should().Be(1.1f);
+        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonFooVo.Value.Age.Should().Be(1);
+        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonFooVo.Value.Name.Should().Be("One");
+        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonGuidVo.Value.Should().Be(new Guid("00000000-0000-0000-0000-000000000001"));
+        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonIntVo.Value.Should().Be(1);
+        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonLongVo.Value.Should().Be(1L);
+        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonStringVo.Value.Should().Be("Item1!");
     }
 }

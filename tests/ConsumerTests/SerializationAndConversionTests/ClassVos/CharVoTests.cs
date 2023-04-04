@@ -106,13 +106,13 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueProperty()
+        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
             var vo = NoJsonCharVo.A;
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"a\"}";
+            var expected = "{\"Value\":\"a\",\"Name\":\"A\"}";
 
             Assert.Equal(expected, serialized);
         }
@@ -130,14 +130,14 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoTypeConverter_SerializesWithValueProperty()
+        public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
             var vo = NoConverterCharVo.A;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":\"a\"}";
+            var expected = "{\"Value\":\"a\",\"Name\":\"A\"}";
 
             Assert.Equal(expected, newtonsoft);
             Assert.Equal(expected, systemText);

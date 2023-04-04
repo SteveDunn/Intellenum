@@ -128,13 +128,13 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueProperty()
+        public void WhenNoJsonConverter_SystemTextJsonSerializesWithNameAndValueProperty()
         {
             var vo = NoJsonDecimalVo.Item1;
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = string.Format(CultureInfo.InvariantCulture, "{{\"Value\":{0}}}", vo.Value);
+            var expected = """{"Value":1.1,"Name":"Item1"}""";
 
             Assert.Equal(expected, serialized);
         }
@@ -152,14 +152,14 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoTypeConverter_SerializesWithValueProperty()
+        public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
             var vo = NoConverterDecimalVo.Item1;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = string.Format(CultureInfo.InvariantCulture, "{{\"Value\":{0}}}", vo.Value);
+            var expected = """{"Value":1.1,"Name":"Item1"}""";
 
             Assert.Equal(expected, newtonsoft);
             Assert.Equal(expected, systemText);

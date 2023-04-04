@@ -88,6 +88,9 @@ private void Throw()
             _isInitialized = true;
         }}
 
+        // exclude from serialization 
+
+          
         public string Name {{ get; private set; }}
 
         /// <summary>

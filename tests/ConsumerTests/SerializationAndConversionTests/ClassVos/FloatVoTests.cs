@@ -145,13 +145,13 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueProperty()
+        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
             var vo = NoJsonFloatVo.Item1;
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":" + vo.Value + "}";
+            var expected = """{"Value":1.1,"Name":"Item1"}""";
 
             Assert.Equal(expected, serialized);
         }
@@ -169,14 +169,14 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoTypeConverter_SerializesWithValueProperty()
+        public void WhenNoTypeConverter_SerializesWithValueAndNameProperty()
         {
             var vo = NoConverterFloatVo.Item1;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":" + vo.Value + "}";
+            var expected = """{"Value":1.1,"Name":"Item1"}""";
 
             Assert.Equal(expected, newtonsoft);
             Assert.Equal(expected, systemText);

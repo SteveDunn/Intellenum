@@ -122,13 +122,13 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueProperty()
+        public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
             var vo = NoJsonDoubleVo.Item1;
 
             var serialized = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":" + vo.Value + "}";
+            var expected = """{"Value":1.1,"Name":"Item1"}""";
 
             Assert.Equal(expected, serialized);
         }
@@ -146,14 +146,14 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         }
 
         [Fact]
-        public void WhenNoTypeConverter_SerializesWithValueProperty()
+        public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
             var vo = NoConverterDoubleVo.Item1;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
             var systemText = SystemTextJsonSerializer.Serialize(vo);
 
-            var expected = "{\"Value\":" + vo.Value + "}";
+            var expected = """{"Value":1.1,"Name":"Item1"}""";
 
             Assert.Equal(expected, newtonsoft);
             Assert.Equal(expected, systemText);
@@ -225,13 +225,13 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
 
         [Theory]
         [InlineData(1.1D)]
-        [InlineData("1.1D")]
+        [InlineData("1.1")]
         public void TypeConverter_CanConvertToAndFrom(object value)
         {
             var culture = new CultureInfo("en-US");
 
             var converter = TypeDescriptor.GetConverter(typeof(NoJsonDoubleVo));
-            var id = converter.ConvertFrom(null!, culture, value);
+            object id = converter.ConvertFrom(null!, culture, value);
             Assert.IsType<NoJsonDoubleVo>(id);
             Assert.Equal(NoJsonDoubleVo.Item1, id);
 

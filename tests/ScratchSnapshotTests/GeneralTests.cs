@@ -129,6 +129,34 @@ namespace SomethingElse
         }
 
         [Fact]
+        public Task Instance_methods_with_more_complex_expressions()
+        {
+            var source = """
+using System;
+using Intellenum;
+
+namespace SomethingElse
+{
+    [Intellenum(underlyingType: typeof(DateTimeOffset))]
+    public partial class DateTimeOffsetVo
+    {
+        static DateTimeOffsetVo()
+        {
+            Instance("JanFirst", new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero).AddTicks(123));
+        }
+    }
+}
+""";
+
+            return new SnapshotRunner<IntellenumGenerator>()
+                    .WithSource(source)
+                    .IgnoreInitialCompilationErrors()
+                    //.IgnoreFinalCompilationErrors()
+                    .RunOnAllFrameworks();
+
+        }
+
+        [Fact]
         public Task test_datetimeoffset()
         {
             var source = """
