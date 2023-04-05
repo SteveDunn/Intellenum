@@ -35,8 +35,8 @@ public partial class CustomerType
 ... you can then treat the type just like an enum:
 
 ```csharp
-if(type = CustomerType.Standard) Reject();
-if(type = CustomerType.Gold) Accept();
+if(type == CustomerType.Standard) Reject();
+if(type == CustomerType.Gold) Accept();
 ```
 
 Intellenum generates backing code for lightning fast and allocation-free lookups, e.g. `FromName`, `FromValue` (and their equivalent `Try...` methods):
@@ -181,12 +181,12 @@ Very fast! Here's some comparisons of various libraries (and the default `enum` 
 
 ### `FromName()`
 
-| Method         | Mean        | Error      | StdDev     | Allocated |
-|----------------|------------|------------|------------|-----------|
-| StandardEnums  | 123.937 ns | 0.5615 ns  | 0.4977 ns  | -         |
-| EnumGenerators | 9.067 ns   | 0.0523 ns  | 0.0489 ns  | -         |
-| SmartEnums     | 30.719 ns  | 0.4043 ns  | 0.3782 ns  | -         |
-| **Intellenums**    | **11.460 ns** | **0.2545 ns** | **0.2380 ns** | **-**         |
+| Method         | Mean        | Error      | StdDev     | Allocated | Example |
+|----------------|------------|------------|------------|-----------|------|
+| StandardEnums  | 123.937 ns | 0.5615 ns  | 0.4977 ns  | -         |                   `Enum.TryParse<CustomerType>("Standard", out _)` |
+| EnumGenerators | 9.067 ns   | 0.0523 ns  | 0.0489 ns  | -         |                   `CustomerTypeExtensions.TryParse("Standard", out _)` |
+| SmartEnums     | 30.719 ns  | 0.4043 ns  | 0.3782 ns  | -         |                   `SECustomerType.TryFromName( "Gold", out _)` |
+| **Intellenums**    | **11.460 ns** | **0.2545 ns** | **0.2380 ns** | **-**         |   **`CustomerType.TryFromName("Standard", out _)`** |
 
 ### `Value`
 _note that EnumGenerators isn't here as we use the standard C# enum to get its value_

@@ -21,36 +21,15 @@ EGCustomerTypeExtensions.IsDefined((EGCustomerType) 666);
 
 BenchmarkRunner.Run(new[]
 {
+    typeof(ToStringBenchmarks),
+    typeof(TryFromNameValueBenchmarks),
+    typeof(ContainsValueBenchmarks),
     typeof(FromValueBenchmarks)
 });
-// BenchmarkRunner.Run(new[]
-// {
-//     typeof(ToStringBenchmarks),
-//     typeof(TryFromNameValueBenchmarks),
-//     typeof(ContainsValueBenchmarks),
-//     typeof(FromValueBenchmarks)
-// });
 
 
 
 
-[Intellenum<Foo>]
-public partial class FooEnum
-{
-    static FooEnum()
-    {
-        Instance("Item3", new Foo("a", 1));
-        Instance("Item4", new Foo("b", 2));
-    }
-
-    public static readonly FooEnum Item1 = new("Item1", new Foo("a", 1));
-    public static readonly FooEnum Item2 = new("Item2", new Foo("b", 2));
-}
-
-public record class Foo(string Name, int Age) : IComparable<Foo>
-{
-    public int CompareTo(Foo? other) => Age.CompareTo(other?.Age);
-}
 
 [Intellenum<string>]
 [Instance("Normal", "n")]

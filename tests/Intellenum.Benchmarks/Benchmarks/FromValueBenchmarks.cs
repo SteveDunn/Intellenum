@@ -1,7 +1,7 @@
 using BenchmarkDotNet.Attributes;
 
 [MemoryDiagnoser]
-public class FromValueBenchmarks
+public class AccessingValuesBenchmarks
 {
     [GlobalSetup]
     public void Setup()

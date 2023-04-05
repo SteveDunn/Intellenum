@@ -1,7 +1,7 @@
 using BenchmarkDotNet.Attributes;
 
 [MemoryDiagnoser]
-public class TryFromNameValueBenchmarks
+public class TryFromNameBenchmarks
 {
     [GlobalSetup]
     public void Setup()
