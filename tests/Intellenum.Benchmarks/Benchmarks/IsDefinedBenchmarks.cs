@@ -1,7 +1,10 @@
 using BenchmarkDotNet.Attributes;
 
+/// <summary>
+/// Benchmark for seeing if a value is defined.
+/// </summary>
 [MemoryDiagnoser]
-public class ContainsValueBenchmarks
+public class IsDefinedBenchmarks
 {
     [GlobalSetup]
     public void Setup()

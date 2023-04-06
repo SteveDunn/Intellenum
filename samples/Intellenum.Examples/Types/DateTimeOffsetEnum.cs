@@ -3,15 +3,15 @@
 namespace Intellenum.Examples.Types
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(DateTimeOffset))]
-    public partial class DateTimeOffsetVo
+    public partial class DateTimeOffsetEnum
     {
-        public static readonly DateTimeOffsetVo None = new DateTimeOffsetVo("None", DateTimeOffset.MinValue);
+        public static readonly DateTimeOffsetEnum None = new DateTimeOffsetEnum("None", DateTimeOffset.MinValue);
     }
 
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(DateTimeOffset))]
-    public partial class NoConverterDateTimeOffsetVo
+    public partial class NoConverterDateTimeOffsetEnum
     {
-        static NoConverterDateTimeOffsetVo()
+        static NoConverterDateTimeOffsetEnum()
         {
             Instance("Item1", DateTimeOffset.Parse("2020-01-01T00:00:00Z"));
             Instance("Item2", DateTimeOffset.Parse("2020-01-02T00:00:00Z"));
@@ -19,18 +19,18 @@ namespace Intellenum.Examples.Types
     }
 
     [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(DateTimeOffset))]
-    public partial class NoJsonDateTimeOffsetVo
+    public partial class NoJsonDateTimeOffsetEnum
     {
-        static NoJsonDateTimeOffsetVo()
+        static NoJsonDateTimeOffsetEnum()
         {
             Instance("Item1", DateTimeOffset.Parse("2020-01-01T00:00:00Z"));
         }
     }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(DateTimeOffset))]
-    public partial class NewtonsoftJsonDateTimeOffsetVo
+    public partial class NewtonsoftJsonDateTimeOffsetEnum
     {
-        static NewtonsoftJsonDateTimeOffsetVo()
+        static NewtonsoftJsonDateTimeOffsetEnum()
         {
             Instance("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
             Instance("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
@@ -38,9 +38,9 @@ namespace Intellenum.Examples.Types
     }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(DateTimeOffset))]
-    public partial class SystemTextJsonDateTimeOffsetVo
+    public partial class SystemTextJsonDateTimeOffsetEnum
     {
-        static SystemTextJsonDateTimeOffsetVo()
+        static SystemTextJsonDateTimeOffsetEnum()
         {
             Instance("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
             Instance("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
@@ -48,9 +48,9 @@ namespace Intellenum.Examples.Types
     }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(DateTimeOffset))]
-    public partial class BothJsonDateTimeOffsetVo
+    public partial class BothJsonDateTimeOffsetEnum
     {
-        static BothJsonDateTimeOffsetVo()
+        static BothJsonDateTimeOffsetEnum()
         {
             Instance("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
             Instance("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
@@ -58,9 +58,9 @@ namespace Intellenum.Examples.Types
     }
 
     [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(DateTimeOffset))]
-    public partial class EfCoreDateTimeOffsetVo
+    public partial class EfCoreDateTimeOffsetEnum
     {
-        static EfCoreDateTimeOffsetVo()
+        static EfCoreDateTimeOffsetEnum()
         {
             Instance("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
             Instance("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
@@ -68,9 +68,9 @@ namespace Intellenum.Examples.Types
     }
 
     [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(DateTimeOffset))]
-    public partial class DapperDateTimeOffsetVo
+    public partial class DapperDateTimeOffsetEnum
     {
-        static DapperDateTimeOffsetVo()
+        static DapperDateTimeOffsetEnum()
         {
             Instance("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
             Instance("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
@@ -78,9 +78,9 @@ namespace Intellenum.Examples.Types
     }
 
     [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(DateTimeOffset))]
-    public partial class LinqToDbDateTimeOffsetVo
+    public partial class LinqToDbDateTimeOffsetEnum
     {
-        static LinqToDbDateTimeOffsetVo()
+        static LinqToDbDateTimeOffsetEnum()
         {
             Instance("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
             Instance("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));

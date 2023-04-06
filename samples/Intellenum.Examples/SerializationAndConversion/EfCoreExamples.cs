@@ -24,7 +24,7 @@ namespace Intellenum.Examples.SerializationAndConversion
                 .UseSqlite(connection)
                 .Options;
 
-            var original = new TestEntity { Id = EfCoreStringVo.Item1 };
+            var original = new TestEntity { Id = EfCoreStringEnum.Item1 };
             using (var context = new TestDbContext(options))
             {
                 context.Database.EnsureCreated();
@@ -55,7 +55,7 @@ namespace Intellenum.Examples.SerializationAndConversion
                     {
                         builder
                             .Property(x => x.Id)
-                            .HasConversion(new EfCoreStringVo.EfCoreValueConverter())
+                            .HasConversion(new EfCoreStringEnum.EfCoreValueConverter())
                             .ValueGeneratedNever();
                     });
             }
@@ -63,7 +63,7 @@ namespace Intellenum.Examples.SerializationAndConversion
 
         public class TestEntity
         {
-            public EfCoreStringVo Id { get; set; }
+            public EfCoreStringEnum Id { get; set; }
         }
     }
 }

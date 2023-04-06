@@ -1,5 +1,8 @@
 using BenchmarkDotNet.Attributes;
 
+/// <summary>
+/// Benchmark for accessing the values of the enums.
+/// </summary>
 [MemoryDiagnoser]
 public class AccessingValuesBenchmarks
 {

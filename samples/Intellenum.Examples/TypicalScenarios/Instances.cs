@@ -4,11 +4,6 @@ using System.Threading.Tasks;
 
 namespace Intellenum.Examples.TypicalScenarios.Instances
 {
-
-    /*
-     * Instances allow us to create specific static readonly instances of this type.
-     */
-
     internal class InstanceExamples : IScenario
     {
         public Task Run()
@@ -22,8 +17,6 @@ namespace Intellenum.Examples.TypicalScenarios.Instances
 
             Console.WriteLine((bool) (invalidVi.VendorId == VendorType.Invalid)); // true
             
-            Console.WriteLine(ImpliedFieldName.Instance1);
-
             return Task.CompletedTask;
         }
     }
@@ -51,6 +44,21 @@ namespace Intellenum.Examples.TypicalScenarios.Instances
     public partial class VendorType
     {
     }
+    
+    [Intellenum]
+    [Instance("Salt", 1)]
+    [Instance("Pepper", 2)]
+    public partial class CondimentMixedInstances
+    {
+        public static readonly CondimentMixedInstances Mayo = new CondimentMixedInstances("Mayo", 5);
+        public static readonly CondimentMixedInstances Ketchup = new CondimentMixedInstances("Ketchup", 6);
+
+        static CondimentMixedInstances()
+        {
+            Instance("Vinegar", 3);
+            Instance("Mustard", 4);
+        }
+    }    
 
     public class VendorInformation
     {
@@ -58,7 +66,7 @@ namespace Intellenum.Examples.TypicalScenarios.Instances
 
         public static VendorInformation FromTextFile()
         {
-            // imaging the text file is screwed...
+            // imagine the text file is screwed...
             return new VendorInformation
             {
                 VendorId = VendorType.Invalid

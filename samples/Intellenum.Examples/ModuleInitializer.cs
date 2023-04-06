@@ -12,9 +12,9 @@ public static class ModuleInitializer
     public static void Init()
     {
         MappingSchema.Default.SetConverter<DateTime, TimeOnly>(dt => TimeOnly.FromDateTime(dt));
-        SqlMapper.AddTypeHandler(new DapperDateTimeOffsetVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new DapperDateTimeOffsetEnum.DapperTypeHandler());
         SqlMapper.AddTypeHandler(new DapperIntVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new DapperStringVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new DapperFloatVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new DapperStringEnum.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new DapperFloatEnum.DapperTypeHandler());
     }
 }

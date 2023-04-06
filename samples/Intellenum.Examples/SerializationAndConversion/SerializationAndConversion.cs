@@ -19,23 +19,23 @@ namespace Intellenum.Examples.SerializationAndConversion
 
         public void SerializeWithNewtonsoftJson()
         {
-            var g1 = NewtonsoftJsonDateTimeOffsetVo.Item1;
+            var g1 = NewtonsoftJsonDateTimeOffsetEnum.Item1;
 
             string serialized = NewtonsoftJsonSerializer.SerializeObject(g1);
             string serializedString = NewtonsoftJsonSerializer.SerializeObject(g1.Value);
 
             var deserializedVo =
-                NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonDateTimeOffsetVo>(serializedString);
+                NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonDateTimeOffsetEnum>(serializedString);
         }
 
         public void SerializeWithSystemTextJson()
         {
-            var foo = SystemTextJsonDateTimeOffsetVo.Item1;
+            var foo = SystemTextJsonDateTimeOffsetEnum.Item1;
 
             string serializedFoo = SystemTextJsonSerializer.Serialize(foo);
             string serializedString = SystemTextJsonSerializer.Serialize(foo.Value);
 
-            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDateTimeOffsetVo>(serializedString);
+            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDateTimeOffsetEnum>(serializedString);
         }
     }
 }

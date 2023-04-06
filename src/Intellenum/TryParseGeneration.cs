@@ -6,52 +6,51 @@ using System.Text;
 using Intellenum.Extensions;
 using Microsoft.CodeAnalysis;
 
-namespace Intellenum
+namespace Intellenum;
+
+internal static class TryParseGeneration
 {
-    internal static class TryParseGeneration
+    public static string GenerateTryParseIfNeeded(VoWorkItem item)
     {
-        public static string GenerateTryParseIfNeeded(VoWorkItem item)
+        INamedTypeSymbol primitiveSymbol = item.UnderlyingType;
+
+        try
         {
-            INamedTypeSymbol primitiveSymbol = item.UnderlyingType;
+            var found = FindMatches(primitiveSymbol).ToList();
 
-            try
-            {
-                var found = FindMatches(primitiveSymbol).ToList();
+            if (found.Count == 0) return string.Empty;
 
-                if (found.Count == 0) return string.Empty;
-
-                StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
                 
-                foreach (var eachSymbol in found)
-                {
-                    BuildMethod(eachSymbol, sb, item);
-                }
-
-                return sb.ToString();
-            }
-            catch (Exception e)
+            foreach (var eachSymbol in found)
             {
-                throw new InvalidOperationException($"Cannot parse {primitiveSymbol} - {e}", e);
-
+                BuildMethod(eachSymbol, sb, item);
             }
+
+            return sb.ToString();
         }
-
-        private static void BuildMethod(IMethodSymbol methodSymbol, StringBuilder sb, VoWorkItem item)
+        catch (Exception e)
         {
-            string parameters = BuildParameters(methodSymbol);
-            string parameterNames = BuildParameterNames(methodSymbol);
+            throw new InvalidOperationException($"Cannot parse {primitiveSymbol} - {e}", e);
 
-            var inheritDocRef = methodSymbol.ToString()!.Replace("<", "{").Replace(">", "}");
+        }
+    }
+
+    private static void BuildMethod(IMethodSymbol methodSymbol, StringBuilder sb, VoWorkItem item)
+    {
+        string parameters = BuildParameters(methodSymbol);
+        string parameterNames = BuildParameterNames(methodSymbol);
+
+        var inheritDocRef = methodSymbol.ToString()!.Replace("<", "{").Replace(">", "}");
             
-            var ret =
-                @$"
+        var ret =
+            @$"
     /// <inheritdoc cref=""{inheritDocRef}""/>
     /// <summary>
     /// </summary>
     /// <returns>
     /// The value created via the <see cref=""From""/> method.
     /// </returns>
-    /// <exception cref=""IntellenumValidationException"">Thrown when the value can be parsed, but is not valid.</exception>
     public static global::System.Boolean TryParse({parameters}, {GenerateNotNullWhenAttribute()} out {item.VoTypeName} result) {{
         if({item.UnderlyingTypeFullName}.TryParse({parameterNames}, out var r)) {{
             result = FromValue(r);
@@ -62,90 +61,91 @@ namespace Intellenum
         return false;
     }}";
 
-            sb.AppendLine(ret);
-        }
+        sb.AppendLine(ret);
+    }
 
-        private static string GenerateNotNullWhenAttribute()
-        {
-            return @"
+    private static string GenerateNotNullWhenAttribute()
+    {
+        return @"
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
 #endif
 ";
 
-        }
+    }
 
-        private static string BuildParameters(IMethodSymbol methodSymbol)
+    private static string BuildParameters(IMethodSymbol methodSymbol)
+    {
+        List<string> l = new();
+
+        for (var index = 0; index < methodSymbol.Parameters.Length-1; index++)
         {
-            List<string> l = new();
-
-            for (var index = 0; index < methodSymbol.Parameters.Length-1; index++)
-            {
-                IParameterSymbol eachParameter = methodSymbol.Parameters[index];
+            IParameterSymbol eachParameter = methodSymbol.Parameters[index];
                 
-                string refKind = BuildRefKind(eachParameter.RefKind);
+            string refKind = BuildRefKind(eachParameter.RefKind);
 
-                string type = eachParameter.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+            string type = eachParameter.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 
-                string name = Util.EscapeIfRequired(eachParameter.Name);
+            string name = Util.EscapeIfRequired(eachParameter.Name);
 
-                l.Add($"{refKind}{type} {name}");
-            }
-
-            return string.Join(", ", l);
+            l.Add($"{refKind}{type} {name}");
         }
 
-        private static string BuildRefKind(RefKind refKind) =>
-            refKind switch
-            {
-                RefKind.In => "in ",
-                RefKind.Out => "out ",
-                RefKind.Ref => "ref ",
-                _ => ""
-            };
+        return string.Join(", ", l);
+    }
 
-        private static string BuildParameterNames(IMethodSymbol methodSymbol)
+    private static string BuildRefKind(RefKind refKind) =>
+        refKind switch
         {
-            List<string> l = new();
-            for (var index = 0; index < methodSymbol.Parameters.Length-1; index++)
-            {
-                var eachParameter = methodSymbol.Parameters[index];
-                l.Add($"{eachParameter.Name}");
-            }
+            RefKind.In => "in ",
+            RefKind.Out => "out ",
+            RefKind.Ref => "ref ",
+            _ => ""
+        };
 
-            return string.Join(", ", l);
+    private static string BuildParameterNames(IMethodSymbol methodSymbol)
+    {
+        List<string> l = new();
+        for (var index = 0; index < methodSymbol.Parameters.Length-1; index++)
+        {
+            var eachParameter = methodSymbol.Parameters[index];
+            l.Add($"{eachParameter.Name}");
         }
 
-        private static IEnumerable<IMethodSymbol> FindMatches(INamedTypeSymbol primitiveSymbol)
-        {
-            ImmutableArray<ISymbol> members = primitiveSymbol.GetMembers("TryParse");
+        return string.Join(", ", l);
+    }
 
-            if (members.Length == 0) yield break;
+    private static IEnumerable<IMethodSymbol> FindMatches(INamedTypeSymbol primitiveSymbol)
+    {
+        ImmutableArray<ISymbol> members = primitiveSymbol.GetMembers("TryParse");
+
+        if (members.Length == 0) yield break;
             
-            foreach (ISymbol eachMember in members)
+        foreach (ISymbol eachMember in members)
+        {
+            if (eachMember is not IMethodSymbol s)
             {
-                if (eachMember is IMethodSymbol s)
-                {
-                    if (!s.IsStatic)
-                    {
-                        continue;
-                    }
-
-                    var ps = s.GetParameters();
-
-                    if (s.ReturnType.Name != nameof(Boolean))
-                    {
-                        continue;
-                    }
-
-                    if (!SymbolEqualityComparer.Default.Equals(ps[ps.Length-1].Type, primitiveSymbol))
-                    {
-                        continue;
-                    }
-
-                    yield return s;
-                }
+                continue;
             }
+
+            if (!s.IsStatic)
+            {
+                continue;
+            }
+
+            var ps = s.GetParameters();
+
+            if (s.ReturnType.Name != nameof(Boolean))
+            {
+                continue;
+            }
+
+            if (!SymbolEqualityComparer.Default.Equals(ps[ps.Length-1].Type, primitiveSymbol))
+            {
+                continue;
+            }
+
+            yield return s;
         }
     }
 }

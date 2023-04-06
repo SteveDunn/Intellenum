@@ -2,6 +2,7 @@
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
+// ReSharper disable RedundantCast
 
 namespace Intellenum.Tests;
 

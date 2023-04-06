@@ -133,7 +133,7 @@ public static class Util
 
     public static string GenerateIComparableImplementationIfNeeded(VoWorkItem item, TypeDeclarationSyntax tds)
     {
-        INamedTypeSymbol? primitiveSymbol = item.UnderlyingType;
+        INamedTypeSymbol primitiveSymbol = item.UnderlyingType;
         if (!primitiveSymbol.ImplementsInterfaceOrBaseClass(typeof(IComparable<>)))
         {
             return string.Empty;

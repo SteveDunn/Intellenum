@@ -1,4 +1,5 @@
-﻿// ReSharper disable EqualExpressionComparison
+﻿// ReSharper disable NullableWarningSuppressionIsUsed
+// ReSharper disable EqualExpressionComparison
 // ReSharper disable SuspiciousTypeConversion.Global
 // ReSharper disable RedundantNameQualifier
 // ReSharper disable ConditionIsAlwaysTrueOrFalse

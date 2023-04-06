@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Newtonsoft.Json;
 using Intellenum;
+// ReSharper disable NullableWarningSuppressionIsUsed
 
 namespace ConsumerTests.BugFixTests
 {

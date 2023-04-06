@@ -22,9 +22,9 @@ EGCustomerTypeExtensions.IsDefined((EGCustomerType) 666);
 BenchmarkRunner.Run(new[]
 {
     typeof(ToStringBenchmarks),
-    typeof(TryFromNameValueBenchmarks),
-    typeof(ContainsValueBenchmarks),
-    typeof(FromValueBenchmarks)
+    typeof(TryFromNameBenchmarks),
+    typeof(IsDefinedBenchmarks),
+    typeof(AccessingValuesBenchmarks)
 });
 
 

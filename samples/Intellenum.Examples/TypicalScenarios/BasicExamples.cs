@@ -22,7 +22,7 @@ namespace Intellenum.Examples.TypicalScenarios.Basic
     [Instance("Won", 2)]
     [Instance("Drawn", 1)]
     [Instance("Lost", 0)]
-    internal partial class Score
+    internal partial class Result
     {
     }
 

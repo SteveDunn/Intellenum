@@ -138,7 +138,7 @@ public static class InstanceGeneration
             {
                 if (propertyValue is char c)
                 {
-                    return new(true, string.Format(@"{0}m", c, CultureInfo.InvariantCulture));
+                    return new(true, $@"{c}m");
                 }
 
                 return new(true,
@@ -149,7 +149,7 @@ public static class InstanceGeneration
             {
                 if (propertyValue is char c)
                 {
-                    return new(true, string.Format(@"{0}d", c, CultureInfo.InvariantCulture));
+                    return new(true, $@"{c}d");
                 }
 
                 return new(true,
@@ -160,7 +160,7 @@ public static class InstanceGeneration
             {
                 if (propertyValue is char c)
                 {
-                    return new(true, string.Format(@"{0}f", c, CultureInfo.InvariantCulture));
+                    return new(true, $@"{c}f");
                 }
 
                 return new(true,
@@ -185,7 +185,7 @@ public static class InstanceGeneration
 
             if (underlyingType == typeof(bool).FullName)
             {
-                var converted = propertyValue?.ToString()?.ToLower();
+                var converted = propertyValue.ToString()?.ToLower();
             
                 return new(true, $@"{converted}");
             }
@@ -195,7 +195,7 @@ public static class InstanceGeneration
         catch (Exception e)
         {
             return new(false, string.Empty,
-                $"Named instance '{propertyName}' has a value type '{propertyValue?.GetType()}' of '{propertyValue}' which cannot be converted to the underlying type of '{underlyingType}' - {e.Message}");
+                $"Named instance '{propertyName}' has a value type '{propertyValue.GetType()}' of '{propertyValue}' which cannot be converted to the underlying type of '{underlyingType}' - {e.Message}");
         }
     }
 

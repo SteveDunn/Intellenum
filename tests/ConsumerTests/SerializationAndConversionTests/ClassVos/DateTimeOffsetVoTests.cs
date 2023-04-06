@@ -40,8 +40,6 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 
     public class DateTimeOffsetVoTests
     {
-        private readonly DateTimeOffset _date1 = DateTimeOffsetVo.JanFirst.Value;
-
         [Fact]
         public void equality_between_same_value_objects()
         {

@@ -10,8 +10,8 @@ public static class ModuleInitialization
     [ModuleInitializer]
     public static void Init()
     {
-        SqlMapper.AddTypeHandler(new ConsumerTests.DeserializationValidationTests.MyVoInt_should_not_bypass_validation.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new ConsumerTests.DeserializationValidationTests.MyVoString.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new ConsumerTests.DeserializationTests.MyVoInt.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new ConsumerTests.DeserializationTests.MyVoString.DapperTypeHandler());
 
 #if NET6_0_OR_GREATER
         MappingSchema.Default.SetConverter<DateTime, TimeOnly>(dt => TimeOnly.FromDateTime(dt));
@@ -20,8 +20,8 @@ public static class ModuleInitialization
 #endif
 
 #if NET7_0_OR_GREATER
-        SqlMapper.AddTypeHandler(new ConsumerTests.GenericDeserializationValidationTests.MyVoInt_should_not_bypass_validation.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new ConsumerTests.GenericDeserializationValidationTests.MyVoString.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new ConsumerTests.GenericDeserializationTests.MyVoInt_should_not_bypass_validation.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new ConsumerTests.GenericDeserializationTests.MyVoString.DapperTypeHandler());
 #endif
 
         SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperFooVo.DapperTypeHandler());

@@ -15,14 +15,14 @@ public class DiagnosticCollection
 
     public bool HasId(string id) => _items.Any(i => i.Id == id);
 
-    public bool HasError(string error) => _items.Any(i => i.GetMessage(null) == error);
+    public bool HasError(string error) => _items.Any(i => i.GetMessage() == error);
     
-    public bool HasError(string id, string error) => _items.Any(i => i.Id == id && i.GetMessage(null) == error);
+    public bool HasError(string id, string error) => _items.Any(i => i.Id == id && i.GetMessage() == error);
     
 
-    public bool HasErrorStartingWith(string error) => _items.Any(i => i.GetMessage(null).StartsWith(error));
-    public bool HasErrorStartingWith(string id, string error) => _items.Any(i => i.Id == id && i.GetMessage(null).StartsWith(error));
+    public bool HasErrorStartingWith(string error) => _items.Any(i => i.GetMessage().StartsWith(error));
+    public bool HasErrorStartingWith(string id, string error) => _items.Any(i => i.Id == id && i.GetMessage().StartsWith(error));
 
-    public bool HasErrorContaining(string error) => _items.Any(i => i.GetMessage(null).Contains(error));
-    public bool HasErrorContaining(string id, string error) => _items.Any(i => i.Id == id && i.GetMessage(null).Contains(error));
+    public bool HasErrorContaining(string error) => _items.Any(i => i.GetMessage().Contains(error));
+    public bool HasErrorContaining(string id, string error) => _items.Any(i => i.Id == id && i.GetMessage().Contains(error));
 }

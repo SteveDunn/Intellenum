@@ -8,7 +8,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Intellenum;
 
-namespace ConsumerTests.GenericDeserializationValidationTests;
+namespace ConsumerTests.GenericDeserializationTests;
 
 #region Value Objects
 [Intellenum<int>(Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter)]

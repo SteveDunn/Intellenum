@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Globalization;
 using System.Threading;
 using Microsoft.CodeAnalysis;
+// ReSharper disable All
 
 namespace Intellenum.Tests
 {

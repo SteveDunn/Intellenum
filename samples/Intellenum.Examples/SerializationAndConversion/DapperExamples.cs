@@ -15,9 +15,9 @@ namespace Intellenum.Examples.SerializationAndConversion
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            IEnumerable<DapperDateTimeOffsetVo> results = await connection.QueryAsync<DapperDateTimeOffsetVo>("SELECT '2022-01-15 19:08:49.5413764'");
+            IEnumerable<DapperDateTimeOffsetEnum> results = await connection.QueryAsync<DapperDateTimeOffsetEnum>("SELECT '2022-01-15 19:08:49.5413764'");
 
-            DapperDateTimeOffsetVo result = results.Single();
+            DapperDateTimeOffsetEnum result = results.Single();
 
             Console.WriteLine(result);
         }

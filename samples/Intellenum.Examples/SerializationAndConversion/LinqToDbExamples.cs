@@ -23,7 +23,7 @@ namespace Intellenum.Examples.SerializationAndConversion
 			var connection = new SqliteConnection("DataSource=:memory:");
 			connection.Open();
 
-			var original = new TestEntity { Id = LinqToDbStringVo.Item1};
+			var original = new TestEntity { Id = LinqToDbStringEnum.Item1};
 			using (var context = new TestDbContext(connection))
 			{
 				context.CreateTable<TestEntity>();
@@ -54,8 +54,8 @@ namespace Intellenum.Examples.SerializationAndConversion
 		{
 			[PrimaryKey]
 			[Column(DataType = DataType.VarChar)]
-			[ValueConverter(ConverterType = typeof(LinqToDbStringVo.LinqToDbValueConverter))]
-			public LinqToDbStringVo Id { get; set; }
+			[ValueConverter(ConverterType = typeof(LinqToDbStringEnum.LinqToDbValueConverter))]
+			public LinqToDbStringEnum Id { get; set; }
 		}
 	}
 }

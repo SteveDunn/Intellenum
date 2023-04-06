@@ -1,6 +1,4 @@
-﻿#if NET7_0_OR_GREATER
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -11,8 +9,9 @@ using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
 using Microsoft.EntityFrameworkCore;
 using LinqToDB;
+// ReSharper disable NullableWarningSuppressionIsUsed
 
-namespace ConsumerTests.GenericDeserializationValidationTests;
+namespace ConsumerTests.DeserializationTests;
 
 public class StringDeserializationValidationTests
 {
@@ -39,7 +38,7 @@ public class StringDeserializationValidationTests
 
         using (var context = new DeserializationValidationDbContext(options))
         {
-            var actual = await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.SingleAsync(context.StringEntities!.FromSqlRaw("SELECT 'Item1!' As Id"));
+            DeserializationValidationTestStringEntity actual = await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.SingleAsync(context.StringEntities!.FromSqlRaw("SELECT 'Item1!' As Id"));
             actual.Id!.Value.Should().Be("Item1!");
         }
     }
@@ -78,6 +77,7 @@ public class StringDeserializationValidationTests
         actual.Should().Be("Item1!");
     }
 
+
     [Fact]
     public void Deserialization_newtonsoft()
     {
@@ -88,4 +88,3 @@ public class StringDeserializationValidationTests
         actual.Should().Be("Item1!");
     }
 }
-#endif

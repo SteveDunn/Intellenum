@@ -1,4 +1,6 @@
-﻿#if NET7_0_OR_GREATER
+﻿// ReSharper disable NullableWarningSuppressionIsUsed
+
+#if NET7_0_OR_GREATER
 
 using System;
 using System.ComponentModel;
@@ -12,12 +14,12 @@ using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
 using Microsoft.EntityFrameworkCore;
 using LinqToDB;
 
-namespace ConsumerTests.GenericDeserializationValidationTests;
+namespace ConsumerTests.GenericDeserializationTests;
 
 public class IntDeserializationValidationTests
 {
     [Fact]
-    public async void Deserialization_dapper_should_not_bypass_validation_pass()
+    public async void Deserialization_dapper()
     {
         using var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();

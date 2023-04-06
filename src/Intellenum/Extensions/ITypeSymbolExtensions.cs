@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 // ReSharper disable PossibleNullReferenceException
+// ReSharper disable All
 
 namespace Intellenum.Extensions
 {
@@ -204,7 +205,7 @@ namespace Intellenum.Extensions
             static bool IsInheritedAttribute(AttributeData attributeData, INamedTypeSymbol attributeUsageAttribute)
             {
                 for (var currentAttributeClass = attributeData.AttributeClass;
-                    currentAttributeClass is object;
+                    currentAttributeClass is not null;
                     currentAttributeClass = currentAttributeClass.BaseType)
                 {
                     foreach (var attributeClassData in currentAttributeClass.GetAttributes())

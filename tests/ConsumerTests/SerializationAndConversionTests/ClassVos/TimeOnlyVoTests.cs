@@ -41,8 +41,6 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 
     public class TimeOnlyVoTests
     {
-        private static readonly TimeOnly _time1 = new TimeOnly(13, 12, 59, 123);
-        private static readonly TimeOnly _time2 = new TimeOnly(1, 59, 58, 123);
 
         [Fact]
         public void equality_between_same_value_objects()

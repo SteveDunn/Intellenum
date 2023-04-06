@@ -6,13 +6,13 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Intellenum;
 
-namespace ConsumerTests.DeserializationValidationTests;
+namespace ConsumerTests.DeserializationTests;
 
 #region Value Objects
 [Intellenum(typeof(int), Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter)]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]
-public partial class MyVoInt_should_not_bypass_validation
+public partial class MyVoInt
 {
 }
 
@@ -42,7 +42,7 @@ public class DeserializationValidationDbContext : DbContext
             {
                 builder
                     .Property(x => x.Id)
-                    .HasConversion(new MyVoInt_should_not_bypass_validation.EfCoreValueConverter())
+                    .HasConversion(new MyVoInt.EfCoreValueConverter())
                     .ValueGeneratedNever();
             });
         modelBuilder
@@ -74,7 +74,7 @@ public class DeserializationValidationDataConnection : DataConnection
 #region EF
 public class DeserializationValidationTestIntEntity
 {
-    public MyVoInt_should_not_bypass_validation? Id { get; set; }
+    public MyVoInt? Id { get; set; }
 }
 
 public class DeserializationValidationTestStringEntity
@@ -87,8 +87,8 @@ public class DeserializationValidationTestStringEntity
 public class DeserializationValidationTestLinqToDbTestIntEntity
 {
     [Column(DataType = DataType.Int32)]
-    [ValueConverter(ConverterType = typeof(MyVoInt_should_not_bypass_validation.LinqToDbValueConverter))]
-    public MyVoInt_should_not_bypass_validation? Id { get; set; }
+    [ValueConverter(ConverterType = typeof(MyVoInt.LinqToDbValueConverter))]
+    public MyVoInt? Id { get; set; }
 }
 
 public class DeserializationValidationTestLinqToDbTestStringEntity

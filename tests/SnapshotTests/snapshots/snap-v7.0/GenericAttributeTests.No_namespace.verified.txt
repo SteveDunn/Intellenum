@@ -103,6 +103,9 @@ private void Throw()
             _isInitialized = true;
         }
 
+        // exclude from serialization 
+
+          
         public string Name { get; private set; }
 
         /// <summary>
@@ -390,7 +393,6 @@ yield return Gold;
     /// <returns>
     /// The value created via the <see cref="From"/> method.
     /// </returns>
-    /// <exception cref="IntellenumValidationException">Thrown when the value can be parsed, but is not valid.</exception>
     public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> s, global::System.Globalization.NumberStyles style, global::System.IFormatProvider provider, 
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
@@ -411,7 +413,6 @@ yield return Gold;
     /// <returns>
     /// The value created via the <see cref="From"/> method.
     /// </returns>
-    /// <exception cref="IntellenumValidationException">Thrown when the value can be parsed, but is not valid.</exception>
     public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> s, global::System.IFormatProvider provider, 
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
@@ -432,7 +433,6 @@ yield return Gold;
     /// <returns>
     /// The value created via the <see cref="From"/> method.
     /// </returns>
-    /// <exception cref="IntellenumValidationException">Thrown when the value can be parsed, but is not valid.</exception>
     public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> s, 
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
@@ -453,7 +453,6 @@ yield return Gold;
     /// <returns>
     /// The value created via the <see cref="From"/> method.
     /// </returns>
-    /// <exception cref="IntellenumValidationException">Thrown when the value can be parsed, but is not valid.</exception>
     public static global::System.Boolean TryParse(string s, global::System.Globalization.NumberStyles style, global::System.IFormatProvider provider, 
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
@@ -474,7 +473,6 @@ yield return Gold;
     /// <returns>
     /// The value created via the <see cref="From"/> method.
     /// </returns>
-    /// <exception cref="IntellenumValidationException">Thrown when the value can be parsed, but is not valid.</exception>
     public static global::System.Boolean TryParse(string s, global::System.IFormatProvider provider, 
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
@@ -495,7 +493,6 @@ yield return Gold;
     /// <returns>
     /// The value created via the <see cref="From"/> method.
     /// </returns>
-    /// <exception cref="IntellenumValidationException">Thrown when the value can be parsed, but is not valid.</exception>
     public static global::System.Boolean TryParse(string s, 
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]

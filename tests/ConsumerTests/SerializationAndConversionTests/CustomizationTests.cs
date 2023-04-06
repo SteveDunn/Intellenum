@@ -1,4 +1,6 @@
-﻿#nullable disable
+﻿// ReSharper disable NullableWarningSuppressionIsUsed
+
+#nullable disable
 using FluentAssertions;
 using Intellenum;
 using JsonSerializer = System.Text.Json.JsonSerializer;

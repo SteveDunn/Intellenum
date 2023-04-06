@@ -74,7 +74,7 @@ public class GenerationPermutationTests
     {
         _logger.WriteLine($"Running permutation, type: {type}, conversion: {conversions}, underlyingType: {underlyingType}, className: {className}, locale: {locale}");
 
-        string declaration = "";
+        string declaration;
 
         if (underlyingType.Length == 0)
         {

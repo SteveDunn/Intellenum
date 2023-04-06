@@ -10,13 +10,9 @@
     [Instance("Gold", 2)]
     public partial class CustomerType
     {
-        // uncomment - error CS0111: Type 'CustomerType' already defines a member called 'CustomerType' with the same parameter type
+        // uncomment - error VOG008: Cannot have user defined constructors, please use the From method for creation.
         // public CustomerType() { }
-
-        // uncomment - error VOG008: Cannot have user defined constructors, please use the From method for creation.
         // public CustomerType(int value) { }
-
-        // uncomment - error VOG008: Cannot have user defined constructors, please use the From method for creation.
         // public CustomerType(int v1, int v2) : this(v1) { }
     }
 
@@ -25,10 +21,8 @@
     [Instance("Preferred", 2)]
     public partial class VendorType
     {
-        // uncomment - error CS0111: Type 'VendorType' already defines a member called 'VendorType' with the same parameter type
-        // public VendorType() { }
-
         // uncomment - error VOG008: Cannot have user defined constructors, please use the From method for creation.
+        // public VendorType() { }
         // public VendorType(int value) { }
         // public VendorType(int v1, int v2) : this(v1) { }
         // public VendorType(int v1, int v2, int v3) : this(v1) { }

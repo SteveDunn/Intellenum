@@ -13,6 +13,7 @@ using System.Threading;
 using Microsoft.CodeAnalysis;
 // ReSharper disable AssignNullToNotNullAttribute
 // ReSharper disable PossibleNullReferenceException
+// ReSharper disable All
 
 namespace Intellenum.Extensions
 {

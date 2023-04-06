@@ -39,7 +39,7 @@ namespace Intellenum
         // as the syntax/semantics are read in the generator
         // using parameter indexes (i.e. it expected param 0 to be the underlying type etc).
         public IntellenumAttribute(
-            Type? underlyingType = null!,
+            Type? underlyingType = null,
             Conversions conversions = Conversions.Default,
             Customizations customizations = Customizations.None,
             DebuggerAttributeGeneration debuggerAttributes = DebuggerAttributeGeneration.Default)

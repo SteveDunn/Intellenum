@@ -12,9 +12,9 @@
     }
 
     [Intellenum<float>(conversions: Conversions.None)]
-    public partial class FloatVo
+    public partial class FloatEnum
     {
-        static FloatVo()
+        static FloatEnum()
         {
             Instance("Item1", 1.23f);
             Instance("Item2", 3.21f);
@@ -22,9 +22,9 @@
     }
 
     [Intellenum<float>(conversions: Conversions.None)]
-    public partial class NoConverterFloatVo
+    public partial class NoConverterFloatEnum
     {
-        static NoConverterFloatVo()
+        static NoConverterFloatEnum()
         {
             Instance("Item1", 1.23f);
             Instance("Item2", 3.21f);
@@ -32,9 +32,9 @@
     }
 
     [Intellenum<float>(conversions: Conversions.TypeConverter)]
-    public partial class NoJsonFloatVo
+    public partial class NoJsonFloatEnum
     {
-        static NoJsonFloatVo()
+        static NoJsonFloatEnum()
         {
             Instance("Item1", 1.23f);
             Instance("Item2", 3.21f);
@@ -42,9 +42,9 @@
     }
 
     [Intellenum<float>(conversions: Conversions.NewtonsoftJson)]
-    public partial class NewtonsoftJsonFloatVo
+    public partial class NewtonsoftJsonFloatEnum
     {
-        static NewtonsoftJsonFloatVo()
+        static NewtonsoftJsonFloatEnum()
         {
             Instance("Item1", 1.23f);
             Instance("Item2", 3.21f);
@@ -54,35 +54,35 @@
     [Intellenum<float>(conversions: Conversions.SystemTextJson)]
     [Instance("Item1", 1f)]
     [Instance("Item2", 2f)]
-    public partial class SystemTextJsonFloatVo
+    public partial class SystemTextJsonFloatEnum
     {
     }
 
     [Intellenum<float>(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson)]
     [Instance("Item1", 1f)]
     [Instance("Item2", 2f)]
-    public partial class BothJsonFloatVo
+    public partial class BothJsonFloatEnum
     {
     }
 
     [Intellenum<float>(conversions: Conversions.EfCoreValueConverter)]
     [Instance("Item1", 1f)]
     [Instance("Item2", 2f)]
-    public partial class EfCoreFloatVo
+    public partial class EfCoreFloatEnum
     {
     }
 
     [Intellenum<float>(conversions: Conversions.DapperTypeHandler)]
     [Instance("Item1", 1f)]
     [Instance("Item2", 2f)]
-    public partial class DapperFloatVo
+    public partial class DapperFloatEnum
     {
     }
 
     [Intellenum<float>(conversions: Conversions.LinqToDbValueConverter)]
     [Instance("Item1", 1f)]
     [Instance("Item2", 2f)]
-    public partial class LinqToDbFloatVo
+    public partial class LinqToDbFloatEnum
     {
     }
 }

@@ -87,7 +87,7 @@ namespace Intellenum
                 yield break;
             }
 
-            foreach (var eachTarget in targets)
+            foreach (VoTarget? eachTarget in targets)
             {
                 if (eachTarget is null)
                 {

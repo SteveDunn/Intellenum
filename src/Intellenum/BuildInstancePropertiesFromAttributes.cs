@@ -17,59 +17,72 @@ namespace Intellenum
             return allAttributes.Select(a => Build(a, context, voClass, underlyingType));
         }
 
+        // ReSharper disable once CognitiveComplexity
         private static InstanceProperties? Build(AttributeData matchingAttribute, SourceProductionContext context, INamedTypeSymbol voClass, INamedTypeSymbol? underlyingType)
         {
             // try build it from non-named arguments
+
+            var constructorArgs = matchingAttribute.ConstructorArguments;
             
-            if (!matchingAttribute.ConstructorArguments.IsEmpty)
+            if (!constructorArgs.IsEmpty)
             {
                 // make sure we don't have any errors
-                ImmutableArray<TypedConstant> args = matchingAttribute.ConstructorArguments;
+                ImmutableArray<TypedConstant> args = constructorArgs;
 
-                foreach (TypedConstant arg in args)
+                if (HasAnyErrors(args))
                 {
-                    if (arg.Kind == TypedConstantKind.Error)
-                    {
-                        return null;
-                    }
+                    return null;
                 }
-                
+
                 return TryBuild(args[0], args[1], args[2], voClass, context, underlyingType);
             }
 
             // try build it from named arguments
-            if (!matchingAttribute.NamedArguments.IsEmpty)
+            var namedArgs = matchingAttribute.NamedArguments;
+            
+            if (namedArgs.IsEmpty)
             {
-                TypedConstant nameConstant = default;
-                TypedConstant valueConstant = default;
-                TypedConstant commentConstant = default;
-
-                foreach (KeyValuePair<string, TypedConstant> arg in matchingAttribute.NamedArguments)
-                {
-                    TypedConstant typedConstant = arg.Value;
-                    if (typedConstant.Kind == TypedConstantKind.Error)
-                    {
-                        return null;
-                    }
-
-                    switch (arg.Key)
-                    {
-                        case "name":
-                            nameConstant = typedConstant;
-                            break;
-                        case "value":
-                            valueConstant = typedConstant;
-                            break;
-                        case "tripleSlashComments":
-                            commentConstant = typedConstant;
-                            break;
-                    }
-                }
-
-                return TryBuild(nameConstant, valueConstant, commentConstant, voClass, context, underlyingType);
+                return null;
             }
 
-            return null;
+            if (namedArgs.Any(a => a.Value.Kind == TypedConstantKind.Error))
+            {
+                return null;
+            }
+
+            TypedConstant nameConstant = default;
+            TypedConstant valueConstant = default;
+            TypedConstant commentConstant = default;
+
+            foreach (KeyValuePair<string, TypedConstant> arg in namedArgs)
+            {
+                TypedConstant typedConstant = arg.Value;
+
+                switch (arg.Key)
+                {
+                    case "name":
+                        nameConstant = typedConstant;
+                        break;
+                    case "value":
+                        valueConstant = typedConstant;
+                        break;
+                    case "tripleSlashComments":
+                        commentConstant = typedConstant;
+                        break;
+                }
+            }
+
+            return TryBuild(nameConstant, valueConstant, commentConstant, voClass, context, underlyingType);
+        }
+
+        private static bool HasAnyErrors(ImmutableArray<TypedConstant> args)
+        {
+            if (args.Any(arg => arg.Kind == TypedConstantKind.Error))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private static InstanceProperties? TryBuild(
@@ -99,8 +112,9 @@ namespace Intellenum
             }
 
             var r = InstanceGeneration.TryBuildInstanceValueAsText(
-                (string)nameConstant.Value!, 
-                valueConstant.Value!, underlyingType?.FullName());
+                (string) nameConstant.Value!,
+                valueConstant.Value!,
+                underlyingType?.FullName());
 
             if (!r.Success)
             {
