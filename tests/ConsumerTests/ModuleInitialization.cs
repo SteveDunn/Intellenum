@@ -10,8 +10,8 @@ public static class ModuleInitialization
     [ModuleInitializer]
     public static void Init()
     {
-        SqlMapper.AddTypeHandler(new ConsumerTests.DeserializationTests.MyVoInt.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new ConsumerTests.DeserializationTests.MyVoString.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new ConsumerTests.DeserializationTests.MyIntEnum.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new ConsumerTests.DeserializationTests.MyStringEnum.DapperTypeHandler());
 
 #if NET6_0_OR_GREATER
         MappingSchema.Default.SetConverter<DateTime, TimeOnly>(dt => TimeOnly.FromDateTime(dt));

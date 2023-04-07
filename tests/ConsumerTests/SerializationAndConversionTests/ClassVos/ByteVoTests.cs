@@ -50,10 +50,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToShort_WithNewtonsoftJsonProvider()
         {
-            var vo = NewtonsoftJsonByteVo.Item1;
+            var ie = NewtonsoftJsonByteVo.Item1;
 
-            string serializedVo = NewtonsoftJsonSerializer.SerializeObject(vo);
-            string serializedShort = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
+            string serializedVo = NewtonsoftJsonSerializer.SerializeObject(ie);
+            string serializedShort = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
 
             Assert.Equal(serializedVo, serializedShort);
         }
@@ -61,10 +61,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToShort_WithSystemTextJsonProvider()
         {
-            var vo = SystemTextJsonByteVo.Item1;
+            var ie = SystemTextJsonByteVo.Item1;
 
-            string serializedVo = SystemTextJsonSerializer.Serialize(vo);
-            string serializedShort = SystemTextJsonSerializer.Serialize(vo.Value);
+            string serializedVo = SystemTextJsonSerializer.Serialize(ie);
+            string serializedShort = SystemTextJsonSerializer.Serialize(ie.Value);
 
             serializedVo.Equals(serializedShort).Should().BeTrue();
         }
@@ -73,36 +73,36 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         public void CanDeserializeFromShort_WithNewtonsoftJsonProvider()
         {
             byte value = 1;
-            var vo = NewtonsoftJsonByteVo.Item1;
+            var ie = NewtonsoftJsonByteVo.Item1;
             var serializedShort = NewtonsoftJsonSerializer.SerializeObject(value);
 
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonByteVo>(serializedShort);
 
-            Assert.Equal(vo, deserializedVo);
+            Assert.Equal(ie, deserializedVo);
         }
 
         [Fact]
         public void CanDeserializeFromShort_WithSystemTextJsonProvider()
         {
             byte value = 1;
-            var vo = SystemTextJsonByteVo.Item1;
+            var ie = SystemTextJsonByteVo.Item1;
             var serializedShort = SystemTextJsonSerializer.Serialize(value);
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonByteVo>(serializedShort);
 
-            Assert.Equal(vo, deserializedVo);
+            Assert.Equal(ie, deserializedVo);
         }
 
         [Fact]
         public void CanSerializeToShort_WithBothJsonConverters()
         {
-            var vo = BothJsonByteVo.Item1;
+            var ie = BothJsonByteVo.Item1;
 
-            var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(vo);
-            var serializedShort1 = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
+            var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(ie);
+            var serializedShort1 = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
 
-            var serializedVo2 = SystemTextJsonSerializer.Serialize(vo);
-            var serializedShort2 = SystemTextJsonSerializer.Serialize(vo.Value);
+            var serializedVo2 = SystemTextJsonSerializer.Serialize(ie);
+            var serializedShort2 = SystemTextJsonSerializer.Serialize(ie.Value);
 
             Assert.Equal(serializedVo1, serializedShort1);
             Assert.Equal(serializedVo2, serializedShort2);
@@ -111,11 +111,11 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
-            var vo = NoJsonByteVo.Item1;
+            var ie = NoJsonByteVo.Item1;
 
-            var serialized = SystemTextJsonSerializer.Serialize(vo);
+            var serialized = SystemTextJsonSerializer.Serialize(ie);
 
-            var expected = "{\"Value\":" + vo.Value + ",\"Name\":\"Item1\"}";
+            var expected = "{\"Value\":" + ie.Value + ",\"Name\":\"Item1\"}";
 
             Assert.Equal(expected, serialized);
         }
@@ -123,11 +123,11 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var vo = NoJsonByteVo.Item1;
+            var ie = NoJsonByteVo.Item1;
 
-            var serialized = NewtonsoftJsonSerializer.SerializeObject(vo);
+            var serialized = NewtonsoftJsonSerializer.SerializeObject(ie);
 
-            var expected = $"\"{vo.Value}\"";
+            var expected = $"\"{ie.Value}\"";
 
             Assert.Equal(expected, serialized);
         }
@@ -135,12 +135,12 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
-            var vo = NoConverterByteVo.Item1;
+            var ie = NoConverterByteVo.Item1;
 
-            var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
-            var systemText = SystemTextJsonSerializer.Serialize(vo);
+            var newtonsoft = SystemTextJsonSerializer.Serialize(ie);
+            var systemText = SystemTextJsonSerializer.Serialize(ie);
 
-            var expected = "{\"Value\":" + vo.Value + ",\"Name\":\"Item1\"}";
+            var expected = "{\"Value\":" + ie.Value + ",\"Name\":\"Item1\"}";
 
             Assert.Equal(expected, newtonsoft);
             Assert.Equal(expected, systemText);

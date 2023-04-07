@@ -21,7 +21,7 @@ public class IntDeserializationTests
         using var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();
         
-        var actual = (await connection.QueryAsync<MyVoInt>("SELECT 1")).AsList()[0].Value;
+        var actual = (await connection.QueryAsync<MyIntEnum>("SELECT 1")).AsList()[0].Value;
 
         actual.Should().Be(1);
     }
@@ -32,9 +32,9 @@ public class IntDeserializationTests
         using var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();
         
-        Func<Task<int>> vo = async () => (await connection.QueryAsync<MyVoInt>("SELECT 0")).AsList()[0].Value;
+        Func<Task<int>> vo = async () => (await connection.QueryAsync<MyIntEnum>("SELECT 0")).AsList()[0].Value;
 
-        await vo.Should().ThrowExactlyAsync<IntellenumMatchFailedException>().WithMessage("MyVoInt has no matching instances with a value of '0'");
+        await vo.Should().ThrowExactlyAsync<IntellenumMatchFailedException>().WithMessage("MyIntEnum has no matching instances with a value of '0'");
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class IntDeserializationTests
         using (var context = new DeserializationValidationDbContext(options))
         {
             Func<Task<int>> vo = async () => (await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.SingleAsync(context.IntEntities!.FromSqlRaw("SELECT 0 As Id"))).Id!.Value;
-            await vo.Should().ThrowExactlyAsync<IntellenumMatchFailedException>().WithMessage("MyVoInt has no matching instances with a value of '0'");
+            await vo.Should().ThrowExactlyAsync<IntellenumMatchFailedException>().WithMessage("MyIntEnum has no matching instances with a value of '0'");
         }
     }
     [Fact]
@@ -93,17 +93,17 @@ public class IntDeserializationTests
         using (var context = new DeserializationValidationDataConnection(connection))
         {
             Func<Task<int>> vo = async () => (await LinqToDB.AsyncExtensions.SingleAsync(context.FromSql<DeserializationValidationTestLinqToDbTestIntEntity>("SELECT 0 As Id"))).Id!.Value;
-            await vo.Should().ThrowExactlyAsync<IntellenumMatchFailedException>().WithMessage("MyVoInt has no matching instances with a value of '0'");
+            await vo.Should().ThrowExactlyAsync<IntellenumMatchFailedException>().WithMessage("MyIntEnum has no matching instances with a value of '0'");
         }
     }
 
     [Fact]
     public void TypeConversion_should_not_bypass_validation_pass()
     {
-        var converter = TypeDescriptor.GetConverter(typeof(MyVoInt));
+        var converter = TypeDescriptor.GetConverter(typeof(MyIntEnum));
         var validValue = 1;
 
-        var actual = ((MyVoInt?)converter.ConvertFrom(validValue))!.Value;
+        var actual = ((MyIntEnum?)converter.ConvertFrom(validValue))!.Value;
 
         actual.Should().Be(1);
     }
@@ -111,20 +111,20 @@ public class IntDeserializationTests
     [Fact]
     public void TypeConversion_should_throw_on_no_match()
     {
-        var converter = TypeDescriptor.GetConverter(typeof(MyVoInt));
+        var converter = TypeDescriptor.GetConverter(typeof(MyIntEnum));
         var invalidValue = 0;
 
         Action vo = () => converter.ConvertFrom(invalidValue);
 
-        vo.Should().ThrowExactly<IntellenumMatchFailedException>().WithMessage("MyVoInt has no matching instances with a value of '0'");
+        vo.Should().ThrowExactly<IntellenumMatchFailedException>().WithMessage("MyIntEnum has no matching instances with a value of '0'");
     }
 
     [Fact]
     public void Deserialization_systemtextjson_should_not_bypass_validation_pass()
     {
-        var validValue = SystemTextJsonSerializer.Serialize(MyVoInt.Item1);
+        var validValue = SystemTextJsonSerializer.Serialize(MyIntEnum.Item1);
 
-        var actual = SystemTextJsonSerializer.Deserialize<MyVoInt>(validValue)!.Value;
+        var actual = SystemTextJsonSerializer.Deserialize<MyIntEnum>(validValue)!.Value;
 
         actual.Should().Be(1);
     }
@@ -132,19 +132,19 @@ public class IntDeserializationTests
     [Fact]
     public void Deserialization_systemtextjson_should_throw_on_no_match()
     {
-        var invalidValue = SystemTextJsonSerializer.Serialize(MyVoInt.Item1).Replace("1", "0");
+        var invalidValue = SystemTextJsonSerializer.Serialize(MyIntEnum.Item1).Replace("1", "0");
 
-        Action vo = () => SystemTextJsonSerializer.Deserialize<MyVoInt>(invalidValue);
+        Action vo = () => SystemTextJsonSerializer.Deserialize<MyIntEnum>(invalidValue);
 
-        vo.Should().ThrowExactly<IntellenumMatchFailedException>().WithMessage("MyVoInt has no matching instances with a value of '0'");
+        vo.Should().ThrowExactly<IntellenumMatchFailedException>().WithMessage("MyIntEnum has no matching instances with a value of '0'");
     }
 
     [Fact]
     public void Deserialization_newtonsoft_should_not_bypass_validation_pass()
     {
-        var validValue = NewtonsoftJsonSerializer.SerializeObject(MyVoInt.Item1);
+        var validValue = NewtonsoftJsonSerializer.SerializeObject(MyIntEnum.Item1);
 
-        var actual = NewtonsoftJsonSerializer.DeserializeObject<MyVoInt>(validValue)!.Value;
+        var actual = NewtonsoftJsonSerializer.DeserializeObject<MyIntEnum>(validValue)!.Value;
         
         actual.Should().Be(1);
     }
@@ -152,11 +152,11 @@ public class IntDeserializationTests
     [Fact]
     public void Deserialization_newtonsoft_should_throw_on_no_match()
     {
-        var invalidValue = NewtonsoftJsonSerializer.SerializeObject(MyVoInt.Item1).Replace("1", "0");
+        var invalidValue = NewtonsoftJsonSerializer.SerializeObject(MyIntEnum.Item1).Replace("1", "0");
 
-        Func<int> vo = () => NewtonsoftJsonSerializer.DeserializeObject<MyVoInt>(invalidValue)!.Value;
+        Func<int> vo = () => NewtonsoftJsonSerializer.DeserializeObject<MyIntEnum>(invalidValue)!.Value;
 
-        vo.Should().ThrowExactly<IntellenumMatchFailedException>().WithMessage("MyVoInt has no matching instances with a value of '0'");
+        vo.Should().ThrowExactly<IntellenumMatchFailedException>().WithMessage("MyIntEnum has no matching instances with a value of '0'");
     }
 
 }

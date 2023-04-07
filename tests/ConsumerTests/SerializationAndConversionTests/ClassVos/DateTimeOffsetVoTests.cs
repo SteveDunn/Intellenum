@@ -73,10 +73,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToString_WithSystemTextJsonProvider()
         {
-            var vo = SystemTextJsonDateTimeOffsetVo.JanFirst;
+            var ie = SystemTextJsonDateTimeOffsetVo.JanFirst;
 
-            string serializedVo = SystemTextJsonSerializer.Serialize(vo);
-            string serializedString = SystemTextJsonSerializer.Serialize(vo.Value);
+            string serializedVo = SystemTextJsonSerializer.Serialize(ie);
+            string serializedString = SystemTextJsonSerializer.Serialize(ie.Value);
 
             serializedVo.Equals(serializedString).Should().BeTrue();
         }
@@ -85,36 +85,36 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         public void CanDeserializeFromString_WithNewtonsoftJsonProvider()
         {
             var value = NewtonsoftJsonDateTimeOffsetVo.JanFirst.Value;
-            var vo = NewtonsoftJsonDateTimeOffsetVo.JanFirst;
+            var ie = NewtonsoftJsonDateTimeOffsetVo.JanFirst;
             var serializedString = NewtonsoftJsonSerializer.SerializeObject(value);
 
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonDateTimeOffsetVo>(serializedString);
 
-            Assert.Equal(vo, deserializedVo);
+            Assert.Equal(ie, deserializedVo);
         }
 
         [Fact]
         public void CanDeserializeFromString_WithSystemTextJsonProvider()
         {
             var value = NewtonsoftJsonDateTimeOffsetVo.JanFirst.Value;
-            var vo = SystemTextJsonDateTimeOffsetVo.JanFirst;
+            var ie = SystemTextJsonDateTimeOffsetVo.JanFirst;
             var serializedString = SystemTextJsonSerializer.Serialize(value);
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDateTimeOffsetVo>(serializedString);
 
-            Assert.Equal(vo, deserializedVo);
+            Assert.Equal(ie, deserializedVo);
         }
 
         [Fact]
         public void CanSerializeToString_WithBothJsonConverters()
         {
-            var vo = BothJsonDateTimeOffsetVo.JanFirst;
+            var ie = BothJsonDateTimeOffsetVo.JanFirst;
 
-            var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(vo);
-            var serializedString1 = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
+            var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(ie);
+            var serializedString1 = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
 
-            var serializedVo2 = SystemTextJsonSerializer.Serialize(vo);
-            var serializedString2 = SystemTextJsonSerializer.Serialize(vo.Value);
+            var serializedVo2 = SystemTextJsonSerializer.Serialize(ie);
+            var serializedString2 = SystemTextJsonSerializer.Serialize(ie.Value);
 
             Assert.Equal(serializedVo1, serializedString1);
             Assert.Equal(serializedVo2, serializedString2);
@@ -123,9 +123,9 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
-            var vo = NoJsonDateTimeOffsetVo.JanFirst;
+            var ie = NoJsonDateTimeOffsetVo.JanFirst;
 
-            var serialized = SystemTextJsonSerializer.Serialize(vo);
+            var serialized = SystemTextJsonSerializer.Serialize(ie);
 
             var expected = """
                 {"Value":"2019-01-01T14:15:16+00:00","Name":"JanFirst"}
@@ -137,9 +137,9 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var vo = NoJsonDateTimeOffsetVo.JanFirst;
+            var ie = NoJsonDateTimeOffsetVo.JanFirst;
 
-            var serialized = NewtonsoftJsonSerializer.SerializeObject(vo);
+            var serialized = NewtonsoftJsonSerializer.SerializeObject(ie);
 
             var expected = "\"2019-01-01T14:15:16.0000000+00:00\"";
             Assert.Equal(expected, serialized);
@@ -148,10 +148,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
-            var vo = NoConverterDateTimeOffsetVo.JanFirst;
+            var ie = NoConverterDateTimeOffsetVo.JanFirst;
 
-            var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
-            var systemText = SystemTextJsonSerializer.Serialize(vo);
+            var newtonsoft = SystemTextJsonSerializer.Serialize(ie);
+            var systemText = SystemTextJsonSerializer.Serialize(ie);
 
             var expected = """{"Value":"2019-01-01T14:15:16+00:00","Name":"JanFirst"}""";
 

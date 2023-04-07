@@ -58,10 +58,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToShort_WithNewtonsoftJsonProvider()
         {
-            var vo = NewtonsoftJsonShortVo.Item1;
+            var ie = NewtonsoftJsonShortVo.Item1;
 
-            string serializedVo = NewtonsoftJsonSerializer.SerializeObject(vo);
-            string serializedShort = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
+            string serializedVo = NewtonsoftJsonSerializer.SerializeObject(ie);
+            string serializedShort = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
 
             Assert.Equal(serializedVo, serializedShort);
         }
@@ -69,10 +69,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToShort_WithSystemTextJsonProvider()
         {
-            var vo = SystemTextJsonShortVo.Item1;
+            var ie = SystemTextJsonShortVo.Item1;
 
-            string serializedVo = SystemTextJsonSerializer.Serialize(vo);
-            string serializedShort = SystemTextJsonSerializer.Serialize(vo.Value);
+            string serializedVo = SystemTextJsonSerializer.Serialize(ie);
+            string serializedShort = SystemTextJsonSerializer.Serialize(ie.Value);
 
             serializedVo.Equals(serializedShort).Should().BeTrue();
         }
@@ -81,47 +81,47 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         public void CanDeserializeFromShort_WithNewtonsoftJsonProvider()
         {
             short value = 1;
-            var vo = NewtonsoftJsonShortVo.Item1;
+            var ie = NewtonsoftJsonShortVo.Item1;
             var serializedShort = NewtonsoftJsonSerializer.SerializeObject(value);
 
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonShortVo>(serializedShort);
 
-            Assert.Equal(vo, deserializedVo);
+            Assert.Equal(ie, deserializedVo);
         }
 
         [Fact]
         public void CanDeserializeFromShort_WithSystemTextJsonProvider()
         {
             short value = 1;
-            var vo = SystemTextJsonShortVo.Item1;
+            var ie = SystemTextJsonShortVo.Item1;
             var serializedShort = SystemTextJsonSerializer.Serialize(value);
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonShortVo>(serializedShort);
 
-            Assert.Equal(vo, deserializedVo);
+            Assert.Equal(ie, deserializedVo);
         }
 
         [Fact]
         public void CanDeserializeFromShort_WithSystemTextJsonProvider_treating_numbers_as_string()
         {
-            var vo = SystemTextJsonShortVo_Treating_numbers_as_string.Item1;
-            var serializedShort = SystemTextJsonSerializer.Serialize(vo);
+            var ie = SystemTextJsonShortVo_Treating_numbers_as_string.Item1;
+            var serializedShort = SystemTextJsonSerializer.Serialize(ie);
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonShortVo_Treating_numbers_as_string>(serializedShort);
 
-            Assert.Equal(vo, deserializedVo);
+            Assert.Equal(ie, deserializedVo);
         }
 
         [Fact]
         public void CanSerializeToShort_WithBothJsonConverters()
         {
-            var vo = BothJsonShortVo.Item1;
+            var ie = BothJsonShortVo.Item1;
 
-            var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(vo);
-            var serializedShort1 = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
+            var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(ie);
+            var serializedShort1 = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
 
-            var serializedVo2 = SystemTextJsonSerializer.Serialize(vo);
-            var serializedShort2 = SystemTextJsonSerializer.Serialize(vo.Value);
+            var serializedVo2 = SystemTextJsonSerializer.Serialize(ie);
+            var serializedShort2 = SystemTextJsonSerializer.Serialize(ie.Value);
 
             Assert.Equal(serializedVo1, serializedShort1);
             Assert.Equal(serializedVo2, serializedShort2);
@@ -130,11 +130,11 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
-            var vo = NoJsonShortVo.Item1;
+            var ie = NoJsonShortVo.Item1;
 
-            var serialized = SystemTextJsonSerializer.Serialize(vo);
+            var serialized = SystemTextJsonSerializer.Serialize(ie);
 
-            var expected = "{\"Value\":" + vo.Value + ",\"Name\":\"Item1\"}";
+            var expected = "{\"Value\":" + ie.Value + ",\"Name\":\"Item1\"}";
 
             Assert.Equal(expected, serialized);
         }
@@ -142,11 +142,11 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var vo = NoJsonShortVo.Item1;
+            var ie = NoJsonShortVo.Item1;
 
-            var serialized = NewtonsoftJsonSerializer.SerializeObject(vo);
+            var serialized = NewtonsoftJsonSerializer.SerializeObject(ie);
 
-            var expected = $"\"{vo.Value}\"";
+            var expected = $"\"{ie.Value}\"";
 
             Assert.Equal(expected, serialized);
         }
@@ -154,10 +154,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
-            var vo = NoConverterShortVo.Item1;
+            var ie = NoConverterShortVo.Item1;
 
-            var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
-            var systemText = SystemTextJsonSerializer.Serialize(vo);
+            var newtonsoft = SystemTextJsonSerializer.Serialize(ie);
+            var systemText = SystemTextJsonSerializer.Serialize(ie);
 
             var expected = """{"Value":1,"Name":"Item1"}""";
 

@@ -53,10 +53,10 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToLong_WithNewtonsoftJsonProvider()
         {
-            var vo = NewtonsoftJsonDoubleVo.Item1;
+            var ie = NewtonsoftJsonDoubleVo.Item1;
 
-            string serializedVo = NewtonsoftJsonSerializer.SerializeObject(vo);
-            string serializedLong = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
+            string serializedVo = NewtonsoftJsonSerializer.SerializeObject(ie);
+            string serializedLong = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
 
             Assert.Equal(serializedVo, serializedLong);
         }
@@ -64,10 +64,10 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToLong_WithSystemTextJsonProvider()
         {
-            var vo = SystemTextJsonDoubleVo.Item1;
+            var ie = SystemTextJsonDoubleVo.Item1;
 
-            string serializedVo = SystemTextJsonSerializer.Serialize(vo);
-            string serializedLong = SystemTextJsonSerializer.Serialize(vo.Value);
+            string serializedVo = SystemTextJsonSerializer.Serialize(ie);
+            string serializedLong = SystemTextJsonSerializer.Serialize(ie.Value);
 
             serializedVo.Equals(serializedLong).Should().BeTrue();
         }
@@ -76,47 +76,47 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         public void CanDeserializeFromLong_WithNewtonsoftJsonProvider()
         {
             var value = 1.1D;
-            var vo = NewtonsoftJsonDoubleVo.Item1;
+            var ie = NewtonsoftJsonDoubleVo.Item1;
             var serializedLong = NewtonsoftJsonSerializer.SerializeObject(value);
 
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonDoubleVo>(serializedLong);
 
-            Assert.Equal(vo, deserializedVo);
+            Assert.Equal(ie, deserializedVo);
         }
 
         [Fact]
         public void CanDeserializeFromLong_WithSystemTextJsonProvider()
         {
             var value = 1.1D;
-            var vo = SystemTextJsonDoubleVo.Item1;
+            var ie = SystemTextJsonDoubleVo.Item1;
             var serializedLong = SystemTextJsonSerializer.Serialize(value);
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDoubleVo>(serializedLong);
 
-            Assert.Equal(vo, deserializedVo);
+            Assert.Equal(ie, deserializedVo);
         }
 
         [Fact]
         public void CanDeserializeFromLong_WithSystemTextJsonProvider_treating_numbers_as_string()
         {
-            var vo = SystemTextJsonDoubleVo_number_as_string.Item1;
-            var serializedLong = SystemTextJsonSerializer.Serialize(vo);
+            var ie = SystemTextJsonDoubleVo_number_as_string.Item1;
+            var serializedLong = SystemTextJsonSerializer.Serialize(ie);
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDoubleVo_number_as_string>(serializedLong);
 
-            Assert.Equal(vo, deserializedVo);
+            Assert.Equal(ie, deserializedVo);
         }
 
         [Fact]
         public void CanSerializeToLong_WithBothJsonConverters()
         {
-            var vo = BothJsonDoubleVo.Item1;
+            var ie = BothJsonDoubleVo.Item1;
 
-            var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(vo);
-            var serializedLong1 = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
+            var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(ie);
+            var serializedLong1 = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
 
-            var serializedVo2 = SystemTextJsonSerializer.Serialize(vo);
-            var serializedLong2 = SystemTextJsonSerializer.Serialize(vo.Value);
+            var serializedVo2 = SystemTextJsonSerializer.Serialize(ie);
+            var serializedLong2 = SystemTextJsonSerializer.Serialize(ie.Value);
 
             Assert.Equal(serializedVo1, serializedLong1);
             Assert.Equal(serializedVo2, serializedLong2);
@@ -125,9 +125,9 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
-            var vo = NoJsonDoubleVo.Item1;
+            var ie = NoJsonDoubleVo.Item1;
 
-            var serialized = SystemTextJsonSerializer.Serialize(vo);
+            var serialized = SystemTextJsonSerializer.Serialize(ie);
 
 #if NET5_0_OR_GREATER || NETCOREAPP3_1
             var expected = """{"Value":1.1,"Name":"Item1"}""";
@@ -141,11 +141,11 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var vo = NoJsonDoubleVo.Item1;
+            var ie = NoJsonDoubleVo.Item1;
 
-            var serialized = NewtonsoftJsonSerializer.SerializeObject(vo);
+            var serialized = NewtonsoftJsonSerializer.SerializeObject(ie);
 
-            var expected = $"\"{vo.Value}\"";
+            var expected = $"\"{ie.Value}\"";
 
             Assert.Equal(expected, serialized);
         }
@@ -153,10 +153,10 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
-            var vo = NoConverterDoubleVo.Item1;
+            var ie = NoConverterDoubleVo.Item1;
 
-            var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
-            var systemText = SystemTextJsonSerializer.Serialize(vo);
+            var newtonsoft = SystemTextJsonSerializer.Serialize(ie);
+            var systemText = SystemTextJsonSerializer.Serialize(ie);
 
 #if NET5_0_OR_GREATER || NETCOREAPP3_1
             var expected = """{"Value":1.1,"Name":"Item1"}""";
@@ -251,9 +251,9 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void RoundTrip_WithNsj()
         {
-            var vo = NewtonsoftJsonDoubleVo.Item1;
+            var ie = NewtonsoftJsonDoubleVo.Item1;
 
-            string serializedVo = NewtonsoftJsonSerializer.SerializeObject(vo);
+            string serializedVo = NewtonsoftJsonSerializer.SerializeObject(ie);
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonDoubleVo>(serializedVo)!;
 
             deserializedVo.Value.Should().Be(1.1D);
@@ -262,9 +262,9 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void RoundTrip_WithStj()
         {
-            var vo = SystemTextJsonDoubleVo.Item1;
+            var ie = SystemTextJsonDoubleVo.Item1;
 
-            string serializedVo = SystemTextJsonSerializer.Serialize(vo);
+            string serializedVo = SystemTextJsonSerializer.Serialize(ie);
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDoubleVo>(serializedVo)!;
 
             deserializedVo.Value.Should().Be(1.1D);
@@ -273,9 +273,9 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void RoundTrip_WithStj_Treating_numbers_as_string()
         {
-            var vo = SystemTextJsonDoubleVo_number_as_string.Item1;
+            var ie = SystemTextJsonDoubleVo_number_as_string.Item1;
 
-            string serializedVo = SystemTextJsonSerializer.Serialize(vo);
+            string serializedVo = SystemTextJsonSerializer.Serialize(ie);
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDoubleVo_number_as_string>(serializedVo)!;
 
             deserializedVo.Value.Should().Be(1.1D);

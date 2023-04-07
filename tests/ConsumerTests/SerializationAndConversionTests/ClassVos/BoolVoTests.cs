@@ -53,10 +53,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToShort_WithNewtonsoftJsonProvider()
         {
-            var vo = NewtonsoftJsonBoolVo.Yes;
+            var ie = NewtonsoftJsonBoolVo.Yes;
 
-            string serializedVo = NewtonsoftJsonSerializer.SerializeObject(vo);
-            string serializedBool = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
+            string serializedVo = NewtonsoftJsonSerializer.SerializeObject(ie);
+            string serializedBool = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
 
             Assert.Equal(serializedVo, serializedBool);
         }
@@ -64,10 +64,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToShort_WithSystemTextJsonProvider()
         {
-            var vo = SystemTextJsonBoolVo.Yes;
+            var ie = SystemTextJsonBoolVo.Yes;
 
-            string serializedVo = SystemTextJsonSerializer.Serialize(vo);
-            string serializedShort = SystemTextJsonSerializer.Serialize(vo.Value);
+            string serializedVo = SystemTextJsonSerializer.Serialize(ie);
+            string serializedShort = SystemTextJsonSerializer.Serialize(ie.Value);
 
             serializedVo.Equals(serializedShort).Should().BeTrue();
         }
@@ -76,36 +76,36 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         public void CanDeserializeFromShort_WithNewtonsoftJsonProvider()
         {
             bool value = true;
-            var vo = NewtonsoftJsonBoolVo.Yes;
+            var ie = NewtonsoftJsonBoolVo.Yes;
             var serializedShort = NewtonsoftJsonSerializer.SerializeObject(value);
 
             var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonBoolVo>(serializedShort);
 
-            Assert.Equal(vo, deserializedVo);
+            Assert.Equal(ie, deserializedVo);
         }
 
         [Fact]
         public void CanDeserializeFromShort_WithSystemTextJsonProvider()
         {
             bool value = true;
-            var vo = SystemTextJsonBoolVo.Yes;
+            var ie = SystemTextJsonBoolVo.Yes;
             var serializedShort = SystemTextJsonSerializer.Serialize(value);
 
             var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonBoolVo>(serializedShort);
 
-            Assert.Equal(vo, deserializedVo);
+            Assert.Equal(ie, deserializedVo);
         }
 
         [Fact]
         public void CanSerializeToShort_WithBothJsonConverters()
         {
-            var vo = BothJsonBoolVo.Yes;
+            var ie = BothJsonBoolVo.Yes;
 
-            var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(vo);
-            var serializedShort1 = NewtonsoftJsonSerializer.SerializeObject(vo.Value);
+            var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(ie);
+            var serializedShort1 = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
 
-            var serializedVo2 = SystemTextJsonSerializer.Serialize(vo);
-            var serializedShort2 = SystemTextJsonSerializer.Serialize(vo.Value);
+            var serializedVo2 = SystemTextJsonSerializer.Serialize(ie);
+            var serializedShort2 = SystemTextJsonSerializer.Serialize(ie.Value);
 
             Assert.Equal(serializedVo1, serializedShort1);
             Assert.Equal(serializedVo2, serializedShort2);
@@ -114,9 +114,9 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
-            var vo = NoJsonBoolVo.Yes;
+            var ie = NoJsonBoolVo.Yes;
 
-            var serialized = SystemTextJsonSerializer.Serialize(vo);
+            var serialized = SystemTextJsonSerializer.Serialize(ie);
 
             var expected = "{\"Value\":true,\"Name\":\"Yes\"}";
 
@@ -126,11 +126,11 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var vo = NoJsonBoolVo.Yes;
+            var ie = NoJsonBoolVo.Yes;
 
-            var serialized = NewtonsoftJsonSerializer.SerializeObject(vo);
+            var serialized = NewtonsoftJsonSerializer.SerializeObject(ie);
 
-            var expected = $"\"{(bool)vo.Value}\"";
+            var expected = $"\"{(bool)ie.Value}\"";
 
             Assert.Equal(expected, serialized);
         }
@@ -138,10 +138,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
-            var vo = NoConverterBoolVo.Yes;
+            var ie = NoConverterBoolVo.Yes;
 
-            var newtonsoft = SystemTextJsonSerializer.Serialize(vo);
-            var systemText = SystemTextJsonSerializer.Serialize(vo);
+            var newtonsoft = SystemTextJsonSerializer.Serialize(ie);
+            var systemText = SystemTextJsonSerializer.Serialize(ie);
 
             var expected = """{"Value":true,"Name":"Yes"}""";
 

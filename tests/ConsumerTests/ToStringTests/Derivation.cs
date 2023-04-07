@@ -7,7 +7,7 @@ public class Derivation
 {
     [Fact]
     public void ToString_uses_users_method() => 
-        Vo.Item1.ToString().Should().Be("ToString_Vo!");
+        TheEnum.Item1.ToString().Should().Be("ToString_Vo!");
 
     [Fact]
     public void ToString_uses_derived_method() => 
@@ -35,7 +35,7 @@ public class D3 : D2
 [Intellenum]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]
-public partial class Vo
+public partial class TheEnum
 {
     public override string ToString() => "ToString_Vo!";
 }

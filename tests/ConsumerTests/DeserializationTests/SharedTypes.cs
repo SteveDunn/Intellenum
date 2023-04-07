@@ -12,14 +12,14 @@ namespace ConsumerTests.DeserializationTests;
 [Intellenum(typeof(int), Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter)]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]
-public partial class MyVoInt
+public partial class MyIntEnum
 {
 }
 
 [Intellenum(typeof(string), Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter)]
 [Instance("Item1", "Item1!")]
 [Instance("Item2", "Item2!")]
-public partial class MyVoString
+public partial class MyStringEnum
 {
 }
 #endregion
@@ -42,7 +42,7 @@ public class DeserializationValidationDbContext : DbContext
             {
                 builder
                     .Property(x => x.Id)
-                    .HasConversion(new MyVoInt.EfCoreValueConverter())
+                    .HasConversion(new MyIntEnum.EfCoreValueConverter())
                     .ValueGeneratedNever();
             });
         modelBuilder
@@ -50,7 +50,7 @@ public class DeserializationValidationDbContext : DbContext
             {
                 builder
                     .Property(x => x.Id)
-                    .HasConversion(new MyVoString.EfCoreValueConverter())
+                    .HasConversion(new MyStringEnum.EfCoreValueConverter())
                     .ValueGeneratedNever();
             });
     }
@@ -74,12 +74,12 @@ public class DeserializationValidationDataConnection : DataConnection
 #region EF
 public class DeserializationValidationTestIntEntity
 {
-    public MyVoInt? Id { get; set; }
+    public MyIntEnum? Id { get; set; }
 }
 
 public class DeserializationValidationTestStringEntity
 {
-    public MyVoString? Id { get; set; }
+    public MyStringEnum? Id { get; set; }
 }
 #endregion
 
@@ -87,15 +87,15 @@ public class DeserializationValidationTestStringEntity
 public class DeserializationValidationTestLinqToDbTestIntEntity
 {
     [Column(DataType = DataType.Int32)]
-    [ValueConverter(ConverterType = typeof(MyVoInt.LinqToDbValueConverter))]
-    public MyVoInt? Id { get; set; }
+    [ValueConverter(ConverterType = typeof(MyIntEnum.LinqToDbValueConverter))]
+    public MyIntEnum? Id { get; set; }
 }
 
 public class DeserializationValidationTestLinqToDbTestStringEntity
 {
     [Column(DataType = DataType.VarChar)]
-    [ValueConverter(ConverterType = typeof(MyVoString.LinqToDbValueConverter))]
-    public MyVoString? Id { get; set; }
+    [ValueConverter(ConverterType = typeof(MyStringEnum.LinqToDbValueConverter))]
+    public MyStringEnum? Id { get; set; }
 }
 #endregion
 #endregion
