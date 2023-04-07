@@ -1,7 +1,4 @@
-﻿using FluentAssertions;
-using Intellenum;
-
-namespace ConsumerTests.ToStringTests;
+﻿namespace ConsumerTests.ToStringTests;
 
 public class Derivation
 {

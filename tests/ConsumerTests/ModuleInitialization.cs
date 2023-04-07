@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using Dapper;
 using LinqToDB.Mapping;
 
@@ -15,8 +14,8 @@ public static class ModuleInitialization
 
 #if NET6_0_OR_GREATER
         MappingSchema.Default.SetConverter<DateTime, TimeOnly>(dt => TimeOnly.FromDateTime(dt));
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperDateOnlyVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperTimeOnlyVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperDateOnlyVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperTimeOnlyVo.DapperTypeHandler());
 #endif
 
 #if NET7_0_OR_GREATER
@@ -24,19 +23,19 @@ public static class ModuleInitialization
         SqlMapper.AddTypeHandler(new ConsumerTests.GenericDeserializationTests.MyVoString.DapperTypeHandler());
 #endif
 
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperFooVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperCharVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperBoolVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperByteVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperDateTimeOffsetVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperDateTimeVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperIntVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperStringVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperLongVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperShortVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperFloatVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperDoubleVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperDecimalVo.DapperTypeHandler());
-        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestTypes.ClassVos.DapperGuidVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperFooVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperCharEnum.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperBoolVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperByteVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperDateTimeOffsetVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperDateTimeVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperIntVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperStringVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperLongVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperShortVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperFloatEnum.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperDoubleVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperDecimalVo.DapperTypeHandler());
+        SqlMapper.AddTypeHandler(new Intellenum.IntegrationTests.TestEnums.DapperGuidVo.DapperTypeHandler());
     }
 }

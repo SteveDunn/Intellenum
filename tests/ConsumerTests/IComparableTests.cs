@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentAssertions;
-using Intellenum;
-
-namespace ConsumerTests.IComparableTests
+﻿namespace ConsumerTests.IComparableTests
 {
 #if NET6_0_OR_GREATER
     [Intellenum(typeof(DateOnly))]

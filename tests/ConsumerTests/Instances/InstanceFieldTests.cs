@@ -1,6 +1,4 @@
-﻿using FluentAssertions;
-
-namespace ConsumerTests.Instances;
+﻿namespace ConsumerTests.Instances;
 
 public class InstanceFieldTests
 {

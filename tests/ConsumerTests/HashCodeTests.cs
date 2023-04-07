@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using @double;
-using @bool.@byte.@short.@float.@object;
-using FluentAssertions;
-using Intellenum;
-using Intellenum.Tests.Types;
+﻿using Intellenum.Tests.Types;
 
 namespace ConsumerTests.HashCodes
 {

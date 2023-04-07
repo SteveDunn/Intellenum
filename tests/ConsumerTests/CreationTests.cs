@@ -1,8 +1,5 @@
-using System;
 using @double;
 using @bool.@byte.@short.@float.@object;
-using FluentAssertions;
-using Intellenum;
 using Intellenum.Tests.Types;
 
 namespace NotSystem

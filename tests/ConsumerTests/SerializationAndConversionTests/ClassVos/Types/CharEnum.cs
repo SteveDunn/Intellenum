@@ -1,47 +1,50 @@
-﻿namespace Intellenum.IntegrationTests.TestTypes.ClassVos
+﻿// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable PartialTypeWithSinglePart
+
+namespace Intellenum.IntegrationTests.TestEnums
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(char))]
     [Instance("A", 'a')]
     [Instance("B", 'b')]
-    public partial class CharVo { }
+    public partial class CharEnum { }
 
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(char))]
     [Instance("A", 'a')]
     [Instance("B", 'b')]
-    public partial class NoConverterCharVo { }
+    public partial class NoConverterCharEnum { }
 
     [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(char))]
     [Instance("A", 'a')]
     [Instance("B", 'b')]
-    public partial class NoJsonCharVo { }
+    public partial class NoJsonCharEnum { }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(char))]
     [Instance("A", 'a')]
     [Instance("B", 'b')]
-    public partial class NewtonsoftJsonCharVo { }
+    public partial class NewtonsoftJsonCharEnum { }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(char))]
     [Instance("A", 'a')]
     [Instance("B", 'b')]
-    public partial class SystemTextJsonCharVo { }
+    public partial class SystemTextJsonCharEnum { }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(char))]
     [Instance("A", 'a')]
     [Instance("B", 'b')]
-    public partial class BothJsonCharVo { }
+    public partial class BothJsonCharEnum { }
 
     [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(char))]
     [Instance("A", 'a')]
     [Instance("B", 'b')]
-    public partial class EfCoreCharVo { }
+    public partial class EfCoreCharEnum { }
 
     [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(char))]
     [Instance("A", 'a')]
     [Instance("B", 'b')]
-    public partial class DapperCharVo { }
+    public partial class DapperCharEnum { }
 
     [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(char))]
     [Instance("A", 'a')]
     [Instance("B", 'b')]
-    public partial class LinqToDbCharVo { }
+    public partial class LinqToDbCharEnum { }
 }

@@ -1,6 +1,4 @@
-﻿using Intellenum;
-
-namespace ConsumerTests.DeserializationTests;
+﻿namespace ConsumerTests.DeserializationTests;
 
 [Intellenum(typeof(int), Conversions.TypeConverter)]
 [Instance("Item1", 1)]

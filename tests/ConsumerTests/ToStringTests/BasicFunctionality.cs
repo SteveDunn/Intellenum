@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Intellenum.Tests.Types;
+﻿using Intellenum.Tests.Types;
 
 namespace ConsumerTests.ToStringTests;
 

@@ -1,7 +1,4 @@
-﻿using FluentAssertions;
-using Intellenum;
-
-namespace ConsumerTests;
+﻿namespace ConsumerTests;
 
 public class ImpliedFieldNameTests
 {

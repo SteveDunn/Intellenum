@@ -12,7 +12,6 @@
 #pragma warning disable 1718
 
 using System.Diagnostics;
-using FluentAssertions;
 using Intellenum.Tests.Types;
 
 namespace ConsumerTests

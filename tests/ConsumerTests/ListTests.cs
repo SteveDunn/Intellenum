@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using FluentAssertions;
-using Intellenum.Tests.Types;
+﻿using Intellenum.Tests.Types;
 using Xunit.Abstractions;
 
 namespace ConsumerTests;

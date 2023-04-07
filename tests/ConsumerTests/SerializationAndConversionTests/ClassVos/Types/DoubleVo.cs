@@ -1,4 +1,4 @@
-﻿namespace Intellenum.IntegrationTests.TestTypes.ClassVos
+﻿namespace Intellenum.IntegrationTests.TestEnums
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(double))]
     [Instance("Item1", 1.1d)]

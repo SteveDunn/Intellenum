@@ -1,6 +1,4 @@
-﻿using Intellenum;
-
-namespace ConsumerTests.Instances;
+﻿namespace ConsumerTests.Instances;
 
 [Intellenum(typeof(int))]
 [Instance(name: "Invalid", value: -1)]

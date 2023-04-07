@@ -1,21 +1,16 @@
 ﻿// ReSharper disable NullableWarningSuppressionIsUsed
 #nullable disable
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using FluentAssertions;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
 using LinqToDB.Mapping;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Intellenum;
-using Intellenum.IntegrationTests.TestTypes.ClassVos;
+using Intellenum.IntegrationTests.TestEnums;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
 // ReSharper disable EqualExpressionComparison
@@ -35,26 +30,26 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void equality_between_same_value_objects()
         {
-            FloatVo.Item1.Equals(FloatVo.Item1).Should().BeTrue();
-            (FloatVo.Item1 == FloatVo.Item1).Should().BeTrue();
+            FloatEnum.Item1.Equals(FloatEnum.Item1).Should().BeTrue();
+            (FloatEnum.Item1 == FloatEnum.Item1).Should().BeTrue();
 
-            (FloatVo.Item1 != FloatVo.Item2).Should().BeTrue();
-            (FloatVo.Item1 == FloatVo.Item2).Should().BeFalse();
+            (FloatEnum.Item1 != FloatEnum.Item2).Should().BeTrue();
+            (FloatEnum.Item1 == FloatEnum.Item2).Should().BeFalse();
 
-            FloatVo.Item1.Equals(FloatVo.Item1).Should().BeTrue();
-            (FloatVo.Item1 == FloatVo.Item1).Should().BeTrue();
+            FloatEnum.Item1.Equals(FloatEnum.Item1).Should().BeTrue();
+            (FloatEnum.Item1 == FloatEnum.Item1).Should().BeTrue();
 
-            var original = FloatVo.Item1;
-            var other = FloatVo.Item1;
+            var original = FloatEnum.Item1;
+            var other = FloatEnum.Item1;
 
-            ((original as IEquatable<FloatVo>).Equals(other)).Should().BeTrue();
-            ((other as IEquatable<FloatVo>).Equals(original)).Should().BeTrue();
+            ((original as IEquatable<FloatEnum>).Equals(other)).Should().BeTrue();
+            ((other as IEquatable<FloatEnum>).Equals(original)).Should().BeTrue();
         }
 
         [Fact]
         public void CanSerializeToFloat_WithNewtonsoftJsonProvider()
         {
-            var ie = NewtonsoftJsonFloatVo.Item2;
+            var ie = NewtonsoftJsonFloatEnum.Item2;
 
             string serializedVo = NewtonsoftJsonSerializer.SerializeObject(ie);
             string serializedFloat = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
@@ -65,10 +60,10 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void RoundTrip_WithNsj()
         {
-            var ie = NewtonsoftJsonFloatVo.Item2;
+            var ie = NewtonsoftJsonFloatEnum.Item2;
 
             string serializedVo = NewtonsoftJsonSerializer.SerializeObject(ie);
-            var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonFloatVo>(serializedVo)!;
+            var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonFloatEnum>(serializedVo)!;
 
             deserializedVo.Value.Should().Be(2.2f);
         }
@@ -76,10 +71,10 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void RoundTrip_WithStj()
         {
-            var ie = SystemTextJsonFloatVo.Item2;
+            var ie = SystemTextJsonFloatEnum.Item2;
 
             string serializedVo = SystemTextJsonSerializer.Serialize(ie);
-            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonFloatVo>(serializedVo)!;
+            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonFloatEnum>(serializedVo)!;
 
             deserializedVo.Value.Should().Be(2.2f);
         }
@@ -87,7 +82,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToFloat_WithSystemTextJsonProvider()
         {
-            var ie = SystemTextJsonFloatVo.Item1;
+            var ie = SystemTextJsonFloatEnum.Item1;
 
             string serializedVo = SystemTextJsonSerializer.Serialize(ie);
             string serializedFloat = SystemTextJsonSerializer.Serialize(ie.Value);
@@ -99,10 +94,10 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         public void CanDeserializeFromFloat_WithNewtonsoftJsonProvider()
         {
             var value = 1.1f;
-            var ie = NewtonsoftJsonFloatVo.Item1;
+            var ie = NewtonsoftJsonFloatEnum.Item1;
             var serializedFloat = NewtonsoftJsonSerializer.SerializeObject(value);
 
-            var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonFloatVo>(serializedFloat);
+            var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonFloatEnum>(serializedFloat);
 
             Assert.Equal(ie, deserializedVo);
         }
@@ -111,10 +106,10 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         public void CanDeserializeFromFloat_WithSystemTextJsonProvider()
         {
             var value = 1.1f;
-            var ie = SystemTextJsonFloatVo.Item1;
+            var ie = SystemTextJsonFloatEnum.Item1;
             var serializedFloat = SystemTextJsonSerializer.Serialize(value);
 
-            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonFloatVo>(serializedFloat);
+            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonFloatEnum>(serializedFloat);
 
             Assert.Equal(ie, deserializedVo);
         }
@@ -122,10 +117,10 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromFloat_WithSystemTextJsonProvider_treating_numbers_as_string()
         {
-            var ie = SystemTextJsonFloatVo_Treating_numbers_as_string.Item1;
+            var ie = SystemTextJsonFloatEnum_Treating_numbers_as_string.Item1;
             var serializedFloat = SystemTextJsonSerializer.Serialize(ie);
 
-            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonFloatVo_Treating_numbers_as_string>(serializedFloat);
+            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonFloatEnum_Treating_numbers_as_string>(serializedFloat);
 
             Assert.Equal(ie, deserializedVo);
         }
@@ -133,7 +128,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToFloat_WithBothJsonConverters()
         {
-            var ie = BothJsonFloatVo.Item2;
+            var ie = BothJsonFloatEnum.Item2;
 
             var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(ie);
             var serializedFloat1 = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
@@ -148,7 +143,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
-            var ie = NoJsonFloatVo.Item1;
+            var ie = NoJsonFloatEnum.Item1;
 
             var serialized = SystemTextJsonSerializer.Serialize(ie);
 
@@ -166,7 +161,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var ie = NoJsonFloatVo.Item1;
+            var ie = NoJsonFloatEnum.Item1;
 
             var serialized = NewtonsoftJsonSerializer.SerializeObject(ie);
 
@@ -178,7 +173,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoTypeConverter_SerializesWithValueAndNameProperty()
         {
-            var ie = NoConverterFloatVo.Item1;
+            var ie = NoConverterFloatEnum.Item1;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(ie);
             var systemText = SystemTextJsonSerializer.Serialize(ie);
@@ -205,7 +200,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
                 .UseSqlite(connection)
                 .Options;
 
-            var original = new EfCoreTestEntity { Id = EfCoreFloatVo.Item1 };
+            var original = new EfCoreTestEntity { Id = EfCoreFloatEnum.Item1 };
             using (var context = new TestDbContext(options))
             {
                 context.Database.EnsureCreated();
@@ -227,10 +222,10 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             await connection.OpenAsync();
 
             var parameters = new { Value = 2.2f };
-            IEnumerable<DapperFloatVo> results = await connection.QueryAsync<DapperFloatVo>("SELECT @Value", parameters);
+            IEnumerable<DapperFloatEnum> results = await connection.QueryAsync<DapperFloatEnum>("SELECT @Value", parameters);
 
             var value = Assert.Single(results);
-            Assert.Equal(DapperFloatVo.Item2, value);
+            Assert.Equal(DapperFloatEnum.Item2, value);
         }
 
         [Fact]
@@ -239,7 +234,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
 
-            var original = new LinqToDbTestEntity { Id = LinqToDbFloatVo.Item1 };
+            var original = new LinqToDbTestEntity { Id = LinqToDbFloatEnum.Item1 };
             using (var context = new DataConnection(
                 SQLiteTools.GetDataProvider("SQLite.MS"),
                 connection,
@@ -264,13 +259,13 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [InlineData("1.1")]
         public void TypeConverter_CanConvertToAndFrom(object value)
         {
-            var converter = TypeDescriptor.GetConverter(typeof(NoJsonFloatVo));
+            var converter = TypeDescriptor.GetConverter(typeof(NoJsonFloatEnum));
 
             var culture = new CultureInfo("en-US");
             
             var id = converter.ConvertFrom(null!, culture, value);
-            Assert.IsType<NoJsonFloatVo>(id);
-            Assert.Equal(NoJsonFloatVo.Item1, id);
+            Assert.IsType<NoJsonFloatEnum>(id);
+            Assert.Equal(NoJsonFloatEnum.Item1, id);
 
             object reconverted = converter.ConvertTo(null, culture, id, value.GetType());
             Assert.Equal(value, reconverted);
@@ -291,7 +286,7 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
                      {
                          builder
                              .Property(x => x.Id)
-                             .HasConversion(new EfCoreFloatVo.EfCoreValueConverter())
+                             .HasConversion(new EfCoreFloatEnum.EfCoreValueConverter())
                              .ValueGeneratedNever();
                      });
              }
@@ -299,14 +294,14 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
 
         public class EfCoreTestEntity
         {
-            public EfCoreFloatVo Id { get; set; }
+            public EfCoreFloatEnum Id { get; set; }
         }
 
         public class LinqToDbTestEntity
         {
             [Column(DataType = DataType.Single)]
-            [ValueConverter(ConverterType = typeof(LinqToDbFloatVo.LinqToDbValueConverter))]
-            public LinqToDbFloatVo Id { get; set; }
+            [ValueConverter(ConverterType = typeof(LinqToDbFloatEnum.LinqToDbValueConverter))]
+            public LinqToDbFloatEnum Id { get; set; }
         }
     }
 }

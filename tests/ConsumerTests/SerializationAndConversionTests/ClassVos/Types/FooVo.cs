@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Intellenum.IntegrationTests.TestTypes.ClassVos
+﻿namespace Intellenum.IntegrationTests.TestEnums
 {
     public record struct Bar(int Age, string Name) : IComparable<Bar>
     {

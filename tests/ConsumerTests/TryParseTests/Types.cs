@@ -1,6 +1,4 @@
-﻿using Intellenum;
-
-namespace ConsumerTests.TryParseTests;
+﻿namespace ConsumerTests.TryParseTests;
 
 [Intellenum(typeof(int))]
 [Instance("Item1", 1)]

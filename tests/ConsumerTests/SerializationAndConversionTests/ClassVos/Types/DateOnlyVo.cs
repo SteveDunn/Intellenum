@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Intellenum.IntegrationTests.TestTypes.ClassVos
+namespace Intellenum.IntegrationTests.TestEnums
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(DateOnly))]
     public partial class DateOnlyVo

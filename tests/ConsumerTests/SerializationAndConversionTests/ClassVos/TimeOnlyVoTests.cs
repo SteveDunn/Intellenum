@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Intellenum.IntegrationTests.TestTypes.ClassVos;
+using Intellenum.IntegrationTests.TestEnums;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;

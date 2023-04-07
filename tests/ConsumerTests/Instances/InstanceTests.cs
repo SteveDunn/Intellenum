@@ -1,7 +1,4 @@
-﻿using System;
-using FluentAssertions;
-using Intellenum;
-using FluentAssertions.Execution;
+﻿using FluentAssertions.Execution;
 
 namespace ConsumerTests.Instances;
 

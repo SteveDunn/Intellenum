@@ -1,6 +1,5 @@
 ﻿namespace Intellenum.Tests.Types;
 using Intellenum;
-using System;
 
 [Intellenum(typeof(string))]
 [Instance("Points", "Points")]
