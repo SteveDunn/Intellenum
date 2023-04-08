@@ -1,9 +1,9 @@
-﻿namespace Intellenum.IntegrationTests.TestEnums
+﻿namespace ConsumerTests.TestEnums
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(double))]
     [Instance("Item1", 1.1d)]
     [Instance("Item2", 2.2d)]
-    public partial class DoubleVo
+    public partial class DoubleEnum
     {
         
     }
@@ -11,45 +11,45 @@
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(double))]
     [Instance("Item1", 1.1d)]
     [Instance("Item2", 2.2d)]
-    public partial class NoConverterDoubleVo { }
+    public partial class NoConverterDoubleEnum { }
 
     [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(double))]
     [Instance("Item1", 1.1d)]
     [Instance("Item2", 2.2d)]
-    public partial class NoJsonDoubleVo { }
+    public partial class NoJsonDoubleEnum { }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(double))]
     [Instance("Item1", 1.1d)]
     [Instance("Item2", 2.2d)]
-    public partial class NewtonsoftJsonDoubleVo { }
+    public partial class NewtonsoftJsonDoubleEnum { }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(double))]
     [Instance("Item1", 1.1d)]
     [Instance("Item2", 2.2d)]
-    public partial class SystemTextJsonDoubleVo { }
+    public partial class SystemTextJsonDoubleEnum { }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(double), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
     [Instance("Item1", 1.1d)]
     [Instance("Item2", 2.2d)]
-    public partial class SystemTextJsonDoubleVo_number_as_string { }
+    public partial class SystemTextJsonDoubleEnum_number_as_string { }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(double))]
     [Instance("Item1", 1.1d)]
     [Instance("Item2", 2.2d)]
-    public partial class BothJsonDoubleVo { }
+    public partial class BothJsonDoubleEnum { }
 
     [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(double))]
     [Instance("Item1", 1.1d)]
     [Instance("Item2", 2.2d)]
-    public partial class EfCoreDoubleVo { }
+    public partial class EfCoreDoubleEnum { }
 
     [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(double))]
     [Instance("Item1", 1.1d)]
     [Instance("Item2", 2.2d)]
-    public partial class DapperDoubleVo { }
+    public partial class DapperDoubleEnum { }
 
     [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(double))]
     [Instance("Item1", 1.1d)]
     [Instance("Item2", 2.2d)]
-    public partial class LinqToDbDoubleVo { }
+    public partial class LinqToDbDoubleEnum { }
 }

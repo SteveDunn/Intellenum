@@ -1,4 +1,4 @@
-﻿namespace Intellenum.IntegrationTests.TestEnums
+﻿namespace ConsumerTests.TestEnums
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(DateTimeOffset))]
     public partial class DateTimeOffsetVo
@@ -42,9 +42,9 @@
     }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(DateTimeOffset))]
-    public partial class SystemTextJsonDateTimeOffsetVo
+    public partial class SystemTextJsonDateTimeOffsetEnum
     {
-        static SystemTextJsonDateTimeOffsetVo()
+        static SystemTextJsonDateTimeOffsetEnum()
         {
             Instance("JanFirst", new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero));
             Instance("JanSecond", new DateTimeOffset(2019, 1, 2, 14, 15, 16, TimeSpan.Zero));

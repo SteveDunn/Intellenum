@@ -1,39 +1,34 @@
-﻿namespace Intellenum.IntegrationTests.TestEnums
+﻿namespace ConsumerTests.TestEnums
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(bool))]
     [Instance("No", false)]
     [Instance("Yes", true)]
-    public partial class BoolVo { }
-
-    [Intellenum(conversions: Conversions.None, underlyingType: typeof(bool))]
-    [Instance("No", false)]
-    [Instance("Yes", true)]
-    public partial class NoConverterBoolVo { }
+    public partial class NoConverterBoolEnum { }
 
     [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(bool))]
     [Instance("No", false)]
     [Instance("Yes", true)]
-    public partial class NoJsonBoolVo { }
+    public partial class NoJsonBoolEnum { }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(bool))]
     [Instance("No", false)]
     [Instance("Yes", true)]
-    public partial class NewtonsoftJsonBoolVo { }
+    public partial class NewtonsoftJsonBoolEnum { }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(bool))]
     [Instance("No", false)]
     [Instance("Yes", true)]
-    public partial class SystemTextJsonBoolVo { }
+    public partial class SystemTextJsonBoolEnum { }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(bool))]
     [Instance("No", false)]
     [Instance("Yes", true)]
-    public partial class BothJsonBoolVo { }
+    public partial class BothJsonBoolEnum { }
 
     [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(bool))]
     [Instance("No", false)]
     [Instance("Yes", true)]
-    public partial class EfCoreBoolVo { }
+    public partial class EfCoreBoolEnum { }
 
     [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(bool))]
     [Instance("No", false)]
@@ -43,5 +38,5 @@
     [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(bool))]
     [Instance("No", false)]
     [Instance("Yes", true)]
-    public partial class LinqToDbBoolVo { }
+    public partial class LinqToDbBoolEnum { }
 }

@@ -1,52 +1,52 @@
-﻿namespace Intellenum.IntegrationTests.TestEnums
+﻿namespace ConsumerTests.TestEnums
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(int))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class IntVo { }
+    public partial class IntEnum { }
 
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(int))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class NoConverterIntVo { }
+    public partial class NoConverterIntEnum { }
 
     [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(int))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class NoJsonIntVo { }
+    public partial class NoJsonIntEnum { }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(int))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class NewtonsoftJsonIntVo { }
+    public partial class NewtonsoftJsonIntEnum { }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(int))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class SystemTextJsonIntVo { }
+    public partial class SystemTextJsonIntEnum { }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(int), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class SystemTextJsonIntVo_Treating_numbers_as_string { }
+    public partial class SystemTextJsonIntEnum_Treating_numbers_as_string { }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(int))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class BothJsonIntVo { }
+    public partial class BothJsonIntEnum { }
 
     [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(int))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class EfCoreIntVo { }
+    public partial class EfCoreIntEnum { }
 
     [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(int))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class DapperIntVo { }
+    public partial class DapperIntEnum { }
 
     [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(int))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class LinqToDbIntVo { }
+    public partial class LinqToDbIntEnum { }
 }

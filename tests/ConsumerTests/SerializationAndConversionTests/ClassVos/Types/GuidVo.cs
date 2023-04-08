@@ -1,9 +1,9 @@
-﻿namespace Intellenum.IntegrationTests.TestEnums
+﻿namespace ConsumerTests.TestEnums
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(Guid))]
-    public partial class GuidVo
+    public partial class GuidEnum
     {
-        static GuidVo()
+        static GuidEnum()
         {
             Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
             Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
@@ -11,9 +11,9 @@
     }
 
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(Guid))]
-    public partial class NoConverterGuidVo
+    public partial class NoConverterGuidEnum
     {
-        static NoConverterGuidVo()
+        static NoConverterGuidEnum()
         {
             Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
             Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
@@ -21,9 +21,9 @@
     }
 
     [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(Guid))]
-    public partial class NoJsonGuidVo
+    public partial class NoJsonGuidEnum
     {
-        static NoJsonGuidVo()
+        static NoJsonGuidEnum()
         {
             Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
             Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
@@ -31,9 +31,9 @@
     }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(Guid))]
-    public partial class NewtonsoftJsonGuidVo
+    public partial class NewtonsoftJsonGuidEnum
     {
-        static NewtonsoftJsonGuidVo()
+        static NewtonsoftJsonGuidEnum()
         {
             Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
             Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
@@ -41,9 +41,9 @@
     }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(Guid))]
-    public partial class SystemTextJsonGuidVo
+    public partial class SystemTextJsonGuidEnum
     {
-        static SystemTextJsonGuidVo()
+        static SystemTextJsonGuidEnum()
         {
             Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
             Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
@@ -51,9 +51,9 @@
     }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(Guid))]
-    public partial class BothJsonGuidVo
+    public partial class BothJsonGuidEnum
     {
-        static BothJsonGuidVo()
+        static BothJsonGuidEnum()
         {
             Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
             Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
@@ -61,9 +61,9 @@
     }
 
     [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(Guid))]
-    public partial class EfCoreGuidVo
+    public partial class EfCoreGuidEnum
     {
-        static EfCoreGuidVo()
+        static EfCoreGuidEnum()
         {
             Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
             Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
@@ -72,9 +72,9 @@
 
 
     [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(Guid))]
-    public partial class DapperGuidVo
+    public partial class DapperGuidEnum
     {
-        static DapperGuidVo()
+        static DapperGuidEnum()
         {
             Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
             Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
@@ -83,9 +83,9 @@
     }
 
     [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(Guid))]
-    public partial class LinqToDbGuidVo
+    public partial class LinqToDbGuidEnum
     {
-        static LinqToDbGuidVo()
+        static LinqToDbGuidEnum()
         {
             Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
             Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));

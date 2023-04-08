@@ -1,12 +1,12 @@
 ﻿#nullable disable
 using System.ComponentModel;
 using System.Threading.Tasks;
+using ConsumerTests.TestEnums;
 using Dapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Intellenum.IntegrationTests.TestEnums;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
@@ -18,7 +18,7 @@ using LinqToDB.Mapping;
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable SuspiciousTypeConversion.Global
 
-namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
+namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(DateTimeOffset))]
     public partial class DateTimeOffsetVo
@@ -66,7 +66,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToString_WithSystemTextJsonProvider()
         {
-            var ie = SystemTextJsonDateTimeOffsetVo.JanFirst;
+            var ie = SystemTextJsonDateTimeOffsetEnum.JanFirst;
 
             string serializedVo = SystemTextJsonSerializer.Serialize(ie);
             string serializedString = SystemTextJsonSerializer.Serialize(ie.Value);
@@ -90,10 +90,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         public void CanDeserializeFromString_WithSystemTextJsonProvider()
         {
             var value = NewtonsoftJsonDateTimeOffsetVo.JanFirst.Value;
-            var ie = SystemTextJsonDateTimeOffsetVo.JanFirst;
+            var ie = SystemTextJsonDateTimeOffsetEnum.JanFirst;
             var serializedString = SystemTextJsonSerializer.Serialize(value);
 
-            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDateTimeOffsetVo>(serializedString);
+            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonDateTimeOffsetEnum>(serializedString);
 
             Assert.Equal(ie, deserializedVo);
         }

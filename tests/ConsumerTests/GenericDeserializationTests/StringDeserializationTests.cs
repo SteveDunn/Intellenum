@@ -23,7 +23,7 @@ public class StringDeserializationTests
         using var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();
 
-        var actual = (await connection.QueryAsync<MyVoString>("SELECT 'Item1!'")).AsList()[0].Value;
+        var actual = (await connection.QueryAsync<MyStringEnum>("SELECT 'Item1!'")).AsList()[0].Value;
 
         actual.Should().Be("Item1!");
     }
@@ -61,10 +61,10 @@ public class StringDeserializationTests
     [Fact]
     public void TypeConversion()
     {
-        var converter = TypeDescriptor.GetConverter(typeof(MyVoString));
+        var converter = TypeDescriptor.GetConverter(typeof(MyStringEnum));
         var validValue = "Item1!";
 
-        var actual = ((MyVoString?) converter.ConvertFrom(validValue))!.Value;
+        var actual = ((MyStringEnum?) converter.ConvertFrom(validValue))!.Value;
 
         actual.Should().Be("Item1!");
     }
@@ -72,9 +72,9 @@ public class StringDeserializationTests
     [Fact]
     public void Deserialization_systemtextjson()
     {
-        var validValue = SystemTextJsonSerializer.Serialize(MyVoString.Item1);
+        var validValue = SystemTextJsonSerializer.Serialize(MyStringEnum.Item1);
 
-        var actual = SystemTextJsonSerializer.Deserialize<MyVoString>(validValue)!.Value;
+        var actual = SystemTextJsonSerializer.Deserialize<MyStringEnum>(validValue)!.Value;
 
         actual.Should().Be("Item1!");
     }
@@ -82,9 +82,9 @@ public class StringDeserializationTests
     [Fact]
     public void Deserialization_newtonsoft()
     {
-        var validValue = NewtonsoftJsonSerializer.SerializeObject(MyVoString.Item1);
+        var validValue = NewtonsoftJsonSerializer.SerializeObject(MyStringEnum.Item1);
 
-        var actual = NewtonsoftJsonSerializer.DeserializeObject<MyVoString>(validValue)!.Value;
+        var actual = NewtonsoftJsonSerializer.DeserializeObject<MyStringEnum>(validValue)!.Value;
 
         actual.Should().Be("Item1!");
     }

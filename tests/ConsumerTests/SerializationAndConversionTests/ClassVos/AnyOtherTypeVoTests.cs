@@ -1,6 +1,7 @@
 ﻿#nullable disable
 using System.ComponentModel;
 using System.Threading.Tasks;
+using ConsumerTests.TestEnums;
 using Dapper;
 using LinqToDB;
 using LinqToDB.Data;
@@ -8,14 +9,13 @@ using LinqToDB.DataProvider.SQLite;
 using LinqToDB.Mapping;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Intellenum.IntegrationTests.TestEnums;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
 
 // ReSharper disable EqualExpressionComparison
 #pragma warning disable 1718
 
-namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
+namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(Bar))]
     public partial class FooVo
@@ -48,7 +48,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToString_WithNewtonsoftJsonProvider()
         {
-            NewtonsoftJsonFooVo g1 = NewtonsoftJsonFooVo.Item1;
+            NewtonsoftJsonFooEnum g1 = NewtonsoftJsonFooEnum.Item1;
 
             string serialized = NewtonsoftJsonSerializer.SerializeObject(g1);
             string serializedString = NewtonsoftJsonSerializer.SerializeObject(g1.Value);
@@ -60,7 +60,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToString_WithSystemTextJsonProvider()
         {
-            var ie = SystemTextJsonFooVo.Item1;
+            var ie = SystemTextJsonFooEnum.Item1;
 
             string serializedVo = SystemTextJsonSerializer.Serialize(ie);
             string serializedString = SystemTextJsonSerializer.Serialize(ie.Value);
@@ -71,30 +71,30 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromString_WithNewtonsoftJsonProvider()
         {
-            var value = NewtonsoftJsonFooVo.Item1;
+            var value = NewtonsoftJsonFooEnum.Item1;
 
             var serializedString = NewtonsoftJsonSerializer.SerializeObject(value);
 
-            var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonFooVo>(serializedString);
+            var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonFooEnum>(serializedString);
 
-            Assert.Equal(NewtonsoftJsonFooVo.Item1, deserializedVo);
+            Assert.Equal(NewtonsoftJsonFooEnum.Item1, deserializedVo);
         }
 
         [Fact]
         public void CanDeserializeFromString_WithSystemTextJsonProvider()
         {
-            var value = SystemTextJsonFooVo.Item1;
+            var value = SystemTextJsonFooEnum.Item1;
             var serializedString = SystemTextJsonSerializer.Serialize(value);
 
-            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonFooVo>(serializedString);
+            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonFooEnum>(serializedString);
 
-            Assert.Equal(SystemTextJsonFooVo.Item1, deserializedVo);
+            Assert.Equal(SystemTextJsonFooEnum.Item1, deserializedVo);
         }
 
         [Fact]
         public void CanSerializeToString_WithBothJsonConverters()
         {
-            var ie = BothJsonFooVo.Item1;
+            var ie = BothJsonFooEnum.Item1;
 
             var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(ie);
             var serializedString1 = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
@@ -109,7 +109,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToStringClass_WithBothJsonConverters()
         {
-            var ie = BothJsonFooVoClass.Item1;
+            var ie = BothJsonFooEnumClass.Item1;
 
             var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(ie);
             var serializedString1 = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
@@ -124,7 +124,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
-            var ie = NoJsonFooVo.Item1;
+            var ie = NoJsonFooEnum.Item1;
 
             var serialized = SystemTextJsonSerializer.Serialize(ie);
 
@@ -142,7 +142,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WithTypeConverterButNoJsonConverters_NewtonsoftSerializesWithValueProperty()
         {
-            NoJsonFooVo foo = NoJsonFooVo.Item1;
+            NoJsonFooEnum foo = NoJsonFooEnum.Item1;
 
             var serialized = NewtonsoftJsonSerializer.SerializeObject(foo);
 
@@ -154,7 +154,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WithTypeConverterButNoJsonConverters_SystemTextJsonSerializesWithValueProperty()
         {
-            var ie = NoConverterFooVo.Item1;
+            var ie = NoConverterFooEnum.Item1;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(ie);
             var systemText = SystemTextJsonSerializer.Serialize(ie);
@@ -175,7 +175,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
                 .UseSqlite(connection)
                 .Options;
 
-            var original = new EfCoreTestEntity { FooField = EfCoreFooVo.Item1 };
+            var original = new EfCoreTestEntity { FooField = EfCoreFooEnum.Item1 };
             using (var context = new TestDbContext(options))
             {
                 context.Database.EnsureCreated();
@@ -196,10 +196,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            IEnumerable<DapperFooVo> results = await connection.QueryAsync<DapperFooVo>("SELECT '{\"Age\":42,\"Name\":\"Fred\"}'");
+            IEnumerable<DapperFooEnum> results = await connection.QueryAsync<DapperFooEnum>("SELECT '{\"Age\":42,\"Name\":\"Fred\"}'");
 
             var value = Assert.Single(results);
-            Assert.Equal(value, DapperFooVo.Item1);
+            Assert.Equal(value, DapperFooEnum.Item1);
         }
 
         [Fact]
@@ -208,7 +208,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
 
-            var original = new LinqToDbTestEntity { FooField = LinqToDbFooVo.Item1 };
+            var original = new LinqToDbTestEntity { FooField = LinqToDbFooEnum.Item1 };
             using (var context = new DataConnection(
                 SQLiteTools.GetDataProvider("SQLite.MS"),
                 connection,
@@ -231,17 +231,17 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void TypeConverter_CanConvertToAndFrom()
         {
-            var converter = TypeDescriptor.GetConverter(typeof(NoJsonFooVo));
+            var converter = TypeDescriptor.GetConverter(typeof(NoJsonFooEnum));
 
-            object ie = converter.ConvertFrom(NoJsonFooVo.Item1.Value);
+            object ie = converter.ConvertFrom(NoJsonFooEnum.Item1.Value);
 
-            Assert.IsType<NoJsonFooVo>(ie);
+            Assert.IsType<NoJsonFooEnum>(ie);
 
-            Assert.Equal(NoJsonFooVo.Item1, ie);
+            Assert.Equal(NoJsonFooEnum.Item1, ie);
 
             object reconverted = converter.ConvertTo(ie, typeof(Bar));
             Assert.IsType<Bar>(reconverted);
-            Assert.Equal(((NoJsonFooVo) ie).Value, reconverted);
+            Assert.Equal(((NoJsonFooEnum) ie).Value, reconverted);
         }
 
         public class TestDbContext : DbContext
@@ -259,7 +259,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
                     {
                         builder
                             .Property(x => x.FooField)
-                            .HasConversion(new EfCoreFooVo.EfCoreValueConverter());
+                            .HasConversion(new EfCoreFooEnum.EfCoreValueConverter());
                     });
             }
         }
@@ -268,14 +268,14 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         {
             public int Id { get; set; }
 
-            public EfCoreFooVo FooField { get; set; }
+            public EfCoreFooEnum FooField { get; set; }
         }
 
         public class LinqToDbTestEntity
         {
             [Column(DataType = DataType.VarChar)]
-            [ValueConverter(ConverterType = typeof(LinqToDbFooVo.LinqToDbValueConverter))]
-            public LinqToDbFooVo FooField { get; set; }
+            [ValueConverter(ConverterType = typeof(LinqToDbFooEnum.LinqToDbValueConverter))]
+            public LinqToDbFooEnum FooField { get; set; }
         }
     }
 }

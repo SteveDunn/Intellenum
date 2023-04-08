@@ -1,4 +1,4 @@
-﻿namespace Intellenum.IntegrationTests.TestEnums
+﻿namespace ConsumerTests.TestEnums
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(byte))]
     [Instance("Item1", 1)]
@@ -23,7 +23,7 @@
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(byte))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class SystemTextJsonByteVo { }
+    public partial class SystemTextJsonByteEnum { }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(byte), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
     [Instance("Item1", 1)]

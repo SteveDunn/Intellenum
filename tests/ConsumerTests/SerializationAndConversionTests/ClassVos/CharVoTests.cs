@@ -1,12 +1,12 @@
 ﻿#nullable disable
 using System.ComponentModel;
 using System.Threading.Tasks;
+using ConsumerTests.TestEnums;
 using Dapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Intellenum.IntegrationTests.TestEnums;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
@@ -15,7 +15,7 @@ using LinqToDB.Mapping;
 // ReSharper disable ConvertToLocalFunction
 // ReSharper disable EqualExpressionComparison
 
-namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
+namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(char))]
     [Instance("A", 'a')]
@@ -27,6 +27,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void equality_between_same_value_objects()
         {
+            CharEnum.A.Equals(AnotherCharVo.A).Should().BeFalse();
             CharEnum.A.Equals(CharEnum.A).Should().BeTrue();
             (CharEnum.A == CharEnum.A).Should().BeTrue();
 

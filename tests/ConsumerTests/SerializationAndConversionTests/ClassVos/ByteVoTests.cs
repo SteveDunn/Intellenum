@@ -1,12 +1,12 @@
 ﻿#nullable disable
 using System.ComponentModel;
 using System.Threading.Tasks;
+using ConsumerTests.TestEnums;
 using Dapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Intellenum.IntegrationTests.TestEnums;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
@@ -14,32 +14,32 @@ using LinqToDB.Mapping;
 // ReSharper disable RedundantOverflowCheckingContext
 // ReSharper disable ConvertToLocalFunction
 
-namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
+namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(byte))]
     [Instance("Eighteen", 18)]    
     [Instance("Nineteen", 19)]    
-    public partial class AnotherByteVo { }
+    public partial class AnotherByteEnum { }
 
     public class ByteVoTests
     {
         [Fact]
         public void equality_between_same_value_objects()
         {
-            AnotherByteVo.Eighteen.Equals(AnotherByteVo.Eighteen).Should().BeTrue();
-            (AnotherByteVo.Eighteen == AnotherByteVo.Eighteen).Should().BeTrue();
+            AnotherByteEnum.Eighteen.Equals(AnotherByteEnum.Eighteen).Should().BeTrue();
+            (AnotherByteEnum.Eighteen == AnotherByteEnum.Eighteen).Should().BeTrue();
 
-            (AnotherByteVo.Eighteen != AnotherByteVo.Nineteen).Should().BeTrue();
-            (AnotherByteVo.Eighteen == AnotherByteVo.Nineteen).Should().BeFalse();
+            (AnotherByteEnum.Eighteen != AnotherByteEnum.Nineteen).Should().BeTrue();
+            (AnotherByteEnum.Eighteen == AnotherByteEnum.Nineteen).Should().BeFalse();
 
-            AnotherByteVo.Eighteen.Equals(AnotherByteVo.Eighteen).Should().BeTrue();
-            (AnotherByteVo.Eighteen == AnotherByteVo.Eighteen).Should().BeTrue();
+            AnotherByteEnum.Eighteen.Equals(AnotherByteEnum.Eighteen).Should().BeTrue();
+            (AnotherByteEnum.Eighteen == AnotherByteEnum.Eighteen).Should().BeTrue();
 
-            var original = AnotherByteVo.Eighteen;
-            var other = AnotherByteVo.Eighteen;
+            var original = AnotherByteEnum.Eighteen;
+            var other = AnotherByteEnum.Eighteen;
 
-            ((original as IEquatable<AnotherByteVo>).Equals(other)).Should().BeTrue();
-            ((other as IEquatable<AnotherByteVo>).Equals(original)).Should().BeTrue();
+            ((original as IEquatable<AnotherByteEnum>).Equals(other)).Should().BeTrue();
+            ((other as IEquatable<AnotherByteEnum>).Equals(original)).Should().BeTrue();
         }
 
 
@@ -57,7 +57,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToShort_WithSystemTextJsonProvider()
         {
-            var ie = SystemTextJsonByteVo.Item1;
+            var ie = SystemTextJsonByteEnum.Item1;
 
             string serializedVo = SystemTextJsonSerializer.Serialize(ie);
             string serializedShort = SystemTextJsonSerializer.Serialize(ie.Value);
@@ -81,10 +81,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         public void CanDeserializeFromShort_WithSystemTextJsonProvider()
         {
             byte value = 1;
-            var ie = SystemTextJsonByteVo.Item1;
+            var ie = SystemTextJsonByteEnum.Item1;
             var serializedShort = SystemTextJsonSerializer.Serialize(value);
 
-            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonByteVo>(serializedShort);
+            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonByteEnum>(serializedShort);
 
             Assert.Equal(ie, deserializedVo);
         }

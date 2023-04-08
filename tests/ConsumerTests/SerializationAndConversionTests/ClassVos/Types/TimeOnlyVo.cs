@@ -2,12 +2,12 @@
 
 using System;
 
-namespace Intellenum.IntegrationTests.TestEnums
+namespace ConsumerTests.TestEnums
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(TimeOnly))]
-    public partial class TimeOnlyVo
+    public partial class TimeOnlyEnum
     {
-        static TimeOnlyVo()
+        static TimeOnlyEnum()
         {
             Instance("Item1", new TimeOnly(1, 2, 3, 04));
             Instance("Item2", new TimeOnly(5, 6, 7, 08));
@@ -15,9 +15,9 @@ namespace Intellenum.IntegrationTests.TestEnums
     }
 
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(TimeOnly))]
-    public partial class NoConverterTimeOnlyVo
+    public partial class NoConverterTimeOnlyEnum
     {
-        static NoConverterTimeOnlyVo()
+        static NoConverterTimeOnlyEnum()
         {
             Instance("Item1", new TimeOnly(1, 2, 3, 04));
             Instance("Item2", new TimeOnly(5, 6, 7, 08));
@@ -25,9 +25,9 @@ namespace Intellenum.IntegrationTests.TestEnums
     }
 
     [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(TimeOnly))]
-    public partial class NoJsonTimeOnlyVo
+    public partial class NoJsonTimeOnlyEnum
     {
-        static NoJsonTimeOnlyVo()
+        static NoJsonTimeOnlyEnum()
         {
             Instance("Item1", new TimeOnly(1, 2, 3, 04));
             Instance("Item2", new TimeOnly(5, 6, 7, 08));
@@ -35,9 +35,9 @@ namespace Intellenum.IntegrationTests.TestEnums
     }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(TimeOnly))]
-    public partial class NewtonsoftJsonTimeOnlyVo
+    public partial class NewtonsoftJsonTimeOnlyEnum
     {
-        static NewtonsoftJsonTimeOnlyVo()
+        static NewtonsoftJsonTimeOnlyEnum()
         {
             Instance("Item1", new TimeOnly(1, 2, 3, 04));
             Instance("Item2", new TimeOnly(5, 6, 7, 08));
@@ -45,9 +45,9 @@ namespace Intellenum.IntegrationTests.TestEnums
     }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(TimeOnly))]
-    public partial class SystemTextJsonTimeOnlyVo
+    public partial class SystemTextJsonTimeOnlyEnum
     {
-        static SystemTextJsonTimeOnlyVo()
+        static SystemTextJsonTimeOnlyEnum()
         {
             Instance("Item1", new TimeOnly(1, 2, 3, 04));
             Instance("Item2", new TimeOnly(5, 6, 7, 08));
@@ -56,9 +56,9 @@ namespace Intellenum.IntegrationTests.TestEnums
 
 
     [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(TimeOnly))]
-    public partial class BothJsonTimeOnlyVo
+    public partial class BothJsonTimeOnlyEnum
     {
-        static BothJsonTimeOnlyVo()
+        static BothJsonTimeOnlyEnum()
         {
             Instance("Item1", new TimeOnly(1, 2, 3, 04));
             Instance("Item2", new TimeOnly(5, 6, 7, 08));
@@ -67,9 +67,9 @@ namespace Intellenum.IntegrationTests.TestEnums
 
 
     [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(TimeOnly))]
-    public partial class EfCoreTimeOnlyVo
+    public partial class EfCoreTimeOnlyEnum
     {
-        static EfCoreTimeOnlyVo()
+        static EfCoreTimeOnlyEnum()
         {
             Instance("Item1", new TimeOnly(1, 2, 3, 04));
             Instance("Item2", new TimeOnly(5, 6, 7, 08));
@@ -77,9 +77,9 @@ namespace Intellenum.IntegrationTests.TestEnums
     }
 
     [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(TimeOnly))]
-    public partial class DapperTimeOnlyVo
+    public partial class DapperTimeOnlyEnum
     {
-        static DapperTimeOnlyVo()
+        static DapperTimeOnlyEnum()
         {
             Instance("Item1", new TimeOnly(1, 2, 3, 04));
             Instance("Item2", new TimeOnly(5, 6, 7, 08));
@@ -87,16 +87,13 @@ namespace Intellenum.IntegrationTests.TestEnums
     }
 
     [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(TimeOnly))]
-    public partial class LinqToDbTimeOnlyVo
+    public partial class LinqToDbTimeOnlyEnum
     {
-        static LinqToDbTimeOnlyVo()
+        static LinqToDbTimeOnlyEnum()
         {
             Instance("Item1", new TimeOnly(1, 2, 3, 04));
             Instance("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 }
-
-
-
 #endif

@@ -1,52 +1,52 @@
-﻿namespace Intellenum.IntegrationTests.TestEnums
+﻿namespace ConsumerTests.TestEnums
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(long))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class LongVo { }
+    public partial class LongEnum { }
 
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(long))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class NoConverterLongVo { }
+    public partial class NoConverterLongEnum { }
 
     [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(long))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class NoJsonLongVo { }
+    public partial class NoJsonLongEnum { }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(long))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class NewtonsoftJsonLongVo { }
+    public partial class NewtonsoftJsonLongEnum { }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(long))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class SystemTextJsonLongVo { }
+    public partial class SystemTextJsonLongEnum { }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(long), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class SystemTextJsonLongVo_Treating_numbers_as_string { }
+    public partial class SystemTextJsonLongEnum_Treating_numbers_as_string { }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(long))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class BothJsonLongVo { }
+    public partial class BothJsonLongEnum { }
 
     [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(long))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class EfCoreLongVo { }
+    public partial class EfCoreLongEnum { }
 
     [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(long))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class DapperLongVo { }
+    public partial class DapperLongEnum { }
 
     [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(long))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class LinqToDbLongVo { }
+    public partial class LinqToDbLongEnum { }
 }

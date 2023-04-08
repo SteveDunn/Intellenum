@@ -1,6 +1,7 @@
 ﻿#nullable disable
 using System.ComponentModel;
 using System.Threading.Tasks;
+using ConsumerTests.TestEnums;
 using Dapper;
 using LinqToDB;
 using LinqToDB.Data;
@@ -10,14 +11,14 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Intellenum.IntegrationTests.TestEnums;
+
 // ReSharper disable RedundantOverflowCheckingContext
 // ReSharper disable ConvertToLocalFunction
 
 // ReSharper disable EqualExpressionComparison
 #pragma warning disable 1718
 
-namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
+namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(bool))]
     [Instance("No", false)]
@@ -49,7 +50,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToShort_WithNewtonsoftJsonProvider()
         {
-            var ie = NewtonsoftJsonBoolVo.Yes;
+            var ie = NewtonsoftJsonBoolEnum.Yes;
 
             string serializedVo = NewtonsoftJsonSerializer.SerializeObject(ie);
             string serializedBool = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
@@ -60,7 +61,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToShort_WithSystemTextJsonProvider()
         {
-            var ie = SystemTextJsonBoolVo.Yes;
+            var ie = SystemTextJsonBoolEnum.Yes;
 
             string serializedVo = SystemTextJsonSerializer.Serialize(ie);
             string serializedShort = SystemTextJsonSerializer.Serialize(ie.Value);
@@ -72,10 +73,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         public void CanDeserializeFromShort_WithNewtonsoftJsonProvider()
         {
             bool value = true;
-            var ie = NewtonsoftJsonBoolVo.Yes;
+            var ie = NewtonsoftJsonBoolEnum.Yes;
             var serializedShort = NewtonsoftJsonSerializer.SerializeObject(value);
 
-            var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonBoolVo>(serializedShort);
+            var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonBoolEnum>(serializedShort);
 
             Assert.Equal(ie, deserializedVo);
         }
@@ -84,10 +85,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         public void CanDeserializeFromShort_WithSystemTextJsonProvider()
         {
             bool value = true;
-            var ie = SystemTextJsonBoolVo.Yes;
+            var ie = SystemTextJsonBoolEnum.Yes;
             var serializedShort = SystemTextJsonSerializer.Serialize(value);
 
-            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonBoolVo>(serializedShort);
+            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonBoolEnum>(serializedShort);
 
             Assert.Equal(ie, deserializedVo);
         }
@@ -95,7 +96,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToShort_WithBothJsonConverters()
         {
-            var ie = BothJsonBoolVo.Yes;
+            var ie = BothJsonBoolEnum.Yes;
 
             var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(ie);
             var serializedShort1 = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
@@ -110,7 +111,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
-            var ie = NoJsonBoolVo.Yes;
+            var ie = NoJsonBoolEnum.Yes;
 
             var serialized = SystemTextJsonSerializer.Serialize(ie);
 
@@ -122,7 +123,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var ie = NoJsonBoolVo.Yes;
+            var ie = NoJsonBoolEnum.Yes;
 
             var serialized = NewtonsoftJsonSerializer.SerializeObject(ie);
 
@@ -134,7 +135,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
-            var ie = NoConverterBoolVo.Yes;
+            var ie = NoConverterBoolEnum.Yes;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(ie);
             var systemText = SystemTextJsonSerializer.Serialize(ie);
@@ -155,7 +156,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
                 .UseSqlite(connection)
                 .Options;
 
-            var original = new EfCoreTestEntity { Id = EfCoreBoolVo.Yes };
+            var original = new EfCoreTestEntity { Id = EfCoreBoolEnum.Yes };
             using (var context = new TestDbContext(options))
             {
                 context.Database.EnsureCreated();
@@ -188,7 +189,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
 
-            var original = new LinqToDbTestEntity { Id = LinqToDbBoolVo.Yes };
+            var original = new LinqToDbTestEntity { Id = LinqToDbBoolEnum.Yes };
             using (var context = new DataConnection(
                 SQLiteTools.GetDataProvider("SQLite.MS"),
                 connection,
@@ -213,11 +214,11 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [InlineData("True",  "True")]
         public void TypeConverter_CanConvertToAndFrom_strings_1(object input, string expectedString)
         {
-            TypeConverter converter = TypeDescriptor.GetConverter(typeof(NoJsonBoolVo));
+            TypeConverter converter = TypeDescriptor.GetConverter(typeof(NoJsonBoolEnum));
             
             object converted = converter.ConvertFrom(input);
-            Assert.IsType<NoJsonBoolVo>(converted);
-            Assert.Equal(NoJsonBoolVo.Yes, converted);
+            Assert.IsType<NoJsonBoolEnum>(converted);
+            Assert.Equal(NoJsonBoolEnum.Yes, converted);
 
             object reconverted = converter.ConvertTo(converted, input.GetType());
             Assert.Equal(expectedString, reconverted);
@@ -228,11 +229,11 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [InlineData("False", "False")]
         public void TypeConverter_CanConvertToAndFrom_strings_2(object input, string expectedString)
         {
-            TypeConverter converter = TypeDescriptor.GetConverter(typeof(NoJsonBoolVo));
+            TypeConverter converter = TypeDescriptor.GetConverter(typeof(NoJsonBoolEnum));
             
             object converted = converter.ConvertFrom(input);
-            Assert.IsType<NoJsonBoolVo>(converted);
-            Assert.Equal(NoJsonBoolVo.No, converted);
+            Assert.IsType<NoJsonBoolEnum>(converted);
+            Assert.Equal(NoJsonBoolEnum.No, converted);
 
             object reconverted = converter.ConvertTo(converted, input.GetType());
             Assert.Equal(expectedString, reconverted);
@@ -243,9 +244,9 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [InlineData(false, "False")]
         public void TypeConverter_CanConvertToAndFrom_bools_and_the_string_output_conversion_is_the_string_representation_of_the_VALUE_as_opposed_to_ToString_which_is_the_name(bool input, string expectedString)
         {
-            TypeConverter converter = TypeDescriptor.GetConverter(typeof(NoJsonBoolVo));
+            TypeConverter converter = TypeDescriptor.GetConverter(typeof(NoJsonBoolEnum));
 
-            NoJsonBoolVo v = NoJsonBoolVo.FromValue(input);
+            NoJsonBoolEnum v = NoJsonBoolEnum.FromValue(input);
             
             object asString = converter.ConvertTo(v, typeof(string));
             Assert.Equal(expectedString, asString);
@@ -266,7 +267,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
                     {
                         builder
                             .Property(x => x.Id)
-                            .HasConversion(new EfCoreBoolVo.EfCoreValueConverter())
+                            .HasConversion(new EfCoreBoolEnum.EfCoreValueConverter())
                             .ValueGeneratedNever();
                     });
             }
@@ -274,14 +275,14 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 
         public class EfCoreTestEntity
         {
-            public EfCoreBoolVo Id { get; set; }
+            public EfCoreBoolEnum Id { get; set; }
         }
 
         public class LinqToDbTestEntity
         {
             [Column(DataType = DataType.Boolean)]
-            [ValueConverter(ConverterType = typeof(LinqToDbBoolVo.LinqToDbValueConverter))]
-            public LinqToDbBoolVo Id { get; set; }
+            [ValueConverter(ConverterType = typeof(LinqToDbBoolEnum.LinqToDbValueConverter))]
+            public LinqToDbBoolEnum Id { get; set; }
         }
     }
 }

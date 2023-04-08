@@ -1,12 +1,12 @@
 ﻿#nullable disable
 using System.ComponentModel;
 using System.Threading.Tasks;
+using ConsumerTests.TestEnums;
 using Dapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Intellenum.IntegrationTests.TestEnums;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
@@ -15,7 +15,7 @@ using LinqToDB.Mapping;
 // ReSharper disable EqualExpressionComparison
 #pragma warning disable 1718
 
-namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
+namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(long))]
     [Instance("Item1", 1)]
@@ -27,26 +27,26 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void equality_between_same_value_objects()
         {
-            LongVo.Item1.Equals(LongVo.Item1).Should().BeTrue();
-            (LongVo.Item1 == LongVo.Item1).Should().BeTrue();
+            LongEnum.Item1.Equals(LongEnum.Item1).Should().BeTrue();
+            (LongEnum.Item1 == LongEnum.Item1).Should().BeTrue();
 
-            (LongVo.Item1 != LongVo.Item2).Should().BeTrue();
-            (LongVo.Item1 == LongVo.Item2).Should().BeFalse();
+            (LongEnum.Item1 != LongEnum.Item2).Should().BeTrue();
+            (LongEnum.Item1 == LongEnum.Item2).Should().BeFalse();
 
-            LongVo.Item1.Equals(LongVo.Item1).Should().BeTrue();
-            (LongVo.Item1 == LongVo.Item1).Should().BeTrue();
+            LongEnum.Item1.Equals(LongEnum.Item1).Should().BeTrue();
+            (LongEnum.Item1 == LongEnum.Item1).Should().BeTrue();
 
-            var original = LongVo.Item1;
-            var other = LongVo.Item1;
+            var original = LongEnum.Item1;
+            var other = LongEnum.Item1;
 
-            ((original as IEquatable<LongVo>).Equals(other)).Should().BeTrue();
-            ((other as IEquatable<LongVo>).Equals(original)).Should().BeTrue();
+            ((original as IEquatable<LongEnum>).Equals(other)).Should().BeTrue();
+            ((other as IEquatable<LongEnum>).Equals(original)).Should().BeTrue();
         }
 
         [Fact]
         public void CanSerializeToLong_WithNewtonsoftJsonProvider()
         {
-            var ie = NewtonsoftJsonLongVo.Item1;
+            var ie = NewtonsoftJsonLongEnum.Item1;
 
             string serializedVo = NewtonsoftJsonSerializer.SerializeObject(ie);
             string serializedLong = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
@@ -57,7 +57,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToLong_WithSystemTextJsonProvider()
         {
-            var ie = SystemTextJsonLongVo.Item1;
+            var ie = SystemTextJsonLongEnum.Item1;
 
             string serializedVo = SystemTextJsonSerializer.Serialize(ie);
             string serializedLong = SystemTextJsonSerializer.Serialize(ie.Value);
@@ -69,10 +69,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         public void CanDeserializeFromLong_WithNewtonsoftJsonProvider()
         {
             var value = 1L;
-            var ie = NewtonsoftJsonLongVo.Item1;
+            var ie = NewtonsoftJsonLongEnum.Item1;
             var serializedLong = NewtonsoftJsonSerializer.SerializeObject(value);
 
-            var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonLongVo>(serializedLong);
+            var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonLongEnum>(serializedLong);
 
             Assert.Equal(ie, deserializedVo);
         }
@@ -80,10 +80,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromLong_WithSystemTextJsonProvider()
         {
-            var ie = SystemTextJsonLongVo.Item1;
+            var ie = SystemTextJsonLongEnum.Item1;
             var serializedLong = SystemTextJsonSerializer.Serialize(ie);
 
-            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonLongVo>(serializedLong);
+            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonLongEnum>(serializedLong);
 
             Assert.Equal(ie, deserializedVo);
         }
@@ -91,10 +91,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromLong_WithSystemTextJsonProvider_treating_numbers_as_string()
         {
-            var ie = SystemTextJsonLongVo_Treating_numbers_as_string.Item1;
+            var ie = SystemTextJsonLongEnum_Treating_numbers_as_string.Item1;
             var serializedLong = SystemTextJsonSerializer.Serialize(ie);
 
-            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonLongVo_Treating_numbers_as_string>(serializedLong);
+            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonLongEnum_Treating_numbers_as_string>(serializedLong);
 
             Assert.Equal(ie, deserializedVo);
         }
@@ -102,7 +102,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToLong_WithBothJsonConverters()
         {
-            var ie = BothJsonLongVo.Item1;
+            var ie = BothJsonLongEnum.Item1;
 
             var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(ie);
             var serializedLong1 = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
@@ -117,7 +117,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
-            var ie = NoJsonLongVo.Item1;
+            var ie = NoJsonLongEnum.Item1;
 
             var serialized = SystemTextJsonSerializer.Serialize(ie);
 
@@ -129,7 +129,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var ie = NoJsonLongVo.Item1;
+            var ie = NoJsonLongEnum.Item1;
 
             var serialized = NewtonsoftJsonSerializer.SerializeObject(ie);
 
@@ -141,7 +141,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
-            var ie = NoConverterLongVo.Item1;
+            var ie = NoConverterLongEnum.Item1;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(ie);
             var systemText = SystemTextJsonSerializer.Serialize(ie);
@@ -162,7 +162,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
                 .UseSqlite(connection)
                 .Options;
 
-            var original = new EfCoreTestEntity { Id = EfCoreLongVo.Item1 };
+            var original = new EfCoreTestEntity { Id = EfCoreLongEnum.Item1 };
             using (var context = new TestDbContext(options))
             {
                 context.Database.EnsureCreated();
@@ -183,10 +183,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            IEnumerable<DapperLongVo> results = await connection.QueryAsync<DapperLongVo>("SELECT 1");
+            IEnumerable<DapperLongEnum> results = await connection.QueryAsync<DapperLongEnum>("SELECT 1");
 
             var value = Assert.Single(results);
-            Assert.Equal(DapperLongVo.Item1, value);
+            Assert.Equal(DapperLongEnum.Item1, value);
         }
 
         [Fact]
@@ -195,7 +195,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
 
-            var original = new LinqToDbTestEntity { Id = LinqToDbLongVo.Item1 };
+            var original = new LinqToDbTestEntity { Id = LinqToDbLongEnum.Item1 };
             using (var context = new DataConnection(
                 SQLiteTools.GetDataProvider("SQLite.MS"),
                 connection,
@@ -220,10 +220,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [InlineData("1")]
         public void TypeConverter_CanConvertToAndFrom(object value)
         {
-            var converter = TypeDescriptor.GetConverter(typeof(NoJsonLongVo));
+            var converter = TypeDescriptor.GetConverter(typeof(NoJsonLongEnum));
             var id = converter.ConvertFrom(value);
-            Assert.IsType<NoJsonLongVo>(id);
-            Assert.Equal(NoJsonLongVo.Item1, id);
+            Assert.IsType<NoJsonLongEnum>(id);
+            Assert.Equal(NoJsonLongEnum.Item1, id);
 
             var reconverted = converter.ConvertTo(id, value.GetType());
             Assert.Equal(value, reconverted);
@@ -244,7 +244,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
                      {
                          builder
                              .Property(x => x.Id)
-                             .HasConversion(new EfCoreLongVo.EfCoreValueConverter())
+                             .HasConversion(new EfCoreLongEnum.EfCoreValueConverter())
                              .ValueGeneratedNever();
                      });
              }
@@ -252,14 +252,14 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 
         public class EfCoreTestEntity
         {
-            public EfCoreLongVo Id { get; set; }
+            public EfCoreLongEnum Id { get; set; }
         }
 
         public class LinqToDbTestEntity
         {
             [Column(DataType = DataType.Int64)]
-            [ValueConverter(ConverterType = typeof(LinqToDbLongVo.LinqToDbValueConverter))]
-            public LinqToDbLongVo Id { get; set; }
+            [ValueConverter(ConverterType = typeof(LinqToDbLongEnum.LinqToDbValueConverter))]
+            public LinqToDbLongEnum Id { get; set; }
         }
     }
 }

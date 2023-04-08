@@ -1,52 +1,52 @@
-﻿namespace Intellenum.IntegrationTests.TestEnums
+﻿namespace ConsumerTests.TestEnums
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(short))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class ShortVo { }
+    public partial class ShortEnum { }
 
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(short))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class NoConverterShortVo { }
+    public partial class NoConverterShortEnum { }
 
     [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(short))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class NoJsonShortVo { }
+    public partial class NoJsonShortEnum { }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(short))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class NewtonsoftJsonShortVo { }
+    public partial class NewtonsoftJsonShortEnum { }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(short))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class SystemTextJsonShortVo { }
+    public partial class SystemTextJsonShortEnum { }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(short), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class SystemTextJsonShortVo_Treating_numbers_as_string { }
+    public partial class SystemTextJsonShortEnum_Treating_numbers_as_string { }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(short))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class BothJsonShortVo { }
+    public partial class BothJsonShortEnum { }
 
     [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(short))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class EfCoreShortVo { }
+    public partial class EfCoreShortEnum { }
 
     [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(short))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class DapperShortVo { }
+    public partial class DapperShortEnum { }
 
     [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(short))]
     [Instance("Item1", 1)]
     [Instance("Item2", 2)]
-    public partial class LinqToDbShortVo { }
+    public partial class LinqToDbShortEnum { }
 }

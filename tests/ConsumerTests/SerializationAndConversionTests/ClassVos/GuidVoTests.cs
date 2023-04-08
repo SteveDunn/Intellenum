@@ -1,12 +1,12 @@
 ﻿#nullable disable
 using System.ComponentModel;
 using System.Threading.Tasks;
+using ConsumerTests.TestEnums;
 using Dapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Intellenum.IntegrationTests.TestEnums;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
@@ -15,7 +15,7 @@ using LinqToDB.Mapping;
 // ReSharper disable EqualExpressionComparison
 #pragma warning disable 1718
 
-namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
+namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(Guid))]
     public partial class AnotherGuidVo
@@ -33,26 +33,26 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void equality_between_same_value_objects()
         {
-            GuidVo.Item1.Equals(GuidVo.Item1).Should().BeTrue();
-            (GuidVo.Item1 == GuidVo.Item1).Should().BeTrue();
+            GuidEnum.Item1.Equals(GuidEnum.Item1).Should().BeTrue();
+            (GuidEnum.Item1 == GuidEnum.Item1).Should().BeTrue();
 
-            (GuidVo.Item1 != GuidVo.Item2).Should().BeTrue();
-            (GuidVo.Item1 == GuidVo.Item2).Should().BeFalse();
+            (GuidEnum.Item1 != GuidEnum.Item2).Should().BeTrue();
+            (GuidEnum.Item1 == GuidEnum.Item2).Should().BeFalse();
 
-            GuidVo.Item1.Equals(GuidVo.Item1).Should().BeTrue();
-            (GuidVo.Item1 == GuidVo.Item1).Should().BeTrue();
+            GuidEnum.Item1.Equals(GuidEnum.Item1).Should().BeTrue();
+            (GuidEnum.Item1 == GuidEnum.Item1).Should().BeTrue();
 
-            var original = GuidVo.Item1;
-            var other = GuidVo.Item1;
+            var original = GuidEnum.Item1;
+            var other = GuidEnum.Item1;
 
-            ((original as IEquatable<GuidVo>).Equals(other)).Should().BeTrue();
-            ((other as IEquatable<GuidVo>).Equals(original)).Should().BeTrue();
+            ((original as IEquatable<GuidEnum>).Equals(other)).Should().BeTrue();
+            ((other as IEquatable<GuidEnum>).Equals(original)).Should().BeTrue();
         }
 
         [Fact]
         public void CanSerializeToString_WithNewtonsoftJsonProvider()
         {
-            var g1 = NewtonsoftJsonGuidVo.Item1;
+            var g1 = NewtonsoftJsonGuidEnum.Item1;
 
             string serializedGuid = NewtonsoftJsonSerializer.SerializeObject(g1);
             string serializedString = NewtonsoftJsonSerializer.SerializeObject(g1.Value);
@@ -63,7 +63,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToString_WithSystemTextJsonProvider()
         {
-            var ie = SystemTextJsonGuidVo.Item1;
+            var ie = SystemTextJsonGuidEnum.Item1;
 
             string serializedVo = SystemTextJsonSerializer.Serialize(ie);
             string serializedString = SystemTextJsonSerializer.Serialize(ie.Value);
@@ -74,11 +74,11 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromString_WithNewtonsoftJsonProvider()
         {
-            var value = NewtonsoftJsonGuidVo.Item1.Value;
-            var ie = NewtonsoftJsonGuidVo.Item1;
+            var value = NewtonsoftJsonGuidEnum.Item1.Value;
+            var ie = NewtonsoftJsonGuidEnum.Item1;
             var serializedString = NewtonsoftJsonSerializer.SerializeObject(value);
 
-            var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonGuidVo>(serializedString);
+            var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonGuidEnum>(serializedString);
 
             Assert.Equal(ie, deserializedVo);
         }
@@ -86,11 +86,11 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromString_WithSystemTextJsonProvider()
         {
-            var value = NewtonsoftJsonGuidVo.Item1.Value;
-            var ie = SystemTextJsonGuidVo.Item1;
+            var value = NewtonsoftJsonGuidEnum.Item1.Value;
+            var ie = SystemTextJsonGuidEnum.Item1;
             var serializedString = SystemTextJsonSerializer.Serialize(value);
 
-            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonGuidVo>(serializedString);
+            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonGuidEnum>(serializedString);
 
             Assert.Equal(ie, deserializedVo);
         }
@@ -98,7 +98,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToString_WithBothJsonConverters()
         {
-            var ie = BothJsonGuidVo.Item1;
+            var ie = BothJsonGuidEnum.Item1;
 
             var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(ie);
             var serializedString1 = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
@@ -113,7 +113,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
-            var ie = NoJsonGuidVo.Item1;
+            var ie = NoJsonGuidEnum.Item1;
 
             var serialized = SystemTextJsonSerializer.Serialize(ie);
 
@@ -125,7 +125,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var ie = NoJsonGuidVo.Item1;
+            var ie = NoJsonGuidEnum.Item1;
 
             var serialized = NewtonsoftJsonSerializer.SerializeObject(ie);
 
@@ -137,7 +137,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
-            var ie = NoConverterGuidVo.Item1;
+            var ie = NoConverterGuidEnum.Item1;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(ie);
             var systemText = SystemTextJsonSerializer.Serialize(ie);
@@ -158,7 +158,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
                 .UseSqlite(connection)
                 .Options;
 
-            var original = new EfCoreTestEntity { Id = EfCoreGuidVo.Item1 };
+            var original = new EfCoreTestEntity { Id = EfCoreGuidEnum.Item1 };
             using (var context = new TestDbContext(options))
             {
                 context.Database.EnsureCreated();
@@ -179,10 +179,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            IEnumerable<DapperGuidVo> results = await connection.QueryAsync<DapperGuidVo>("SELECT '00000000-0000-0000-0000-000000000001'");
+            IEnumerable<DapperGuidEnum> results = await connection.QueryAsync<DapperGuidEnum>("SELECT '00000000-0000-0000-0000-000000000001'");
 
             var value = Assert.Single(results);
-            Assert.Equal(value, DapperGuidVo.Item1);
+            Assert.Equal(value, DapperGuidEnum.Item1);
         }
 
         [Fact]
@@ -193,7 +193,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 
             var original = new LinqToDbTestEntity
             {
-                Id = LinqToDbGuidVo.Item1
+                Id = LinqToDbGuidEnum.Item1
             };
             using (var context = new DataConnection(
                 SQLiteTools.GetDataProvider("SQLite.MS"),
@@ -217,10 +217,10 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void TypeConverter_CanConvertToAndFrom()
         {
-            var converter = TypeDescriptor.GetConverter(typeof(NoJsonGuidVo));
+            var converter = TypeDescriptor.GetConverter(typeof(NoJsonGuidEnum));
             var id = converter.ConvertFrom("00000000-0000-0000-0000-000000000001");
-            Assert.IsType<NoJsonGuidVo>(id);
-            Assert.Equal(NoJsonGuidVo.Item1, id);
+            Assert.IsType<NoJsonGuidEnum>(id);
+            Assert.Equal(NoJsonGuidEnum.Item1, id);
 
             var reconverted = converter.ConvertTo(id, typeof(string));
             Assert.Equal("00000000-0000-0000-0000-000000000001", reconverted);
@@ -241,7 +241,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
                      {
                          builder
                              .Property(x => x.Id)
-                             .HasConversion(new EfCoreGuidVo.EfCoreValueConverter())
+                             .HasConversion(new EfCoreGuidEnum.EfCoreValueConverter())
                              .ValueGeneratedNever();
                      });
              }
@@ -249,14 +249,14 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 
         public class EfCoreTestEntity
         {
-            public EfCoreGuidVo Id { get; set; }
+            public EfCoreGuidEnum Id { get; set; }
         }
 
         public class LinqToDbTestEntity
         {
             [Column(DataType = DataType.Guid)]
-            [ValueConverter(ConverterType = typeof(LinqToDbGuidVo.LinqToDbValueConverter))]
-            public LinqToDbGuidVo Id { get; set; }
+            [ValueConverter(ConverterType = typeof(LinqToDbGuidEnum.LinqToDbValueConverter))]
+            public LinqToDbGuidEnum Id { get; set; }
         }
     }
 }

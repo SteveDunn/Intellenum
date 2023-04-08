@@ -1,9 +1,9 @@
-﻿namespace Intellenum.IntegrationTests.TestEnums
+﻿namespace ConsumerTests.TestEnums
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(decimal))]
-    public partial class DecimalVo
+    public partial class DecimalEnum
     {
-        static DecimalVo()
+        static DecimalEnum()
         {
             Instance("Item1", 1.1m);
             Instance("Item2", 2.2m);

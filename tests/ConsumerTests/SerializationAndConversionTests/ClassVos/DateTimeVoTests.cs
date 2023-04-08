@@ -1,12 +1,12 @@
 ﻿#nullable disable
 using System.ComponentModel;
 using System.Threading.Tasks;
+using ConsumerTests.TestEnums;
 using Dapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Intellenum.IntegrationTests.TestEnums;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
@@ -21,7 +21,7 @@ using LinqToDB.Mapping;
 // ReSharper disable EqualExpressionComparison
 #pragma warning disable 1718
 
-namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
+namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(DateTime))]
     public partial class AnotherDateTimeVo
@@ -40,20 +40,20 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void equality_between_same_value_objects()
         {
-            DateTimeVo.Item1.Equals(DateTimeVo.Item1).Should().BeTrue();
-            (DateTimeVo.Item1 == DateTimeVo.Item1).Should().BeTrue();
+            DateTimeEnum.Item1.Equals(DateTimeEnum.Item1).Should().BeTrue();
+            (DateTimeEnum.Item1 == DateTimeEnum.Item1).Should().BeTrue();
 
-            (DateTimeVo.Item1 != DateTimeVo.Item2).Should().BeTrue();
-            (DateTimeVo.Item1 == DateTimeVo.Item2).Should().BeFalse();
+            (DateTimeEnum.Item1 != DateTimeEnum.Item2).Should().BeTrue();
+            (DateTimeEnum.Item1 == DateTimeEnum.Item2).Should().BeFalse();
 
-            DateTimeVo.Item1.Equals(DateTimeVo.Item1).Should().BeTrue();
-            (DateTimeVo.Item1 == DateTimeVo.Item1).Should().BeTrue();
+            DateTimeEnum.Item1.Equals(DateTimeEnum.Item1).Should().BeTrue();
+            (DateTimeEnum.Item1 == DateTimeEnum.Item1).Should().BeTrue();
 
-            var original = DateTimeVo.Item1;
-            var other = DateTimeVo.Item1;
+            var original = DateTimeEnum.Item1;
+            var other = DateTimeEnum.Item1;
 
-            ((original as IEquatable<DateTimeVo>).Equals(other)).Should().BeTrue();
-            ((other as IEquatable<DateTimeVo>).Equals(original)).Should().BeTrue();
+            ((original as IEquatable<DateTimeEnum>).Equals(other)).Should().BeTrue();
+            ((other as IEquatable<DateTimeEnum>).Equals(original)).Should().BeTrue();
         }
 
         [Fact]

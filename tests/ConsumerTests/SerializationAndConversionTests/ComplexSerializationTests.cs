@@ -7,31 +7,31 @@ public class ComplexSerializationTests
 {
     public class Complex
     {
-        public Intellenum.IntegrationTests.TestEnums.SystemTextJsonBoolVo Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonBoolVo { get; set; } = Intellenum.IntegrationTests.TestEnums.SystemTextJsonBoolVo.Yes;
-        public Intellenum.IntegrationTests.TestEnums.SystemTextJsonByteVo Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonByteVo { get; set; } = Intellenum.IntegrationTests.TestEnums.SystemTextJsonByteVo.Item1;
-        public Intellenum.IntegrationTests.TestEnums.SystemTextJsonCharEnum VogenIntegrationTestsTestTypesClassEnumsSystemTextJsonCharEnum { get; set; } = Intellenum.IntegrationTests.TestEnums.SystemTextJsonCharEnum.B;
-        public Intellenum.IntegrationTests.TestEnums.SystemTextJsonDateTimeOffsetVo Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDateTimeOffsetVo { get; set; } = Intellenum.IntegrationTests.TestEnums.SystemTextJsonDateTimeOffsetVo.JanFirst;
+        public ConsumerTests.TestEnums.SystemTextJsonBoolEnum SystemTextJsonBoolEnum { get; set; } = ConsumerTests.TestEnums.SystemTextJsonBoolEnum.Yes;
+        public ConsumerTests.TestEnums.SystemTextJsonByteEnum SystemTextJsonByteEnum { get; set; } = ConsumerTests.TestEnums.SystemTextJsonByteEnum.Item1;
+        public ConsumerTests.TestEnums.SystemTextJsonCharEnum SystemTextJsonCharEnum { get; set; } = ConsumerTests.TestEnums.SystemTextJsonCharEnum.B;
+        public ConsumerTests.TestEnums.SystemTextJsonDateTimeOffsetEnum SystemTextJsonDateTimeOffsetEnum { get; set; } = ConsumerTests.TestEnums.SystemTextJsonDateTimeOffsetEnum.JanFirst;
 
-        public Intellenum.IntegrationTests.TestEnums.SystemTextJsonDateTimeVo
-            Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDateTimeVo { get; set; } =
-            Intellenum.IntegrationTests.TestEnums.SystemTextJsonDateTimeVo.Item1;
-        public Intellenum.IntegrationTests.TestEnums.SystemTextJsonDecimalVo Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDecimalVo { get; set; } = Intellenum.IntegrationTests.TestEnums.SystemTextJsonDecimalVo.Item1;
-        public Intellenum.IntegrationTests.TestEnums.SystemTextJsonDoubleVo Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDoubleVo { get; set; } = Intellenum.IntegrationTests.TestEnums.SystemTextJsonDoubleVo.Item1;
+        public ConsumerTests.TestEnums.SystemTextJsonDateTimeVo
+            TestTypes_SystemTextJsonDateTimeEnum { get; set; } =
+            ConsumerTests.TestEnums.SystemTextJsonDateTimeVo.Item1;
+        public ConsumerTests.TestEnums.SystemTextJsonDecimalVo TestTypes_SystemTextJsonDecimalEnum { get; set; } = ConsumerTests.TestEnums.SystemTextJsonDecimalVo.Item1;
+        public ConsumerTests.TestEnums.SystemTextJsonDoubleEnum TestTypes_SystemTextJsonDoubleEnum { get; set; } = ConsumerTests.TestEnums.SystemTextJsonDoubleEnum.Item1;
 
-        public Intellenum.IntegrationTests.TestEnums.SystemTextJsonFloatEnum
-            VogenIntegrationTestsTestTypesClassEnumsSystemTextJsonFloatEnum { get; set; } =
-            Intellenum.IntegrationTests.TestEnums.SystemTextJsonFloatEnum.Item1;
+        public ConsumerTests.TestEnums.SystemTextJsonFloatEnum
+            TestTypesClassEnumsSystemTextJsonFloatEnum { get; set; } =
+            ConsumerTests.TestEnums.SystemTextJsonFloatEnum.Item1;
 
-        public Intellenum.IntegrationTests.TestEnums.SystemTextJsonFooVo
-            Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonFooVo { get; set; } =
-            Intellenum.IntegrationTests.TestEnums.SystemTextJsonFooVo.Item1;
-        public Intellenum.IntegrationTests.TestEnums.SystemTextJsonGuidVo Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonGuidVo { get; set; } = Intellenum.IntegrationTests.TestEnums.SystemTextJsonGuidVo.Item1;
-        public Intellenum.IntegrationTests.TestEnums.SystemTextJsonIntVo Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonIntVo { get; set; } = Intellenum.IntegrationTests.TestEnums.SystemTextJsonIntVo.Item1;
-        public Intellenum.IntegrationTests.TestEnums.SystemTextJsonLongVo Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonLongVo { get; set; } = Intellenum.IntegrationTests.TestEnums.SystemTextJsonLongVo.Item1;
+        public ConsumerTests.TestEnums.SystemTextJsonFooEnum
+            TestTypes_SystemTextJsonFooVo { get; set; } =
+            ConsumerTests.TestEnums.SystemTextJsonFooEnum.Item1;
+        public ConsumerTests.TestEnums.SystemTextJsonGuidEnum SystemTextJsonGuidEnum { get; set; } = ConsumerTests.TestEnums.SystemTextJsonGuidEnum.Item1;
+        public ConsumerTests.TestEnums.SystemTextJsonIntEnum SystemTextJsonIntEnum { get; set; } = ConsumerTests.TestEnums.SystemTextJsonIntEnum.Item1;
+        public ConsumerTests.TestEnums.SystemTextJsonLongEnum SystemTextJsonLongEnum { get; set; } = ConsumerTests.TestEnums.SystemTextJsonLongEnum.Item1;
 
-        public Intellenum.IntegrationTests.TestEnums.SystemTextJsonStringVo
-            Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonStringVo { get; set; } =
-            Intellenum.IntegrationTests.TestEnums.SystemTextJsonStringVo.Item1;
+        public ConsumerTests.TestEnums.SystemTextJsonStringEnum
+            SystemTextJsonStringEnum { get; set; } =
+            ConsumerTests.TestEnums.SystemTextJsonStringEnum.Item1;
     }
 
     [Fact]
@@ -42,20 +42,20 @@ public class ComplexSerializationTests
         string serialized = JsonSerializer.Serialize(complex);
         Complex deserialized = JsonSerializer.Deserialize<Complex>(serialized);
 
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonBoolVo.Value.Should().Be(true);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonBoolVo.Value.Should().Be(true);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonByteVo.Value.Should().Be(1);
-        deserialized.VogenIntegrationTestsTestTypesClassEnumsSystemTextJsonCharEnum.Value.Should().Be('b');
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDateTimeOffsetVo.Value.Should().Be(new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero));
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDateTimeVo.Value.Should().Be(new DateTime(2019, 12, 13, 14, 15, 16));
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDecimalVo.Value.Should().Be(1.1m);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonDoubleVo.Value.Should().Be(1.1d);
-        deserialized.VogenIntegrationTestsTestTypesClassEnumsSystemTextJsonFloatEnum.Value.Should().Be(1.1f);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonFooVo.Value.Age.Should().Be(1);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonFooVo.Value.Name.Should().Be("One");
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonGuidVo.Value.Should().Be(new Guid("00000000-0000-0000-0000-000000000001"));
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonIntVo.Value.Should().Be(1);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonLongVo.Value.Should().Be(1L);
-        deserialized.Vogen_IntegrationTests_TestTypes_ClassVos_SystemTextJsonStringVo.Value.Should().Be("Item1!");
+        deserialized.SystemTextJsonBoolEnum.Value.Should().Be(true);
+        deserialized.SystemTextJsonBoolEnum.Value.Should().Be(true);
+        deserialized.SystemTextJsonByteEnum.Value.Should().Be(1);
+        deserialized.SystemTextJsonCharEnum.Value.Should().Be('b');
+        deserialized.SystemTextJsonDateTimeOffsetEnum.Value.Should().Be(new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero));
+        deserialized.TestTypes_SystemTextJsonDateTimeEnum.Value.Should().Be(new DateTime(2019, 12, 13, 14, 15, 16));
+        deserialized.TestTypes_SystemTextJsonDecimalEnum.Value.Should().Be(1.1m);
+        deserialized.TestTypes_SystemTextJsonDoubleEnum.Value.Should().Be(1.1d);
+        deserialized.TestTypesClassEnumsSystemTextJsonFloatEnum.Value.Should().Be(1.1f);
+        deserialized.TestTypes_SystemTextJsonFooVo.Value.Age.Should().Be(1);
+        deserialized.TestTypes_SystemTextJsonFooVo.Value.Name.Should().Be("One");
+        deserialized.SystemTextJsonGuidEnum.Value.Should().Be(new Guid("00000000-0000-0000-0000-000000000001"));
+        deserialized.SystemTextJsonIntEnum.Value.Should().Be(1);
+        deserialized.SystemTextJsonLongEnum.Value.Should().Be(1L);
+        deserialized.SystemTextJsonStringEnum.Value.Should().Be("Item1!");
     }
 }

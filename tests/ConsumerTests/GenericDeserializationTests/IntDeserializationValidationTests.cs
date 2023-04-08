@@ -24,7 +24,7 @@ public class IntDeserializationValidationTests
         using var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();
         
-        var actual = (await connection.QueryAsync<MyVoInt_should_not_bypass_validation>("SELECT 1")).AsList()[0].Value;
+        var actual = (await connection.QueryAsync<MyIntEnum>("SELECT 1")).AsList()[0].Value;
 
         actual.Should().Be(1);
     }
@@ -62,10 +62,10 @@ public class IntDeserializationValidationTests
     [Fact]
     public void TypeConversion()
     {
-        var converter = TypeDescriptor.GetConverter(typeof(MyVoInt_should_not_bypass_validation));
+        var converter = TypeDescriptor.GetConverter(typeof(MyIntEnum));
         var validValue = 1;
 
-        var actual = ((MyVoInt_should_not_bypass_validation?)converter.ConvertFrom(validValue))!.Value;
+        var actual = ((MyIntEnum?)converter.ConvertFrom(validValue))!.Value;
 
         actual.Should().Be(1);
     }
@@ -73,9 +73,9 @@ public class IntDeserializationValidationTests
     [Fact]
     public void Deserialization_systemtextjson()
     {
-        var validValue = SystemTextJsonSerializer.Serialize(MyVoInt_should_not_bypass_validation.Item1);
+        var validValue = SystemTextJsonSerializer.Serialize(MyIntEnum.Item1);
 
-        var actual = SystemTextJsonSerializer.Deserialize<MyVoInt_should_not_bypass_validation>(validValue)!.Value;
+        var actual = SystemTextJsonSerializer.Deserialize<MyIntEnum>(validValue)!.Value;
 
         actual.Should().Be(1);
     }
@@ -83,9 +83,9 @@ public class IntDeserializationValidationTests
     [Fact]
     public void Deserialization_newtonsoft()
     {
-        var validValue = NewtonsoftJsonSerializer.SerializeObject(MyVoInt_should_not_bypass_validation.Item1);
+        var validValue = NewtonsoftJsonSerializer.SerializeObject(MyIntEnum.Item1);
 
-        var actual = NewtonsoftJsonSerializer.DeserializeObject<MyVoInt_should_not_bypass_validation>(validValue)!.Value;
+        var actual = NewtonsoftJsonSerializer.DeserializeObject<MyIntEnum>(validValue)!.Value;
         
         actual.Should().Be(1);
     }

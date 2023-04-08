@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using ConsumerTests.TestEnums;
 using Dapper;
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
@@ -14,7 +15,6 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Intellenum.IntegrationTests.TestEnums;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
@@ -26,7 +26,7 @@ using LinqToDB.Mapping;
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable SuspiciousTypeConversion.Global
 
-namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
+namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(TimeOnly))]
     public partial class AnotherTimeOnlyVo
@@ -45,27 +45,27 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void equality_between_same_value_objects()
         {
-            TimeOnlyVo.Item1.Equals(TimeOnlyVo.Item1).Should().BeTrue();
-            (TimeOnlyVo.Item1 == TimeOnlyVo.Item1).Should().BeTrue();
+            TimeOnlyEnum.Item1.Equals(TimeOnlyEnum.Item1).Should().BeTrue();
+            (TimeOnlyEnum.Item1 == TimeOnlyEnum.Item1).Should().BeTrue();
 
-            (TimeOnlyVo.Item1 != TimeOnlyVo.Item2).Should().BeTrue();
-            (TimeOnlyVo.Item1 == TimeOnlyVo.Item2).Should().BeFalse();
+            (TimeOnlyEnum.Item1 != TimeOnlyEnum.Item2).Should().BeTrue();
+            (TimeOnlyEnum.Item1 == TimeOnlyEnum.Item2).Should().BeFalse();
 
-            TimeOnlyVo.Item1.Equals(TimeOnlyVo.Item1).Should().BeTrue();
-            (TimeOnlyVo.Item1 == TimeOnlyVo.Item1).Should().BeTrue();
+            TimeOnlyEnum.Item1.Equals(TimeOnlyEnum.Item1).Should().BeTrue();
+            (TimeOnlyEnum.Item1 == TimeOnlyEnum.Item1).Should().BeTrue();
 
-            var original = TimeOnlyVo.Item1;
-            var other = TimeOnlyVo.Item1;
+            var original = TimeOnlyEnum.Item1;
+            var other = TimeOnlyEnum.Item1;
 
-            ((original as IEquatable<TimeOnlyVo>).Equals(other)).Should().BeTrue();
-            ((other as IEquatable<TimeOnlyVo>).Equals(original)).Should().BeTrue();
+            ((original as IEquatable<TimeOnlyEnum>).Equals(other)).Should().BeTrue();
+            ((other as IEquatable<TimeOnlyEnum>).Equals(original)).Should().BeTrue();
         }
 
 #if NET7_0_OR_GREATER
         [Fact]
         public void CanSerializeToString_WithNewtonsoftJsonProvider()
         {
-            var g1 = NewtonsoftJsonTimeOnlyVo.Item1;
+            var g1 = NewtonsoftJsonTimeOnlyEnum.Item1;
 
             string serialized = NewtonsoftJsonSerializer.SerializeObject(g1);
             string serializedString = NewtonsoftJsonSerializer.SerializeObject(g1.Value);
@@ -76,7 +76,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanSerializeToString_WithSystemTextJsonProvider()
         {
-            var ie = SystemTextJsonTimeOnlyVo.Item1;
+            var ie = SystemTextJsonTimeOnlyEnum.Item1;
 
             string serializedVo = SystemTextJsonSerializer.Serialize(ie);
             string serializedString = SystemTextJsonSerializer.Serialize(ie.Value);
@@ -87,27 +87,27 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void CanDeserializeFromString_WithNewtonsoftJsonProvider()
         {
-            var serializedString = NewtonsoftJsonSerializer.SerializeObject(NewtonsoftJsonTimeOnlyVo.Item1);
+            var serializedString = NewtonsoftJsonSerializer.SerializeObject(NewtonsoftJsonTimeOnlyEnum.Item1);
 
-            var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonTimeOnlyVo>(serializedString);
+            var deserializedVo = NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonTimeOnlyEnum>(serializedString);
 
-            Assert.Equal(deserializedVo, NewtonsoftJsonTimeOnlyVo.Item1);
+            Assert.Equal(deserializedVo, NewtonsoftJsonTimeOnlyEnum.Item1);
         }
         
         [Fact]
         public void CanDeserializeFromString_WithSystemTextJsonProvider()
         {
-            var serializedString = SystemTextJsonSerializer.Serialize(SystemTextJsonTimeOnlyVo.Item1);
+            var serializedString = SystemTextJsonSerializer.Serialize(SystemTextJsonTimeOnlyEnum.Item1);
 
-            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonTimeOnlyVo>(serializedString);
+            var deserializedVo = SystemTextJsonSerializer.Deserialize<SystemTextJsonTimeOnlyEnum>(serializedString);
 
-            Assert.Equal(deserializedVo, SystemTextJsonTimeOnlyVo.Item1);
+            Assert.Equal(deserializedVo, SystemTextJsonTimeOnlyEnum.Item1);
         }
 
         [Fact]
         public void CanSerializeToString_WithBothJsonConverters()
         {
-            var ie = BothJsonTimeOnlyVo.Item1;
+            var ie = BothJsonTimeOnlyEnum.Item1;
 
             var serializedVo1 = NewtonsoftJsonSerializer.SerializeObject(ie);
             var serializedString1 = NewtonsoftJsonSerializer.SerializeObject(ie.Value);
@@ -122,11 +122,11 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SystemTextJsonSerializesWithValueAndNameProperties()
         {
-            var ie = NoJsonTimeOnlyVo.Item1;
+            var ie = NoJsonTimeOnlyEnum.Item1;
 
             var serialized = SystemTextJsonSerializer.Serialize(ie);
 
-            var expected = "{\"Value\":\"" + NoJsonTimeOnlyVo.Item1.Value.ToString("o") + "\",\"Name\":\"Item1\"}";
+            var expected = "{\"Value\":\"" + NoJsonTimeOnlyEnum.Item1.Value.ToString("o") + "\",\"Name\":\"Item1\"}";
 
             serialized.Should().Be(expected);
         }
@@ -134,11 +134,11 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_NewtonsoftSerializesWithoutValueProperty()
         {
-            var ie = NoJsonTimeOnlyVo.Item1;
+            var ie = NoJsonTimeOnlyEnum.Item1;
 
             var serialized = NewtonsoftJsonSerializer.SerializeObject(ie);
 
-            var expected = $"\"{NoJsonTimeOnlyVo.Item1.Value:o}\"";
+            var expected = $"\"{NoJsonTimeOnlyEnum.Item1.Value:o}\"";
 
             Assert.Equal(expected, serialized);
         }
@@ -146,7 +146,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void WhenNoJsonConverter_SerializesWithValueAndNameProperties()
         {
-            var ie = NoConverterTimeOnlyVo.Item1;
+            var ie = NoConverterTimeOnlyEnum.Item1;
 
             var newtonsoft = SystemTextJsonSerializer.Serialize(ie);
             var systemText = SystemTextJsonSerializer.Serialize(ie);
@@ -168,7 +168,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
                 .UseSqlite(connection)
                 .Options;
 
-            var original = new EfCoreTestEntity { Id = EfCoreTimeOnlyVo.Item1 };
+            var original = new EfCoreTestEntity { Id = EfCoreTimeOnlyEnum.Item1 };
             using (var context = new TestDbContext(options))
             {
                 context.Database.EnsureCreated();
@@ -189,11 +189,11 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             using var connection = new SqliteConnection("DataSource=:memory:");
             await connection.OpenAsync();
 
-            IEnumerable<DapperTimeOnlyVo> results = await connection.QueryAsync<DapperTimeOnlyVo>("SELECT '05:06:07.008'");
+            IEnumerable<DapperTimeOnlyEnum> results = await connection.QueryAsync<DapperTimeOnlyEnum>("SELECT '05:06:07.008'");
 
-            DapperTimeOnlyVo actual = Assert.Single(results);
+            DapperTimeOnlyEnum actual = Assert.Single(results);
 
-            var expected = DapperTimeOnlyVo.Item2;
+            var expected = DapperTimeOnlyEnum.Item2;
             actual.Should().Be(expected);
         }
 
@@ -203,7 +203,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();
 
-            var original = new LinqToDbTestEntity { Id = LinqToDbTimeOnlyVo.Item1 };
+            var original = new LinqToDbTestEntity { Id = LinqToDbTimeOnlyEnum.Item1 };
             using (var context = new DataConnection(
                 SQLiteTools.GetDataProvider("SQLite.MS"),
                 connection,
@@ -227,12 +227,12 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
         [InlineData("05:06:07.008")]
         public void TypeConverter_CanConvertToAndFrom(string value)
         {
-            var converter = TypeDescriptor.GetConverter(typeof(NoJsonTimeOnlyVo));
+            var converter = TypeDescriptor.GetConverter(typeof(NoJsonTimeOnlyEnum));
             var voAsObject = converter.ConvertFrom(value);
             
-            Assert.IsType<NoJsonTimeOnlyVo>(voAsObject);
+            Assert.IsType<NoJsonTimeOnlyEnum>(voAsObject);
 
-            NoJsonTimeOnlyVo expected = NoJsonTimeOnlyVo.Item2;
+            NoJsonTimeOnlyEnum expected = NoJsonTimeOnlyEnum.Item2;
             
             Assert.Equal(expected, voAsObject);
 
@@ -256,7 +256,7 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
                      {
                          builder
                              .Property(x => x.Id)
-                             .HasConversion(new EfCoreTimeOnlyVo.EfCoreValueConverter())
+                             .HasConversion(new EfCoreTimeOnlyEnum.EfCoreValueConverter())
                              .ValueGeneratedNever();
                      });
              }
@@ -264,14 +264,14 @@ namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
 
         public class EfCoreTestEntity
         {
-            public EfCoreTimeOnlyVo Id { get; set; }
+            public EfCoreTimeOnlyEnum Id { get; set; }
         }
 
         public class LinqToDbTestEntity
         {
             [Column(DataType = DataType.Time)]
-            [ValueConverter(ConverterType = typeof(LinqToDbTimeOnlyVo.LinqToDbValueConverter))]
-            public LinqToDbTimeOnlyVo Id { get; set; }
+            [ValueConverter(ConverterType = typeof(LinqToDbTimeOnlyEnum.LinqToDbValueConverter))]
+            public LinqToDbTimeOnlyEnum Id { get; set; }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Intellenum.IntegrationTests.TestEnums
+﻿namespace ConsumerTests.TestEnums
 {
     public record struct Bar(int Age, string Name) : IComparable<Bar>
     {
@@ -6,19 +6,9 @@
     }
 
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(Bar))]
-    public partial class FooVo
+    public partial class NoConverterFooEnum
     {
-        static FooVo()
-        {
-            Instance("Item1", new Bar(1, "One"));
-            Instance("Item2", new Bar(2, "Two"));
-        }
-    }
-
-    [Intellenum(conversions: Conversions.None, underlyingType: typeof(Bar))]
-    public partial class NoConverterFooVo
-    {
-        static NoConverterFooVo()
+        static NoConverterFooEnum()
         {
             Instance("Item1", new Bar(1, "One"));
             Instance("Item2", new Bar(2, "Two"));
@@ -26,19 +16,19 @@
     }
 
     [Intellenum(conversions: Conversions.TypeConverter, underlyingType: typeof(Bar))]
-    public partial class NoJsonFooVo
+    public partial class NoJsonFooEnum
     {
-        static NoJsonFooVo()
+        static NoJsonFooEnum()
         {
-            Instance("Item1", new NoJsonFooVo(new Bar(42, "Fred")));
-            Instance("Item2", new NoJsonFooVo(new Bar(2, "Two")));
+            Instance("Item1", new NoJsonFooEnum(new Bar(42, "Fred")));
+            Instance("Item2", new NoJsonFooEnum(new Bar(2, "Two")));
         }
     }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson, underlyingType: typeof(Bar))]
-    public partial class NewtonsoftJsonFooVo
+    public partial class NewtonsoftJsonFooEnum
     {
-        static NewtonsoftJsonFooVo()
+        static NewtonsoftJsonFooEnum()
         {
             Instance("Item1", new Bar(1, "One"));
             Instance("Item2", new Bar(2, "Two"));
@@ -46,9 +36,9 @@
     }
 
     [Intellenum(conversions: Conversions.SystemTextJson, underlyingType: typeof(Bar))]
-    public partial class SystemTextJsonFooVo
+    public partial class SystemTextJsonFooEnum
     {
-        static SystemTextJsonFooVo()
+        static SystemTextJsonFooEnum()
         {
             Instance("Item1", new Bar(1, "One"));
             Instance("Item2", new Bar(2, "Two"));
@@ -56,9 +46,9 @@
     }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(Bar))]
-    public partial class BothJsonFooVo
+    public partial class BothJsonFooEnum
     {
-        static BothJsonFooVo()
+        static BothJsonFooEnum()
         {
             Instance("Item1", new Bar(1, "One"));
             Instance("Item2", new Bar(2, "Two"));
@@ -66,9 +56,9 @@
     }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson, underlyingType: typeof(Bar))]
-    public partial class BothJsonFooVoClass
+    public partial class BothJsonFooEnumClass
     {
-        static BothJsonFooVoClass()
+        static BothJsonFooEnumClass()
         {
             Instance("Item1", new Bar(1, "One"));
             Instance("Item2", new Bar(2, "Two"));
@@ -76,9 +66,9 @@
     }
 
     [Intellenum(conversions: Conversions.EfCoreValueConverter, underlyingType: typeof(Bar))]
-    public partial class EfCoreFooVo
+    public partial class EfCoreFooEnum
     {
-        static EfCoreFooVo()
+        static EfCoreFooEnum()
         {
             Instance("Item1", new Bar(1, "One"));
             Instance("Item2", new Bar(2, "Two"));
@@ -86,19 +76,19 @@
     }
 
     [Intellenum(conversions: Conversions.DapperTypeHandler, underlyingType: typeof(Bar))]
-    public partial class DapperFooVo
+    public partial class DapperFooEnum
     {
-        static DapperFooVo()
+        static DapperFooEnum()
         {
-            Instance("Item1", new DapperFooVo(new Bar(42, "Fred")));
-            Instance("Item2", new DapperFooVo(new Bar(2, "Two")));
+            Instance("Item1", new DapperFooEnum(new Bar(42, "Fred")));
+            Instance("Item2", new DapperFooEnum(new Bar(2, "Two")));
         }
     }
 
     [Intellenum(conversions: Conversions.LinqToDbValueConverter, underlyingType: typeof(Bar))]
-    public partial class LinqToDbFooVo
+    public partial class LinqToDbFooEnum
     {
-        static LinqToDbFooVo()
+        static LinqToDbFooEnum()
         {
             Instance("Item1", new Bar(1, "One"));
             Instance("Item2", new Bar(2, "Two"));

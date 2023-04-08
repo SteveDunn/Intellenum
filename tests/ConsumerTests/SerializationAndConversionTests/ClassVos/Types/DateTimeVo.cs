@@ -1,9 +1,9 @@
-﻿namespace Intellenum.IntegrationTests.TestEnums
+﻿namespace ConsumerTests.TestEnums
 {
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(DateTime))]
-    public partial class DateTimeVo
+    public partial class DateTimeEnum
     {
-        static DateTimeVo()
+        static DateTimeEnum()
         {
             Instance("Item1", new DateTime(2019, 12, 13, 14, 15, 16));
             Instance("Item2", new DateTime(2020, 12, 13, 14, 15, 16));

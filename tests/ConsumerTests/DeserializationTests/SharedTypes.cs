@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ConsumerTests.DeserializationTests;
 
-#region Value Objects
+#region Enum
 [Intellenum(typeof(int), Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter)]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]

@@ -11,7 +11,7 @@ using LinqToDB.DataProvider.SQLite;
 using LinqToDB.Mapping;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Intellenum.IntegrationTests.TestEnums;
+using ConsumerTests.TestEnums;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -36,20 +36,20 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
         [Fact]
         public void equality_between_same_value_objects()
         {
-            DecimalVo.Item1.Equals(DecimalVo.Item1).Should().BeTrue();
-            (DecimalVo.Item1 == DecimalVo.Item1).Should().BeTrue();
+            DecimalEnum.Item1.Equals(DecimalEnum.Item1).Should().BeTrue();
+            (DecimalEnum.Item1 == DecimalEnum.Item1).Should().BeTrue();
 
-            (DecimalVo.Item1 != DecimalVo.Item2).Should().BeTrue();
-            (DecimalVo.Item1 == DecimalVo.Item2).Should().BeFalse();
+            (DecimalEnum.Item1 != DecimalEnum.Item2).Should().BeTrue();
+            (DecimalEnum.Item1 == DecimalEnum.Item2).Should().BeFalse();
 
-            DecimalVo.Item1.Equals(DecimalVo.Item1).Should().BeTrue();
-            (DecimalVo.Item1 == DecimalVo.Item1).Should().BeTrue();
+            DecimalEnum.Item1.Equals(DecimalEnum.Item1).Should().BeTrue();
+            (DecimalEnum.Item1 == DecimalEnum.Item1).Should().BeTrue();
 
-            var original = DecimalVo.Item1;
-            var other = DecimalVo.Item1;
+            var original = DecimalEnum.Item1;
+            var other = DecimalEnum.Item1;
 
-            ((original as IEquatable<DecimalVo>).Equals(other)).Should().BeTrue();
-            ((other as IEquatable<DecimalVo>).Equals(original)).Should().BeTrue();
+            ((original as IEquatable<DecimalEnum>).Equals(other)).Should().BeTrue();
+            ((other as IEquatable<DecimalEnum>).Equals(original)).Should().BeTrue();
         }
 
         [Fact]

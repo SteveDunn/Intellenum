@@ -38,7 +38,7 @@ namespace Whatever
     [global::System.Diagnostics.DebuggerDisplayAttribute("Underlying type: System.Int32, Value = { _value }")]
     public partial class CustomerType : 
         global::System.IEquatable<CustomerType>, 
-        global::System.IEquatable<System.Int32>, 
+        // global::System.IEquatable<System.Int32>, 
         global::System.IComparable, 
         global::System.IComparable<CustomerType> 
     {
@@ -274,7 +274,7 @@ _ => false
             return GetType() == other.GetType() && global::System.Collections.Generic.EqualityComparer<System.Int32>.Default.Equals(Value, other.Value);
         }
 
-        public global::System.Boolean Equals(System.Int32 primitive) => Value.Equals(primitive);
+        // public global::System.Boolean Equals(System.Int32 primitive) => Value.Equals(primitive);
 
         public override global::System.Boolean Equals(global::System.Object obj)
         {

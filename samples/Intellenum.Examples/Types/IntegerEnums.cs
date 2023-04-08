@@ -16,7 +16,7 @@ public partial class MyIntellenum2 { }
 [Intellenum(conversions: Conversions.None, underlyingType: typeof(int))]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]
-public partial class IntVo { }
+public partial class IntEnum { }
 
 [Intellenum<int>(conversions: Conversions.None)]
 [Instance("Item1", 1)]
@@ -26,39 +26,39 @@ public partial class IntGenericVo { }
 [Intellenum<int>(conversions: Conversions.None)]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]
-public partial class NoConverterIntVo { }
+public partial class NoConverterIntEnum { }
 
 [Intellenum(conversions: Conversions.TypeConverter)]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]
-public partial class NoJsonIntVo { }
+public partial class NoJsonIntEnum { }
 
 [Intellenum(conversions: Conversions.NewtonsoftJson)]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]
-public partial class NewtonsoftJsonIntVo { }
+public partial class NewtonsoftJsonIntEnum { }
 
 [Intellenum(conversions: Conversions.SystemTextJson)]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]
-public partial class SystemTextJsonIntVo { }
+public partial class SystemTextJsonIntEnum { }
 
 [Intellenum(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson)]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]
-public partial class BothJsonIntVo { }
+public partial class BothJsonIntEnum { }
 
 [Intellenum(conversions: Conversions.EfCoreValueConverter)]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]
-public partial class EfCoreIntVo { }
+public partial class EfCoreIntEnum { }
 
 [Intellenum(conversions: Conversions.DapperTypeHandler)]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]
-public partial class DapperIntVo { }
+public partial class DapperIntEnum { }
 
 [Intellenum(conversions: Conversions.LinqToDbValueConverter)]
 [Instance("Item1", 1)]
 [Instance("Item2", 2)]
-public partial class LinqToDbIntVo { }
+public partial class LinqToDbIntEnum { }

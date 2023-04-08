@@ -4,8 +4,8 @@
 namespace Intellenum.Examples.SyntaxExamples.NoDefaulting
 {
     /*
-        You shouldn't be allowed to `default` a Value Object as it bypasses
-        any validation you might have added.
+        You shouldn't be allowed to `default` a Intellenums as you should always
+        chose a valid instance.
     */
     
     public class Naughty
@@ -29,7 +29,7 @@ namespace Intellenum.Examples.SyntaxExamples.NoDefaulting
             // new CustomerType();
         }
 
-        // a method can't accept a VO and default it
+        // a method can't accept a Intellenum and default it
         // error VOG009: Type 'CustomerType' cannot be constructed with default as it is prohibited
         // public void CallMe(CustomerType customerId = default)
         // {

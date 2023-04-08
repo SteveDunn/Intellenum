@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using ConsumerTests.TestEnums;
 using Dapper;
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
@@ -14,7 +15,6 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
-using Intellenum.IntegrationTests.TestEnums;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
@@ -26,7 +26,7 @@ using LinqToDB.Mapping;
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 // ReSharper disable SuspiciousTypeConversion.Global
 
-namespace Intellenum.IntegrationTests.SerializationAndConversionTests.ClassVos
+namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(DateOnly))]
     public partial class AnotherDateOnlyVo {

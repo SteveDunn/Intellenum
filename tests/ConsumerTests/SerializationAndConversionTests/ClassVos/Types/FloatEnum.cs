@@ -1,4 +1,4 @@
-﻿namespace Intellenum.IntegrationTests.TestEnums;
+﻿namespace ConsumerTests.TestEnums;
 
 [Intellenum(conversions: Conversions.None, underlyingType: typeof(float))]
 [Instance("Item1", 1.1f)]

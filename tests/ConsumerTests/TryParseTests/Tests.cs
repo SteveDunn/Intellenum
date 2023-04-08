@@ -15,12 +15,12 @@ public class Tests
     public void Decimals()
     {
         {
-            DecimalVo.TryParse("1.23", out var ie).Should().BeTrue();
+            DecimalEnum.TryParse("1.23", out var ie).Should().BeTrue();
             ie.Value.Should().Be(1.23m);
         }
 
         {
-            DecimalVo.TryParse("1,23", NumberStyles.Number, new CultureInfo("de"), out var ie).Should().BeTrue();
+            DecimalEnum.TryParse("1,23", NumberStyles.Number, new CultureInfo("de"), out var ie).Should().BeTrue();
             ie.Value.Should().Be(1.23m);
         }
     }
@@ -42,14 +42,14 @@ public class Tests
     [Fact]
     public void Double()
     {
-        DoubleVo.TryParse("1.23", out var ie).Should().BeTrue();
+        DoubleEnum.TryParse("1.23", out var ie).Should().BeTrue();
         ie.Value.Should().Be(1.23);
     }
 
     [Fact]
     public void When_parsing_fails()
     {
-        IntVo.TryParse("fifty", out var ie).Should().BeFalse();
+        IntEnum.TryParse("fifty", out var ie).Should().BeFalse();
         ie.Should().BeNull();
     }
 }
