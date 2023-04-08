@@ -48,7 +48,7 @@ namespace ConsumerTests.SerializationAndConversionTests.ClassVos
         public void equality_between_different_enums()
         {
             // the implicit cast to short means this is true
-            ShortEnum.Item1.Equals(AnotherShortVo.Item1).Should().BeTrue();
+            ShortEnum.Item1.Equals(AnotherShortVo.Item1).Should().BeFalse();
         }
 
         [Fact]

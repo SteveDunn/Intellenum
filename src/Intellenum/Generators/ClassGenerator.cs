@@ -21,7 +21,6 @@ using Intellenum;
     {Util.GenerateDebugAttributes(item, className, itemUnderlyingType)}
     {Util.GenerateModifiersFor(tds)} class {className} : 
         global::System.IEquatable<{className}>, 
-        global::System.IEquatable<{itemUnderlyingType}>, 
         global::System.IComparable, 
         global::System.IComparable<{className}> 
     {{
@@ -88,9 +87,6 @@ private void Throw()
             _isInitialized = true;
         }}
 
-        // exclude from serialization 
-
-          
         public string Name {{ get; private set; }}
 
         /// <summary>
@@ -199,8 +195,6 @@ private void Throw()
 
             return GetType() == other.GetType() && global::System.Collections.Generic.EqualityComparer<{itemUnderlyingType}>.Default.Equals(Value, other.Value);
         }}
-
-        public global::System.Boolean Equals({itemUnderlyingType} primitive) => Value.Equals(primitive);
 
         public override global::System.Boolean Equals(global::System.Object obj)
         {{

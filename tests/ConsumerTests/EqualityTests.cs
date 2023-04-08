@@ -43,21 +43,28 @@ namespace ConsumerTests
         }
 
         [Fact]
+        public void equals_method_with_the_underlying_is_always_false()
+        {
+            Age.LegalVotingAge.Equals(-1).Should().BeFalse();
+            (Age.LegalVotingAge.Equals(18)).Should().BeFalse();
+            (Age.LegalVotingAge.Equals(null)).Should().BeFalse();
+            Age.LegalVotingAge!.Equals(Age.LegalDrivingAge).Should().BeFalse();
+
+            Age.LegalVotingAge.Equals(new StackFrame()).Should().BeFalse();
+            
+            Age.LegalVotingAge.Equals(ScoreType.Points).Should().BeFalse();
+        }
+
+        [Fact]
         public void equality_with_primitives()
         {
             Age.LegalVotingAge.Equals(-1).Should().BeFalse();
             (Age.LegalVotingAge == 18).Should().BeTrue();
             (18 == Age.LegalVotingAge).Should().BeTrue();
-            Age.LegalVotingAge.Equals(18).Should().BeTrue();
 
             (Age.LegalVotingAge != Age.LegalDrivingAge).Should().BeTrue();
             (Age.LegalVotingAge != 2).Should().BeTrue();
             (Age.LegalVotingAge == 2).Should().BeFalse();
-            Age.LegalVotingAge.Equals(Age.LegalDrivingAge).Should().BeFalse();
-
-            Age.LegalVotingAge.Equals(new StackFrame()).Should().BeFalse();
-            
-            Age.LegalVotingAge.Equals(ScoreType.Points).Should().BeFalse();
         }
 
         [Fact]

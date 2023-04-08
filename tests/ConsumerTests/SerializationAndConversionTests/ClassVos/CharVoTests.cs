@@ -14,6 +14,7 @@ using LinqToDB.Mapping;
 // ReSharper disable RedundantOverflowCheckingContext
 // ReSharper disable ConvertToLocalFunction
 // ReSharper disable EqualExpressionComparison
+// ReSharper disable SuspiciousTypeConversion.Global
 
 namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
