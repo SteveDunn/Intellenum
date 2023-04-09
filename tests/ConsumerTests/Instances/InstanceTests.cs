@@ -3,62 +3,62 @@
 namespace ConsumerTests.Instances;
 
 [Intellenum(typeof(DateTime))]
-[Instance(name: "iso8601_1", value: "2022-12-13")]
-[Instance(name: "iso8601_2", value: "2022-12-13T13:14:15Z")]
-[Instance(name: "ticks_as_long", value: 638064864000000000L)]
-[Instance(name: "ticks_as_int", value: 2147483647)]
+[Member(name: "iso8601_1", value: "2022-12-13")]
+[Member(name: "iso8601_2", value: "2022-12-13T13:14:15Z")]
+[Member(name: "ticks_as_long", value: 638064864000000000L)]
+[Member(name: "ticks_as_int", value: 2147483647)]
 public partial class DateTimeInstance
 {
 }
 
 [Intellenum(typeof(DateTimeOffset))]
-[Instance(name: "iso8601_1", value: "2022-12-13")]
-[Instance(name: "iso8601_2", value: "2022-12-13T13:14:15Z")]
-[Instance(name: "ticks_as_long", value: 638064864000000000L)]
-[Instance(name: "ticks_as_int", value: 2147483647)]
+[Member(name: "iso8601_1", value: "2022-12-13")]
+[Member(name: "iso8601_2", value: "2022-12-13T13:14:15Z")]
+[Member(name: "ticks_as_long", value: 638064864000000000L)]
+[Member(name: "ticks_as_int", value: 2147483647)]
 public partial class DateTimeOffsetInstance
 {
 }
 
 [Intellenum(typeof(float))]
-[Instance(name: "i1", value: 1.23f)]
-[Instance(name: "i2", value: 2.34)]
-[Instance(name: "i3", value: "3.45")]
-[Instance(name: "i4", value: '2')]
+[Member(name: "i1", value: 1.23f)]
+[Member(name: "i2", value: 2.34)]
+[Member(name: "i3", value: "3.45")]
+[Member(name: "i4", value: '2')]
 public partial class MyFloatInstance
 {
 }
 
 [Intellenum(typeof(decimal))]
-[Instance(name: "i1", value: 1.23f)]
-[Instance(name: "i2", value: 2.34)]
-[Instance(name: "i3", value: "3.45")]
-[Instance(name: "i4", value: '2')]
+[Member(name: "i1", value: 1.23f)]
+[Member(name: "i2", value: 2.34)]
+[Member(name: "i3", value: "3.45")]
+[Member(name: "i4", value: '2')]
 public partial class MyDecimalInstance
 {
 }
 
 [Intellenum(typeof(double))]
-[Instance(name: "i1", value: 1.23d)]
-[Instance(name: "i2", value: 2.34)]
-[Instance(name: "i3", value: "3.45")]
-[Instance(name: "i4", value: '2')]
+[Member(name: "i1", value: 1.23d)]
+[Member(name: "i2", value: 2.34)]
+[Member(name: "i3", value: "3.45")]
+[Member(name: "i4", value: '2')]
 public partial class MyDoubleInstance
 {
 }
 
 [Intellenum(typeof(char))]
-[Instance(name: "i1", value: 1)]
-[Instance(name: "i2", value: "2")]
-[Instance(name: "i3", value: '3')]
+[Member(name: "i1", value: 1)]
+[Member(name: "i2", value: "2")]
+[Member(name: "i3", value: '3')]
 public partial class MyCharInstance
 {
 }
 
 [Intellenum(typeof(byte))]
-[Instance(name: "i1", value: 1)]
-[Instance(name: "i2", value: "2")]
-[Instance(name: "i3", value: '3')]
+[Member(name: "i1", value: 1)]
+[Member(name: "i2", value: "2")]
+[Member(name: "i3", value: '3')]
 public partial class MyByteInstance
 {
 }

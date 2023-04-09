@@ -1,8 +1,8 @@
 ﻿namespace Intellenum;
 
-public class InstanceProperties
+public class MemberProperties
 {
-    public InstanceProperties(InstanceSource source,
+    public MemberProperties(MemberSource source,
         string fieldName,
         string enumFriendlyName,
         string valueAsText,
@@ -19,7 +19,7 @@ public class InstanceProperties
         ExplicitlyNamed = explicitlyNamed;
     }
 
-    public InstanceSource Source { get; }
+    public MemberSource Source { get; }
     
     public string FieldName { get; }
 

@@ -32,9 +32,9 @@ BenchmarkRunner.Run(new[]
 
 
 [Intellenum<string>]
-[Instance("Normal", "n")]
-[Instance("Gold", "g")]
-[Instance("Diamond", "d")]
+[Member("Normal", "n")]
+[Member("Gold", "g")]
+[Member("Diamond", "d")]
 public partial class CustomerType
 {
 }
@@ -44,11 +44,11 @@ public partial class MinimumWageInUK
 {
     static MinimumWageInUK()
     {
-        Instance("Apprentice", 4.3m);
-        Instance("UnderEighteen", 4.62m);
-        Instance("EighteenToTwenty", 6.56m);
-        Instance("TwentyOneAndOver", 8.36m);
-        Instance("TwentyFiveAndOver", 8.91m);
+        Member("Apprentice", 4.3m);
+        Member("UnderEighteen", 4.62m);
+        Member("EighteenToTwenty", 6.56m);
+        Member("TwentyOneAndOver", 8.36m);
+        Member("TwentyFiveAndOver", 8.91m);
     }
 }
 
@@ -71,10 +71,10 @@ public enum EGCustomerType
 }
 
 [Intellenum]
-[Instance("Standard", 0)]
-[Instance("Gold", 1)]
-[Instance("Diamond",2)]
-[Instance("Platinum", 3)]
+[Member("Standard", 0)]
+[Member("Gold", 1)]
+[Member("Diamond",2)]
+[Member("Platinum", 3)]
 public partial class IECustomerType
 {
 }

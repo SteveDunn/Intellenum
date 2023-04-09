@@ -20,8 +20,8 @@ using LinqToDB.Mapping;
 namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(string))]
-    [Instance("Item1", "Item1")]
-    [Instance("Item2", "Item2")]
+    [Member("Item1", "Item1")]
+    [Member("Item2", "Item2")]
     public partial class AnotherStringVo { }
 
     public class StringVoTests

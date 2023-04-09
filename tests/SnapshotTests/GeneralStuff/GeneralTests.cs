@@ -14,9 +14,9 @@ namespace SnapshotTests.GeneralStuff
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
-[Instance(""Diamond"", 2)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
+[Member(""Diamond"", 2)]
 public partial class CustomerType
 {
 }";
@@ -35,9 +35,9 @@ public partial class CustomerType
             RunTest(@"using Intellenum;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
-[Instance(""Diamond"", 2)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
+[Member(""Diamond"", 2)]
 public partial class CustomerType
 {
 }");
@@ -49,11 +49,11 @@ public partial class CustomerType
 namespace Whatever;
 
 [Intellenum(typeof(int))]
-[Instance(name: ""Unspecified"", value: -1, tripleSlashComment: ""a short description that'll show up in intellisense"")]
-[Instance(name: ""Normal"", value: -2)]
-[Instance(name: ""Gold"", value: -3, tripleSlashComment: ""<some_xml>whatever</some_xml"")]
-[Instance(name: ""Diamond"", value: -4)]
-[Instance(name: ""Legacy"", value: 42)]
+[Member(name: ""Unspecified"", value: -1, tripleSlashComment: ""a short description that'll show up in intellisense"")]
+[Member(name: ""Normal"", value: -2)]
+[Member(name: ""Gold"", value: -3, tripleSlashComment: ""<some_xml>whatever</some_xml"")]
+[Member(name: ""Diamond"", value: -4)]
+[Member(name: ""Legacy"", value: 42)]
 public partial class CustomerType
 {
 }
@@ -66,10 +66,10 @@ public partial class CustomerType
 namespace @double;
 
 [Intellenum]
-[Instance(name: ""@struct"", value: 42)]
-[Instance(name: ""@double"", value: 52)]
-[Instance(name: ""@event"", value: 69)]
-[Instance(name: ""@void"", value: 666)]
+[Member(name: ""@struct"", value: 42)]
+[Member(name: ""@double"", value: 52)]
+[Member(name: ""@event"", value: 69)]
+[Member(name: ""@void"", value: 666)]
 public partial class @class
 {
 }

@@ -24,13 +24,13 @@ internal static class DiagnosticsCatalogue
 
     private static readonly DiagnosticDescriptor _typeShouldBePartial = CreateDescriptor(
         RuleIdentifiers.TypeShouldBePartial,
-        "Value Objects should be declared in partial types.",
-        "Type {0} is decorated as a Value Object and should be in a partial type.");
+        "Intellenum types should be declared in partial types.",
+        "Type {0} is decorated as an Intellenum and should be in a partial type.");
 
     private static readonly DiagnosticDescriptor _duplicateTypesFound = CreateDescriptor(
         RuleIdentifiers.DuplicateTypesFound,
-        "Duplicate Value Object found.",
-        "Type {0} is decorated as a Value Object but is declared multiple times. Remove the duplicate definition or differentiate with a namespace.");
+        "Duplicate Intellenum found.",
+        "Type {0} is decorated as an Intellenum but is declared multiple times. Remove the duplicate definition or differentiate with a namespace.");
 
     private static readonly DiagnosticDescriptor _cannotHaveUserConstructors = CreateDescriptor(
         RuleIdentifiers.CannotHaveUserConstructors,
@@ -52,24 +52,24 @@ internal static class DiagnosticsCatalogue
         "Invalid Customizations",
         "The Customizations specified do not match any known customizations - see the Customizations type");
 
-    private static readonly DiagnosticDescriptor _underlyingTypeMustNotBeSameAsValueObject = CreateDescriptor(
-        RuleIdentifiers.UnderlyingTypeMustNotBeSameAsValueObject,
+    private static readonly DiagnosticDescriptor _underlyingTypeMustNotBeSameAsEnum = CreateDescriptor(
+        RuleIdentifiers.UnderlyingTypeMustNotBeSameAsEnum,
         "Invalid underlying type",
         "Type '{0}' has the same underlying type - must specify a primitive underlying type");
 
-    private static readonly DiagnosticDescriptor _instanceMethodCannotHaveNullArgumentName = CreateDescriptor(
-        RuleIdentifiers.InstanceMethodCannotHaveNullArgumentName,
-        "Instance attribute cannot have null name",
+    private static readonly DiagnosticDescriptor _memberMethodCallCannotHaveNullArgumentName = CreateDescriptor(
+        RuleIdentifiers.MemberMethodCallCannotHaveNullArgumentName,
+        "Member attribute cannot have null name",
         "{0} cannot have a null name");
 
-    private static readonly DiagnosticDescriptor _instanceMethodCannotHaveNullArgumentValue = CreateDescriptor(
-        RuleIdentifiers.InstanceMethodCannotHaveNullArgumentValue,
-        "Instance attribute cannot have null value",
+    private static readonly DiagnosticDescriptor _memberMethodCallCannotHaveNullArgumentValue = CreateDescriptor(
+        RuleIdentifiers.MemberMethodCallCannotHaveNullArgumentValue,
+        "Member attribute cannot have null value",
         "{0} cannot have a null value");
 
-    private static readonly DiagnosticDescriptor _instanceValueCannotBeConverted = CreateDescriptor(
-        RuleIdentifiers.InstanceValueCannotBeConverted,
-        "Instance attribute has value that cannot be converted",
+    private static readonly DiagnosticDescriptor _memberValueCannotBeConverted = CreateDescriptor(
+        RuleIdentifiers.MemberValueCannotBeConverted,
+        "Member attribute has value that cannot be converted",
         "{0} cannot be converted. {1}");
 
     private static readonly DiagnosticDescriptor _customExceptionMustDeriveFromException = CreateDescriptor(
@@ -82,10 +82,10 @@ internal static class DiagnosticsCatalogue
         "Invalid custom exception",
         "{0} must have at least 1 public constructor with 1 parameter of type System.String");
 
-    private static readonly DiagnosticDescriptor _mustHaveInstances = CreateDescriptor(
-        RuleIdentifiers.MustHaveInstances,
-        "Must have instances",
-        "{0} must have at least 1 instance");
+    private static readonly DiagnosticDescriptor _mustHaveMembers = CreateDescriptor(
+        RuleIdentifiers.MustHaveMembers,
+        "Must have members",
+        "{0} must have at least 1 member");
 
     public static Diagnostic TypeCannotBeNested(INamedTypeSymbol typeModel, INamedTypeSymbol container) => 
         Create(_typeCannotBeNested, typeModel.Locations, typeModel.Name, container.Name);
@@ -106,8 +106,8 @@ internal static class DiagnosticsCatalogue
     public static Diagnostic CannotHaveUserConstructors(IMethodSymbol constructor) => 
         Create(_cannotHaveUserConstructors, constructor.Locations);
 
-    public static Diagnostic UnderlyingTypeMustNotBeSameAsValueObjectType(INamedTypeSymbol underlyingType) => 
-        Create(_underlyingTypeMustNotBeSameAsValueObject, underlyingType.Locations, underlyingType.Name);
+    public static Diagnostic UnderlyingTypeMustNotBeSameAsEnumType(INamedTypeSymbol underlyingType) => 
+        Create(_underlyingTypeMustNotBeSameAsEnum, underlyingType.Locations, underlyingType.Name);
 
     public static Diagnostic UnderlyingTypeCannotBeCollection(INamedTypeSymbol voClass, INamedTypeSymbol underlyingType) => 
         Create(_underlyingTypeCannotBeCollection, voClass.Locations, voClass.Name, underlyingType);
@@ -116,14 +116,14 @@ internal static class DiagnosticsCatalogue
     
     public static Diagnostic InvalidCustomizations(Location location) => Create(_invalidCustomizations, location);
     
-    public static Diagnostic InstanceMethodCannotHaveNullArgumentName(INamedTypeSymbol voClass) => 
-        Create(_instanceMethodCannotHaveNullArgumentName, voClass.Locations, voClass.Name);
+    public static Diagnostic MemberMethodCallCannotHaveNullArgumentName(INamedTypeSymbol ieClass) => 
+        Create(_memberMethodCallCannotHaveNullArgumentName, ieClass.Locations, ieClass.Name);
 
-    public static Diagnostic InstanceMethodCannotHaveNullArgumentValue(INamedTypeSymbol voClass) => 
-        Create(_instanceMethodCannotHaveNullArgumentValue, voClass.Locations, voClass.Name);
+    public static Diagnostic MemberMethodCallCannotHaveNullArgumentValue(INamedTypeSymbol ieClass) => 
+        Create(_memberMethodCallCannotHaveNullArgumentValue, ieClass.Locations, ieClass.Name);
 
-    public static Diagnostic InstanceValueCannotBeConverted(INamedTypeSymbol voClass, string message) => 
-        Create(_instanceValueCannotBeConverted, voClass.Locations, voClass.Name, message);
+    public static Diagnostic MemberValueCannotBeConverted(INamedTypeSymbol ieClass, string message) => 
+        Create(_memberValueCannotBeConverted, ieClass.Locations, ieClass.Name, message);
 
     public static Diagnostic CustomExceptionMustDeriveFromException(INamedTypeSymbol symbol) => 
         Create(_customExceptionMustDeriveFromException, symbol.Locations, symbol.Name);
@@ -131,8 +131,8 @@ internal static class DiagnosticsCatalogue
     public static Diagnostic CustomExceptionMustHaveValidConstructor(INamedTypeSymbol symbol) => 
         Create(_customExceptionMustHaveValidConstructor, symbol.Locations, symbol.Name);
 
-    public static Diagnostic MustHaveInstances(INamedTypeSymbol symbol) => 
-        Create(_mustHaveInstances, symbol.Locations, symbol.Name);
+    public static Diagnostic MustHaveMembers(INamedTypeSymbol symbol) => 
+        Create(_mustHaveMembers, symbol.Locations, symbol.Name);
 
     private static DiagnosticDescriptor CreateDescriptor(string code, string title, string messageFormat, DiagnosticSeverity severity = DiagnosticSeverity.Error)
     {

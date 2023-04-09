@@ -36,7 +36,6 @@ using System;
     [global::System.Diagnostics.DebuggerDisplayAttribute("Underlying type: System.Int32, Value = { _value }")]
     public partial class CustomerType : 
         global::System.IEquatable<CustomerType>, 
-        // global::System.IEquatable<System.Int32>, 
         global::System.IComparable, 
         global::System.IComparable<CustomerType> 
     {
@@ -103,13 +102,10 @@ private void Throw()
             _isInitialized = true;
         }
 
-        // exclude from serialization 
-
-          
         public string Name { get; private set; }
 
         /// <summary>
-        /// Builds an instance from an enum value.
+        /// Builds a member from an enum value.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The matching enum, or an exception.</returns>
@@ -117,29 +113,29 @@ private void Throw()
         {
                 bool b = TryFromValue(value, out var ret);
     if(b) return ret;
-    throw new IntellenumMatchFailedException($"CustomerType has no matching instances with a value of '{value}'");
+    throw new IntellenumMatchFailedException($"CustomerType has no matching members with a value of '{value}'");
         }            
 
         /// <summary>
-        /// Tries to get an instance based on value.
+        /// Tries to get a member based on value.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static bool TryFromValue(System.Int32 value, out CustomerType instance)
+        public static bool TryFromValue(System.Int32 value, out CustomerType member)
         {
             switch (value) 
 {
     case 0:
-        instance = CustomerType.Normal; 
+        member = CustomerType.Normal; 
         return true;
     case 1:
-        instance = CustomerType.Gold; 
+        member = CustomerType.Gold; 
         return true;
     case 2:
-        instance = CustomerType.Diamond; 
+        member = CustomerType.Diamond; 
         return true;
     default:
-        instance = default;
+        member = default;
         return false;
 }
 
@@ -161,7 +157,7 @@ _ => false
         }
 
         /// <summary>
-        /// Gets the matching instance based on name.
+        /// Gets the matching member based on name.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
@@ -169,29 +165,29 @@ _ => false
         {
                 bool b = TryFromName(name, out var ret);
     if(b) return ret;
-    throw new IntellenumMatchFailedException($"CustomerType has no matching instances named '{name}'");
+    throw new IntellenumMatchFailedException($"CustomerType has no matching members named '{name}'");
         }
 
         /// <summary>
-        /// Tries to get the matching instance from a name.
+        /// Tries to get the matching member from a name.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static bool TryFromName(string name, out CustomerType instance)
+        public static bool TryFromName(string name, out CustomerType member)
         {
             switch (name) 
 {
     case ("Normal"):
-        instance = CustomerType.Normal; 
+        member = CustomerType.Normal; 
         return true;
     case ("Gold"):
-        instance = CustomerType.Gold; 
+        member = CustomerType.Gold; 
         return true;
     case ("Diamond"):
-        instance = CustomerType.Diamond; 
+        member = CustomerType.Diamond; 
         return true;
     default:
-        instance = default;
+        member = default;
         return false;
 }
 
@@ -204,22 +200,22 @@ _ => false
 
 
         /// <summary>
-        /// Builds an instance from the provided underlying type.
+        /// Builds a member from the provided underlying type.
         /// </summary>
         /// <param name="value">The underlying type.</param>
-        /// <returns>An instance of this type.</returns>
+        /// <returns>A member of this type.</returns>
         private static CustomerType From(string name, System.Int32 value)
         {
             
 
-            CustomerType instance = new CustomerType(name, value);
+            CustomerType member = new CustomerType(name, value);
 
-            return instance;
+            return member;
         }
 
         // placeholder method used by the source generator
-        // to generate physical instances (e.g. public static readonly MyEnum Item1 = new...)
-        private static void Instance(string name, System.Int32 value)
+        // to generate physical members (e.g. public static readonly MyEnum Item1 = new...)
+        private static void Member(string name, System.Int32 value)
         {
         }
 
@@ -244,8 +240,8 @@ _ => false
                 return false;
             }
 
-            // It's possible to create uninitialized instances via converters such as EfCore (HasDefaultValue), which call Equals.
-            // We treat anything uninitialized as not equal to anything, even other uninitialized instances of this type.
+            // It's possible to create uninitialized members via converters such as EfCore (HasDefaultValue), which call Equals.
+            // We treat anything uninitialized as not equal to anything, even other uninitialized members of this type.
             if(!_isInitialized || !other._isInitialized) return false;
 	    	
             if (ReferenceEquals(this, other))
@@ -255,8 +251,6 @@ _ => false
 
             return GetType() == other.GetType() && global::System.Collections.Generic.EqualityComparer<System.Int32>.Default.Equals(Value, other.Value);
         }
-
-        // public global::System.Boolean Equals(System.Int32 primitive) => Value.Equals(primitive);
 
         public override global::System.Boolean Equals(global::System.Object obj)
         {
@@ -315,15 +309,15 @@ _ => false
         }
 
         
-// instance...
+// member...
 
 public static readonly CustomerType Normal = new CustomerType("Normal",0);
 
-// instance...
+// member...
 
 public static readonly CustomerType Gold = new CustomerType("Gold",1);
 
-// instance...
+// member...
 
 public static readonly CustomerType Diamond = new CustomerType("Diamond",2);
 

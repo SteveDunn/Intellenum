@@ -13,8 +13,8 @@ namespace Intellenum.Examples.Types
     {
         static NoConverterDateTimeOffsetEnum()
         {
-            Instance("Item1", DateTimeOffset.Parse("2020-01-01T00:00:00Z"));
-            Instance("Item2", DateTimeOffset.Parse("2020-01-02T00:00:00Z"));
+            Member("Item1", DateTimeOffset.Parse("2020-01-01T00:00:00Z"));
+            Member("Item2", DateTimeOffset.Parse("2020-01-02T00:00:00Z"));
         }
     }
 
@@ -23,7 +23,7 @@ namespace Intellenum.Examples.Types
     {
         static NoJsonDateTimeOffsetEnum()
         {
-            Instance("Item1", DateTimeOffset.Parse("2020-01-01T00:00:00Z"));
+            Member("Item1", DateTimeOffset.Parse("2020-01-01T00:00:00Z"));
         }
     }
 
@@ -32,8 +32,8 @@ namespace Intellenum.Examples.Types
     {
         static NewtonsoftJsonDateTimeOffsetEnum()
         {
-            Instance("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
-            Instance("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
+            Member("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
+            Member("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
         }
     }
 
@@ -42,8 +42,8 @@ namespace Intellenum.Examples.Types
     {
         static SystemTextJsonDateTimeOffsetEnum()
         {
-            Instance("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
-            Instance("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
+            Member("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
+            Member("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
         }
     }
 
@@ -52,8 +52,8 @@ namespace Intellenum.Examples.Types
     {
         static BothJsonDateTimeOffsetEnum()
         {
-            Instance("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
-            Instance("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
+            Member("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
+            Member("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
         }
     }
 
@@ -62,8 +62,8 @@ namespace Intellenum.Examples.Types
     {
         static EfCoreDateTimeOffsetEnum()
         {
-            Instance("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
-            Instance("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
+            Member("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
+            Member("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
         }
     }
 
@@ -72,8 +72,8 @@ namespace Intellenum.Examples.Types
     {
         static DapperDateTimeOffsetEnum()
         {
-            Instance("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
-            Instance("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
+            Member("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
+            Member("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
         }
     }
 
@@ -82,8 +82,8 @@ namespace Intellenum.Examples.Types
     {
         static LinqToDbDateTimeOffsetEnum()
         {
-            Instance("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
-            Instance("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
+            Member("Item1", new DateTimeOffset(2019, 12, 13, 14, 15, 16, TimeSpan.Zero));
+            Member("Item2", new DateTimeOffset(2020, 12, 13, 14, 15, 16, TimeSpan.Zero));
         }
     }
 }

@@ -31,8 +31,8 @@ namespace SomethingElse
     {
         static @event2()
         {
-            Instance("One", new record.@struct.@float.@decimal());
-            Instance("Two", new record.@struct.@float.@decimal());
+            Member("One", new record.@struct.@float.@decimal());
+            Member("Two", new record.@struct.@float.@decimal());
         }
     }
 }
@@ -56,8 +56,8 @@ using Intellenum;
 namespace SomethingElse
 {
     [Intellenum(underlyingType: typeof(short))]
-    [Instance("Item1", 123)]
-    [Instance("Item2", 321)]
+    [Member("Item1", 123)]
+    [Member("Item2", 321)]
     public partial class ShortHolderId_normal
     {
     }
@@ -82,8 +82,8 @@ using Intellenum;
 namespace SomethingElse
 {
     [Intellenum(underlyingType: typeof(short), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
-    [Instance("Item1", 123)]
-    [Instance("Item2", 321)]
+    [Member("Item1", 123)]
+    [Member("Item2", 321)]
     public partial class ShortHolderId_string
     {
     }
@@ -112,9 +112,9 @@ namespace SomethingElse
     {
         static DateTimeOffsetVo()
         {
-            Instance("JanFirst", new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero));
-            Instance("JanSecond", new DateTimeOffset(2019, 1, 2, 14, 15, 16, TimeSpan.Zero));
-            Instance("SomethingElse", new DateTimeOffset(2022,01,15,19,08,49, TimeSpan.Zero).AddTicks(5413764));
+            Member("JanFirst", new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero));
+            Member("JanSecond", new DateTimeOffset(2019, 1, 2, 14, 15, 16, TimeSpan.Zero));
+            Member("SomethingElse", new DateTimeOffset(2022,01,15,19,08,49, TimeSpan.Zero).AddTicks(5413764));
         }
     }
 }
@@ -129,7 +129,7 @@ namespace SomethingElse
         }
 
         [Fact]
-        public Task Instance_methods_with_more_complex_expressions()
+        public Task Member_methods_with_more_complex_expressions()
         {
             var source = """
 using System;
@@ -142,7 +142,7 @@ namespace SomethingElse
     {
         static DateTimeOffsetVo()
         {
-            Instance("JanFirst", new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero).AddTicks(123));
+            Member("JanFirst", new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero).AddTicks(123));
         }
     }
 }
@@ -168,9 +168,9 @@ using Intellenum;
     {
         static DateTimeOffsetVo()
         {
-            Instance("JanFirst", new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero));
-            Instance("JanSecond", new DateTimeOffset(2019, 1, 2, 14, 15, 16, TimeSpan.Zero));
-            Instance("SomethingElse", new DateTimeOffset(2022,01,15,19,08,49, TimeSpan.Zero).AddTicks(5413764));
+            Member("JanFirst", new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero));
+            Member("JanSecond", new DateTimeOffset(2019, 1, 2, 14, 15, 16, TimeSpan.Zero));
+            Member("SomethingElse", new DateTimeOffset(2022,01,15,19,08,49, TimeSpan.Zero).AddTicks(5413764));
         }
     }
 """;
@@ -191,8 +191,8 @@ using System;
 using Intellenum;
 
     [Intellenum(underlyingType: typeof(bool))]
-    [Instance("No", false)]
-    [Instance("Yes", true)]
+    [Member("No", false)]
+    [Member("Yes", true)]
     public partial class BoolVo { }
 """;
 
@@ -216,8 +216,8 @@ public partial class DecimalHolderId_string
 {
     static DecimalHolderId_string()
     {
-        Instance("Item1", 720742592373919744m);
-        Instance("Item2", 2.2m);
+        Member("Item1", 720742592373919744m);
+        Member("Item2", 2.2m);
     }
 }
 """;
@@ -337,9 +337,9 @@ namespace Whatever;
     [Intellenum]
     public partial class FooEnum
     {
-        public static readonly FooEnum Instance1 = new FooEnum(1);
-        public static readonly FooEnum Instance2 = new FooEnum(2);
-        public static readonly FooEnum Instance3 = new FooEnum("INSTANCE 3!!", 3);
+        public static readonly FooEnum Member1 = new FooEnum(1);
+        public static readonly FooEnum Member2 = new FooEnum(2);
+        public static readonly FooEnum Member3 = new FooEnum("MEMBER 3!!", 3);
     }
 """;
 
@@ -488,8 +488,8 @@ public record class Foo(string Name, int Age) : IComparable<Foo>
     {
         static NotableGuids()
         {
-            Instance("IntellenumProject", new System.Guid("9A19103F-16F7-4668-BE54-9A1E7A4F7556"));
-            Instance("SnapshotTestsProject", new System.Guid("9A19103F-16F7-4668-BE54-9A1E7A4F7556"));
+            Member("IntellenumProject", new System.Guid("9A19103F-16F7-4668-BE54-9A1E7A4F7556"));
+            Member("SnapshotTestsProject", new System.Guid("9A19103F-16F7-4668-BE54-9A1E7A4F7556"));
         }
     }
     """;
@@ -514,11 +514,11 @@ public record class Foo(string Name, int Age) : IComparable<Foo>
     {
         static MinimumWageInUK()
         {
-            Instance("Apprentice", 4.3m);
-            Instance("UnderEighteen", 4.62m);
-            Instance("EighteenToTwenty", 6.56m);
-            Instance("TwentyOneAndOver", 8.36m);
-            Instance("TwentyFiveAndOver", 8.91m);
+            Member("Apprentice", 4.3m);
+            Member("UnderEighteen", 4.62m);
+            Member("EighteenToTwenty", 6.56m);
+            Member("TwentyOneAndOver", 8.36m);
+            Member("TwentyFiveAndOver", 8.91m);
         }
     }
     """;
@@ -539,9 +539,9 @@ public record class Foo(string Name, int Age) : IComparable<Foo>
     namespace Whatever;
 
     [Intellenum<string>]
-    [Instance("Normal", "n")]
-    [Instance("Gold", "g")]
-    [Instance("Diamond", "d")]
+    [Member("Normal", "n")]
+    [Member("Gold", "g")]
+    [Member("Diamond", "d")]
     public partial class CustomerType
     {
     }
@@ -567,7 +567,7 @@ public record class Foo(string Name, int Age) : IComparable<Foo>
     public partial class public_partial_classConversions_NewtonsoftJsonstring { 
 
         static public_partial_classConversions_NewtonsoftJsonstring() {
-            Instance("One", "1");
+            Member("One", "1");
         }
     }
     """;
@@ -588,9 +588,9 @@ public record class Foo(string Name, int Age) : IComparable<Foo>
     namespace Whatever;
 
     [Intellenum]
-    [Instance("Normal", 0)]
-    [Instance("Gold", 1)]
-    [Instance("Diamond", 2)]
+    [Member("Normal", 0)]
+    [Member("Gold", 1)]
+    [Member("Diamond", 2)]
     public partial class CustomerType
     {
     }
@@ -607,9 +607,9 @@ public record class Foo(string Name, int Age) : IComparable<Foo>
     namespace Whatever;
 
     [Intellenum<string>]
-    [Instance("Normal", "n")]
-    [Instance("Gold", "g")]
-    [Instance("Diamond", "d")]
+    [Member("Normal", "n")]
+    [Member("Gold", "g")]
+    [Member("Diamond", "d")]
     public partial class CustomerType
     {
     }
@@ -630,8 +630,8 @@ public record class Foo(string Name, int Age) : IComparable<Foo>
                 namespace Whatever;
                 
                 [Intellenum<float>]
-                [Instance("Normal", 0)]
-                [Instance("Gold", 1)]
+                [Member("Normal", 0)]
+                [Member("Gold", 1)]
                 public partial class CustomerType
                 {
                 }

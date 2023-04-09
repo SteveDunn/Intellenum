@@ -56,7 +56,7 @@ public class Test {{
 ";
             await Run(
                 source,
-                WithDiagnostics("VOG010", DiagnosticSeverity.Error, "MyVo", 0, 1));
+                WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyVo", 0, 1));
         }
 
         [Fact]
@@ -77,7 +77,7 @@ public class Test {{
 
             await Run(
                 source,
-                WithDiagnostics("VOG010", DiagnosticSeverity.Error, "MyVo", 0, 1));
+                WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyVo", 0, 1));
         }
 
         [Fact]
@@ -100,7 +100,7 @@ public class Test {{
 
             await Run(
                 source,
-                WithDiagnostics("VOG010", DiagnosticSeverity.Error, "MyVo", 0, 1));
+                WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyVo", 0, 1));
         }
 
         [Fact]
@@ -126,10 +126,10 @@ public class Test {{
 
             await Run(
                 source,
-                WithDiagnostics("VOG010", DiagnosticSeverity.Error, "MyVo", 0, 1, 2, 3, 4));
+                WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyVo", 0, 1, 2, 3, 4));
         }
 
-        [Fact(DisplayName = "Bug https://github.com/SteveDunn/Vogen/issues/182")]
+        [Fact(DisplayName = "Bug https://github.com/SteveDunn/INTELLENUMen/issues/182")]
         public async Task Analyzer_false_position_for_implicit_new_in_array_initializer()
         {
             var source = @"using System;

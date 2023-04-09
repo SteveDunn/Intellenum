@@ -13,8 +13,8 @@ namespace Intellenum.Examples.SyntaxExamples
         namespace Namespace2
         {
             [Intellenum]
-            [Instance("Standard", 1)]
-            [Instance("Gold", 2)]
+            [Member("Standard", 1)]
+            [Member("Gold", 2)]
             public partial class CustomerType
             {
             }
@@ -31,7 +31,7 @@ namespace Intellenum.Examples.SyntaxExamples
                 {
                     // uncomment to get error VOG001: Type 'NestedType' cannot be nested - remove it from inside AndAnother
                     // [Intellenum(typeof(int))]
-                    // [Instance("Item1", 1)]
+                    // [Member("Item1", 1)]
                     public partial class NestedType
                     {
                     }

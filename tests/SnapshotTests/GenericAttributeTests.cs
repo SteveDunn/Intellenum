@@ -15,8 +15,8 @@ public class GenericAttributeTests
 namespace Whatever;
 
 [Intellenum<int>]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public partial class CustomerType
 {
 }";
@@ -35,26 +35,26 @@ public partial class CustomerType
         RunTest(@"using Intellenum;
 
 [Intellenum<int>]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public partial class CustomerType
 {
 }");
 
 
     [SkippableFact]
-    public Task Produces_instances()
+    public Task Produces_members()
     {
         return RunTest(@"using Intellenum;
 
 namespace Whatever;
 
 [Intellenum<int>]
-[Instance(name: ""Unspecified"", value: -1, tripleSlashComment: ""a short description that'll show up in intellisense"")]
-[Instance(name: ""Unspecified1"", value: -2)]
-[Instance(name: ""Unspecified2"", value: -3, tripleSlashComment: ""<some_xml>whatever</some_xml"")]
-[Instance(name: ""Unspecified3"", value: -4)]
-[Instance(name: ""Preferred"", value: 42)]
+[Member(name: ""Unspecified"", value: -1, tripleSlashComment: ""a short description that'll show up in intellisense"")]
+[Member(name: ""Unspecified1"", value: -2)]
+[Member(name: ""Unspecified2"", value: -3, tripleSlashComment: ""<some_xml>whatever</some_xml"")]
+[Member(name: ""Unspecified3"", value: -4)]
+[Member(name: ""Preferred"", value: 42)]
 public partial class CustomerType
 {
 }
@@ -62,7 +62,7 @@ public partial class CustomerType
     }
 
     [SkippableFact]
-    public Task Produces_instances_with_derived_attribute()
+    public Task Produces_members_with_derived_attribute()
     {
         return RunTest(@"using Intellenum;
 
@@ -76,11 +76,11 @@ public class CustomGenericAttribute : IntellenumAttribute<long>
 }
 
 [CustomGenericAttribute]
-[Instance(name: ""Unspecified"", value: -1, tripleSlashComment: ""a short description that'll show up in intellisense"")]
-[Instance(name: ""Unspecified1"", value: -2)]
-[Instance(name: ""Unspecified2"", value: -3, tripleSlashComment: ""<some_xml>whatever</some_xml"")]
-[Instance(name: ""Unspecified3"", value: -4)]
-[Instance(name: ""Cust42"", value: 42)]
+[Member(name: ""Unspecified"", value: -1, tripleSlashComment: ""a short description that'll show up in intellisense"")]
+[Member(name: ""Unspecified1"", value: -2)]
+[Member(name: ""Unspecified2"", value: -3, tripleSlashComment: ""<some_xml>whatever</some_xml"")]
+[Member(name: ""Unspecified3"", value: -4)]
+[Member(name: ""Cust42"", value: 42)]
 public partial class CustomerType
 {
 }
@@ -88,7 +88,7 @@ public partial class CustomerType
     }
     
     [SkippableFact]
-    public Task Instance_names_can_have_reserved_keywords()
+    public Task Member_names_can_have_reserved_keywords()
     {
         return RunTest("""
             using Intellenum;
@@ -96,8 +96,8 @@ public partial class CustomerType
             namespace Whatever;
 
             [Intellenum<int>]
-            [Instance(name: "@class", value: 42)]
-            [Instance(name: "@event", value: 69)]
+            [Member(name: "@class", value: 42)]
+            [Member(name: "@event", value: 69)]
             public partial class CustomerType
             {
             }
@@ -113,9 +113,9 @@ public partial class CustomerType
 namespace @double;
 
 [Intellenum<int>]
-[Instance(name: ""@struct"", value: 42)]
-[Instance(name: ""@event"", value: 69)]
-[Instance(name: ""@void"", value: 666)]
+[Member(name: ""@struct"", value: 42)]
+[Member(name: ""@event"", value: 69)]
+[Member(name: ""@void"", value: 666)]
 public partial class @class
 {
 }

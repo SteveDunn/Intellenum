@@ -2,8 +2,8 @@
 using Intellenum;
 
 [Intellenum(typeof(string))]
-[Instance("Points", "Points")]
-[Instance("Percentage", "Percentage")]
+[Member("Points", "Points")]
+[Member("Percentage", "Percentage")]
 public partial class ScoreType
 {
 }

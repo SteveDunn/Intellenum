@@ -6,8 +6,8 @@
     */
 
     [Intellenum]
-    [Instance("Standard", 1)]
-    [Instance("Gold", 2)]
+    [Member("Standard", 1)]
+    [Member("Gold", 2)]
     public partial class CustomerType
     {
         // uncomment - error VOG008: Cannot have user defined constructors, please use the From method for creation.
@@ -17,8 +17,8 @@
     }
 
     [Intellenum]
-    [Instance("Standard", 1)]
-    [Instance("Preferred", 2)]
+    [Member("Standard", 1)]
+    [Member("Preferred", 2)]
     public partial class VendorType
     {
         // uncomment - error VOG008: Cannot have user defined constructors, please use the From method for creation.

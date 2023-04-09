@@ -84,4 +84,8 @@
     <None Include="ToString\ToStringGenerationTests.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="InstanceFields\" />
+  </ItemGroup>
+
 </Project>

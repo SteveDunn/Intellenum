@@ -47,7 +47,7 @@ public class ToStringGenerationTests
             namespace Whatever
             {
               [Intellenum]
-              [Instance("One", 1)]
+              [Member("One", 1)]
               public partial class {{className}} { 
                 {{WriteToStringMethod(addToStringMethod)}} 
               }

@@ -32,8 +32,8 @@ namespace ConsumerTests.SerializationAndConversionTests.ClassVos
     public partial class AnotherDateOnlyVo {
         static AnotherDateOnlyVo()
         {
-            Instance("JanFirst", new DateOnly(2021, 1, 1));
-            Instance("JanSecond", new DateOnly(2021, 1, 2));
+            Member("JanFirst", new DateOnly(2021, 1, 1));
+            Member("JanSecond", new DateOnly(2021, 1, 2));
         }
 
  }

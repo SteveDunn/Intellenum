@@ -32,7 +32,7 @@ using Intellenum;
         private readonly global::System.Boolean _isInitialized;
         private readonly {itemUnderlyingType} _value;
 
-        {InstanceGeneration.GeneratePrivateConstructionInitialisationIfNeeded(item)}
+        {MemberGeneration.GeneratePrivateConstructionInitialisationIfNeeded(item)}
 
         /// <summary>
         /// Gets the underlying <see cref=""{itemUnderlyingType}"" /> value if set, otherwise default
@@ -90,7 +90,7 @@ private void Throw()
         public string Name {{ get; private set; }}
 
         /// <summary>
-        /// Builds an instance from an enum value.
+        /// Builds a member from an enum value.
         /// </summary>
         /// <param name=""value"">The value.</param>
         /// <returns>The matching enum, or an exception.</returns>
@@ -100,11 +100,11 @@ private void Throw()
         }}            
 
         /// <summary>
-        /// Tries to get an instance based on value.
+        /// Tries to get a member based on value.
         /// </summary>
         /// <param name=""value"">The value.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static bool TryFromValue({itemUnderlyingType} value, out {className} instance)
+        public static bool TryFromValue({itemUnderlyingType} value, out {className} member)
         {{
             {Util.GenerateTryFromValueImplementation(item)}
         }}        
@@ -121,7 +121,7 @@ private void Throw()
         }}
 
         /// <summary>
-        /// Gets the matching instance based on name.
+        /// Gets the matching member based on name.
         /// </summary>
         /// <param name=""name"">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
@@ -131,11 +131,11 @@ private void Throw()
         }}
 
         /// <summary>
-        /// Tries to get the matching instance from a name.
+        /// Tries to get the matching member from a name.
         /// </summary>
         /// <param name=""name"">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static bool TryFromName(string name, out {className} instance)
+        public static bool TryFromName(string name, out {className} member)
         {{
             {Util.GenerateTryFromNameImplementation(item)}
         }}
@@ -147,22 +147,22 @@ private void Throw()
 
 
         /// <summary>
-        /// Builds an instance from the provided underlying type.
+        /// Builds a member from the provided underlying type.
         /// </summary>
         /// <param name=""value"">The underlying type.</param>
-        /// <returns>An instance of this type.</returns>
+        /// <returns>A member of this type.</returns>
         private static {className} From(string name, {itemUnderlyingType} value)
         {{
             {GenerateNullCheckIfNeeded(item)}
 
-            {className} instance = new {className}(name, value);
+            {className} member = new {className}(name, value);
 
-            return instance;
+            return member;
         }}
 
         // placeholder method used by the source generator
-        // to generate physical instances (e.g. public static readonly MyEnum Item1 = new...)
-        private static void Instance(string name, {itemUnderlyingType} value)
+        // to generate physical members (e.g. public static readonly MyEnum Item1 = new...)
+        private static void Member(string name, {itemUnderlyingType} value)
         {{
         }}
 
@@ -184,8 +184,8 @@ private void Throw()
                 return false;
             }}
 
-            // It's possible to create uninitialized instances via converters such as EfCore (HasDefaultValue), which call Equals.
-            // We treat anything uninitialized as not equal to anything, even other uninitialized instances of this type.
+            // It's possible to create uninitialized members via converters such as EfCore (HasDefaultValue), which call Equals.
+            // We treat anything uninitialized as not equal to anything, even other uninitialized members of this type.
             if(!_isInitialized || !other._isInitialized) return false;
 	    	
             if (ReferenceEquals(this, other))
@@ -247,11 +247,11 @@ private void Throw()
             }}
         }}
 
-        {InstanceGeneration.GenerateAnyInstances(tds, item)}
+        {MemberGeneration.GenerateAnyMembers(tds, item)}
         
         public static global::System.Collections.Generic.IEnumerable<{className}> List()
         {{
-            {InstanceGeneration.GenerateIEnumerableYields(item)}
+            {MemberGeneration.GenerateIEnumerableYields(item)}
         }}        
 
         {Util.GenerateToString(item)}
@@ -269,7 +269,7 @@ private void Throw()
         voWorkItem.IsValueType ? string.Empty
             : $@"            if (value is null)
             {{
-                throw new {nameof(IntellenumCreationFailedException)}(""Cannot create an Intellenum instance with a null."");
+                throw new {nameof(IntellenumCreationFailedException)}(""Cannot create an Intellenum member with a null."");
             }}
 ";
 }

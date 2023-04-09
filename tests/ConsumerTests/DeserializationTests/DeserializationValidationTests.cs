@@ -1,8 +1,8 @@
 ﻿namespace ConsumerTests.DeserializationTests;
 
 [Intellenum(typeof(int), Conversions.TypeConverter)]
-[Instance("Item1", 1)]
-[Instance("Item2", 2)]
+[Member("Item1", 1)]
+[Member("Item2", 2)]
 public partial class Enum_AllowValidAndKnownInstances
 {
 }

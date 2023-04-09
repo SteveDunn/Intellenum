@@ -24,9 +24,9 @@ namespace Intellenum.Examples.TypicalScenarios.ExplicitCasting
 
     // defaults to int
     [Intellenum]
-    [Instance("Won", 2)]
-    [Instance("Drawn", 1)]
-    [Instance("Lost", 0)]
+    [Member("Won", 2)]
+    [Member("Drawn", 1)]
+    [Member("Lost", 0)]
     internal partial class Result
     {
     }

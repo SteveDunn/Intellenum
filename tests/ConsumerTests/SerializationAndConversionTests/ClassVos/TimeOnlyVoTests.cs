@@ -33,8 +33,8 @@ namespace ConsumerTests.SerializationAndConversionTests.ClassVos
     {
         static AnotherTimeOnlyVo()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 4));
-            Instance("Item2", new TimeOnly(5, 6, 7, 8));
+            Member("Item1", new TimeOnly(1, 2, 3, 4));
+            Member("Item2", new TimeOnly(5, 6, 7, 8));
         }
 
     }

@@ -6,8 +6,8 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 namespace MediumTests.SerializationAndConversionTests;
 
 [Intellenum(underlyingType: typeof(double), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
-[Instance("Item1", 720742592373919744d)]
-[Instance("Item2", 2.2d)]
+[Member("Item1", 720742592373919744d)]
+[Member("Item2", 2.2d)]
 public partial class DoubleHolderId_string
 {
 }
@@ -17,49 +17,49 @@ public partial class DecimalHolderId_string
 {
     static DecimalHolderId_string()
     {
-        Instance("Item1", 720742592373919744m);
-        Instance("Item2", 2.2m);
+        Member("Item1", 720742592373919744m);
+        Member("Item2", 2.2m);
     }
 }
 
 [Intellenum(underlyingType: typeof(float), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
-[Instance("Item1", 720742592373919744)]
-[Instance("Item2", 2.2f)]
+[Member("Item1", 720742592373919744)]
+[Member("Item2", 2.2f)]
 public partial class FloatHolderId_string
 {
 }
 
 [Intellenum(underlyingType: typeof(long), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
-[Instance("Item1", 720742592373919744)]
-[Instance("Item2", 2)]
+[Member("Item1", 720742592373919744)]
+[Member("Item2", 2)]
 public partial class LongHolderId_string
 {
 }
 
 [Intellenum(underlyingType: typeof(short), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
-[Instance("Item1", 123)]
-[Instance("Item2", 321)]
+[Member("Item1", 123)]
+[Member("Item2", 321)]
 public partial class ShortHolderId_string
 {
 }
 
 [Intellenum(underlyingType: typeof(int), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
-[Instance("Item1", 321)]
-[Instance("Item2", 2)]
+[Member("Item1", 321)]
+[Member("Item2", 2)]
 public partial class IntHolderId_string
 {
 }
 
 [Intellenum(underlyingType: typeof(byte), customizations: Customizations.TreatNumberAsStringInSystemTextJson)]
-[Instance("Item1", 1)]
-[Instance("Item2", 2)]
+[Member("Item1", 1)]
+[Member("Item2", 2)]
 public partial class ByteHolderId_string
 {
 }
 
 [Intellenum(underlyingType: typeof(double))]
-[Instance("Item1", 720742592373919744)]
-[Instance("Item2", 2.2d)]
+[Member("Item1", 720742592373919744)]
+[Member("Item2", 2.2d)]
 public partial class DoubleHolderId_normal
 {
 }
@@ -69,42 +69,42 @@ public partial class DecimalHolderId_normal
 {
     static DecimalHolderId_normal()
     {
-        Instance("Item1", 720742592373919744m);
-        Instance("Item2", 2.2m);
+        Member("Item1", 720742592373919744m);
+        Member("Item2", 2.2m);
     }
 }
 
 [Intellenum(underlyingType: typeof(float))]
-[Instance("Item1", 720742592373919744)]
-[Instance("Item2", 2.2f)]
+[Member("Item1", 720742592373919744)]
+[Member("Item2", 2.2f)]
 public partial class FloatHolderId_normal
 {
 }
 
 [Intellenum(underlyingType: typeof(long))]
-[Instance("Item1", 720742592373919744)]
-[Instance("Item2", 2)]
+[Member("Item1", 720742592373919744)]
+[Member("Item2", 2)]
 public partial class LongHolderId_normal
 {
 }
 
 [Intellenum(underlyingType: typeof(short))]
-[Instance("Item1", 123)]
-[Instance("Item2", 321)]
+[Member("Item1", 123)]
+[Member("Item2", 321)]
 public partial class ShortHolderId_normal
 {
 }
 
 [Intellenum(underlyingType: typeof(int))]
-[Instance("Item1", 321)]
-[Instance("Item2", 2)]
+[Member("Item1", 321)]
+[Member("Item2", 2)]
 public partial class IntHolderId_normal
 {
 }
 
 [Intellenum(underlyingType: typeof(byte))]
-[Instance("Item1", 123)]
-[Instance("Item2", 2)]
+[Member("Item1", 123)]
+[Member("Item2", 2)]
 public partial class ByteHolderId_normal
 {
 }

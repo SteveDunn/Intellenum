@@ -5,9 +5,9 @@
     {
         static Celsius()
         {
-            Instance("AbsoluteZero", -273.15f);
-            Instance("FreezingPointOfWater", 0f);
-            Instance("BoilingPointOfWater", 100f);
+            Member("AbsoluteZero", -273.15f);
+            Member("FreezingPointOfWater", 0f);
+            Member("BoilingPointOfWater", 100f);
         }
     }
 
@@ -16,8 +16,8 @@
     {
         static FloatEnum()
         {
-            Instance("Item1", 1.23f);
-            Instance("Item2", 3.21f);
+            Member("Item1", 1.23f);
+            Member("Item2", 3.21f);
         }
     }
 
@@ -26,8 +26,8 @@
     {
         static NoConverterFloatEnum()
         {
-            Instance("Item1", 1.23f);
-            Instance("Item2", 3.21f);
+            Member("Item1", 1.23f);
+            Member("Item2", 3.21f);
         }
     }
 
@@ -36,8 +36,8 @@
     {
         static NoJsonFloatEnum()
         {
-            Instance("Item1", 1.23f);
-            Instance("Item2", 3.21f);
+            Member("Item1", 1.23f);
+            Member("Item2", 3.21f);
         }
     }
 
@@ -46,42 +46,42 @@
     {
         static NewtonsoftJsonFloatEnum()
         {
-            Instance("Item1", 1.23f);
-            Instance("Item2", 3.21f);
+            Member("Item1", 1.23f);
+            Member("Item2", 3.21f);
         }
     }
 
     [Intellenum<float>(conversions: Conversions.SystemTextJson)]
-    [Instance("Item1", 1f)]
-    [Instance("Item2", 2f)]
+    [Member("Item1", 1f)]
+    [Member("Item2", 2f)]
     public partial class SystemTextJsonFloatEnum
     {
     }
 
     [Intellenum<float>(conversions: Conversions.NewtonsoftJson | Conversions.SystemTextJson)]
-    [Instance("Item1", 1f)]
-    [Instance("Item2", 2f)]
+    [Member("Item1", 1f)]
+    [Member("Item2", 2f)]
     public partial class BothJsonFloatEnum
     {
     }
 
     [Intellenum<float>(conversions: Conversions.EfCoreValueConverter)]
-    [Instance("Item1", 1f)]
-    [Instance("Item2", 2f)]
+    [Member("Item1", 1f)]
+    [Member("Item2", 2f)]
     public partial class EfCoreFloatEnum
     {
     }
 
     [Intellenum<float>(conversions: Conversions.DapperTypeHandler)]
-    [Instance("Item1", 1f)]
-    [Instance("Item2", 2f)]
+    [Member("Item1", 1f)]
+    [Member("Item2", 2f)]
     public partial class DapperFloatEnum
     {
     }
 
     [Intellenum<float>(conversions: Conversions.LinqToDbValueConverter)]
-    [Instance("Item1", 1f)]
-    [Instance("Item2", 2f)]
+    [Member("Item1", 1f)]
+    [Member("Item2", 2f)]
     public partial class LinqToDbFloatEnum
     {
     }

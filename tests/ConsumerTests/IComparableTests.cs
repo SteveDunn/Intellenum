@@ -6,41 +6,41 @@
     {
         static DOS1()
         {
-            Instance("JanFirst", new DateOnly(2021, 1, 1));
-            Instance("JanSecond", new DateOnly(2021, 1, 2));
-            Instance("JanThird", new DateOnly(2021, 1, 3));
+            Member("JanFirst", new DateOnly(2021, 1, 1));
+            Member("JanSecond", new DateOnly(2021, 1, 2));
+            Member("JanThird", new DateOnly(2021, 1, 3));
         }
     }
 #endif
 
     [Intellenum(typeof(int))]
-    [Instance("Item1", 1)]
-    [Instance("Item2", 2)]
-    [Instance("Item3", 3)]
+    [Member("Item1", 1)]
+    [Member("Item2", 2)]
+    [Member("Item3", 3)]
     public partial class S1
     {
     }
 
     [Intellenum]
-    [Instance("Item1", 1)]
-    [Instance("Item2", 2)]
-    [Instance("Item3", 3)]
+    [Member("Item1", 1)]
+    [Member("Item2", 2)]
+    [Member("Item3", 3)]
     public partial class S2
     {
     }
 
     [Intellenum(typeof(int))]
-    [Instance("Item1", 1)]
-    [Instance("Item2", 2)]
-    [Instance("Item3", 3)]
+    [Member("Item1", 1)]
+    [Member("Item2", 2)]
+    [Member("Item3", 3)]
     public partial class C1
     {
     }
 
     [Intellenum]
-    [Instance("Item1", 1)]
-    [Instance("Item2", 2)]
-    [Instance("Item3", 3)]
+    [Member("Item1", 1)]
+    [Member("Item2", 2)]
+    [Member("Item3", 3)]
     public partial class C2
     {
     }

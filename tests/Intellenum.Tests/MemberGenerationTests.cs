@@ -6,17 +6,17 @@ using Xunit;
 
 namespace Intellenum.Tests;
 
-public class InstanceGenerationTests
+public class MemberGenerationTests
 {
-    public class With_underlying_Boolean_instance
+    public class With_underlying_Boolean_member
     {
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
         public void It_generates_a_successful_result(object input)
         {
-            InstanceGeneration.BuildResult r =
-                InstanceGeneration.TryBuildInstanceValueAsText("foo", input, "System.Boolean");
+            MemberGeneration.BuildResult r =
+                MemberGeneration.TryBuildMemberValueAsText("foo", input, "System.Boolean");
 
             using var x = new AssertionScope();
             r.Success.Should().BeTrue();
@@ -24,7 +24,7 @@ public class InstanceGenerationTests
         }
     }
 
-    public class With_underlying_Decimal_instance
+    public class With_underlying_Decimal_member
     {
         [Theory]
         [InlineData((long)0)]
@@ -36,8 +36,8 @@ public class InstanceGenerationTests
         [InlineData('1')]
         public void It_generates_a_successful_result_with_input_suffixed_with_m(object input)
         {
-            InstanceGeneration.BuildResult r =
-                InstanceGeneration.TryBuildInstanceValueAsText("foo", input, "System.Decimal");
+            MemberGeneration.BuildResult r =
+                MemberGeneration.TryBuildMemberValueAsText("foo", input, "System.Decimal");
 
             using var x = new AssertionScope();
             r.Success.Should().BeTrue();
@@ -45,7 +45,7 @@ public class InstanceGenerationTests
         }
     }
 
-    public class With_underlying_Double_instance
+    public class With_underlying_Double_member
     {
         [Theory]
         [InlineData((long)0)]
@@ -58,8 +58,8 @@ public class InstanceGenerationTests
         [InlineData('1')]
         public void It_generates_a_successful_result_with_input_suffixed_with_m(object input)
         {
-            InstanceGeneration.BuildResult r =
-                InstanceGeneration.TryBuildInstanceValueAsText("foo", input, "System.Double");
+            MemberGeneration.BuildResult r =
+                MemberGeneration.TryBuildMemberValueAsText("foo", input, "System.Double");
 
             using var x = new AssertionScope();
             r.Success.Should().BeTrue();
@@ -67,7 +67,7 @@ public class InstanceGenerationTests
         }
     }
 
-    public class With_underlying_Single_instance
+    public class With_underlying_Single_member
     {
         [Theory]
         [InlineData((long)0)]
@@ -80,8 +80,8 @@ public class InstanceGenerationTests
         [InlineData('1')]
         public void It_generates_a_successful_result_with_input_suffixed_with_f(object input)
         {
-            InstanceGeneration.BuildResult r =
-                InstanceGeneration.TryBuildInstanceValueAsText("foo", input, "System.Single");
+            MemberGeneration.BuildResult r =
+                MemberGeneration.TryBuildMemberValueAsText("foo", input, "System.Single");
 
             using var x = new AssertionScope();
             r.Success.Should().BeTrue();
@@ -89,7 +89,7 @@ public class InstanceGenerationTests
         }
     }
 
-    public class With_underlying_Char_instance
+    public class With_underlying_Char_member
     {
         [Theory]
         [InlineData("1")]
@@ -99,8 +99,8 @@ public class InstanceGenerationTests
         // [InlineData((int)0)]
         public void It_generates_a_successful_result_with_input_surrounded_by_single_quotes(object input)
         {
-            InstanceGeneration.BuildResult r =
-                InstanceGeneration.TryBuildInstanceValueAsText("foo", input, "System.Char");
+            MemberGeneration.BuildResult r =
+                MemberGeneration.TryBuildMemberValueAsText("foo", input, "System.Char");
 
             using var x = new AssertionScope();
             r.Success.Should().BeTrue();
@@ -114,8 +114,8 @@ public class InstanceGenerationTests
         [InlineData(256, "Ā")]
         public void It_handles_types_that_can_be_converted_to_char(object input, string expected)
         {
-            InstanceGeneration.BuildResult r =
-                InstanceGeneration.TryBuildInstanceValueAsText("foo", input, "System.Char");
+            MemberGeneration.BuildResult r =
+                MemberGeneration.TryBuildMemberValueAsText("foo", input, "System.Char");
 
             using var x = new AssertionScope();
             r.Success.Should().BeTrue();
@@ -127,15 +127,15 @@ public class InstanceGenerationTests
         [InlineData(1.23)]
         public void It_generates_a_failed_result_when_given_invalid_data(object input)
         {
-            InstanceGeneration.BuildResult r =
-                InstanceGeneration.TryBuildInstanceValueAsText("foo", input, "System.Char");
+            MemberGeneration.BuildResult r =
+                MemberGeneration.TryBuildMemberValueAsText("foo", input, "System.Char");
 
             using var x = new AssertionScope();
             r.Success.Should().BeFalse();
         }
     }
 
-    public class With_underlying_Byte_instance
+    public class With_underlying_Byte_member
     {
         [Theory]
         [InlineData("1", 1)]
@@ -145,8 +145,8 @@ public class InstanceGenerationTests
         // [InlineData((int)0)]
         public void It_generates_a_successful_result_with_same_value_as_the_input(object input, byte expected)
         {
-            InstanceGeneration.BuildResult r =
-                InstanceGeneration.TryBuildInstanceValueAsText("foo", input, "System.Byte");
+            MemberGeneration.BuildResult r =
+                MemberGeneration.TryBuildMemberValueAsText("foo", input, "System.Byte");
 
             using var x = new AssertionScope();
             r.Success.Should().BeTrue();
@@ -160,8 +160,8 @@ public class InstanceGenerationTests
         [InlineData(255, "255")]
         public void It_handles_types_that_can_be_converted(object input, string expected)
         {
-            InstanceGeneration.BuildResult r =
-                InstanceGeneration.TryBuildInstanceValueAsText("foo", input, "System.Byte");
+            MemberGeneration.BuildResult r =
+                MemberGeneration.TryBuildMemberValueAsText("foo", input, "System.Byte");
 
             using var x = new AssertionScope();
             r.Success.Should().BeTrue();
@@ -173,23 +173,23 @@ public class InstanceGenerationTests
         [InlineData(256)]
         public void It_generates_a_failed_result_when_given_invalid_data(object input)
         {
-            InstanceGeneration.BuildResult r =
-                InstanceGeneration.TryBuildInstanceValueAsText("foo", input, "System.Byte");
+            MemberGeneration.BuildResult r =
+                MemberGeneration.TryBuildMemberValueAsText("foo", input, "System.Byte");
 
             using var x = new AssertionScope();
             r.Success.Should().BeFalse();
         }
     }
 
-    public class With_underlying_String_instance
+    public class With_underlying_String_member
     {
         [Theory]
         [InlineData("a")]
         [InlineData("")]
         public void It_generates_a_successful_result_with_the_input_surrounded_by_quotes(string input)
         {
-            InstanceGeneration.BuildResult r =
-                InstanceGeneration.TryBuildInstanceValueAsText("foo", input, "System.String");
+            MemberGeneration.BuildResult r =
+                MemberGeneration.TryBuildMemberValueAsText("foo", input, "System.String");
 
             using var x = new AssertionScope();
             r.Success.Should().BeTrue();
@@ -197,7 +197,7 @@ public class InstanceGenerationTests
         }
     }
 
-    public class With_underlying_DateTime_and_DateTimeOffset_instances
+    public class With_underlying_DateTime_and_DateTimeOffset_members
     {
         public class Which_are_created_with_invalid_ISO8601_strings
         {
@@ -208,14 +208,14 @@ public class InstanceGenerationTests
             [InlineData("System.DateTimeOffset", "2020-12-13T1:2:3")]
             public void It_generates_a_failed_result(string fullName, string input)
             {
-                InstanceGeneration.BuildResult r =
-                    InstanceGeneration.TryBuildInstanceValueAsText("foo", input, fullName);
+                MemberGeneration.BuildResult r =
+                    MemberGeneration.TryBuildMemberValueAsText("foo", input, fullName);
 
                 using var x = new AssertionScope();
                 r.Success.Should().BeFalse();
                 r.ErrorMessage.Should()
                     .Match(
-                        $"Named instance 'foo' has a value type '{input.GetType().FullName}' of '{input}' which cannot be converted to the underlying type of '{fullName}' - * was not recognized as a valid DateTime.");
+                        $"Member 'foo' has a value type '{input.GetType().FullName}' of '{input}' which cannot be converted to the underlying type of '{fullName}' - * was not recognized as a valid DateTime.");
             }
         }
 
@@ -230,14 +230,14 @@ public class InstanceGenerationTests
             [InlineData("System.DateTimeOffset", -2L)]
             public void It_generates_a_failed_result(string fullName, object input)
             {
-                InstanceGeneration.BuildResult r =
-                    InstanceGeneration.TryBuildInstanceValueAsText("foo", input, fullName);
+                MemberGeneration.BuildResult r =
+                    MemberGeneration.TryBuildMemberValueAsText("foo", input, fullName);
 
                 using var x = new AssertionScope();
                 r.Success.Should().BeFalse();
                 r.ErrorMessage.Should()
                     .Contain(
-                        $"Named instance 'foo' has a value type '{input.GetType().FullName}' of '{input}' which cannot be converted to the underlying type of '{fullName}' - Ticks must be between DateTime.MinValue.Ticks and DateTime.MaxValue.Ticks");
+                        $"Member 'foo' has a value type '{input.GetType().FullName}' of '{input}' which cannot be converted to the underlying type of '{fullName}' - Ticks must be between DateTime.MinValue.Ticks and DateTime.MaxValue.Ticks");
             }
         }
 
@@ -254,8 +254,8 @@ public class InstanceGenerationTests
             [InlineData("System.DateTimeOffset", 1_000_000_000L)]
             public void It_generates_a_successful_result(string fullName, object input)
             {
-                InstanceGeneration.BuildResult r =
-                    InstanceGeneration.TryBuildInstanceValueAsText("foo", input, fullName);
+                MemberGeneration.BuildResult r =
+                    MemberGeneration.TryBuildMemberValueAsText("foo", input, fullName);
 
                 using var x = new AssertionScope();
                 r.Success.Should().BeTrue();
@@ -267,8 +267,8 @@ public class InstanceGenerationTests
             [Fact]
             public void It_generates_a_valid_item_when_given_a_valid_DateTime_input()
             {
-                InstanceGeneration.BuildResult r =
-                    InstanceGeneration.TryBuildInstanceValueAsText("foo", "2020-12-13", typeof(DateTime).FullName);
+                MemberGeneration.BuildResult r =
+                    MemberGeneration.TryBuildMemberValueAsText("foo", "2020-12-13", typeof(DateTime).FullName);
 
                 using var x = new AssertionScope();
                 r.Success.Should().BeTrue();
@@ -281,8 +281,8 @@ public class InstanceGenerationTests
             [Fact]
             public void It_generates_a_valid_item_when_given_a_valid_DateTimeOffset_input()
             {
-                InstanceGeneration.BuildResult r =
-                    InstanceGeneration.TryBuildInstanceValueAsText("foo", "2020-12-13", typeof(DateTimeOffset).FullName);
+                MemberGeneration.BuildResult r =
+                    MemberGeneration.TryBuildMemberValueAsText("foo", "2020-12-13", typeof(DateTimeOffset).FullName);
 
                 using var x = new AssertionScope();
                 r.Success.Should().BeTrue();

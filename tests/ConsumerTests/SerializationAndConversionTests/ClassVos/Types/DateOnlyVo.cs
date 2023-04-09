@@ -9,8 +9,8 @@ namespace ConsumerTests.TestEnums
     {
         static DateOnlyVo()
         {
-            Instance("JanFirst", new DateOnly(2021, 1, 1));
-            Instance("JanSecond", new DateOnly(2021, 1, 2));
+            Member("JanFirst", new DateOnly(2021, 1, 1));
+            Member("JanSecond", new DateOnly(2021, 1, 2));
         }
     }
 
@@ -19,8 +19,8 @@ namespace ConsumerTests.TestEnums
     {
         static NoConverterDateOnlyVo()
         {
-            Instance("JanFirst", new DateOnly(2021, 1, 1));
-            Instance("JanSecond", new DateOnly(2021, 1, 2));
+            Member("JanFirst", new DateOnly(2021, 1, 1));
+            Member("JanSecond", new DateOnly(2021, 1, 2));
         }
         
     }
@@ -30,8 +30,8 @@ namespace ConsumerTests.TestEnums
     {
         static NoJsonDateOnlyVo()
         {
-            Instance("JanFirst", new DateOnly(2021, 1, 1));
-            Instance("JanSecond", new DateOnly(2021, 1, 2));
+            Member("JanFirst", new DateOnly(2021, 1, 1));
+            Member("JanSecond", new DateOnly(2021, 1, 2));
         }
     }
 
@@ -40,8 +40,8 @@ namespace ConsumerTests.TestEnums
     {
         static NewtonsoftJsonDateOnlyVo()
         {
-            Instance("JanFirst", new DateOnly(2021, 1, 1));
-            Instance("JanSecond", new DateOnly(2021, 1, 2));
+            Member("JanFirst", new DateOnly(2021, 1, 1));
+            Member("JanSecond", new DateOnly(2021, 1, 2));
         }
     }
 
@@ -50,8 +50,8 @@ namespace ConsumerTests.TestEnums
     {
         static SystemTextJsonDateOnlyVo()
         {
-            Instance("JanFirst", new DateOnly(2021, 1, 1));
-            Instance("JanSecond", new DateOnly(2021, 1, 2));
+            Member("JanFirst", new DateOnly(2021, 1, 1));
+            Member("JanSecond", new DateOnly(2021, 1, 2));
         }
     }
 
@@ -60,8 +60,8 @@ namespace ConsumerTests.TestEnums
     {
         static BothJsonDateOnlyVo()
         {
-            Instance("JanFirst", new DateOnly(2021, 1, 1));
-            Instance("JanSecond", new DateOnly(2021, 1, 2));
+            Member("JanFirst", new DateOnly(2021, 1, 1));
+            Member("JanSecond", new DateOnly(2021, 1, 2));
         }
     }
 
@@ -70,8 +70,8 @@ namespace ConsumerTests.TestEnums
     {
         static EfCoreDateOnlyVo()
         {
-            Instance("JanFirst", new DateOnly(2021, 1, 1));
-            Instance("JanSecond", new DateOnly(2021, 1, 2));
+            Member("JanFirst", new DateOnly(2021, 1, 1));
+            Member("JanSecond", new DateOnly(2021, 1, 2));
         }
     }
 
@@ -80,8 +80,8 @@ namespace ConsumerTests.TestEnums
     {
         static DapperDateOnlyVo()
         {
-            Instance("JanFirst", new DateOnly(2021, 1, 1));
-            Instance("JanSecond", new DateOnly(2021, 1, 2));
+            Member("JanFirst", new DateOnly(2021, 1, 1));
+            Member("JanSecond", new DateOnly(2021, 1, 2));
         }
     }
 
@@ -90,8 +90,8 @@ namespace ConsumerTests.TestEnums
     {
         static LinqToDbDateOnlyVo()
         {
-            Instance("JanFirst", new DateOnly(2021, 1, 1));
-            Instance("JanSecond", new DateOnly(2021, 1, 2));
+            Member("JanFirst", new DateOnly(2021, 1, 1));
+            Member("JanSecond", new DateOnly(2021, 1, 2));
         }
     }
 }

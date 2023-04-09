@@ -20,8 +20,8 @@ using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
 namespace MediumTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(double))]
-    [Instance("Item1", 1.1d)]
-    [Instance("Item2", 2.2d)]
+    [Member("Item1", 1.1d)]
+    [Member("Item2", 2.2d)]
     public partial class AnotherDoubleVo { }
 
     public class DoubleVoTests

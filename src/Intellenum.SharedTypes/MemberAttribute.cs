@@ -3,7 +3,7 @@
 namespace Intellenum;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true)]
-public class InstanceAttribute : Attribute
+public class MemberAttribute : Attribute
 {
     public object Value { get; }
 
@@ -11,6 +11,6 @@ public class InstanceAttribute : Attribute
     
     public string TripleSlashComment { get; }
 
-    public InstanceAttribute(string name, object value, string tripleSlashComment = "") =>
+    public MemberAttribute(string name, object value, string tripleSlashComment = "") =>
         (Name, Value, TripleSlashComment) = (name, value, tripleSlashComment);
 }

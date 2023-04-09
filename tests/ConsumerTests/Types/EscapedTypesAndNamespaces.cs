@@ -22,14 +22,14 @@ namespace @double
     {
         static classFromEscapedNamespaceWithReservedUnderlyingType()
         {
-            Instance("One", new @decimal());
-            Instance("Two", new @decimal());
+            Member("One", new @decimal());
+            Member("Two", new @decimal());
         }
     }
 
     [Intellenum]
-    [Instance("Item1", 1)]
-    [Instance("Item2", 2)]
+    [Member("Item1", 1)]
+    [Member("Item2", 2)]
     public partial class classFromEscapedNamespace
     {
     }
@@ -38,15 +38,15 @@ namespace @double
 namespace @bool.@byte.@short.@float.@object
 {
     [Intellenum]
-    [Instance("Item1", 1)]
-    [Instance("Item2", 2)]
+    [Member("Item1", 1)]
+    [Member("Item2", 2)]
     public partial class @class
     {
     }
 
     [Intellenum]
-    [Instance("Item1", 1)]
-    [Instance("Item2", 2)]
+    [Member("Item1", 1)]
+    [Member("Item2", 2)]
     public partial class @event
     {
     }
@@ -56,8 +56,8 @@ namespace @bool.@byte.@short.@float.@object
     {
         static event2()
         {
-            Instance("Item1", new @decimal());
-            Instance("Item2", new @decimal());
+            Member("Item1", new @decimal());
+            Member("Item2", new @decimal());
 
         }
     }

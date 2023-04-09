@@ -28,8 +28,8 @@ namespace ConsumerTests.SerializationAndConversionTests.ClassVos
     {
         static AnotherDateTimeVo()
         {
-            Instance("Item1", new DateTime(2019, 12, 13, 14, 15, 16));
-            Instance("Item2", new DateTime(2020, 12, 13, 14, 15, 16));
+            Member("Item1", new DateTime(2019, 12, 13, 14, 15, 16));
+            Member("Item2", new DateTime(2020, 12, 13, 14, 15, 16));
         }
     }
 

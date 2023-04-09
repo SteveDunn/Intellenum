@@ -72,19 +72,19 @@ internal static class BuildWorkItems
 
         ReportErrorIfNestedType(target, context, voSymbolInformation);
 
-        var instanceProperties =
-            FindInstancesFromInstanceAttribute(allAttributes, voSymbolInformation, context, config.UnderlyingType).ToList();
+        var memberProperties =
+            FindMembersFromMemberAttribute(allAttributes, voSymbolInformation, context, config.UnderlyingType).ToList();
 
-        instanceProperties.AddRange(FindInstancesFromInstanceMethodInStaticConstructor(voSymbolInformation).ToList());
-        instanceProperties.AddRange(FindInstancesFromNewStatements(voSymbolInformation).ToList());
+        memberProperties.AddRange(FindMembersFromMemberMethodInStaticConstructor(voSymbolInformation).ToList());
+        memberProperties.AddRange(FindMembersFromNewStatements(voSymbolInformation).ToList());
 
         var toStringInfo = HasToStringOverload(voSymbolInformation);
 
-        ReportErrorIfVoTypeIsSameAsUnderlyingType(context, voSymbolInformation, config.UnderlyingType);
+        ReportErrorIfEnumTypeIsSameAsUnderlyingType(context, voSymbolInformation, config.UnderlyingType);
 
         ReportErrorIfUnderlyingTypeIsCollection(context, voSymbolInformation, config.UnderlyingType);
         
-        ReportErrorIfNoInstancesFound(instanceProperties, context, voSymbolInformation);
+        ReportErrorIfNoMembersFound(memberProperties, context, voSymbolInformation);
 
         var isValueType = IsUnderlyingAValueType(config.UnderlyingType);
 
@@ -93,7 +93,7 @@ internal static class BuildWorkItems
         return new VoWorkItem
         {
             IsConstant = isConstant,
-            InstanceProperties = instanceProperties.ToList(),
+            MemberProperties = memberProperties.ToList(),
             TypeToAugment = voTypeSyntax,
             IsValueType = isValueType,
             HasToString = toStringInfo.HasToString,
@@ -191,24 +191,24 @@ internal static class BuildWorkItems
         }
     }
 
-    private static void ReportErrorIfNoInstancesFound(List<InstanceProperties> instancePropertiesList,
+    private static void ReportErrorIfNoMembersFound(List<MemberProperties> memberPropertiesList,
         SourceProductionContext context,
         INamedTypeSymbol voSymbolInformation)
     {
-        if(instancePropertiesList.Count == 0)
+        if(memberPropertiesList.Count == 0)
         {
-            context.ReportDiagnostic(DiagnosticsCatalogue.MustHaveInstances(voSymbolInformation));
+            context.ReportDiagnostic(DiagnosticsCatalogue.MustHaveMembers(voSymbolInformation));
         }
     }
 
-    private static void ReportErrorIfVoTypeIsSameAsUnderlyingType(
+    private static void ReportErrorIfEnumTypeIsSameAsUnderlyingType(
         SourceProductionContext context,
         INamedTypeSymbol voSymbolInformation,
         INamedTypeSymbol underlyingType)
     {
         if (SymbolEqualityComparer.Default.Equals(voSymbolInformation, underlyingType))
         {
-            context.ReportDiagnostic(DiagnosticsCatalogue.UnderlyingTypeMustNotBeSameAsValueObjectType(voSymbolInformation));
+            context.ReportDiagnostic(DiagnosticsCatalogue.UnderlyingTypeMustNotBeSameAsEnumType(voSymbolInformation));
         }
     }
 
@@ -240,21 +240,21 @@ internal static class BuildWorkItems
         return reported;
     }
 
-    private static IEnumerable<InstanceProperties> FindInstancesFromInstanceAttribute(
+    private static IEnumerable<MemberProperties> FindMembersFromMemberAttribute(
         ImmutableArray<AttributeData> attributes,
         INamedTypeSymbol voClass,
         SourceProductionContext context, 
         INamedTypeSymbol? underlyingType)
     {
         IEnumerable<AttributeData> matchingAttributes =
-            attributes.Where(a => a.AttributeClass?.FullName() is "Intellenum.InstanceAttribute");
+            attributes.Where(a => a.AttributeClass?.FullName() is "Intellenum.MemberAttribute");
 
-        var props = BuildInstancePropertiesFromAttributes.Build(matchingAttributes, context, voClass, underlyingType);
+        var props = BuildMembersFromAttributes.Build(matchingAttributes, context, voClass, underlyingType);
         
         return props.Where(a => a is not null)!;
     }
 
-    private static IEnumerable<InstanceProperties> FindInstancesFromInstanceMethodInStaticConstructor(INamedTypeSymbol voClass)
+    private static IEnumerable<MemberProperties> FindMembersFromMemberMethodInStaticConstructor(INamedTypeSymbol voClass)
     {
         var constructor = voClass.Constructors.FirstOrDefault(m => m.IsStatic && m.IsPrivate());
         
@@ -265,26 +265,26 @@ internal static class BuildWorkItems
         
         var syntax = decl.GetSyntax();
 
-        var instanceInvocations = syntax.DescendantNodes().OfType<InvocationExpressionSyntax>().Where(IsCallingInstance);
+        var memberInvocations = syntax.DescendantNodes().OfType<InvocationExpressionSyntax>().Where(IsCallingMember);
         
-        foreach (var eachInvocation in instanceInvocations)
+        foreach (var eachInvocation in memberInvocations)
         {
             ArgumentSyntax first = eachInvocation.ArgumentList.Arguments[0];
                 
             var firstAsString = (first.Expression as LiteralExpressionSyntax)?.Token.Value as string;
             if (firstAsString is null)
             {
-                throw new InvalidOperationException("Expected string literal as name parameter to Instance method");
+                throw new InvalidOperationException("Expected string literal as name parameter to Member method");
             }
 
             ArgumentSyntax second = eachInvocation.ArgumentList.Arguments[1];
             var secondAsString = second.ToString();
 
-            yield return new InstanceProperties(InstanceSource.FromInstanceMethod,  firstAsString, firstAsString, secondAsString, secondAsString);
+            yield return new MemberProperties(MemberSource.FromMemberMethod,  firstAsString, firstAsString, secondAsString, secondAsString);
         }
     }
 
-    private static IEnumerable<InstanceProperties> FindInstancesFromNewStatements(INamedTypeSymbol voClass)
+    private static IEnumerable<MemberProperties> FindMembersFromNewStatements(INamedTypeSymbol voClass)
     {
         var publicStaticMembers = voClass.GetMembers().Where(m => m.IsStatic && m.IsPublic());
         
@@ -350,7 +350,7 @@ internal static class BuildWorkItems
             // perhaps what we could do is look for a new express
             // SmartEnum allows a different 'name' to be added, and it also allows the same 'value' to be added
             // So we could treat this is an alias, e.g. "Item1" is the field name, and "Fred" is the name in the constructor, so 'FromName' 
-            // could look up "Fred" and return the instance with the field name "Item1"
+            // could look up "Fred" and return the member with the field name "Item1"
 
             
             // in the static constructor, we can enumerate these and sets the values on the fields - it just means
@@ -359,7 +359,7 @@ internal static class BuildWorkItems
             // actually, none of this will work - an explicit field *must* specify the field name, the enum name, and the value
             // we can probably infer the enum name from the field name with a constructor overload, but that's it.
             
-            yield return new InstanceProperties(InstanceSource.FromNewExpression, fieldName, enumName, secondAsString, secondAsString, "",  explicitlyNamed);
+            yield return new MemberProperties(MemberSource.FromNewExpression, fieldName, enumName, secondAsString, secondAsString, "",  explicitlyNamed);
         }
 
         bool isSameSymbol(ISymbol m)
@@ -377,17 +377,17 @@ internal static class BuildWorkItems
         return x == expectedType;
     }
 
-    private static bool IsCallingInstance(InvocationExpressionSyntax arg)
+    private static bool IsCallingMember(InvocationExpressionSyntax arg)
     {
         var nodes = arg.DescendantNodes().OfType<IdentifierNameSyntax>();
-        var v = nodes.SingleOrDefault(n => n?.Identifier.ToString() == "Instance", "Expected zero or at most, one, instance of IdentifierNameSystem with the text 'Instance'");
+        var v = nodes.SingleOrDefault(n => n?.Identifier.ToString() == "Member", "Expected zero or at most, one, member of IdentifierNameSystem with the text 'Member'");
         return v is not null;
     }
 }
 
-public enum InstanceSource
+public enum MemberSource
 {
     FromAttribute,
-    FromInstanceMethod,
+    FromMemberMethod,
     FromNewExpression
 }

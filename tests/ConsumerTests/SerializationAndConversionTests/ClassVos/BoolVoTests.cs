@@ -21,8 +21,8 @@ using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
 namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(bool))]
-    [Instance("No", false)]
-    [Instance("Yes", true)]
+    [Member("No", false)]
+    [Member("Yes", true)]
     public partial class BoolVo { }
 
     public class BoolVoTests

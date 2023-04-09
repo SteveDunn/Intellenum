@@ -30,23 +30,23 @@ public class D3 : D2
 }
 
 [Intellenum]
-[Instance("Item1", 1)]
-[Instance("Item2", 2)]
+[Member("Item1", 1)]
+[Member("Item2", 2)]
 public partial class TheEnum
 {
     public override string ToString() => "ToString_Vo!";
 }
 
 [Intellenum]
-[Instance("Item3", 3)]
-[Instance("Item4", 4)]
+[Member("Item3", 3)]
+[Member("Item4", 4)]
 public partial class Vod1 : D1
 {
 }
 
 [Intellenum]
-[Instance("Item5", 5)]
-[Instance("Item6", 6)]
+[Member("Item5", 5)]
+[Member("Item6", 6)]
 public partial class Vod2 : D3
 {
 }

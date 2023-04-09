@@ -22,7 +22,7 @@ public class PermutationsOfConversionsTests
             await RunTest(
                 $@"
   [Intellenum(conversions: {conversions}, underlyingType: typeof(int))]
-  [Instance(""One"", 1)]
+  [Member(""One"", 1)]
   public {type} MyIntVo {{ }}",
                 type,
                 conversions);

@@ -25,8 +25,8 @@ namespace MediumTests.SerializationAndConversionTests.ClassVos
     {
         static AnotherDecimalVo()
         {
-            Instance("Item1", 1.1m);
-            Instance("Item2", 2.2m);
+            Member("Item1", 1.1m);
+            Member("Item2", 2.2m);
         }
 
     }

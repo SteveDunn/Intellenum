@@ -28,7 +28,7 @@ public class GenerationPermutationTests
                         yield return new object[]
                         {
                             qualifiedType,
-                            Factory.InstanceCallFor(underlyingType),
+                            Factory.MemberCallFor(underlyingType),
                             conversion,
                             underlyingType,
                             CreateClassName(qualifiedType, conversion, underlyingType)
@@ -70,7 +70,7 @@ public class GenerationPermutationTests
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 
-    private Task Run(string type, string instanceCall, string conversions, string underlyingType, string className, string locale)
+    private Task Run(string type, string memberCall, string conversions, string underlyingType, string className, string locale)
     {
         _logger.WriteLine($"Running permutation, type: {type}, conversion: {conversions}, underlyingType: {underlyingType}, className: {className}, locale: {locale}");
 
@@ -83,7 +83,7 @@ public class GenerationPermutationTests
     {{type}} {{className}} 
     {
         static {{className}}() {
-            {{instanceCall}}
+            {{memberCall}}
         }
     }
 """;
@@ -95,7 +95,7 @@ public class GenerationPermutationTests
     {{type}} {{className}} { 
 
         static {{className}}() {
-            {{instanceCall}}
+            {{memberCall}}
         }
     }
 """;
@@ -118,9 +118,9 @@ namespace Whatever
 
     [Theory]
     [ClassData(typeof(Types))]
-    public Task GenerationTest(string type, string instanceCall, string conversions, string underlyingType, string className) => Run(
+    public Task GenerationTest(string type, string memberCall, string conversions, string underlyingType, string className) => Run(
         type,
-        instanceCall,
+        memberCall,
         conversions,
         underlyingType,
         className,

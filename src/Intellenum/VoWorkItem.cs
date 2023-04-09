@@ -17,7 +17,7 @@ public class VoWorkItem
     
     public bool IsValueType { get; init; }
 
-    public List<InstanceProperties> InstanceProperties { get; init; } = new();
+    public List<MemberProperties> MemberProperties { get; init; } = new();
 
     public  string FullNamespace { get; init; } = string.Empty;
 

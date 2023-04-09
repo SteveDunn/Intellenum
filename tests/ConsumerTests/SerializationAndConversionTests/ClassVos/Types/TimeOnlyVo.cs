@@ -9,8 +9,8 @@ namespace ConsumerTests.TestEnums
     {
         static TimeOnlyEnum()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 04));
-            Instance("Item2", new TimeOnly(5, 6, 7, 08));
+            Member("Item1", new TimeOnly(1, 2, 3, 04));
+            Member("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -19,8 +19,8 @@ namespace ConsumerTests.TestEnums
     {
         static NoConverterTimeOnlyEnum()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 04));
-            Instance("Item2", new TimeOnly(5, 6, 7, 08));
+            Member("Item1", new TimeOnly(1, 2, 3, 04));
+            Member("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -29,8 +29,8 @@ namespace ConsumerTests.TestEnums
     {
         static NoJsonTimeOnlyEnum()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 04));
-            Instance("Item2", new TimeOnly(5, 6, 7, 08));
+            Member("Item1", new TimeOnly(1, 2, 3, 04));
+            Member("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -39,8 +39,8 @@ namespace ConsumerTests.TestEnums
     {
         static NewtonsoftJsonTimeOnlyEnum()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 04));
-            Instance("Item2", new TimeOnly(5, 6, 7, 08));
+            Member("Item1", new TimeOnly(1, 2, 3, 04));
+            Member("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -49,8 +49,8 @@ namespace ConsumerTests.TestEnums
     {
         static SystemTextJsonTimeOnlyEnum()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 04));
-            Instance("Item2", new TimeOnly(5, 6, 7, 08));
+            Member("Item1", new TimeOnly(1, 2, 3, 04));
+            Member("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -60,8 +60,8 @@ namespace ConsumerTests.TestEnums
     {
         static BothJsonTimeOnlyEnum()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 04));
-            Instance("Item2", new TimeOnly(5, 6, 7, 08));
+            Member("Item1", new TimeOnly(1, 2, 3, 04));
+            Member("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -71,8 +71,8 @@ namespace ConsumerTests.TestEnums
     {
         static EfCoreTimeOnlyEnum()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 04));
-            Instance("Item2", new TimeOnly(5, 6, 7, 08));
+            Member("Item1", new TimeOnly(1, 2, 3, 04));
+            Member("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -81,8 +81,8 @@ namespace ConsumerTests.TestEnums
     {
         static DapperTimeOnlyEnum()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 04));
-            Instance("Item2", new TimeOnly(5, 6, 7, 08));
+            Member("Item1", new TimeOnly(1, 2, 3, 04));
+            Member("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 
@@ -91,8 +91,8 @@ namespace ConsumerTests.TestEnums
     {
         static LinqToDbTimeOnlyEnum()
         {
-            Instance("Item1", new TimeOnly(1, 2, 3, 04));
-            Instance("Item2", new TimeOnly(5, 6, 7, 08));
+            Member("Item1", new TimeOnly(1, 2, 3, 04));
+            Member("Item2", new TimeOnly(5, 6, 7, 08));
         }
     }
 }

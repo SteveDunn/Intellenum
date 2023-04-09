@@ -10,8 +10,8 @@
     {
         static NoConverterFooEnum()
         {
-            Instance("Item1", new Bar(1, "One"));
-            Instance("Item2", new Bar(2, "Two"));
+            Member("Item1", new Bar(1, "One"));
+            Member("Item2", new Bar(2, "Two"));
         }
     }
 
@@ -20,8 +20,8 @@
     {
         static NoJsonFooEnum()
         {
-            Instance("Item1", new NoJsonFooEnum(new Bar(42, "Fred")));
-            Instance("Item2", new NoJsonFooEnum(new Bar(2, "Two")));
+            Member("Item1", new NoJsonFooEnum(new Bar(42, "Fred")));
+            Member("Item2", new NoJsonFooEnum(new Bar(2, "Two")));
         }
     }
 
@@ -30,8 +30,8 @@
     {
         static NewtonsoftJsonFooEnum()
         {
-            Instance("Item1", new Bar(1, "One"));
-            Instance("Item2", new Bar(2, "Two"));
+            Member("Item1", new Bar(1, "One"));
+            Member("Item2", new Bar(2, "Two"));
         }
     }
 
@@ -40,8 +40,8 @@
     {
         static SystemTextJsonFooEnum()
         {
-            Instance("Item1", new Bar(1, "One"));
-            Instance("Item2", new Bar(2, "Two"));
+            Member("Item1", new Bar(1, "One"));
+            Member("Item2", new Bar(2, "Two"));
         }
     }
 
@@ -50,8 +50,8 @@
     {
         static BothJsonFooEnum()
         {
-            Instance("Item1", new Bar(1, "One"));
-            Instance("Item2", new Bar(2, "Two"));
+            Member("Item1", new Bar(1, "One"));
+            Member("Item2", new Bar(2, "Two"));
         }
     }
 
@@ -60,8 +60,8 @@
     {
         static BothJsonFooEnumClass()
         {
-            Instance("Item1", new Bar(1, "One"));
-            Instance("Item2", new Bar(2, "Two"));
+            Member("Item1", new Bar(1, "One"));
+            Member("Item2", new Bar(2, "Two"));
         }
     }
 
@@ -70,8 +70,8 @@
     {
         static EfCoreFooEnum()
         {
-            Instance("Item1", new Bar(1, "One"));
-            Instance("Item2", new Bar(2, "Two"));
+            Member("Item1", new Bar(1, "One"));
+            Member("Item2", new Bar(2, "Two"));
         }
     }
 
@@ -80,8 +80,8 @@
     {
         static DapperFooEnum()
         {
-            Instance("Item1", new DapperFooEnum(new Bar(42, "Fred")));
-            Instance("Item2", new DapperFooEnum(new Bar(2, "Two")));
+            Member("Item1", new DapperFooEnum(new Bar(42, "Fred")));
+            Member("Item2", new DapperFooEnum(new Bar(2, "Two")));
         }
     }
 
@@ -90,8 +90,8 @@
     {
         static LinqToDbFooEnum()
         {
-            Instance("Item1", new Bar(1, "One"));
-            Instance("Item2", new Bar(2, "Two"));
+            Member("Item1", new Bar(1, "One"));
+            Member("Item2", new Bar(2, "Two"));
         }
     }
 }

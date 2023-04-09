@@ -5,10 +5,10 @@ using VerifyXunit;
 namespace ScratchSnapshotTests
 {
     [UsesVerify]
-    public class Explicit_instance_tests
+    public class Explicit_members_tests
     {
         [Fact]
-        public Task Explicit_instances_using_new()
+        public Task Explicit_members_using_new()
         {
             var source = """
     using Intellenum;
@@ -26,7 +26,7 @@ namespace ScratchSnapshotTests
         }
 
         [Fact]
-        public Task Explicit_instances_using_target_typed_new()
+        public Task Explicit_members_using_target_typed_new()
         {
             var source = """
     using Intellenum;
@@ -44,7 +44,7 @@ namespace ScratchSnapshotTests
         }
 
         [Fact]
-        public Task Explicit_instances_using_Instance_method()
+        public Task Explicit_members_using_Instance_method()
         {
             var source = """
     using Intellenum;
@@ -55,8 +55,8 @@ namespace ScratchSnapshotTests
     {
         static CustomerType()
         {
-            Instance("Gold", 1);
-            Instance("Diamond", 2);
+            Member("Gold", 1);
+            Member("Diamond", 2);
         }
     }
     """;
@@ -65,16 +65,16 @@ namespace ScratchSnapshotTests
         }
 
         [Fact]
-        public Task Explicit_instances_using_Instance_attributes()
+        public Task Explicit_members_using_Member_attributes()
         {
             var source = """
     using Intellenum;
     namespace Whatever;
 
     [Intellenum]
-    [Instance("Standard", 1)]
-    [Instance("Gold", 2)]
-    [Instance("Platinum", 3)]
+    [Member("Standard", 1)]
+    [Member("Gold", 2)]
+    [Member("Platinum", 3)]
     public partial class CustomerType
     {
     }
@@ -84,21 +84,21 @@ namespace ScratchSnapshotTests
         }
 
         [Fact]
-        public Task Explicit_instances_using_a_mixture_of_mechanisms()
+        public Task Explicit_Members_using_a_mixture_of_mechanisms()
         {
             var source = """
     using Intellenum;
     namespace Whatever;
 
     [Intellenum]
-    [Instance("Standard", 1)]
+    [Member("Standard", 1)]
     public partial class CustomerType
     {
         public static CustomerType Gold = new CustomerType("Gold", 2);
 
         static CustomerType()
         {
-            Instance("Diamond", 3);
+            Member("Diamond", 3);
         }
     }
     """;

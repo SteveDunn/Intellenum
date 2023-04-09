@@ -75,7 +75,7 @@ public class GenerationOfEscapedTypesTests
     [ClassData(typeof(Types))]
     public Task GenerationOfEscapedTypes(string type, string conversions, string underlyingType, string className)
     {
-        string instanceCall = Factory.InstanceCallFor(underlyingType);
+        string instanceCall = Factory.MemberCallFor(underlyingType);
         string declaration = $$"""
 namespace record.@struct.@float
 {

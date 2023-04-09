@@ -19,8 +19,8 @@ using LinqToDB.Mapping;
 namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(char))]
-    [Instance("A", 'a')]
-    [Instance("B", 'b')]
+    [Member("A", 'a')]
+    [Member("B", 'b')]
     public partial class AnotherCharVo { }
 
     public class CharVoTests

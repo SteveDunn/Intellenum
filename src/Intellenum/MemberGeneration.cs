@@ -8,18 +8,18 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Intellenum;
 
-public static class InstanceGeneration
+public static class MemberGeneration
 {
     public static string GenerateIEnumerableYields(VoWorkItem item)
     {
-        if (item.InstanceProperties.Count == 0)
+        if (item.MemberProperties.Count == 0)
         {
             return "yield break;";
         }
 
         StringBuilder sb = new StringBuilder();
 
-        foreach (InstanceProperties each in item.InstanceProperties)
+        foreach (MemberProperties each in item.MemberProperties)
         {
             sb.AppendLine($"yield return {each.FieldName};");
         }
@@ -27,37 +27,37 @@ public static class InstanceGeneration
         return sb.ToString();
     }
 
-    public static string GenerateAnyInstances(TypeDeclarationSyntax classDeclarationSyntax, VoWorkItem item)
+    public static string GenerateAnyMembers(TypeDeclarationSyntax classDeclarationSyntax, VoWorkItem item)
     {
-        if (item.InstanceProperties.Count == 0)
+        if (item.MemberProperties.Count == 0)
         {
             return string.Empty;
         }
 
         StringBuilder sb = new StringBuilder();
 
-        foreach (InstanceProperties each in item.InstanceProperties.Where(i => i.Source is not InstanceSource.FromNewExpression))
+        foreach (MemberProperties each in item.MemberProperties.Where(i => i.Source is not MemberSource.FromNewExpression))
         {
-            sb.AppendLine(GenerateInstance(each, classDeclarationSyntax, item.FullNamespace));
+            sb.AppendLine(GenerateMember(each, classDeclarationSyntax, item.FullNamespace));
         }
 
         return sb.ToString();
     }
 
-    private static string GenerateInstance(
-        InstanceProperties instanceProperties,
+    private static string GenerateMember(
+        MemberProperties memberProperties,
         TypeDeclarationSyntax classDeclarationSyntax, 
         string itemFullNamespace)
     {
-        var instanceValue = instanceProperties.ValueAsText;
+        var memberValue = memberProperties.ValueAsText;
 
         return $@"
-// instance...
+// member...
 
-{BuildInstanceComment(classDeclarationSyntax.Identifier, instanceProperties.TripleSlashComments, itemFullNamespace)}public static readonly {classDeclarationSyntax.Identifier} {Util.EscapeIfRequired(instanceProperties.FieldName)} = new {classDeclarationSyntax.Identifier}(""{instanceProperties.FieldName}"",{instanceValue});";
+{BuildMemberComment(classDeclarationSyntax.Identifier, memberProperties.TripleSlashComments, itemFullNamespace)}public static readonly {classDeclarationSyntax.Identifier} {Util.EscapeIfRequired(memberProperties.FieldName)} = new {classDeclarationSyntax.Identifier}(""{memberProperties.FieldName}"",{memberValue});";
     }
 
-    private static string BuildInstanceComment(SyntaxToken syntaxToken, string? commentText, string fullNamespace)
+    private static string BuildMemberComment(SyntaxToken syntaxToken, string? commentText, string fullNamespace)
     {
         if (string.IsNullOrEmpty(commentText))
         {
@@ -65,7 +65,7 @@ public static class InstanceGeneration
         }
 
         var x = new XElement("summary", commentText);
-        var y = new XElement("returns", $"An immutable shared instance of \"T:{fullNamespace}.{syntaxToken}\"");
+        var y = new XElement("returns", $"The \"T:{fullNamespace}.{syntaxToken}\" member.");
 
         return $@"    
 /// {x}
@@ -77,7 +77,7 @@ public static class InstanceGeneration
 
     // We don't need to consider a propertyValue of decimal here, as it cannot be passed in
     // via an attribute in C#
-    public static BuildResult TryBuildInstanceValueAsText(string propertyName, object propertyValue, string? underlyingType)
+    public static BuildResult TryBuildMemberValueAsText(string propertyName, object propertyValue, string? underlyingType)
     {
         try
         {
@@ -195,14 +195,14 @@ public static class InstanceGeneration
         catch (Exception e)
         {
             return new(false, string.Empty,
-                $"Named instance '{propertyName}' has a value type '{propertyValue.GetType()}' of '{propertyValue}' which cannot be converted to the underlying type of '{underlyingType}' - {e.Message}");
+                $"Member '{propertyName}' has a value type '{propertyValue.GetType()}' of '{propertyValue}' which cannot be converted to the underlying type of '{underlyingType}' - {e.Message}");
         }
     }
 
     public static string GeneratePrivateConstructionInitialisationIfNeeded(VoWorkItem item)
     {
-        var implicitlyNamedInstances = item.InstanceProperties.Where(i => !i.ExplicitlyNamed).ToList();
-        if (implicitlyNamedInstances.Count == 0)
+        var implicitlyNamedMembers = item.MemberProperties.Where(i => !i.ExplicitlyNamed).ToList();
+        if (implicitlyNamedMembers.Count == 0)
         {
             return "";
         }
@@ -214,9 +214,9 @@ public static class InstanceGeneration
 {
 """);
         
-        foreach (var eachInstance in implicitlyNamedInstances)
+        foreach (var eachMember in implicitlyNamedMembers)
         {
-            sb.AppendLine($"{eachInstance.FieldName}.Name = \"{eachInstance.FieldName}\";");
+            sb.AppendLine($"{eachMember.FieldName}.Name = \"{eachMember.FieldName}\";");
         }
         
         sb.AppendLine(

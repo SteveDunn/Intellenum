@@ -5,8 +5,8 @@
     {
         static GuidEnum()
         {
-            Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
-            Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
+            Member("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
+            Member("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
         }
     }
 
@@ -15,8 +15,8 @@
     {
         static NoConverterGuidEnum()
         {
-            Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
-            Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
+            Member("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
+            Member("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
         }
     }
 
@@ -25,8 +25,8 @@
     {
         static NoJsonGuidEnum()
         {
-            Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
-            Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
+            Member("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
+            Member("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
         }
     }
 
@@ -35,8 +35,8 @@
     {
         static NewtonsoftJsonGuidEnum()
         {
-            Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
-            Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
+            Member("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
+            Member("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
         }
     }
 
@@ -45,8 +45,8 @@
     {
         static SystemTextJsonGuidEnum()
         {
-            Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
-            Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
+            Member("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
+            Member("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
         }
     }
 
@@ -55,8 +55,8 @@
     {
         static BothJsonGuidEnum()
         {
-            Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
-            Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
+            Member("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
+            Member("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
         }
     }
 
@@ -65,8 +65,8 @@
     {
         static EfCoreGuidEnum()
         {
-            Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
-            Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
+            Member("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
+            Member("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
         }    
     }
 
@@ -76,8 +76,8 @@
     {
         static DapperGuidEnum()
         {
-            Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
-            Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
+            Member("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
+            Member("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
         }
         
     }
@@ -87,8 +87,8 @@
     {
         static LinqToDbGuidEnum()
         {
-            Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
-            Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
+            Member("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
+            Member("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
         }
     }
 }

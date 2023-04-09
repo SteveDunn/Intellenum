@@ -17,8 +17,8 @@ using LinqToDB.Mapping;
 namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(byte))]
-    [Instance("Eighteen", 18)]    
-    [Instance("Nineteen", 19)]    
+    [Member("Eighteen", 18)]    
+    [Member("Nineteen", 19)]    
     public partial class AnotherByteEnum { }
 
     public class ByteVoTests

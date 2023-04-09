@@ -27,8 +27,8 @@ public partial class CustomerType
 {
     static CustomerType()
     {
-        Instance("Standard", 1);
-        Instance("Gold", 2);
+        Member("Standard", 1);
+        Member("Gold", 2);
     }
 }
 ```
@@ -41,7 +41,7 @@ if(type == CustomerType.Gold) Accept();
 
 Intellenum generates backing code for lightning fast and allocation-free lookups, e.g. `FromName`, `FromValue` (and their equivalent `Try...` methods):
 
-There are other ways to declare instances of the enum. You can declare them directly:
+There are other ways to declare members. You can declare them directly:
 ```csharp
 [Intellenum]
 public partial class CustomerType
@@ -55,8 +55,8 @@ public partial class CustomerType
 
 ```csharp
 [Intellenum]
-[Instance("Standard", 1)]
-[Instance("Gold", 2)]
+[Member("Standard", 1)]
+[Member("Gold", 2)]
 public partial class CustomerType { }
 ```
 
@@ -64,14 +64,14 @@ public partial class CustomerType { }
 
 ```csharp
 [Intellenum]
-[Instance("Standard", 1)]
+[Member("Standard", 1)]
 public partial class CustomerType 
 {
     public static readonly CustomerType Standard = new CustomerType("Gold", 2);
 
     static CustomerType()
     {
-        Instance("Diamond", 3);
+        Member("Diamond", 3);
     }
  }
 ```
@@ -79,9 +79,9 @@ public partial class CustomerType
 
 * `FromName()` and `FromValue()` (and `TryFrom...`)
 * Generates enum definitions in various ways:
-  * attributes `[Instance("Foo", 1)]`
+  * attributes `[Member("Foo", 1)]`
   * explicitly with `new MyEnum("Foo", 1)`
-  * instance method in a static constructor: `Instance("Foo", 1);`
+  * Member method in a static constructor: `Member("Foo", 1);`
 * Ability to quickly convert enums to and from strings
 * Ability to quickly deconstruct enums to name and value
 * Deconstruct (`(name, value) = CustomerTypes.Gold`)
@@ -107,8 +107,8 @@ public partial class CustomerType
 {
     static CustomerType() 
     {
-        Instance("Standard", 1);
-        Instance("Gold", 2);
+        Member("Standard", 1);
+        Member("Gold", 2);
     }
 }
 
@@ -198,9 +198,9 @@ _note that EnumGenerators isn't here as we use the standard C# enum to get its v
 | **Intellenums**   | **0.3198 ns** | **0.0103 ns** | **0.0096 ns** | **-**         |
 
 ### What does `ToString` return?
-It returns the **name** of the instance.
-There is also a TypeConverter; when this is asked to convert an instance to a `string',
-it returns the **value** of the instance as a string.
+It returns the **name** of the member.
+There is also a TypeConverter; when this is asked to convert a member to a `string',
+it returns the **value** of the member as a string.
 
 ### What can the `TypeConverters` convert to and from?
 They can convert an underlying type back to a matching enum.

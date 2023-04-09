@@ -29,25 +29,25 @@ namespace Intellenum.Examples.TypicalScenarios.Instances
 
 
     [Intellenum<float>]
-    [Instance("Freezing", 0.0f)]
-    [Instance("Boiling", 100.0f)]
-    [Instance("AbsoluteZero", -273.15f)]
+    [Member("Freezing", 0.0f)]
+    [Member("Boiling", 100.0f)]
+    [Member("AbsoluteZero", -273.15f)]
     public partial class Centigrade
     {
     }
 
     [Intellenum<string>]
-    [Instance("Unspecified", "[UNSPCFD]")]
-    [Instance("Invalid", "[INVLD]")]
-    [Instance("Standard", "[STD]")]
-    [Instance("Preferred", "[PRF]")]
+    [Member("Unspecified", "[UNSPCFD]")]
+    [Member("Invalid", "[INVLD]")]
+    [Member("Standard", "[STD]")]
+    [Member("Preferred", "[PRF]")]
     public partial class VendorType
     {
     }
     
     [Intellenum]
-    [Instance("Salt", 1)]
-    [Instance("Pepper", 2)]
+    [Member("Salt", 1)]
+    [Member("Pepper", 2)]
     public partial class CondimentMixedInstances
     {
         public static readonly CondimentMixedInstances Mayo = new CondimentMixedInstances("Mayo", 5);
@@ -55,8 +55,8 @@ namespace Intellenum.Examples.TypicalScenarios.Instances
 
         static CondimentMixedInstances()
         {
-            Instance("Vinegar", 3);
-            Instance("Mustard", 4);
+            Member("Vinegar", 3);
+            Member("Mustard", 4);
         }
     }    
 

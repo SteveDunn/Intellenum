@@ -19,8 +19,8 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public partial class CustomerType
 {
 }";
@@ -42,8 +42,8 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public partial class CustomerType
 {
 }";
@@ -64,8 +64,8 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public partial class CustomerType { }
 ";
 
@@ -85,8 +85,8 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public partial class CustomerType
 {
 }
@@ -108,8 +108,8 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", ""0"")]
-[Instance(""Gold"", ""1"")]
+[Member(""Normal"", ""0"")]
+[Member(""Gold"", ""1"")]
 public partial class CustomerType
 {
 }

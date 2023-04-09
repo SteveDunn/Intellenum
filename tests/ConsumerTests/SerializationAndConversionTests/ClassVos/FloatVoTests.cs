@@ -21,8 +21,8 @@ using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
 namespace MediumTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(float))]
-    [Instance("Item1", 1.1f)]
-    [Instance("Item2", 2.2f)]
+    [Member("Item1", 1.1f)]
+    [Member("Item2", 2.2f)]
     public partial class AnotherFloatVo { }
 
     public class FloatVoTests

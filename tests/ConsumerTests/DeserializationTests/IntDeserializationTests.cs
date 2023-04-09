@@ -32,7 +32,7 @@ public class IntDeserializationTests
         Func<Task<int>> f = async () => (await connection.QueryAsync<MyIntEnum>("SELECT 0")).AsList()[0].Value;
 
         await f.Should().ThrowExactlyAsync<IntellenumMatchFailedException>()
-            .WithMessage("MyIntEnum has no matching instances with a value of '0'");
+            .WithMessage("MyIntEnum has no matching members with a value of '0'");
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class IntDeserializationTests
                     context.IntEntities!.FromSqlRaw("SELECT 0 As Id"))).Id!.Value;
 
             await f.Should().ThrowExactlyAsync<IntellenumMatchFailedException>()
-                .WithMessage("MyIntEnum has no matching instances with a value of '0'");
+                .WithMessage("MyIntEnum has no matching members with a value of '0'");
         }
     }
     [Fact]
@@ -99,7 +99,7 @@ public class IntDeserializationTests
                     context.FromSql<DeserializationValidationTestLinqToDbTestIntEntity>("SELECT 0 As Id"))).Id!.Value;
 
             await f.Should().ThrowExactlyAsync<IntellenumMatchFailedException>()
-                .WithMessage("MyIntEnum has no matching instances with a value of '0'");
+                .WithMessage("MyIntEnum has no matching members with a value of '0'");
         }
     }
 
@@ -122,7 +122,7 @@ public class IntDeserializationTests
 
         Action a = () => converter.ConvertFrom(invalidValue);
 
-        a.Should().ThrowExactly<IntellenumMatchFailedException>().WithMessage("MyIntEnum has no matching instances with a value of '0'");
+        a.Should().ThrowExactly<IntellenumMatchFailedException>().WithMessage("MyIntEnum has no matching members with a value of '0'");
     }
 
     [Fact]
@@ -142,7 +142,7 @@ public class IntDeserializationTests
 
         Action a = () => SystemTextJsonSerializer.Deserialize<MyIntEnum>(invalidValue);
 
-        a.Should().ThrowExactly<IntellenumMatchFailedException>().WithMessage("MyIntEnum has no matching instances with a value of '0'");
+        a.Should().ThrowExactly<IntellenumMatchFailedException>().WithMessage("MyIntEnum has no matching members with a value of '0'");
     }
 
     [Fact]
@@ -162,7 +162,7 @@ public class IntDeserializationTests
 
         Func<int> f = () => NewtonsoftJsonSerializer.DeserializeObject<MyIntEnum>(invalidValue)!.Value;
 
-        f.Should().ThrowExactly<IntellenumMatchFailedException>().WithMessage("MyIntEnum has no matching instances with a value of '0'");
+        f.Should().ThrowExactly<IntellenumMatchFailedException>().WithMessage("MyIntEnum has no matching members with a value of '0'");
     }
 
 }

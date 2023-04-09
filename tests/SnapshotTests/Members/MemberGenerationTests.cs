@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 using Intellenum;
 using VerifyXunit;
 
-namespace SnapshotTests.InstanceFields;
+namespace SnapshotTests.Members;
 
 [UsesVerify] 
-public class InstanceFieldGenerationTests
+public class MemberGenerationTests
 {
     [Fact]
-    public Task Instances_can_be_booleans()
+    public Task Members_can_be_booleans()
     {
         var source = """
 using Intellenum;
@@ -18,7 +18,7 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum(typeof(bool))]
-[Instance("Invalid", false)]
+[Member("Invalid", false)]
 public partial class BooleanThing
 {
 }
@@ -30,15 +30,15 @@ public partial class BooleanThing
     }
 
     [Fact]
-    public Task Instance_names_can_have_reserved_keywords()
+    public Task Member_names_can_have_reserved_keywords()
     {
         var source = @"using Intellenum;
 
 namespace Whatever;
 
 [Intellenum]
-[Instance(name: ""@class"", value: 42)]
-[Instance(name: ""@event"", value: 69)]
+[Member(name: ""@class"", value: 42)]
+[Member(name: ""@event"", value: 69)]
 public partial class CSharpSymbol
 {
 }
@@ -52,29 +52,29 @@ public partial class CSharpSymbol
     [Theory]
     [UseCulture("fr-FR")]
     [ClassData(typeof(TestData))]
-    public Task GenerationTest_FR(string type, string underlyingType, string instanceValue,
+    public Task GenerationTest_FR(string type, string underlyingType, string memberValue,
         string className) => Run(
         type,
         underlyingType,
-        instanceValue,
+        memberValue,
         className,
         "fr");
 
     [Theory]
     [ClassData(typeof(TestData))]
-    public Task GenerationTest(string type, string underlyingType, string instanceValue,
+    public Task GenerationTest(string type, string underlyingType, string memberValue,
         string className) => Run(
         type,
         underlyingType,
-        instanceValue,
+        memberValue,
         className,
         "");
 
-    private Task Run(string type, string underlyingType, string instanceValue, string className, string locale)
+    private Task Run(string type, string underlyingType, string memberValue, string className, string locale)
     {
         string declaration = $@"
   [Intellenum(underlyingType: typeof({underlyingType}))]
-  [Instance(name: ""MyValue"", value: {instanceValue})]
+  [Member(name: ""MyValue"", value: {memberValue})]
   {type} {className} {{}}";
         var source = @"using Intellenum;
 namespace Whatever
@@ -96,15 +96,15 @@ public class TestData : IEnumerable<object[]>
     {
         string type = "partial class";
         
-        foreach ((string underlyingType, string instanceValue) in _underlyingTypes)
+        foreach ((string underlyingType, string memberValue) in _underlyingTypes)
         {
             var qualifiedType = "public " + type;
             yield return new object[]
-                { qualifiedType, underlyingType, instanceValue, CreateClassName(qualifiedType, underlyingType) };
+                { qualifiedType, underlyingType, memberValue, CreateClassName(qualifiedType, underlyingType) };
 
             qualifiedType = "internal " + type;
             yield return new object[]
-                { qualifiedType, underlyingType, instanceValue, CreateClassName(qualifiedType, underlyingType) };
+                { qualifiedType, underlyingType, memberValue, CreateClassName(qualifiedType, underlyingType) };
         }
     }
 
@@ -112,7 +112,7 @@ public class TestData : IEnumerable<object[]>
         type.Replace(" ", "_") + underlyingType;
 
     // for each of the attributes above, use this underlying type
-    private readonly (string underlyingType, string instanceValue)[] _underlyingTypes = new[]
+    private readonly (string underlyingType, string memberValue)[] _underlyingTypes = new[]
     {
         ("byte", "42"),
         ("char", "'x'"),

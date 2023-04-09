@@ -22,9 +22,9 @@ namespace Intellenum.Examples.TypicalScenarios.Equality
     {
         static Centigrade()
         {
-            Instance("AbsoluteZero", -273.15m);
-            Instance("FreezingPointOfWater", 0m);
-            Instance("BoilingPointOfWater", 100m);
+            Member("AbsoluteZero", -273.15m);
+            Member("FreezingPointOfWater", 0m);
+            Member("BoilingPointOfWater", 100m);
         }
     }
 }

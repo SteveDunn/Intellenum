@@ -22,8 +22,8 @@ namespace ConsumerTests.SerializationAndConversionTests.ClassVos
     {
         static AnotherGuidVo()
         {
-            Instance("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
-            Instance("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
+            Member("Item1", new Guid("00000000-0000-0000-0000-000000000001"));
+            Member("Item2", new Guid("00000000-0000-0000-0000-000000000002"));
         }
 
     }

@@ -19,40 +19,40 @@ namespace Intellenum.Examples.TypicalScenarios.Basic
 
     // defaults to int
     [Intellenum]
-    [Instance("Won", 2)]
-    [Instance("Drawn", 1)]
-    [Instance("Lost", 0)]
+    [Member("Won", 2)]
+    [Member("Drawn", 1)]
+    [Member("Lost", 0)]
     internal partial class Result
     {
     }
 
     // can be internal class
     [Intellenum]
-    [Instance("Accepted", 0)]
-    [Instance("Shipped", 1)]
+    [Member("Accepted", 0)]
+    [Member("Shipped", 1)]
     internal partial class OrderStatus
     {
     }
 
     // can be internal sealed
     [Intellenum]
-    [Instance("Warm", 1)]
-    [Instance("Bright", 5)]
+    [Member("Warm", 1)]
+    [Member("Bright", 5)]
     internal sealed partial class LumenType
     {
     }
 
     [Intellenum]
-    [Instance("Standard", 0)]
-    [Instance("Gold", 1)]
+    [Member("Standard", 0)]
+    [Member("Gold", 1)]
     
     public partial class CustomerType
     {
     }
 
     [Intellenum]
-    [Instance("Standard", 0)]
-    [Instance("Preferred", 1)]
+    [Member("Standard", 0)]
+    [Member("Preferred", 1)]
 
     public partial class SupplierType
     {

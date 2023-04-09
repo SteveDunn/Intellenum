@@ -37,22 +37,22 @@ namespace ConsumerTests.BugFixTests
     }
 
     [Intellenum(conversions: Conversions.NewtonsoftJson)]
-    [Instance("Junior", 1)]
-    [Instance("Adult", 2)]
-    [Instance("Senior", 3)]
+    [Member("Junior", 1)]
+    [Member("Adult", 2)]
+    [Member("Senior", 3)]
     public partial class AgeRange
     {
     }
 
     [Intellenum(typeof(string), conversions: Conversions.NewtonsoftJson)]
-    [Instance("FirstAndLast", 1)]
-    [Instance("Nickname", 2)]
+    [Member("FirstAndLast", 1)]
+    [Member("Nickname", 2)]
     public partial class NameType
     {
     }
     
     [Intellenum(typeof(string), conversions: Conversions.NewtonsoftJson)] 
-    [Instance("Full", 1)]
-    [Instance("JustThePostcode", 2)]
+    [Member("Full", 1)]
+    [Member("JustThePostcode", 2)]
     public partial class Address { }
 }

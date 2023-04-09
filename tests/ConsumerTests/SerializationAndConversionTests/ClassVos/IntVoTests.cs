@@ -18,8 +18,8 @@ using LinqToDB.Mapping;
 namespace ConsumerTests.SerializationAndConversionTests.ClassVos
 {
     [Intellenum(underlyingType: typeof(int))]
-    [Instance("Item1", 1)]
-    [Instance("Item2", 2)]
+    [Member("Item1", 1)]
+    [Member("Item2", 2)]
     public partial class AnotherIntVo { }
 
     public class IntVoTests

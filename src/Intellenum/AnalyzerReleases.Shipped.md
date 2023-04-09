@@ -7,6 +7,6 @@
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
-VOG010 | Usage | Error | DoNotUseNewAnalyzer
-VOG009 | Usage | Error | DoNotUseDefaultAnalyzer
-VOG025 | Usage | Error | DoNotUseReflection
+INTELLENUM010 | Usage | Error | DoNotUseNewAnalyzer
+INTELLENUM009 | Usage | Error | DoNotUseDefaultAnalyzer
+INTELLENUM025 | Usage | Error | DoNotUseReflection

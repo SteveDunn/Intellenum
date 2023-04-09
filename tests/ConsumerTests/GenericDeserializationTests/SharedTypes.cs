@@ -12,15 +12,15 @@ namespace ConsumerTests.GenericDeserializationTests;
 
 #region Enums
 [Intellenum<int>(Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter)]
-[Instance("Item1", 1)]
-[Instance("Item2", 2)]
+[Member("Item1", 1)]
+[Member("Item2", 2)]
 public partial class MyIntEnum
 {
 }
 
 [Intellenum<string>(Conversions.DapperTypeHandler | Conversions.EfCoreValueConverter | Conversions.LinqToDbValueConverter | Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.TypeConverter)]
-[Instance("Item1", "Item1!")]
-[Instance("Item2", "Item2!")]
+[Member("Item1", "Item1!")]
+[Member("Item2", "Item2!")]
 public partial class MyStringEnum
 {
 }

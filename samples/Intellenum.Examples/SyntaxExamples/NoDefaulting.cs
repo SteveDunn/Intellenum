@@ -45,13 +45,13 @@ namespace Intellenum.Examples.SyntaxExamples.NoDefaulting
     }
 
     [Intellenum]
-    [Instance("Standard", 1)]
-    [Instance("Gold", 2)]
+    [Member("Standard", 1)]
+    [Member("Gold", 2)]
     public partial class CustomerType { }
 
     [Intellenum<string>]
-    [Instance("Good", "Good")]
-    [Instance("Average", "Average")]
-    [Instance("Bad", "Bad")]
+    [Member("Good", "Good")]
+    [Member("Average", "Average")]
+    [Member("Bad", "Bad")]
     public partial class VendorRating { }
 }

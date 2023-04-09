@@ -28,9 +28,9 @@ public static class Util
     {
         StringBuilder sb = new StringBuilder();
 
-        foreach (var eachInstance in workItem.InstanceProperties)
+        foreach (var eachMember in workItem.MemberProperties)
         {
-            string escapedName = EscapeIfRequired(eachInstance.FieldName);
+            string escapedName = EscapeIfRequired(eachMember.FieldName);
             sb.AppendLine($"        if(value == {escapedName}.Value) return {escapedName};");
         }
 
@@ -180,7 +180,7 @@ causes Rider's debugger to crash.
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (var each in item.InstanceProperties)
+            foreach (var each in item.MemberProperties)
             {
                 sb.AppendLine($"{each.ValueAsText} => true,");
             }
@@ -197,12 +197,12 @@ causes Rider's debugger to crash.
             return $$"""
     bool b = TryFromValue(value, out var ret);
     if(b) return ret;
-    throw new {{nameof(IntellenumMatchFailedException)}}($"{{item.VoTypeName}} has no matching instances with a value of '{value}'");
+    throw new {{nameof(IntellenumMatchFailedException)}}($"{{item.VoTypeName}} has no matching members with a value of '{value}'");
 """;
         return $$"""
     bool b =  _valuesToEnums.Value.TryGetValue(value, out var ret);
     if(b) return ret;
-    throw new {{nameof(IntellenumMatchFailedException)}}($"{{item.VoTypeName}} has no matching instances with a value of '{value}'");
+    throw new {{nameof(IntellenumMatchFailedException)}}($"{{item.VoTypeName}} has no matching members with a value of '{value}'");
 """;
     }
 
@@ -210,14 +210,14 @@ causes Rider's debugger to crash.
         $$"""
     bool b = TryFromName(name, out var ret);
     if(b) return ret;
-    throw new {{nameof(IntellenumMatchFailedException)}}($"{{item.VoTypeName}} has no matching instances named '{name}'");
+    throw new {{nameof(IntellenumMatchFailedException)}}($"{{item.VoTypeName}} has no matching members named '{name}'");
 """;
 
     public static string GenerateTryFromValueImplementation(VoWorkItem item)
     {
         if (item.IsConstant) return generateFromConstant();
 
-        return "return  _valuesToEnums.Value.TryGetValue(value, out instance);";
+        return "return  _valuesToEnums.Value.TryGetValue(value, out member);";
 
         string generateFromConstant()
         {
@@ -227,19 +227,15 @@ causes Rider's debugger to crash.
 switch (value) 
 {
 """);
-            foreach (var each in item.InstanceProperties)
+            foreach (var each in item.MemberProperties)
             {
-                // var b = InstanceGeneration.TryBuildInstanceValueAsText(each.Name, each.Value, item.UnderlyingType.FullName());
-                // if (!b.Success) throw new InvalidOperationException(b.ErrorMessage);
-
-
                 generate(each.ValueAsText, each.FieldName);
             }
 
             sb.AppendLine(
                 """
     default:
-        instance = default;
+        member = default;
         return false;
 }
 """);
@@ -252,7 +248,7 @@ switch (value)
                 sb.AppendLine(
                     $$"""
     case {{value}}:
-        instance = {{item.VoTypeName}}.{{name}}; 
+        member = {{item.VoTypeName}}.{{name}}; 
         return true;
 """);
 
@@ -262,7 +258,7 @@ switch (value)
 
     public static string GenerateTryFromNameImplementation(VoWorkItem item)
     {
-        if (!item.IsConstant) return "return _namesToEnums.Value.TryGetValue(name, out instance);";      
+        if (!item.IsConstant) return "return _namesToEnums.Value.TryGetValue(name, out member);";      
         
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("""
@@ -270,14 +266,14 @@ switch (name)
 {
 """);
 
-        foreach (var eachInstance in item.InstanceProperties)
+        foreach (var eachMember in item.MemberProperties)
         {
-            generate(eachInstance.FieldName, eachInstance.EnumEnumFriendlyName);
+            generate(eachMember.FieldName, eachMember.EnumEnumFriendlyName);
         }
 
         sb.AppendLine("""
     default:
-        instance = default;
+        member = default;
         return false;
 }
 """);
@@ -289,7 +285,7 @@ switch (name)
                 sb.AppendLine(
                     $$"""
     case ("{{name}}"):
-        instance = {{item.VoTypeName}}.{{fieldName}}; 
+        member = {{item.VoTypeName}}.{{fieldName}}; 
         return true;
 """);
             }
@@ -336,11 +332,11 @@ return TryFromName(name, out _);
         return string.Empty;
     }
 
-    private static string GenerateLazyLookupEntries(VoWorkItem item, Func<InstanceProperties, (string, string)> callback)
+    private static string GenerateLazyLookupEntries(VoWorkItem item, Func<MemberProperties, (string, string)> callback)
     {
         StringBuilder sb = new StringBuilder();
 
-        foreach (var eachItem in item.InstanceProperties)
+        foreach (var eachItem in item.MemberProperties)
         {
             var (first, second) = callback(eachItem);
             sb.AppendLine($"{{ {first}, {second} }},");

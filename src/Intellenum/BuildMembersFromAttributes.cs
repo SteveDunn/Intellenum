@@ -6,9 +6,9 @@ using Microsoft.CodeAnalysis;
 
 namespace Intellenum
 {
-    internal static class BuildInstancePropertiesFromAttributes
+    internal static class BuildMembersFromAttributes
     {
-        public static IEnumerable<InstanceProperties?> Build(
+        public static IEnumerable<MemberProperties?> Build(
             IEnumerable<AttributeData> allAttributes,
             SourceProductionContext context, 
             INamedTypeSymbol voClass, 
@@ -18,7 +18,7 @@ namespace Intellenum
         }
 
         // ReSharper disable once CognitiveComplexity
-        private static InstanceProperties? Build(AttributeData matchingAttribute, SourceProductionContext context, INamedTypeSymbol voClass, INamedTypeSymbol? underlyingType)
+        private static MemberProperties? Build(AttributeData matchingAttribute, SourceProductionContext context, INamedTypeSymbol voClass, INamedTypeSymbol? underlyingType)
         {
             // try build it from non-named arguments
 
@@ -85,7 +85,7 @@ namespace Intellenum
             return false;
         }
 
-        private static InstanceProperties? TryBuild(
+        private static MemberProperties? TryBuild(
             TypedConstant nameConstant, 
             TypedConstant valueConstant, 
             TypedConstant commentConstant,
@@ -96,13 +96,13 @@ namespace Intellenum
             bool hasErrors = false;
             if (nameConstant.Value is null)
             {
-                context.ReportDiagnostic(DiagnosticsCatalogue.InstanceMethodCannotHaveNullArgumentName(voClass));
+                context.ReportDiagnostic(DiagnosticsCatalogue.MemberMethodCallCannotHaveNullArgumentName(voClass));
                 hasErrors = true;
             }
 
             if (valueConstant.Value is null)
             {
-                context.ReportDiagnostic(DiagnosticsCatalogue.InstanceMethodCannotHaveNullArgumentValue(voClass));
+                context.ReportDiagnostic(DiagnosticsCatalogue.MemberMethodCallCannotHaveNullArgumentValue(voClass));
                 hasErrors = true;
             }
 
@@ -111,19 +111,19 @@ namespace Intellenum
                 return null;
             }
 
-            var r = InstanceGeneration.TryBuildInstanceValueAsText(
+            var r = MemberGeneration.TryBuildMemberValueAsText(
                 (string) nameConstant.Value!,
                 valueConstant.Value!,
                 underlyingType?.FullName());
 
             if (!r.Success)
             {
-                context.ReportDiagnostic(DiagnosticsCatalogue.InstanceValueCannotBeConverted(voClass, r.ErrorMessage));
+                context.ReportDiagnostic(DiagnosticsCatalogue.MemberValueCannotBeConverted(voClass, r.ErrorMessage));
                 return null;
             }
 
-            return new InstanceProperties(
-                InstanceSource.FromAttribute,
+            return new MemberProperties(
+                MemberSource.FromAttribute,
                 (string)nameConstant.Value!, 
                 (string)nameConstant.Value!, 
                 r.Value,

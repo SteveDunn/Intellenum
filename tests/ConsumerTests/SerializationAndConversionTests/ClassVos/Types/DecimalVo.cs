@@ -5,8 +5,8 @@
     {
         static DecimalEnum()
         {
-            Instance("Item1", 1.1m);
-            Instance("Item2", 2.2m);
+            Member("Item1", 1.1m);
+            Member("Item2", 2.2m);
         }
     }
 
@@ -15,8 +15,8 @@
     {
         static NoConverterDecimalVo()
         {
-            Instance("Item1", 1.1m);
-            Instance("Item2", 2.2m);
+            Member("Item1", 1.1m);
+            Member("Item2", 2.2m);
         }
     }
 
@@ -25,8 +25,8 @@
     {
         static NoJsonDecimalVo()
         {
-            Instance("Item1", 1.1m);
-            Instance("Item2", 2.2m);
+            Member("Item1", 1.1m);
+            Member("Item2", 2.2m);
         }
     }
 
@@ -35,8 +35,8 @@
     {
         static NewtonsoftJsonDecimalVo()
         {
-            Instance("Item1", 1.1m);
-            Instance("Item2", 2.2m);
+            Member("Item1", 1.1m);
+            Member("Item2", 2.2m);
         }
     }
 
@@ -45,8 +45,8 @@
     {
         static SystemTextJsonDecimalVo()
         {
-            Instance("Item1", 1.1m);
-            Instance("Item2", 2.2m);
+            Member("Item1", 1.1m);
+            Member("Item2", 2.2m);
         }
     }
 
@@ -56,8 +56,8 @@
     {
         static SystemTextJsonDecimalVo_Treating_number_as_string()
         {
-            Instance("Item1", 1.1m);
-            Instance("Item2", 2.2m);
+            Member("Item1", 1.1m);
+            Member("Item2", 2.2m);
         }
     }
 
@@ -66,8 +66,8 @@
     {
         static BothJsonDecimalVo()
         {
-            Instance("Item1", 1.1m);
-            Instance("Item2", 2.2m);
+            Member("Item1", 1.1m);
+            Member("Item2", 2.2m);
         }
     }
 
@@ -76,8 +76,8 @@
     {
         static EfCoreDecimalVo()
         {
-            Instance("Item1", 1.1m);
-            Instance("Item2", 2.2m);
+            Member("Item1", 1.1m);
+            Member("Item2", 2.2m);
         }
     }
 
@@ -86,8 +86,8 @@
     {
         static DapperDecimalVo()
         {
-            Instance("Item1", 1.1m);
-            Instance("Item2", 2.2m);
+            Member("Item1", 1.1m);
+            Member("Item2", 2.2m);
         }
     }
 
@@ -96,8 +96,8 @@
     {
         static LinqToDbDecimalVo()
         {
-            Instance("Item1", 1.1m);
-            Instance("Item2", 2.2m);
+            Member("Item1", 1.1m);
+            Member("Item2", 2.2m);
         }
     }
 }

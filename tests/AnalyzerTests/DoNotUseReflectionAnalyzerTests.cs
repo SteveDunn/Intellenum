@@ -36,7 +36,7 @@ public partial class MyVo {{ }}
             
             await Run(
                 source,
-                WithDiagnostics("VOG025", DiagnosticSeverity.Error, 0));
+                WithDiagnostics("INTELLENUM025", DiagnosticSeverity.Error, 0));
         }
 
         [Fact]
@@ -59,7 +59,7 @@ public partial class MyVo {{ }}
             
             await Run(
                 source,
-                WithDiagnostics("VOG025", DiagnosticSeverity.Error, 0));
+                WithDiagnostics("INTELLENUM025", DiagnosticSeverity.Error, 0));
         }
 
         private static IEnumerable<DiagnosticResult> WithDiagnostics(string code, DiagnosticSeverity severity, params int[] locations)
