@@ -8,15 +8,15 @@ namespace Intellenum.Examples.TypicalScenarios.ExplicitCasting
         public Task Run()
         {
             // We can create an instance with an explicit cast. If there is validation, it is still run.
-            Result score1 = (Result)2;
-            Result score2 = Result.FromValue(2);
+            Result result1 = (Result)2;
+            Result result2 = Result.FromValue(2);
             
-            Console.WriteLine(score1 == score2); // true
-            Console.WriteLine(score1 == Result.Won); // true
+            Console.WriteLine(result1 == result2); // true
+            Console.WriteLine(result1 == Result.Won); // true
             
             // We can cast an instance to the underlying type too
-            int score3 = (int) score2;
-            Console.WriteLine(score3 == score2); // true
+            int score3 = (int) result2;
+            Console.WriteLine(score3 == result2); // true
 
             return Task.CompletedTask;
         }

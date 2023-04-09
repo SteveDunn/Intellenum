@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 // ReSharper disable RedundantCast
 
-namespace Intellenum.Examples.TypicalScenarios.Instances
+namespace Intellenum.Examples.TypicalScenarios.Members
 {
-    internal class InstanceExamples : IScenario
+    internal class MemberExamples : IScenario
     {
         public Task Run()
         {
@@ -24,7 +24,7 @@ namespace Intellenum.Examples.TypicalScenarios.Instances
     [Intellenum]
     public partial class ImpliedFieldName
     {
-        public static readonly ImpliedFieldName Instance1 = new(1);
+        public static readonly ImpliedFieldName Member1 = new(1);
     }
 
 
@@ -48,12 +48,12 @@ namespace Intellenum.Examples.TypicalScenarios.Instances
     [Intellenum]
     [Member("Salt", 1)]
     [Member("Pepper", 2)]
-    public partial class CondimentMixedInstances
+    public partial class CondimentMixedMembers
     {
-        public static readonly CondimentMixedInstances Mayo = new CondimentMixedInstances("Mayo", 5);
-        public static readonly CondimentMixedInstances Ketchup = new CondimentMixedInstances("Ketchup", 6);
+        public static readonly CondimentMixedMembers Mayo = new CondimentMixedMembers("Mayo", 5);
+        public static readonly CondimentMixedMembers Ketchup = new CondimentMixedMembers("Ketchup", 6);
 
-        static CondimentMixedInstances()
+        static CondimentMixedMembers()
         {
             Member("Vinegar", 3);
             Member("Mustard", 4);

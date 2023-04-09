@@ -1,6 +1,6 @@
 ﻿using FluentAssertions.Execution;
 
-namespace ConsumerTests.Instances;
+namespace ConsumerTests.Members;
 
 [Intellenum(typeof(DateTime))]
 [Member(name: "iso8601_1", value: "2022-12-13")]

@@ -5,7 +5,7 @@ namespace Intellenum.Examples.SyntaxExamples.NoDefaulting
 {
     /*
         You shouldn't be allowed to `default` a Intellenums as you should always
-        chose a valid instance.
+        chose a valid member.
     */
     
     public class Naughty
