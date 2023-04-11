@@ -16,11 +16,12 @@ If you like or are using this project please give it a star. Thanks!
 
 # Intellenum: intelligence, for your enums!
 
-Intellenum is an open source project written in C# that provides a fast and efficient way to deal with enums. 
-It uses source generation to make dealing with enums faster and easier than ever.
-It generates backing code for extremely fast, and allocation-free, lookups, with the `FromName` and `FromValue` methods (and the equivalent `Try...` methods).
+Intellenum is an open source C# project that provides a fast and efficient way to deal with enums. 
+It uses source generation to that generates backing code for extremely fast, and allocation-free, lookups, 
+with the `FromName` and `FromValue` methods (and the equivalent `Try...` methods).
 
-The benefits of using Intellenum over standard enums is speed for the times when you need to see if an enum has a member of a particular name or value.
+Intellenum provides speed benefits over standard enums for when you need to see if an enum has a member 
+of a particular name or value.
 Benchmarks are provided below, but here is a snippet showing the performance gains for using `IsDefined`:
 
 | Method          | Mean          | Error       | StdDev      | Median       | Gen0   | Allocated |
@@ -31,7 +32,13 @@ Benchmarks are provided below, but here is a snippet showing the performance gai
 
 ## Usage
 
-Using Intellenum is as easy as importing the namespace and using the provided API:
+Add the NuGet package to your project:
+
+```
+Install-Package Intellenum
+```
+
+Then, using the `Intellenum` namespace, declare an enumeration like this:
 
 ```csharp
 [Intellenum]
@@ -42,8 +49,8 @@ public partial class CustomerType
 }
 ```
 
-Note that you **don't need to repeat the member name** as it is inferred from the field name at compile time. But if you 
-wanted a different name, you can specify it with
+Note that you **don't need to repeat the member name** as it is inferred from the field name **at compile time**. 
+You can also supply different name, e.g.:
 ```csharp
 public static readonly CustomerType Standard = new("STD", 1);
 ```
@@ -95,96 +102,178 @@ public partial class CustomerType
 if(type == CustomerType.Standard) Reject();
 if(type == CustomerType.Gold) Accept();
 ```
-        
-## A look at the generated code
-For constant values, a switch expression is generated for `IsDefined`:
+
+### Configuration
+
+Each Intellenum can have it's own *optional* configuration. Configuration includes:
+
+* The underlying type
+* Any 'conversions' (Dapper, System.Text.Json, Newtonsoft.Json, etc.) - see below for more information
+* Any 'customization' (for instance, treating a number as string in JSON serialization)
+* The type of the exception that is thrown when validation fails
+
+If any of those above are not specified, then global configuration is inferred. It looks like this:
 
 ```csharp
-public static bool IsDefined(System.Int32 value)
-{
-    return value switch { 
-      1 => true,
-      2 => true,
-      3 => true,
-      4 => true,
-      _ => false
-    };
-}
-```
-For `FromValue` (and `TryFromValue`), a switch statement is used:
-```csharp
-public static bool TryFromValue(System.Int32 value, out CustomerType member)
-{
-  switch (value) 
-  {
-      case 1:
-          member = CustomerType.Unspecified; 
-          return true;
-      case 2:
-          member = CustomerType.Normal; 
-          return true;
-      case 3:
-          member = CustomerType.Gold; 
-          return true;
-      case 4:
-          member = CustomerType.Diamond; 
-          return true;
-      default:
-          member = default;
-          return false;
-  }
-}
+[assembly: IntellenumDefaults(underlyingType: typeof(int), conversions: Conversions.Default)]
 ```
 
-As an aside, we experimented with using switch expressions for this too, but they turned out to be slower (~ 2x) than normal
-switch statements due to the need for having a tuple in the expression. 
+Those again are optional. If they're not specified, then they are defaulted to:
 
-The generated code look like this:
+* Underlying type = `typeof(int)`
+* Conversions = `Conversions.Default` (`TypeConverter` and `System.Text.Json`)
+* Customizations = `Customizations.None`
+
+### Underlying types
+Supports underlying types such as `byte`, `sbyte`, `short`, `ushort`, `int`, `uint`, `long`, `ulong`, `char`, `string`, and `bool`, 
+
+Also supports other types such as `Guid`, `DateTime`, `DateTimeOffset`, `TimeSpan`, `DateOnly`, `TimeOnly` etc.
+
+You can also specify a custom type, e.g. `MyCustomType`. There are some restrictions for this custom type:
+* It cannot be a collection
+* It cannot be the same type as the enumeration itself
+
+###  Hoisting
+If the underlying type implements `IComparable`, then the generated enum code will also implement `IComparable`. 
+It generated code will delegate to the underlying type's implementation. This means that you can use the `>` and `<` 
+operators on the enum type. e.g.
+
 ```csharp
-public static bool TryFromValue2(int value, out CustomerType member)
+[Intellenum<Planet>]
+public partial class PlanetEnum
 {
-    Func<(CustomerType, bool)> f = value switch
+    public static readonly PlanetEnum Jupiter = new(new Planet("Brown", 273_400));
+    public static readonly PlanetEnum Mars=  new(new Planet("Red", 13_240));
+    public static readonly PlanetEnum Venus=  new(new Planet("White", 23_622));
+}
+
+public record class Planet(string Colour, int CircumferenceInMiles) : IComparable<Planet>
+{
+    public int CompareTo(Planet other) => CircumferenceInMiles.CompareTo(other.CircumferenceInMiles);
+}
+
+Console.WriteLine(PlanetEnum.Mars < PlanetEnum.Jupiter); // true
+
+Console.WriteLine(string.Join(", ", PlanetEnum.List().OrderDescending())); // Jupiter, Venus, Mars
+
+```
+Additionally, if the underlying type contains a static method named `TryParse`, then a `TryParse` method will be generated for the enum itself.
+This `TryParse` method is useful if you want to find an enum by an alternative representation of its value.
+The generated `TryParse` first calls the static `TryParse` on the underlying type, and then does a lookup with `TryFromValue`
+
+```csharp
+[Intellenum(typeof(Planet))]
+public partial class PlanetEnum
+{
+    public static readonly PlanetEnum Jupiter = new(new Planet("Brown", 273_400));
+    public static readonly PlanetEnum Mars=  new(new Planet("Red", 13_240));
+    public static readonly PlanetEnum Venus=  new(new Planet("White", 23_622));
+}
+
+public record class Planet(string Colour, int CircumferenceInMiles)  : IComparable<Planet>
+{
+    public int CompareTo(Planet other) => CircumferenceInMiles.CompareTo(other.CircumferenceInMiles);
+
+    public static bool TryParse(string input, out Planet result)
     {
-        1 => () => (CustomerType.Unspecified, true), 
-        2 => () => (CustomerType.Normal, true), 
-        3 => () => (CustomerType.Gold, true), 
-        4 => () => (CustomerType.Diamond, true), 
-        _ => () => (default, false)
-    };
-    
-    var r = f();
-    member = r.Item1;
-    return r.Item2;
+        string pattern = "^(?<colour>[a-zA-Z]+)-(?<circumference>\\d+)$";
+
+        Match match = Regex.Match(input, pattern);
+
+        if (!match.Success)
+        {
+            result = default!;
+            return false;
+        }
+
+        string colour = match.Groups["colour"].Value;
+        string circumference = match.Groups["circumference"].Value;
+
+        result = new Planet(colour, Convert.ToInt32(circumference));
+
+        return true;
+    }
+ }
+
+// the following tests pass    
+{
+    // this is defined
+    bool r = PlanetEnum.TryParse("Brown-273400", out var p);
+    r.Should().BeTrue();
+    p.Should().Be(PlanetEnum.Jupiter);
+}
+
+{
+    // this is not defined
+    bool r = PlanetEnum.TryParse("Blue-24901", out _);
+    r.Should().BeFalse();
+}    
 }
 ```
+                  
+### FromName
+Gets the member of the enum with the specified name. If the name is not found, then a `IntellenumMatchFailedException` exception is thrown.
 
-_If you can think of a way of making this faster, please let us know!_
-
-
-
-## Features
-
-* `FromName()` and `FromValue()` (and `TryFrom...`)
-* Can declare members in various ways:
-  * attributes `[Member("Foo", 1)]`
-  * explicitly with `new MyEnum("Foo", 1)`
-  * Member method in a static constructor: `Member("Foo", 1);`
-* Ability to quickly convert enums to and from strings
-* Ability to quickly deconstruct enums to name and value, e.g. Deconstruct (`var (name, value) = CustomerType.Gold`)
-* List items (`CustomerTypes.List()`)
-
-## Installation
-
-Intellenum can be installed using NuGet:
-
+```csharp
+var ct = CustomerType.FromName("Gold");
+Console.WriteLine(ct.ToString()); // Gold
 ```
-Install-Package Intellenum
+
+### TryFromName
+Tries to get the instance of that name. Returns `true` if the name is found, otherwise `false`. Sets the output value if found.
+
+```csharp
+bool b = CustomerType.TryFromName("Gold", out var ct);
+Console.WriteLine(b); // True
+Console.WriteLine(ct.ToString()); // Gold
 ```
+
+### FromValue
+Tries to get the instance of that value. If not found, then a `IntellenumMatchFailedException` exception is thrown.
+
+```csharp
+var ct = CustomerType.FromValue(2);
+Console.WriteLine(ct.ToString()); // Gold 
+```
+
+### TryFromValue
+Tries to get the value. Returns true or false. Sets the output value if found.
+
+```csharp
+bool b = CustomerType.TryFromValue(2, out var ct);
+Console.WriteLine(b); // True
+Console.WriteLine(ct.ToString()); // Gold
+```
+### List
+Returns an `IEnumerable<T>` of all the members of the enum. 
+
+### Deconstructing
+
+Deconstructs an enum into it's name and value. For example:
+
+```csharp
+var (name, value) = CustomerType.Gold;
+Console.WriteLine(name); // Gold
+Console.WriteLine(value); // 2
+```
+### ToString
+
+The `ToString` method returns the name of the enum member. For example:
+
+```csharp
+Console.WriteLine(CustomerType.Gold); // Gold
+```
+
+### Serialization
+Intellenum supports serialization to and from JSON using `System.Text.Json` and `Newtonsoft.Json`.
+It also supports storing and retrieving from Dapper, EFCore and Linq2Db.
+
 
 # Comparison with other libraries
 The bulk of Intellenum is based on the work done for Vogen which is a source generator for value objects. One of the features of Vogen
 is the ability to specify 'instances'. These instances are very similar to the members of an enum, but they are not enums.
-I had a few requests to use the same source generation and analyzers used for Vogen but to generate enums instead. This is what Intellenum is.
+There were a few requests to use the same source generation and analyzers used for Vogen but to generate enums instead. 
+This is what Intellenum is.
 
 There are a few other libraries for dealing with enums. Some, for example, SmartEnum, declare a base class containing functionality.
 Others, e.g. EnumGenerators, use attributes on standard enums to generate source code. 
@@ -256,9 +345,72 @@ Yes, it can. There's various ways to do this, including:
 
 Right now, Intellenum serializes using the `Value` property just like native enums.
 
+## A look at the generated code
+For compile-time constant (and `decimal`) values, a switch expression is generated for `IsDefined`:
 
+```csharp
+public static bool IsDefined(System.Int32 value)
+{
+    return value switch { 
+      1 => true,
+      2 => true,
+      3 => true,
+      4 => true,
+      _ => false
+    };
+}
+```
+For `FromValue` (and `TryFromValue`), a switch statement is used:
+```csharp
+public static bool TryFromValue(System.Int32 value, out CustomerType member)
+{
+  switch (value) 
+  {
+      case 1:
+          member = CustomerType.Unspecified; 
+          return true;
+      case 2:
+          member = CustomerType.Normal; 
+          return true;
+      case 3:
+          member = CustomerType.Gold; 
+          return true;
+      case 4:
+          member = CustomerType.Diamond; 
+          return true;
+      default:
+          member = default;
+          return false;
+  }
+}
+```
+
+As an aside, we experimented with using switch expressions for this too, but they turned out to be slower than normal
+switch statements (about twice as slow) due to the need for having a tuple in the expression.
+
+The generated code look like this:
+```csharp
+public static bool TryFromValue(int value, out CustomerType member)
+{
+    Func<(CustomerType, bool)> f = value switch
+    {
+        1 => () => (CustomerType.Unspecified, true), 
+        2 => () => (CustomerType.Normal, true), 
+        3 => () => (CustomerType.Gold, true), 
+        4 => () => (CustomerType.Diamond, true), 
+        _ => () => (default, false)
+    };
+    
+    var r = f();
+    member = r.Item1;
+    return r.Item2;
+}
+```
+
+_If you can think of a way of making this faster, please let us know!_
 
 > NOTE: Intellenum is in beta at the moment; I've tested it out and I think it works. The main functionality is present and the API probably 
 > won't change significantly from now on. Although it's a fairly new library, it borrows a lot of code and features from [Vogen](https://github.com/SteveDunn/Vogen) which 
 > has been in use for a while now by many projects and has lots of downloads, which should provide some confidence.
 > Please feel free to try it and provide feedback.
+

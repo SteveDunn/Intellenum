@@ -413,8 +413,7 @@ yield return Diamond;
 #endif
  out CustomerType result) {
         if(System.Int32.TryParse(s, style, provider, out var r)) {
-            result = FromValue(r);
-            return true;
+            return TryFromValue(r, out result);
         }
 
         result = default;
@@ -433,8 +432,7 @@ yield return Diamond;
 #endif
  out CustomerType result) {
         if(System.Int32.TryParse(s, provider, out var r)) {
-            result = FromValue(r);
-            return true;
+            return TryFromValue(r, out result);
         }
 
         result = default;
@@ -453,8 +451,7 @@ yield return Diamond;
 #endif
  out CustomerType result) {
         if(System.Int32.TryParse(s, out var r)) {
-            result = FromValue(r);
-            return true;
+            return TryFromValue(r, out result);
         }
 
         result = default;
@@ -473,8 +470,7 @@ yield return Diamond;
 #endif
  out CustomerType result) {
         if(System.Int32.TryParse(s, style, provider, out var r)) {
-            result = FromValue(r);
-            return true;
+            return TryFromValue(r, out result);
         }
 
         result = default;
@@ -493,8 +489,7 @@ yield return Diamond;
 #endif
  out CustomerType result) {
         if(System.Int32.TryParse(s, provider, out var r)) {
-            result = FromValue(r);
-            return true;
+            return TryFromValue(r, out result);
         }
 
         result = default;
@@ -513,8 +508,7 @@ yield return Diamond;
 #endif
  out CustomerType result) {
         if(System.Int32.TryParse(s, out var r)) {
-            result = FromValue(r);
-            return true;
+            return TryFromValue(r, out result);
         }
 
         result = default;

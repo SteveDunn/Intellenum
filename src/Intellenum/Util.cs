@@ -301,26 +301,12 @@ return TryFromName(name, out _);
         if (!item.IsConstant)
         {
             return $$"""
-        private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, {{item.UnderlyingTypeFullName}}>> _namesToValues = new( () =>
-        new()
-        {
-            {{ GenerateLazyLookupEntries(item, prop => new($"\"{prop.FieldName}\"", $"{prop.FieldName}.Value")) }}
-        });
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, {{item.VoTypeName}}>> _namesToEnums = new( () =>
         new()
         {
             {{ GenerateLazyLookupEntries(item, prop => new($"\"{prop.FieldName}\"", $"{prop.FieldName}")) }}
         });
-        private static readonly System.Lazy<System.Collections.Generic.Dictionary<{{item.VoTypeName}}, {{item.UnderlyingTypeFullName}}>> _enumsToValues = new( () =>
-        new()
-        {
-            {{ GenerateLazyLookupEntries(item, prop => new($"{prop.FieldName}", $"{prop.FieldName}.Value")) }}
-        });
-        private static readonly System.Lazy<System.Collections.Generic.Dictionary<{{item.UnderlyingTypeFullName}}, string>> _valuesToNames = new( () =>
-        new()
-        {
-            {{ GenerateLazyLookupEntries(item, prop => new($"{prop.FieldName}.Value", $"\"{prop.FieldName}\"")) }}
-        });
+
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<{{item.UnderlyingTypeFullName}}, {{item.VoTypeName}}>> _valuesToEnums = new( () =>
         new()
         {

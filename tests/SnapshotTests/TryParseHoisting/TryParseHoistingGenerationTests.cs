@@ -1,47 +1,22 @@
-﻿#nullable disable
+﻿using System.Threading.Tasks;
+using Intellenum;
+using VerifyXunit;
 
+namespace SnapshotTests.TryParseHoisting;
+
+
+[UsesVerify]
+public class Tests
+{
+    [Fact]
+    public Task Test()
+    {
+        var source = $$"""
+using System;
+using Intellenum;
 using System.Text.RegularExpressions;
 
-namespace ConsumerTests.TryParseTests;
-
-[Intellenum(typeof(int))]
-[Member("Item1", 1)]
-[Member("Item2", 2)]
-public partial class IntVoNoValidation
-{
-}
-
-[Intellenum(typeof(int))]
-[Member("Item1", 1)]
-[Member("Item2", 2)]
-public partial class IntEnum
-{
-}
-
-[Intellenum(typeof(byte))]
-[Member("Item1", 1)]
-[Member("Item2", 2)]
-public partial class ByteVo { }
-
-[Intellenum(typeof(char))]
-[Member("Item1", 'a')]
-[Member("Item2", 2)]
-public partial class CharVo { }
-
-[Intellenum(typeof(decimal))]
-public partial class DecimalEnum
-{
-    static DecimalEnum()
-    {
-        Member("Item1", 1.23m);
-        Member("Item2", 3.21m);
-    }
-}
-
-[Intellenum(typeof(double))]
-[Member("Item1", 1.23d)]
-[Member("Item2", 3.21d)]
-public partial class DoubleEnum { }
+namespace Whatever;
 
 [Intellenum(typeof(Planet))]
 public partial class PlanetEnum
@@ -63,7 +38,7 @@ public record class Planet(string Colour, int CircumferenceInMiles) : IComparabl
 
         if (!match.Success)
         {
-            result = default;
+            result = default!;
             return false;
         }
 
@@ -73,5 +48,13 @@ public record class Planet(string Colour, int CircumferenceInMiles) : IComparabl
         result = new Planet(colour, Convert.ToInt32(circumference));
 
         return true;
+    }
+}
+""";
+
+        return new SnapshotRunner<IntellenumGenerator>()
+            .WithSource(source)
+            .IgnoreInitialCompilationErrors()
+            .RunOnAllFrameworks();
     }
 }

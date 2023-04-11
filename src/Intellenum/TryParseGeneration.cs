@@ -53,8 +53,7 @@ internal static class TryParseGeneration
     /// </returns>
     public static global::System.Boolean TryParse({parameters}, {GenerateNotNullWhenAttribute()} out {item.VoTypeName} result) {{
         if({item.UnderlyingTypeFullName}.TryParse({parameterNames}, out var r)) {{
-            result = FromValue(r);
-            return true;
+            return TryFromValue(r, out result);
         }}
 
         result = default;

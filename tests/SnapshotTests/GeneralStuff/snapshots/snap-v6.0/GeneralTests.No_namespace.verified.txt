@@ -54,18 +54,6 @@ using System;
         /// </summary>
         public System.Int32 Value => _value;
 
-private void Throw()
-{
-#if DEBUG
-                global::System.String message = "Use of uninitialized Value Object at: " + _stackTrace ?? "";
-#else
-                global::System.String message = "Use of uninitialized Value Object.";
-#endif
-
-                throw new IntellenumUninitialisedException(message);
-
-}
-
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
         public CustomerType()

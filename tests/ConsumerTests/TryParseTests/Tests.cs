@@ -47,6 +47,21 @@ public class Tests
     }
 
     [Fact]
+    public void Custom()
+    {
+        {
+            bool r = PlanetEnum.TryParse("Brown-273400", out var p);
+            r.Should().BeTrue();
+            p.Should().Be(PlanetEnum.Jupiter);
+        }
+
+        {
+            bool r = PlanetEnum.TryParse("Blue-24901", out _);
+            r.Should().BeFalse();
+        }
+    }
+
+    [Fact]
     public void When_parsing_fails()
     {
         IntEnum.TryParse("fifty", out var ie).Should().BeFalse();

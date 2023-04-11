@@ -166,7 +166,7 @@ internal static class ManageAttributes
                 attributeData.AttributeClass!.BaseType!.FullName()!.StartsWith("Intellenum.IntellenumAttribute<");
             
             // Extracts the generic argument from the base type when the derived type isn't generic
-            // e.g. MyCustomVoAttribute : IntellenumAttribute<long>
+            // e.g. MyCustomEnumAttribute : IntellenumAttribute<long>
             var type = isDerivedFromGenericAttribute && attributeData.AttributeClass!.TypeArguments.IsEmpty
                 ? attributeData.AttributeClass!.BaseType!.TypeArguments[0] as INamedTypeSymbol
                 : attributeData.AttributeClass!.TypeArguments[0] as INamedTypeSymbol;

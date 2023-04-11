@@ -54,6 +54,31 @@
 
   <ItemGroup>
     <None Remove="xunit.runner.json" />
+    <None Include="TryParseHoisting\TryParseHoistingGenerationTests.cs" />
+    <None Update="TryParseHoisting\snapshots\snap-v6.0\partial_class_None.verified.txt">
+      <ParentFile>partial_class_None</ParentFile>
+      <DependentUpon>partial_class_None.cs</DependentUpon>
+    </None>
+    <None Update="TryParseHoisting\snapshots\snap-v6.0\partial_class_Method.verified.txt">
+      <ParentFile>partial_class_Method</ParentFile>
+      <DependentUpon>partial_class_Method.cs</DependentUpon>
+    </None>
+    <None Update="TryParseHoisting\snapshots\snap-v6.0\partial_class_ExpressionBodiedMethod.verified.txt">
+      <ParentFile>partial_class_ExpressionBodiedMethod</ParentFile>
+      <DependentUpon>partial_class_ExpressionBodiedMethod.cs</DependentUpon>
+    </None>
+    <None Update="TryParseHoisting\snapshots\snap-v7.0\partial_class_None.verified.txt">
+      <ParentFile>partial_class_None</ParentFile>
+      <DependentUpon>partial_class_None.cs</DependentUpon>
+    </None>
+    <None Update="TryParseHoisting\snapshots\snap-v7.0\partial_class_Method.verified.txt">
+      <ParentFile>partial_class_Method</ParentFile>
+      <DependentUpon>partial_class_Method.cs</DependentUpon>
+    </None>
+    <None Update="TryParseHoisting\snapshots\snap-v7.0\partial_class_ExpressionBodiedMethod.verified.txt">
+      <ParentFile>partial_class_ExpressionBodiedMethod</ParentFile>
+      <DependentUpon>partial_class_ExpressionBodiedMethod.cs</DependentUpon>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

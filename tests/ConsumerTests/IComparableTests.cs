@@ -48,7 +48,7 @@
     public class IComparableTests
     {
         [Fact]
-        public void Underlying_type_of_int_means_the_vo_is_IComparable()
+        public void Underlying_type_of_int_means_the_enum_is_IComparable()
         {
             var l = new List<C1>(new[] { C1.Item1, C1.Item3, C1.Item2 });
             l[0].Value.Should().Be(1);
@@ -63,7 +63,7 @@
         }
 
         [Fact]
-        public void Underlying_type_of_default_int_means_the_vo_is_IComparable()
+        public void Underlying_type_of_default_int_means_the_enum_is_IComparable()
         {
             var l = new List<C2>(new[] { C2.Item1, C2.Item3, C2.Item2 });
             l[0].Value.Should().Be(1);

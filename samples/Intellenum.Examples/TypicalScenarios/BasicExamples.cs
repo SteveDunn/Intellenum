@@ -54,15 +54,16 @@ namespace Intellenum.Examples.TypicalScenarios.Basic
     {
     }
     
-    [Intellenum<Foo>]
-    public partial class FooEnum
+    [Intellenum<Planet>]
+    public partial class PlanetEnum
     {
-        public static readonly FooEnum Item1 = new("Item1", new Foo("a", 1));
-        public static readonly FooEnum Item2=  new("Item2", new Foo("b", 2));
+        public static readonly PlanetEnum Jupiter = new(new Planet("Brown", 273_400));
+        public static readonly PlanetEnum Mars=  new(new Planet("Red", 13_240));
+        public static readonly PlanetEnum Venus=  new(new Planet("White", 23_622));
     }
 
-    public record class Foo(string Name, int Age) : IComparable<Foo>
+    public record class Planet(string Colour, int CircumferenceInMiles) : IComparable<Planet>
     {
-        public int CompareTo(Foo other) => Age.CompareTo(other.Age);
+        public int CompareTo(Planet other) => CircumferenceInMiles.CompareTo(other.CircumferenceInMiles);
     }
 }
