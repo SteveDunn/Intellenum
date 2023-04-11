@@ -7,11 +7,7 @@ namespace Intellenum.Examples.TypicalScenarios.Basic
     {
         public Task Run()
         {
-            // we can't mess up the order of parameters - doing the following results in:
-            //      Argument 1: cannot convert from 'SupplierId' to 'CustomerId'
-            // new CustomerProcessor().Process(SupplierId.From(123), SupplierId.From(321), Amount.From(123));
-
-            new CustomerProcessor().Process(CustomerType.FromName("Standard"), SupplierType.FromValue(1));
+            // below are some example declarations of Intellenums
 
             return Task.CompletedTask;
         }
@@ -68,12 +64,5 @@ namespace Intellenum.Examples.TypicalScenarios.Basic
     public record class Foo(string Name, int Age) : IComparable<Foo>
     {
         public int CompareTo(Foo other) => Age.CompareTo(other.Age);
-    }
-
-
-    internal class CustomerProcessor
-    {
-        internal void Process(CustomerType customerType, SupplierType supplierType) =>
-            Console.WriteLine($"Processing customer {customerType}, supplier {supplierType}");
     }
 }

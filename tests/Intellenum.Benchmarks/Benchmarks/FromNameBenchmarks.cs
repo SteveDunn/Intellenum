@@ -1,7 +1,7 @@
 using BenchmarkDotNet.Attributes;
 
 [MemoryDiagnoser]
-public class TryFromNameBenchmarks
+public class FromNameBenchmarks
 {
     [GlobalSetup]
     public void Setup()
@@ -20,7 +20,7 @@ public class TryFromNameBenchmarks
     }
 
     [Benchmark]
-    public bool Intellenums()
+    public bool Intellenums_Try()
     {
         bool ret = IECustomerType.TryFromName("Standard", out _);
         ret |= IECustomerType.TryFromName("Gold", out _);
@@ -28,6 +28,17 @@ public class TryFromNameBenchmarks
         ret |= IECustomerType.TryFromName("Platinum", out _);
         
         return ret;
+    }
+
+    [Benchmark]
+    public bool Intellenums()
+    {
+        var ret = IECustomerType.FromName("Standard");
+        ret |= IECustomerType.FromName("Gold");
+        ret |= IECustomerType.FromName("Diamond");
+        ret |= IECustomerType.FromName("Platinum");
+        
+        return ret != 0;
     }
     
     [Benchmark]
@@ -45,6 +56,17 @@ public class TryFromNameBenchmarks
 
     [Benchmark]
     public bool SmartEnums()
+    {
+        var ret = SECustomerType.FromName( "Gold");
+        ret |= SECustomerType.FromName("Silver");
+        ret |= SECustomerType.FromName("Diamond");
+        ret |= SECustomerType.FromName("Platinum");
+        
+        return ret != 0;
+    }
+
+    [Benchmark]
+    public bool SmartEnums_Try()
     {
         bool ret = false;
 

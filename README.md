@@ -18,8 +18,38 @@ If you like or are using this project please give it a star. Thanks!
 
 Intellenum is an open source project written in C# that provides a fast and efficient way to deal with enums. 
 It uses source generation to make dealing with enums faster and easier than ever.
+It generates backing code for extremely fast, and allocation-free, lookups, with the `FromName` and `FromValue` methods (and the equivalent `Try...` methods).
 
-Given the following code:
+The benefits of using Intellenum over standard enums is speed for the times when you need to see if an enum has a member of a particular name or value.
+Benchmarks are provided below, but here is a snippet showing the performance gains for using `IsDefined`:
+
+| Method          | Mean          | Error       | StdDev      | Median       | Gen0   | Allocated |
+|-----------------|---------------|-------------|-------------|--------------|--------|-----------|
+| StandardEnums   | 107.4646 ns   | 1.1617 ns   | 1.0867 ns   | 107.3232 ns  | 0.0057 | 96 B      |
+| **Intellenums** | **0.0022 ns** | **0.0031 ns**   | **0.0027 ns**   | **0.0010 ns**    | **-**      | **-**         |
+
+
+## Usage
+
+Using Intellenum is as easy as importing the namespace and using the provided API:
+
+```csharp
+[Intellenum]
+public partial class CustomerType
+{
+    public static readonly CustomerType Standard = new(1);
+    public static readonly CustomerType Gold = new(2);
+}
+```
+
+Note that you **don't need to repeat the member name** as it is inferred from the field name at compile time. But if you 
+wanted a different name, you can specify it with
+```csharp
+public static readonly CustomerType Standard = new("STD", 1);
+```
+By default, the underlying type is `int`, but you can specify a different type, e.g. `[Intellenum(typeof(short))]` or the generic version `[Intellenum<short>]`.
+
+As well as explicitly declaring members like above, there are a couple of other ways - here is an example:
 
 ```csharp
 [Intellenum]
@@ -32,26 +62,8 @@ public partial class CustomerType
     }
 }
 ```
-... you can then treat the type just like an enum:
 
-```csharp
-if(type == CustomerType.Standard) Reject();
-if(type == CustomerType.Gold) Accept();
-```
-
-Intellenum generates backing code for lightning fast and allocation-free lookups, e.g. `FromName`, `FromValue` (and their equivalent `Try...` methods):
-
-There are other ways to declare members. You can declare them directly:
-```csharp
-[Intellenum]
-public partial class CustomerType
-{
-    public static readonly CustomerType Standard = new CustomerType("Standard", 1);
-    public static readonly CustomerType Gold = new CustomerType("Gold", 2);
-}
-```
-
-... or you can use attributes:
+Another way is via attributes:
 
 ```csharp
 [Intellenum]
@@ -67,25 +79,99 @@ public partial class CustomerType { }
 [Member("Standard", 1)]
 public partial class CustomerType 
 {
-    public static readonly CustomerType Standard = new CustomerType("Gold", 2);
+    public static readonly CustomerType Gold = new CustomerType(2);
+    public static readonly CustomerType Diamond = new CustomerType(3);
 
     static CustomerType()
     {
-        Member("Diamond", 3);
+        Member("Platinum", 4);
     }
  }
 ```
+
+... you can then treat the type just like an enum:
+
+```csharp
+if(type == CustomerType.Standard) Reject();
+if(type == CustomerType.Gold) Accept();
+```
+        
+## A look at the generated code
+For constant values, a switch expression is generated for `IsDefined`:
+
+```csharp
+public static bool IsDefined(System.Int32 value)
+{
+    return value switch { 
+      1 => true,
+      2 => true,
+      3 => true,
+      4 => true,
+      _ => false
+    };
+}
+```
+For `FromValue` (and `TryFromValue`), a switch statement is used:
+```csharp
+public static bool TryFromValue(System.Int32 value, out CustomerType member)
+{
+  switch (value) 
+  {
+      case 1:
+          member = CustomerType.Unspecified; 
+          return true;
+      case 2:
+          member = CustomerType.Normal; 
+          return true;
+      case 3:
+          member = CustomerType.Gold; 
+          return true;
+      case 4:
+          member = CustomerType.Diamond; 
+          return true;
+      default:
+          member = default;
+          return false;
+  }
+}
+```
+
+As an aside, we experimented with using switch expressions for this too, but they turned out to be slower (~ 2x) than normal
+switch statements due to the need for having a tuple in the expression. 
+
+The generated code look like this:
+```csharp
+public static bool TryFromValue2(int value, out CustomerType member)
+{
+    Func<(CustomerType, bool)> f = value switch
+    {
+        1 => () => (CustomerType.Unspecified, true), 
+        2 => () => (CustomerType.Normal, true), 
+        3 => () => (CustomerType.Gold, true), 
+        4 => () => (CustomerType.Diamond, true), 
+        _ => () => (default, false)
+    };
+    
+    var r = f();
+    member = r.Item1;
+    return r.Item2;
+}
+```
+
+_If you can think of a way of making this faster, please let us know!_
+
+
+
 ## Features
 
 * `FromName()` and `FromValue()` (and `TryFrom...`)
-* Generates enum definitions in various ways:
+* Can declare members in various ways:
   * attributes `[Member("Foo", 1)]`
   * explicitly with `new MyEnum("Foo", 1)`
   * Member method in a static constructor: `Member("Foo", 1);`
 * Ability to quickly convert enums to and from strings
-* Ability to quickly deconstruct enums to name and value
-* Deconstruct (`(name, value) = CustomerTypes.Gold`)
-* Get items (`CustomerTypes.List()`)
+* Ability to quickly deconstruct enums to name and value, e.g. Deconstruct (`var (name, value) = CustomerType.Gold`)
+* List items (`CustomerTypes.List()`)
 
 ## Installation
 
@@ -95,64 +181,18 @@ Intellenum can be installed using NuGet:
 Install-Package Intellenum
 ```
 
-## Usage
+# Comparison with other libraries
+The bulk of Intellenum is based on the work done for Vogen which is a source generator for value objects. One of the features of Vogen
+is the ability to specify 'instances'. These instances are very similar to the members of an enum, but they are not enums.
+I had a few requests to use the same source generation and analyzers used for Vogen but to generate enums instead. This is what Intellenum is.
 
-Using Intellenum is as easy as importing the namespace and using the provided API:
+There are a few other libraries for dealing with enums. Some, for example, SmartEnum, declare a base class containing functionality.
+Others, e.g. EnumGenerators, use attributes on standard enums to generate source code. 
 
-```csharp
-using Intellenum;
+Intellenum is a mixture of both. It uses an attribute to specify an 'enum' and then source-generates the functionality.
 
-[Intellenum]
-public partial class CustomerType
-{
-    static CustomerType() 
-    {
-        Member("Standard", 1);
-        Member("Gold", 2);
-    }
-}
 
-// some tests
 
-        CustomerType t1 = CustomerType.Standard;
-        CustomerType t2 = CustomerType.Gold;
-
-        CustomerType x = CustomerType.FromValue(1);
-
-        (t1 == t2).Should().BeFalse();
-
-        (t1 == x).Should().BeTrue();
-
-        CustomerType.FromValue(1).Should().Be(CustomerType.Standard);
-        CustomerType.FromValue(2).Should().Be(CustomerType.Gold);
-
-        CustomerType.FromName("Standard").Should().Be(CustomerType.Standard);
-        CustomerType.FromName("Gold").Should().Be(CustomerType.Gold);
-
-        CustomerType.ContainsValue(1).Should().BeTrue();
-        CustomerType.ContainsValue(2).Should().BeTrue();
-        CustomerType.ContainsValue(3).Should().BeFalse();
-
-        CustomerType ct1;
-        CustomerType.TryFromName("Standard", out ct1).Should().BeTrue();
-
-        CustomerType ct2;
-        CustomerType.TryFromName("Gold", out ct2).Should().BeTrue();
-
-        CustomerType ct3;
-        CustomerType.TryFromName("FOO", out ct3).Should().BeFalse();
-
-        CustomerType ctv1;
-        CustomerType.TryFromValue(1, out ctv1).Should().BeTrue();
-        ctv1.Should().Be(CustomerType.Standard);
-
-        CustomerType ctv2;
-        CustomerType.TryFromValue(2, out ctv2).Should().BeTrue();
-        ctv2.Should().Be(CustomerType.Gold);
-
-        CustomerType.TryFromValue(666, out _).Should().BeFalse();
-
-```
 
 # FAQ
 
@@ -218,5 +258,7 @@ Right now, Intellenum serializes using the `Value` property just like native enu
 
 
 
-> NOTE: Intellenum is in pre-release at the moment, so probably isn't production ready and the API might (and probably will) change.
-> But feel free to kick the tyres and provide feedback. It's not far off being complete as it borrows a lot of code and features from [Vogen](https://github.com/SteveDunn/Vogen)
+> NOTE: Intellenum is in beta at the moment; I've tested it out and I think it works. The main functionality is present and the API probably 
+> won't change significantly from now on. Although it's a fairly new library, it borrows a lot of code and features from [Vogen](https://github.com/SteveDunn/Vogen) which 
+> has been in use for a while now by many projects and has lots of downloads, which should provide some confidence.
+> Please feel free to try it and provide feedback.

@@ -54,27 +54,7 @@ namespace Whatever
         /// <summary>
         /// Gets the underlying <see cref="System.String" /> value if set, otherwise default
         /// </summary>
-        public System.String Value
-        {
-            [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-            [global::System.Diagnostics.DebuggerStepThroughAttribute]
-            get
-            {
-                return _value;
-            }
-        }
-
-private void Throw()
-{
-#if DEBUG
-                global::System.String message = "Use of uninitialized Value Object at: " + _stackTrace ?? "";
-#else
-                global::System.String message = "Use of uninitialized Value Object.";
-#endif
-
-                throw new IntellenumUninitialisedException(message);
-
-}
+        public System.String Value => _value;
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -175,6 +155,7 @@ _ => false
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(string name, out CustomerType member)
         {
             switch (name) 
@@ -195,6 +176,7 @@ _ => false
 
         }
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool IsNamedDefined(string name)
         {
             return TryFromName(name, out _);
@@ -219,8 +201,9 @@ _ => false
             return member;
         }
 
-        // placeholder method used by the source generator
-        // to generate physical members (e.g. public static readonly MyEnum Item1 = new...)
+        // A placeholder method used by the source generator during compilation so that
+        // users call 'Call' it. The source generator examines calls to this in order to 
+        // generate physical members (e.g. public static readonly MyEnum Item1 = new...)
         private static void Member(string name, System.String value)
         {
         }
@@ -243,6 +226,7 @@ _ => false
             return FromValue(value);
         }
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public global::System.Boolean Equals(CustomerType other)
         {
             if (ReferenceEquals(null, other))
@@ -262,6 +246,7 @@ _ => false
             return GetType() == other.GetType() && global::System.Collections.Generic.EqualityComparer<System.String>.Default.Equals(Value, other.Value);
         }
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override global::System.Boolean Equals(global::System.Object obj)
         {
             if (ReferenceEquals(null, obj))
@@ -282,21 +267,40 @@ _ => false
             return Equals((CustomerType) obj);
         }
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(CustomerType left, CustomerType right) => Equals(left, right);
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(CustomerType left, CustomerType right) => !Equals(left, right);
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(CustomerType left, System.String right) => Equals(left.Value, right);
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(CustomerType left, System.String right) => !Equals(left.Value, right);
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(System.String left, CustomerType right) => Equals(left, right.Value);
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(System.String left, CustomerType right) => !Equals(left, right.Value);
         
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <(CustomerType left, CustomerType right) => left.CompareTo(right) < 0;
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <=(CustomerType left, CustomerType right) => left.CompareTo(right) <= 0;
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator >(CustomerType left, CustomerType right) => left.CompareTo(right) > 0;
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator >=(CustomerType left, CustomerType right) => left.CompareTo(right) >= 0;
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static explicit operator CustomerType(System.String value) => FromValue(value);
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static implicit operator System.String(CustomerType value) => value.Value;
 
         public int CompareTo(CustomerType other) => Value.CompareTo(other.Value);
@@ -306,6 +310,7 @@ _ => false
             throw new global::System.ArgumentException("Cannot compare to object as it is not of type CustomerType", nameof(other));
         }
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override global::System.Int32 GetHashCode()
         {
             unchecked // Overflow is fine, just wrap

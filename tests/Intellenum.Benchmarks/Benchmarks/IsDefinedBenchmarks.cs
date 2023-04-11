@@ -36,7 +36,7 @@ public class IsDefinedBenchmarks
         
         return ret;
     }
-    
+
     [Benchmark]
     public bool EnumGenerators()
     {

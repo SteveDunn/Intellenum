@@ -37,27 +37,7 @@ using Intellenum;
         /// <summary>
         /// Gets the underlying <see cref=""{itemUnderlyingType}"" /> value if set, otherwise default
         /// </summary>
-        public {itemUnderlyingType} Value
-        {{
-            [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-            [global::System.Diagnostics.DebuggerStepThroughAttribute]
-            get
-            {{
-                return _value;
-            }}
-        }}
-
-private void Throw()
-{{
-#if DEBUG
-                global::System.String message = ""Use of uninitialized Value Object at: "" + _stackTrace ?? """";
-#else
-                global::System.String message = ""Use of uninitialized Value Object."";
-#endif
-
-                throw new {nameof(IntellenumUninitialisedException)}(message);
-
-}}
+        public {itemUnderlyingType} Value => _value;
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
@@ -135,11 +115,13 @@ private void Throw()
         /// </summary>
         /// <param name=""name"">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(string name, out {className} member)
         {{
             {Util.GenerateTryFromNameImplementation(item)}
         }}
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool IsNamedDefined(string name)
         {{
             {Util.GenerateIsNameDefinedImplementation(item)}
@@ -160,8 +142,9 @@ private void Throw()
             return member;
         }}
 
-        // placeholder method used by the source generator
-        // to generate physical members (e.g. public static readonly MyEnum Item1 = new...)
+        // A placeholder method used by the source generator during compilation so that
+        // users call 'Call' it. The source generator examines calls to this in order to 
+        // generate physical members (e.g. public static readonly MyEnum Item1 = new...)
         private static void Member(string name, {itemUnderlyingType} value)
         {{
         }}
@@ -177,6 +160,7 @@ private void Throw()
             return FromValue(value);
         }}
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public global::System.Boolean Equals({className} other)
         {{
             if (ReferenceEquals(null, other))
@@ -196,6 +180,7 @@ private void Throw()
             return GetType() == other.GetType() && global::System.Collections.Generic.EqualityComparer<{itemUnderlyingType}>.Default.Equals(Value, other.Value);
         }}
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override global::System.Boolean Equals(global::System.Object obj)
         {{
             if (ReferenceEquals(null, obj))
@@ -216,25 +201,45 @@ private void Throw()
             return Equals(({className}) obj);
         }}
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==({className} left, {className} right) => Equals(left, right);
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=({className} left, {className} right) => !Equals(left, right);
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==({className} left, {itemUnderlyingType} right) => Equals(left.Value, right);
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=({className} left, {itemUnderlyingType} right) => !Equals(left.Value, right);
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==({itemUnderlyingType} left, {className} right) => Equals(left, right.Value);
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=({itemUnderlyingType} left, {className} right) => !Equals(left, right.Value);
         
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <({className} left, {className} right) => left.CompareTo(right) < 0;
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <=({className} left, {className} right) => left.CompareTo(right) <= 0;
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator >({className} left, {className} right) => left.CompareTo(right) > 0;
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator >=({className} left, {className} right) => left.CompareTo(right) >= 0;
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static explicit operator {className}({itemUnderlyingType} value) => FromValue(value);
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static implicit operator {itemUnderlyingType}({className} value) => value.Value;
 
         {Util.GenerateIComparableImplementationIfNeeded(item, tds)}
 
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override global::System.Int32 GetHashCode()
         {{
             unchecked // Overflow is fine, just wrap

@@ -18,16 +18,16 @@ Console.WriteLine(IECustomerType.Standard < IECustomerType.Gold);
 
 
 EGCustomerTypeExtensions.IsDefined((EGCustomerType) 666);
-
 BenchmarkRunner.Run(new[]
 {
+    typeof(FromValueBenchmarks),
+    typeof(FromNameBenchmarks),
+
     typeof(ToStringBenchmarks),
-    typeof(TryFromNameBenchmarks),
     typeof(IsDefinedBenchmarks),
+    
     typeof(AccessingValuesBenchmarks)
 });
-
-
 
 
 
