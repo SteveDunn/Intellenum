@@ -365,6 +365,18 @@ yield return @void;
             {
                 writer.WriteNumberValue(value.Value);
             }
+
+#if NET6_0_OR_GREATER            
+            public override @class ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
+            {
+                return @class.Deserialize(reader.GetInt32());
+            }
+
+            public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, @class value, global::System.Text.Json.JsonSerializerOptions options)
+            {
+                writer.WriteNumberValue(value.Value);
+            }
+#endif
         }
 
 
@@ -426,8 +438,7 @@ yield return @void;
 #endif
  out @class result) {
         if(System.Int32.TryParse(s, style, provider, out var r)) {
-            result = FromValue(r);
-            return true;
+            return TryFromValue(r, out result);
         }
 
         result = default;
@@ -446,8 +457,7 @@ yield return @void;
 #endif
  out @class result) {
         if(System.Int32.TryParse(s, provider, out var r)) {
-            result = FromValue(r);
-            return true;
+            return TryFromValue(r, out result);
         }
 
         result = default;
@@ -466,8 +476,7 @@ yield return @void;
 #endif
  out @class result) {
         if(System.Int32.TryParse(s, out var r)) {
-            result = FromValue(r);
-            return true;
+            return TryFromValue(r, out result);
         }
 
         result = default;
@@ -486,8 +495,7 @@ yield return @void;
 #endif
  out @class result) {
         if(System.Int32.TryParse(s, style, provider, out var r)) {
-            result = FromValue(r);
-            return true;
+            return TryFromValue(r, out result);
         }
 
         result = default;
@@ -506,8 +514,7 @@ yield return @void;
 #endif
  out @class result) {
         if(System.Int32.TryParse(s, provider, out var r)) {
-            result = FromValue(r);
-            return true;
+            return TryFromValue(r, out result);
         }
 
         result = default;
@@ -526,8 +533,7 @@ yield return @void;
 #endif
  out @class result) {
         if(System.Int32.TryParse(s, out var r)) {
-            result = FromValue(r);
-            return true;
+            return TryFromValue(r, out result);
         }
 
         result = default;
