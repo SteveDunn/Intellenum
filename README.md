@@ -17,7 +17,7 @@ If you like or are using this project please give it a star. Thanks!
 # Intellenum: intelligence, for your enums!
 
 Intellenum is an open source C# project that provides a fast and efficient way to deal with enums. 
-It uses source generation to that generates backing code for extremely fast, and allocation-free, lookups, 
+It uses source generation that generates backing code for extremely fast, and allocation-free, lookups, 
 with the `FromName` and `FromValue` methods (and the equivalent `Try...` methods).
 
 Intellenum provides speed benefits over standard enums for when you need to see if an enum has a member 
@@ -409,8 +409,35 @@ public static bool TryFromValue(int value, out CustomerType member)
     return r.Item2;
 }
 ```
-
 _If you can think of a way of making this faster, please let us know!_
+
+A 'compile time constant' is one of the following:
+* byte (and unsigned byte)
+* int16 (and unsigned int16)
+* int32 (and unsigned int32)
+* int64 (and unsigned int64)
+* string
+* decimal
+
+For underlying types that are not one of these, these a lookup table is used.
+Why is a lookup table used if the underlying is not one of the above? It is because the left hand side of a switch expression must be 
+a constant expression.
+A constant expression is used in the 'constant pattern' of the switch expression. The 'constant pattern' is [described as](https://learn.microsoft.com/en-US/dotnet/csharp/language-reference/operators/patterns#constant-pattern):
+
+> A constant pattern is a pattern that matches a constant value. The constant value is specified by a constant expression. A constant expression is an expression that can be fully evaluated at compile time.n a constant pattern, you can use any constant expression, such as:
+>
+> * an integer or floating-point numerical literal
+> * a char
+> * a string literal.
+> * a Boolean value true or false
+> * an enum value
+> * the name of a declared const field or local
+> * null
+
+So, types like `Guid` and `DateTime` are not allowed on the left hand side of a switch expression (but Span<>'s are).
+The alternative in this case is to use a dictionary to map between names and values
+
+
 
 > NOTE: Intellenum is in beta at the moment; I've tested it out and I think it works. The main functionality is present and the API probably 
 > won't change significantly from now on. Although it's a fairly new library, it borrows a lot of code and features from [Vogen](https://github.com/SteveDunn/Vogen) which 

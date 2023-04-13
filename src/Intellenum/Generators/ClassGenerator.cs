@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Intellenum.Generators.Snippets;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Intellenum.Generators;
 
@@ -69,64 +70,15 @@ using Intellenum;
 
         public string Name {{ get; private set; }}
 
-        /// <summary>
-        /// Builds a member from an enum value.
-        /// </summary>
-        /// <param name=""value"">The value.</param>
-        /// <returns>The matching enum, or an exception.</returns>
-        public static {className} FromValue({itemUnderlyingType} value)
-        {{
-            {Util.GenerateFromValueImplementation(item)}
-        }}            
-
-        /// <summary>
-        /// Tries to get a member based on value.
-        /// </summary>
-        /// <param name=""value"">The value.</param>
-        /// <returns>The matching enum, or an exception.</returns>
-        public static bool TryFromValue({itemUnderlyingType} value, out {className} member)
-        {{
-            {Util.GenerateTryFromValueImplementation(item)}
-        }}        
-
-        public static bool IsDefined({itemUnderlyingType} value)
-        {{
-            {Util.GenerateIsDefinedBody(item)}
-        }}
-
         public void Deconstruct(out string Name, out {itemUnderlyingType} Value)
         {{
             Name = this.Name;
             Value = this.Value;
         }}
 
-        /// <summary>
-        /// Gets the matching member based on name.
-        /// </summary>
-        /// <param name=""name"">The name.</param>
-        /// <returns>The matching enum, or an exception.</returns>
-        public static {className} FromName(string name)
-        {{
-            {Util.GenerateFromNameImplementation(item)}
-        }}
+        {SnippetGenerationFactory.Generate(item, tds, SnippetType.FromValueRelateMethods)}
 
-        /// <summary>
-        /// Tries to get the matching member from a name.
-        /// </summary>
-        /// <param name=""name"">The name.</param>
-        /// <returns>The matching enum, or an exception.</returns>
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool TryFromName(string name, out {className} member)
-        {{
-            {Util.GenerateTryFromNameImplementation(item)}
-        }}
-
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool IsNamedDefined(string name)
-        {{
-            {Util.GenerateIsNameDefinedImplementation(item)}
-        }}
-
+        {SnippetGenerationFactory.Generate(item, tds, SnippetType.FromNameRelatedMethods)}
 
         /// <summary>
         /// Builds a member from the provided underlying type.

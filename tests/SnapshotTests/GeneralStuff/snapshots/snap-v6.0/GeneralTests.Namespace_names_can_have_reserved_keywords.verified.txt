@@ -86,6 +86,13 @@ namespace @double
 
         public string Name { get; private set; }
 
+        public void Deconstruct(out string Name, out System.Int32 Value)
+        {
+            Name = this.Name;
+            Value = this.Value;
+        }
+
+        
         /// <summary>
         /// Builds a member from an enum value.
         /// </summary>
@@ -126,6 +133,11 @@ namespace @double
 
         }        
 
+        /// <summary>
+        /// Determines if there is a member that is defined with the specified value.
+        /// </summary>
+        /// <param name="value">The value to search for.</param>
+        /// <returns>True if there is a member with matching value, otherwise False.</returns>
         public static bool IsDefined(System.Int32 value)
         {
             return value switch { 42 => true,
@@ -135,13 +147,9 @@ namespace @double
 _ => false
  };
         }
+        
 
-        public void Deconstruct(out string Name, out System.Int32 Value)
-        {
-            Name = this.Name;
-            Value = this.Value;
-        }
-
+        
         /// <summary>
         /// Gets the matching member based on name.
         /// </summary>
@@ -188,7 +196,7 @@ _ => false
         {
             return TryFromName(name, out _);
         }
-
+        
 
         /// <summary>
         /// Builds a member from the provided underlying type.
