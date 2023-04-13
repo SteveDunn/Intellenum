@@ -60,12 +60,11 @@ public class GenerationOfEscapedTypesTests
         {
             "byte",
             "double",
-            // "System.Guid",
+            "System.Guid",
             "string",
-            //todo: add back when custom types are properly supported
-            // "record.@struct.@float.@decimal",
-            // "record.@struct.@float.@event2",
-            // "record.@struct.@float.@event",
+            "record.@struct.@float.@decimal",
+            "record.@struct.@float.@event2",
+            "record.@struct.@float.@event",
         };
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -79,19 +78,19 @@ public class GenerationOfEscapedTypesTests
         string declaration = $$"""
 namespace record.@struct.@float
 {
-    public readonly record struct @decimal : System.IComparable<@decimal>
+    public readonly record struct @decimal(decimal V) : System.IComparable<@decimal>
     {
         public int CompareTo(@decimal other) => 1;
     }
 
-    public readonly record struct @event2 : System.IComparable<@decimal>
+    public readonly record struct @event2(decimal V) : System.IComparable<@event2>
     {
-        public int CompareTo(@decimal other) => 1;
+        public int CompareTo(@event2 other) => 1;
     }
 
-    public readonly record struct @event() : System.IComparable<@decimal>
+    public readonly record struct @event(decimal V) : System.IComparable<@event>
     {
-        public int CompareTo(@decimal other) => 1;
+        public int CompareTo(@event other) => 1;
     }
 }
 
@@ -116,62 +115,4 @@ namespace @class
             .CustomizeSettings(s => s.UseFileName(className))
             .RunOnAllFrameworks();
     }
-
-//     [SkippableFact]
-//     public Task MixtureOfKeywords()
-//     {
-//         string declaration = """
-// using Intellenum;
-//
-// namespace record.@struct.@float
-// {
-//     public readonly record struct @decimal();
-// }
-//
-// namespace @double
-// {
-//     public readonly record struct @decimal();
-//
-//     [Intellenum(typeof(@decimal))]
-//     public partial class classFromEscapedNamespaceWithReservedUnderlyingType
-//     {
-//         static classFromEscapedNamespaceWithReservedUnderlyingType() {
-//             Instance("One", 1m);
-//         }
-//     }
-//
-//     [Intellenum]
-//     public partial class classFromEscapedNamespace
-//     {
-//         static classFromEscapedNamespace() {
-//             Instance("One", 1);
-//         }
-//     }
-// }
-//
-// namespace @bool.@byte.@short.@float.@object
-// {
-//     [Intellenum]
-//     public partial class @class
-//     {
-//     }
-//
-//     [Intellenum]
-//     public partial class @event
-//     {
-//     }
-//
-//     [Intellenum(typeof(record.@struct.@float.@decimal))]
-//     public partial class @event2
-//     {
-//     }
-// }
-// """;
-//         
-//         return new SnapshotRunner<IntellenumGenerator>()
-//             .IgnoreInitialCompilationErrors()
-//             .IgnoreFinalCompilationErrors()
-//             .WithSource(declaration)
-//             .RunOnAllFrameworks();
-//     }
 }

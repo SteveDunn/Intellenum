@@ -345,6 +345,9 @@ Yes, it can. There's various ways to do this, including:
 
 Right now, Intellenum serializes using the `Value` property just like native enums.
 
+### I use an Intellenum as a key in a Dictionary - can I serialize that dictionary?
+Yes, at least if you use `System.Text.Json`. 
+
 ## A look at the generated code
 For compile-time constant (and `decimal`) values, a switch expression is generated for `IsDefined`:
 

@@ -341,12 +341,12 @@ yield return Gold;
 #if NET6_0_OR_GREATER            
             public override CustomerType ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return CustomerType.Deserialize(reader.GetInt32());
+                return CustomerType.Deserialize(global::System.Int32.Parse(reader.GetString(), global::System.Globalization.NumberStyles.Any, global::System.Globalization.CultureInfo.InvariantCulture));
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, CustomerType value, global::System.Text.Json.JsonSerializerOptions options)
             {
-                writer.WriteNumberValue(value.Value);
+                writer.WritePropertyName(value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture));
             }
 #endif
         }
