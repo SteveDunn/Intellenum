@@ -17,6 +17,30 @@ namespace AnalyzerTests
             var test = @"";
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
+        
+#if NET7_0_OR_GREATER
+        [Fact]
+        public async Task Disallow_new_for_using_generic_attribute()
+        {
+            var source = $@"using Intellenum;
+namespace Whatever;
+
+[Intellenum<int>()]
+public class MyEnum {{ }}
+
+public class Test {{
+    public Test() {{
+        var c = {{|#0:new MyEnum()|}};
+        MyEnum c2 = {{|#1:new()|}};
+    }}
+}}
+";
+            await Run(
+                source,
+                WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyEnum", 0, 1));
+        }
+#endif
+        
 
         [Fact]
         public async Task Allow_new_for_newing_up_inside_of_type_itself()
@@ -45,18 +69,18 @@ public partial class Condiments
 namespace Whatever;
 
 [Intellenum(typeof(int))]
-public partial class MyVo {{ }}
+public partial class MyEnum {{ }}
 
 public class Test {{
     public Test() {{
-        var c = {{|#0:new MyVo()|}};
-        MyVo c2 = {{|#1:new()|}};
+        var c = {{|#0:new MyEnum()|}};
+        MyEnum c2 = {{|#1:new()|}};
     }}
 }}
 ";
             await Run(
                 source,
-                WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyVo", 0, 1));
+                WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyEnum", 0, 1));
         }
 
         [Fact]
@@ -67,17 +91,17 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial class MyVo {{ }}
+public partial class MyEnum {{ }}
 
 public class Test {{
-    public MyVo Get() => {{|#0:new MyVo()|}};
-    public MyVo Get2() => {{|#1:new MyVo()|}};
+    public MyEnum Get() => {{|#0:new MyEnum()|}};
+    public MyEnum Get2() => {{|#1:new MyEnum()|}};
 }}
 ";
 
             await Run(
                 source,
-                WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyVo", 0, 1));
+                WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyEnum", 0, 1));
         }
 
         [Fact]
@@ -88,19 +112,19 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial class MyVo {{ }}
+public partial class MyEnum {{ }}
 
 public class Test {{
     public Test() {{
-        MyVo Get() => {{|#0:new MyVo()|}};
-        MyVo Get2() => {{|#1:new()|}};
+        MyEnum Get() => {{|#0:new MyEnum()|}};
+        MyEnum Get2() => {{|#1:new()|}};
     }}
 }}
 ";
 
             await Run(
                 source,
-                WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyVo", 0, 1));
+                WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyEnum", 0, 1));
         }
 
         [Fact]
@@ -113,20 +137,20 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-public partial class MyVo {{ }}
+public partial class MyEnum {{ }}
 
 public class Test {{
-        Func<MyVo> f = () =>  {{|#0:new MyVo()|}};
-        Func<MyVo> f2 = () =>  {{|#1:new()|}};
-        Func<int, int, MyVo, string, MyVo> f3 = (a,b,c,d) =>  {{|#2:new MyVo()|}};
-        Func<int, int, MyVo, string, MyVo> f4 = (a,b,c,d) =>  {{|#3:new()|}};
-        Func<int, int, MyVo, string, Task<MyVo>> f5 = async (a,b,c,d) => await Task.FromResult({{|#4:new MyVo()|}});
+        Func<MyEnum> f = () =>  {{|#0:new MyEnum()|}};
+        Func<MyEnum> f2 = () =>  {{|#1:new()|}};
+        Func<int, int, MyEnum, string, MyEnum> f3 = (a,b,c,d) =>  {{|#2:new MyEnum()|}};
+        Func<int, int, MyEnum, string, MyEnum> f4 = (a,b,c,d) =>  {{|#3:new()|}};
+        Func<int, int, MyEnum, string, Task<MyEnum>> f5 = async (a,b,c,d) => await Task.FromResult({{|#4:new MyEnum()|}});
 }}
 ";
 
             await Run(
                 source,
-                WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyVo", 0, 1, 2, 3, 4));
+                WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyEnum", 0, 1, 2, 3, 4));
         }
 
         [Fact(DisplayName = "Bug https://github.com/SteveDunn/INTELLENUMen/issues/182")]

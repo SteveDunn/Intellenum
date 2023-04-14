@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Intellenum;
 
-internal static class VoFilter
+internal static class IntellenumFilter
 {
     /// <summary>
     /// This is stage 1 in the pipeline - the 'quick filter'.  We find out is it a type declaration and does it have any attributes? - don't allocate anything
@@ -53,23 +53,6 @@ internal static class VoFilter
         return null;
     }
 
-    public static bool IsTarget(INamedTypeSymbol? voClass)
-    {
-        if (voClass == null)
-        {
-            return false;
-        }
-
-        ImmutableArray<AttributeData> attributes = voClass.GetAttributes();
-
-        if (attributes.Length == 0)
-        {
-            return false;
-        }
-
-        AttributeData? voAttribute =
-            attributes.SingleOrDefault(a => a.AttributeClass?.FullName() is "Intellenum.IntellenumAttribute");
-
-        return voAttribute is not null;
-    }
+    public static bool IsTarget(INamedTypeSymbol? voClass) => 
+        voClass is not null && TryGetIntellenumAttributes(voClass).Any();
 }

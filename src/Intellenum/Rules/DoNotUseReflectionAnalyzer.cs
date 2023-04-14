@@ -67,7 +67,7 @@ public class DoNotUseReflectionAnalyzer : DiagnosticAnalyzer
     {
         if (typeInfo is not INamedTypeSymbol symbol) return;
 
-        if (!VoFilter.IsTarget(symbol)) return;
+        if (!IntellenumFilter.IsTarget(symbol)) return;
 
         var diagnostic = DiagnosticsCatalogue.BuildDiagnostic(_rule, symbol.Name, location);
 

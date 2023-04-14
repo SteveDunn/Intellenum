@@ -43,7 +43,7 @@ public class DoNotUseNewAnalyzer : DiagnosticAnalyzer
 
         if (c.Type is not INamedTypeSymbol symbol) return;
 
-        if (!VoFilter.IsTarget(symbol)) return;
+        if (!IntellenumFilter.IsTarget(symbol)) return;
         if (IsContainedWithinIntellenumTypeItself(c)) return;
 
         var diagnostic = DiagnosticsCatalogue.BuildDiagnostic(_rule, symbol.Name, context.Operation.Syntax.GetLocation());
@@ -60,6 +60,6 @@ public class DoNotUseNewAnalyzer : DiagnosticAnalyzer
             syntaxNode = syntaxNode.Parent;
         }
 
-        return syntaxNode is ClassDeclarationSyntax cds && VoFilter.IsTarget(cds);
+        return syntaxNode is ClassDeclarationSyntax cds && IntellenumFilter.IsTarget(cds);
     }
 }

@@ -70,7 +70,7 @@ public class DoNotUseDefaultAnalyzer : DiagnosticAnalyzer
         var typeInfo = ctx.SemanticModel.GetTypeInfo(literalExpressionSyntax).Type;
         if (typeInfo is not INamedTypeSymbol symbol) return;
 
-        if (!VoFilter.IsTarget(symbol)) return;
+        if (!IntellenumFilter.IsTarget(symbol)) return;
 
         var diagnostic = DiagnosticsCatalogue.BuildDiagnostic(_rule, symbol.Name, literalExpressionSyntax.GetLocation());
 

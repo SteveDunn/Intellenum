@@ -28,8 +28,8 @@ namespace Intellenum
         private static IncrementalValueProvider<(ImmutableArray<VoTarget> Left, ImmutableArray<AttributeSyntax> Right)> GetTargets(IncrementalGeneratorInitializationContext context)
         {
             IncrementalValuesProvider<VoTarget> voFilter = context.SyntaxProvider.CreateSyntaxProvider(
-                    predicate: static (s, _) => VoFilter.IsTarget(s),
-                    transform: static (ctx, _) => VoFilter.TryGetTarget(ctx))
+                    predicate: static (s, _) => IntellenumFilter.IsTarget(s),
+                    transform: static (ctx, _) => IntellenumFilter.TryGetTarget(ctx))
                 .Where(static m => m is not null)!;
 
             IncrementalValuesProvider<AttributeSyntax> globalConfigFilter = context.SyntaxProvider.CreateSyntaxProvider(
