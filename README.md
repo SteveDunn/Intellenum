@@ -11,10 +11,41 @@
 </p>
 
 [![Sparkline](https://stars.medv.io/stevedunn/intellenum.svg)](https://stars.medv.io/stevedunn/intellenum)
-## Give a Star! :star:
-If you like or are using this project please give it a star. Thanks!
+# Give a Star!
+:star: If you like or are using this project please give it a star. Thanks! :star:
 
 # Intellenum: intelligence, for your enums!
+
+
+<!-- TOC -->
+  * [Give a Star!](#give-a-star)
+* [Intellenum: intelligence, for your enums!](#intellenum-intelligence-for-your-enums)
+  * [Overview](#overview)
+  * [Installation](#installation)
+  * [Usage](#usage)
+    * [Configuration](#configuration)
+    * [Underlying types](#underlying-types)
+    * [Hoisting](#hoisting)
+    * [FromName](#fromname)
+    * [TryFromName](#tryfromname)
+    * [FromValue](#fromvalue)
+    * [TryFromValue](#tryfromvalue)
+    * [List](#list)
+    * [Deconstructing](#deconstructing)
+    * [ToString](#tostring)
+    * [Serialization](#serialization)
+* [Comparison with other libraries](#comparison-with-other-libraries)
+* [FAQ](#faq)
+  * [How fast is it? ⚡](#how-fast-is-it-)
+  * [What does `ToString` return?](#what-does-tostring-return)
+  * [What can the `TypeConverters` convert to and from?](#what-can-the-typeconverters-convert-to-and-from)
+  * [Can it serialize/deserialize?](#can-it-serializedeserialize)
+  * [I use an Intellenum as a key in a Dictionary - can I serialize that dictionary?](#i-use-an-intellenum-as-a-key-in-a-dictionary---can-i-serialize-that-dictionary)
+  * [A look at the generated code](#a-look-at-the-generated-code)
+<!-- TOC -->
+
+
+## Overview
 
 Intellenum is an open source C# project that provides a fast and efficient way to deal with enums. 
 It uses source generation that generates backing code for extremely fast, and allocation-free, lookups, 
@@ -30,7 +61,7 @@ Benchmarks are provided below, but here is a snippet showing the performance gai
 | **Intellenums** | **0.0022 ns** | **0.0031 ns**   | **0.0027 ns**   | **0.0010 ns**    | **-**      | **-**         |
 
 
-## Usage
+## Installation
 
 Add the NuGet package to your project:
 
@@ -38,7 +69,9 @@ Add the NuGet package to your project:
 Install-Package Intellenum
 ```
 
-Then, using the `Intellenum` namespace, declare an enumeration like this:
+## Usage
+
+To get started, add a using for the `Intellenum` namespace and declare an enumeration like this:
 
 ```csharp
 [Intellenum]
@@ -125,7 +158,7 @@ Those again are optional. If they're not specified, then they are defaulted to:
 * Customizations = `Customizations.None`
 
 ### Underlying types
-Supports underlying types such as `byte`, `sbyte`, `short`, `ushort`, `int`, `uint`, `long`, `ulong`, `char`, `string`, and `bool`, 
+Supports underlying types such as `byte`, `sbyte`, `short`, `ushort`, `int`, `uint`, `long`, `ulong`, `char`, `string`, and `bool`. 
 
 Also supports other types such as `Guid`, `DateTime`, `DateTimeOffset`, `TimeSpan`, `DateOnly`, `TimeOnly` etc.
 
@@ -135,7 +168,7 @@ You can also specify a custom type, e.g. `MyCustomType`. There are some restrict
 
 ###  Hoisting
 If the underlying type implements `IComparable`, then the generated enum code will also implement `IComparable`. 
-It generated code will delegate to the underlying type's implementation. This means that you can use the `>` and `<` 
+The code that is generated will delegate to the underlying type's implementation. This means that you can use the `>` and `<` 
 operators on the enum type. e.g.
 
 ```csharp
@@ -155,11 +188,13 @@ public record class Planet(string Colour, int CircumferenceInMiles) : IComparabl
 Console.WriteLine(PlanetEnum.Mars < PlanetEnum.Jupiter); // true
 
 Console.WriteLine(string.Join(", ", PlanetEnum.List().OrderDescending())); // Jupiter, Venus, Mars
-
 ```
+
 Additionally, if the underlying type contains a static method named `TryParse`, then a `TryParse` method will be generated for the enum itself.
 This `TryParse` method is useful if you want to find an enum by an alternative representation of its value.
-The generated `TryParse` first calls the static `TryParse` on the underlying type, and then does a lookup with `TryFromValue`
+The generated `TryParse` first calls the static `TryParse` on the underlying type, and then does a lookup with `TryFromValue`.
+The code below demonstrates this. The enum has an underlying type of `Planet`, which has a `TryParse` method that parses a string in the format `'Colour-Circumference'.
+Because the underlying type has a `TryParse` method, the generated enum also has a `TryParse` method which delegates to the underlying type's `TryParse` method:
 
 ```csharp
 [Intellenum(typeof(Planet))]
@@ -285,12 +320,11 @@ Intellenum is a mixture of both. It uses an attribute to specify an 'enum' and t
 
 # FAQ
 
-## How fast is it?
+## How fast is it? ⚡
 
 Very fast! Here's some comparisons of various libraries (and the default `enum` in C#) 
 
-### `IsDefined`
-... or `TryFromValue`
+* `IsDefined` ... or `TryFromValue`
 
 | Method          | Mean          | Error       | StdDev      | Median       | Gen0   | Allocated |
 |-----------------|---------------|-------------|-------------|--------------|--------|-----------|
@@ -299,7 +333,7 @@ Very fast! Here's some comparisons of various libraries (and the default `enum` 
 | SmartEnums      | 13.1542 ns    | 0.0863 ns   | 0.0720 ns   | 13.1441 ns   | -      | -         |
 | **Intellenums** | **0.0022 ns** | **0.0031 ns**   | **0.0027 ns**   | **0.0010 ns**    | **-**      | **-**         |
 
-### `ToString()`
+* `ToString()`
 
 | Method          | Mean          | Error       | StdDev      | Gen0   | Allocated  |
 |-----------------|---------------|-------------|-------------|--------|------------|
@@ -308,7 +342,7 @@ Very fast! Here's some comparisons of various libraries (and the default `enum` 
 | SmartEnums      | 0.8921 ns     | 0.0109 ns   | 0.0096 ns   | -      | -          |
 | **Intellenums** | **0.8934 ns** | **0.0193 ns**   | **0.0180 ns**   | **-**      | **-**          |
 
-### `FromName()`
+* `FromName()`
 
 | Method         | Mean        | Error      | StdDev     | Allocated | Example |
 |----------------|------------|------------|------------|-----------|------|
@@ -317,8 +351,7 @@ Very fast! Here's some comparisons of various libraries (and the default `enum` 
 | SmartEnums     | 30.719 ns  | 0.4043 ns  | 0.3782 ns  | -         |                   `CustomerType.TryFromName( "Gold", out _)` |
 | **Intellenums**    | **11.460 ns** | **0.2545 ns** | **0.2380 ns** | **-**         |   **`CustomerType.TryFromName("Standard", out _)`** |
 
-### `Value`
-_note that EnumGenerators isn't here as we use the standard C# enum to get its value_
+* `Value` (_note that EnumGenerators isn't here as we use the standard C# enum to get its value_)
 
 | Method         | Mean       | Error      | StdDev     | Allocated |
 |----------------|-----------|------------|------------|-----------|
@@ -326,15 +359,15 @@ _note that EnumGenerators isn't here as we use the standard C# enum to get its v
 | SmartEnums     | 0.3246 ns | 0.0082 ns  | 0.0069 ns  | -         |
 | **Intellenums**   | **0.3198 ns** | **0.0103 ns** | **0.0096 ns** | **-**         |
 
-### What does `ToString` return?
+## What does `ToString` return?
 It returns the **name** of the member.
 There is also a TypeConverter; when this is asked to convert a member to a `string',
 it returns the **value** of the member as a string.
 
-### What can the `TypeConverters` convert to and from?
+## What can the `TypeConverters` convert to and from?
 They can convert an underlying type back to a matching enum.
 
-### Can it serialize/deserialize?
+## Can it serialize/deserialize?
 Yes, it can. There's various ways to do this, including:
 * System.Text.Json
 * Newtonsoft.Json
@@ -345,10 +378,10 @@ Yes, it can. There's various ways to do this, including:
 
 Right now, Intellenum serializes using the `Value` property just like native enums.
 
-### I use an Intellenum as a key in a Dictionary - can I serialize that dictionary?
+## I use an Intellenum as a key in a Dictionary - can I serialize that dictionary?
 Yes, at least if you use `System.Text.Json`. 
 
-## A look at the generated code
+# A look at the generated code
 For compile-time constant (and `decimal`) values, a switch expression is generated for `IsDefined`:
 
 ```csharp
@@ -419,7 +452,7 @@ A 'compile time constant' is one of the following:
 * string
 * decimal
 
-For underlying types that are not one of these, these a lookup table is used.
+For underlying types that are not one of these, then a lookup table is used.
 Why is a lookup table used if the underlying is not one of the above? It is because the left hand side of a switch expression must be 
 a constant expression.
 A constant expression is used in the 'constant pattern' of the switch expression. The 'constant pattern' is [described as](https://learn.microsoft.com/en-US/dotnet/csharp/language-reference/operators/patterns#constant-pattern):
@@ -435,8 +468,7 @@ A constant expression is used in the 'constant pattern' of the switch expression
 > * null
 
 So, types like `Guid` and `DateTime` are not allowed on the left hand side of a switch expression (but Span<>'s are).
-The alternative in this case is to use a dictionary to map between names and values
-
+The alternative in this case is to use a dictionary to map between names and values.
 
 
 > NOTE: Intellenum is in beta at the moment; I've tested it out and I think it works. The main functionality is present and the API probably 
