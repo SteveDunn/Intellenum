@@ -12,26 +12,21 @@ namespace Intellenum.Examples.SyntaxExamples.NoDefaulting
     {
         public Naughty()
         {
-            // uncomment for - error VOG009: Type 'CustomerType' cannot be constructed with default as it is prohibited.
+            // uncomment for - error INTELLENUM09: Type 'CustomerType' cannot be constructed with default as it is prohibited.
             // CustomerType c = default; 
-            var c2 = default(CustomerType);
+            // var c2 = default(CustomerType);
 
-            // uncomment for - error VOG010: Type 'VendorId' cannot be constructed with 'new' as it is prohibited.
-            var v3 = new CustomerType();
-
-
-            CallMe();            
-            
-            
-            CustomerType v5 = new();
+            // uncomment for - error INTELLENUM010: Type 'VendorId' cannot be constructed with 'new' as it is prohibited.
+            // var v3 = new CustomerType();
+            // CustomerType v5 = new();
         }
 
         // a method can't accept a Intellenum and default it
-        // error VOG009: Type 'CustomerType' cannot be constructed with default as it is prohibited
-        public static void CallMe(CustomerType customerId = default)
-        {
-            int _ = customerId.Value;
-        }
+        // error INTELLENUM09: Type 'CustomerType' cannot be constructed with default as it is prohibited
+        // public static void CallMe(CustomerType customerId = default)
+        // {
+        //     int _ = customerId.Value;
+        // }
     }
 
     [Intellenum]
