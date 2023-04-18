@@ -51,6 +51,28 @@ Intellenum is an open source C# project that provides a fast and efficient way t
 It uses source generation that generates backing code for extremely fast, and allocation-free, lookups, 
 with the `FromName` and `FromValue` methods (and the equivalent `Try...` methods).
 
+
+```csharp
+[Intellenum]
+public partial class CustomerType
+{
+    public static readonly CustomerType Standard = new(1);
+    public static readonly CustomerType Gold = new(2);
+}
+```
+
+As well as speed, it also has code analyzers for safety; safety from defaulting, e.g.:
+
+> ![img.png](assets/img.png)
+
+or:
+
+> ![img_1.png](assets/img_1.png)
+
+or:
+
+> ![img_2.png](assets/img_2.png)
+
 Intellenum provides speed benefits over standard enums for when you need to see if an enum has a member 
 of a particular name or value.
 Benchmarks are provided below, but here is a snippet showing the performance gains for using `IsDefined`:
@@ -83,7 +105,7 @@ public partial class CustomerType
 ```
 
 Note that you **don't need to repeat the member name** as it is inferred from the field name **at compile time**. 
-You can also supply different name, e.g.:
+You can also supply a different name, e.g.:
 ```csharp
 public static readonly CustomerType Standard = new("STD", 1);
 ```
@@ -142,18 +164,16 @@ Each Intellenum can have it's own *optional* configuration. Configuration includ
 
 * The underlying type
 * Any 'conversions' (Dapper, System.Text.Json, Newtonsoft.Json, etc.) - see below for more information
-* Any 'customization' (for instance, treating a number as string in JSON serialization)
-* The type of the exception that is thrown when validation fails
+* Any 'customizations' (for instance, treating a number as string in JSON serialization)
 
-If any of those above are not specified, then global configuration is inferred. It looks like this:
+If any of those above are not specified, then global configuration is used. You can define global config like this:
 
 ```csharp
 [assembly: IntellenumDefaults(underlyingType: typeof(int), conversions: Conversions.Default)]
 ```
+Those values are all optional and default to:
 
-Those again are optional. If they're not specified, then they are defaulted to:
-
-* Underlying type = `typeof(int)`
+* Underlying type = `int`
 * Conversions = `Conversions.Default` (`TypeConverter` and `System.Text.Json`)
 * Customizations = `Customizations.None`
 
