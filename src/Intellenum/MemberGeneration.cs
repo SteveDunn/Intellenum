@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -111,9 +111,10 @@ public static class MemberGeneration
                 if(propertyValue is string s)
                 {
                     var parsed = DateTimeOffset.Parse(s, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
+                    var utcParsed = new DateTimeOffset(parsed.DateTime, TimeSpan.Zero);
 
                     return new(true,
-                        $@"global::System.DateTimeOffset.Parse(""{parsed:O}"", null, global::System.Globalization.DateTimeStyles.RoundtripKind)");
+                        $@"global::System.DateTimeOffset.Parse(""{utcParsed:O}"", null, global::System.Globalization.DateTimeStyles.RoundtripKind)");
                 }
 
                 if(propertyValue is long l)
