@@ -70,7 +70,7 @@
     <ItemGroup>
       <PackageReference Include="Ardalis.SmartEnum" Version="7.0.0" />
       <PackageReference Include="BenchmarkDotNet" Version="0.13.6" />
-      <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta07" PrivateAssets="all" ExcludeAssets="runtime" />
+      <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta08" PrivateAssets="all" ExcludeAssets="runtime" />
     </ItemGroup>
 
     <ItemGroup>
