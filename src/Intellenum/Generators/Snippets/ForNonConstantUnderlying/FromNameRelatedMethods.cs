@@ -1,3 +1,4 @@
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Intellenum.Generators.Snippets.ForNonConstantUnderlying;
@@ -27,7 +28,7 @@ public static class FromNameRelatedMethods
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(ReadOnlySpan<char> name, out {className} member)
         {{
-            {GenerateTryFromNameImplementation()}
+            {GenerateTryFromNameImplementation(className)}
         }}
 
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -48,8 +49,23 @@ public static class FromNameRelatedMethods
     throw new {{nameof(IntellenumMatchFailedException)}}($"{{item.VoTypeName}} has no matching members named '{name}'");
 """;
 
-    private static string GenerateTryFromNameImplementation() => 
-        "return _namesToEnums.Value.TryGetValue(name, out member);";
+    private static string GenerateTryFromNameImplementation(SyntaxToken className) =>
+        $$"""
+        // Not a fan of using foreach here, but Dictionary<,>.KeyCollection is a bit limited
+        foreach (var key in _namesToEnums.Value.Keys)
+        {
+            if (key.AsSpan() != name)
+            {
+                continue;
+            }
+            
+            member = _namesToEnums.Value[key];
+            return true;
+        }
+        
+        member = default({{className}});
+        return false;
+        """;
 
     private static string GenerateIsNameDefinedImplementation() =>
         """
