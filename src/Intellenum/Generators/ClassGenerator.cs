@@ -1,4 +1,4 @@
-﻿using Intellenum.Generators.Snippets;
+using Intellenum.Generators.Snippets;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Intellenum.Generators;
@@ -13,6 +13,7 @@ public class ClassGenerator : IGenerateSourceCode
         
         return $@"
 using Intellenum;
+using System;
 {Util.TryWriteNamespaceIfSpecified(item)}
 
 {Util.WriteStartNamespace(item.FullNamespace)}

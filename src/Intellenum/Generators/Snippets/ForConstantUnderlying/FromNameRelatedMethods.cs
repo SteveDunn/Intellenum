@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Intellenum.Generators.Snippets.ForConstantUnderlying;
@@ -15,7 +15,7 @@ public static class FromNameRelatedMethods
         /// </summary>
         /// <param name=""name"">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static {className} FromName(string name)
+        public static {className} FromName(ReadOnlySpan<char> name)
         {{
             {GenerateFromNameImplementation(item)}
         }}
@@ -26,13 +26,13 @@ public static class FromNameRelatedMethods
         /// <param name=""name"">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool TryFromName(string name, out {className} member)
+        public static bool TryFromName(ReadOnlySpan<char> name, out {className} member)
         {{
             {GenerateTryFromNameImplementation(item)}
         }}
 
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool IsNamedDefined(string name)
+        public static bool IsNamedDefined(ReadOnlySpan<char> name)
         {{
             {GenerateIsNameDefinedImplementation()}
         }}
