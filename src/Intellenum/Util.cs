@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Intellenum.Generators.Conversions;
@@ -208,9 +208,14 @@ causes Rider's debugger to crash.
 
     public static string TryWriteNamespaceIfSpecified(VoWorkItem item)
     {
-        if (!string.IsNullOrEmpty(item.UnderlyingType.FullNamespace()))
-            return "using " + item.UnderlyingType.FullNamespace() + ";";
+        var fullNamespace = item.UnderlyingType.FullNamespace();
 
-        return string.Empty;
+        // Should ignore using of System namespace as it's provided externally
+        if (string.IsNullOrEmpty(fullNamespace) || fullNamespace == "System")
+        {
+            return string.Empty;
+        }
+
+        return $"using {fullNamespace};";
     }
 }
