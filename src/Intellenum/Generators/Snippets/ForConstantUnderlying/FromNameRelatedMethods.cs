@@ -5,7 +5,7 @@ namespace Intellenum.Generators.Snippets.ForConstantUnderlying;
 
 public static class FromNameRelatedMethods
 {
-    public static string Generate(VoWorkItem item, TypeDeclarationSyntax tds)
+    public static string Generate(VoWorkItem item, TypeDeclarationSyntax tds, bool isNetFramework)
     {
         var className = tds.Identifier;
 
