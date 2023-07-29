@@ -10,7 +10,7 @@ public static class FromNameRelatedMethods
         var className = tds.Identifier;
 
         string s = $@"
-#if NET46 || NET47
+#if NET46 || NET47 || NETSTANDARD2_0
 #region .NET Framework Compatability Methods
 
         /// <summary>
