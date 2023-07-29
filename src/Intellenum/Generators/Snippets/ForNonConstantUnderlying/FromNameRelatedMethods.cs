@@ -5,43 +5,44 @@ namespace Intellenum.Generators.Snippets.ForNonConstantUnderlying;
 
 public static class FromNameRelatedMethods
 {
+    private const string NetFrameworkCompatabilityMethods = """
+        #region .NET Framework Compatability Methods
+
+                /// <summary>
+                /// Gets the matching member based on name.
+                /// </summary>
+                /// <param name=""name"">The name.</param>
+                /// <returns>The matching enum, or an exception.</returns>
+                public static {className} FromName(string name)
+                {{
+                    return FromName(name.AsSpan());
+                }}
+
+                /// <summary>
+                /// Tries to get the matching member from a name.
+                /// </summary>
+                /// <param name=""name"">The name.</param>
+                /// <returns>The matching enum, or an exception.</returns>
+                [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+                public static bool TryFromName(string name, out {className} member)
+                {{
+                    return TryFromName(name.AsSpan(), out member);
+                }}
+
+                [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+                public static bool IsNamedDefined(string name)
+                {{
+                    return IsNameDefined(name.AsSpan());
+                }}
+
+        #endregion
+        
+        """;
     public static string Generate(VoWorkItem item, TypeDeclarationSyntax tds, bool isNetFramework)
     {
         var className = tds.Identifier;
 
         string s = $@"
-#if NET46 || NET47 || NETSTANDARD2_0
-#region .NET Framework Compatability Methods
-
-        /// <summary>
-        /// Gets the matching member based on name.
-        /// </summary>
-        /// <param name=""name"">The name.</param>
-        /// <returns>The matching enum, or an exception.</returns>
-        public static {className} FromName(string name)
-        {{
-            return FromName(name.AsSpan());
-        }}
-
-        /// <summary>
-        /// Tries to get the matching member from a name.
-        /// </summary>
-        /// <param name=""name"">The name.</param>
-        /// <returns>The matching enum, or an exception.</returns>
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool TryFromName(string name, out {className} member)
-        {{
-            return TryFromName(name.AsSpan(), out member);
-        }}
-
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool IsNamedDefined(string name)
-        {{
-            return IsNameDefined(name.AsSpan());
-        }}
-
-#endregion
-#endif
         /// <summary>
         /// Gets the matching member based on name.
         /// </summary>
@@ -70,7 +71,7 @@ public static class FromNameRelatedMethods
         }}
         ";
 
-        return s;
+        return isNetFramework ? NetFrameworkCompatabilityMethods + s : s;
     }
         
         
