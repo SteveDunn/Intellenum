@@ -46,7 +46,7 @@ public static class FromNameRelatedMethods
         $$"""
     bool b = TryFromName(name, out var ret);
     if(b) return ret;
-    throw new {{nameof(IntellenumMatchFailedException)}}($"{{item.VoTypeName}} has no matching members named '{name}'");
+    throw new {{nameof(IntellenumMatchFailedException)}}($"{{item.VoTypeName}} has no matching members named '{name.ToString()}'");
 """;
 
     public static string GenerateTryFromNameImplementation(VoWorkItem item)
