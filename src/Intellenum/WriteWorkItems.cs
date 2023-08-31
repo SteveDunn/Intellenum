@@ -1,4 +1,4 @@
-﻿// The symbol 'Environment' is banned for use by analyzers: see https://github.com/dotnet/roslyn-analyzers/issues/6467 
+// The symbol 'Environment' is banned for use by analyzers: see https://github.com/dotnet/roslyn-analyzers/issues/6467 
 #pragma warning disable RS1035
 
 using System;
@@ -41,12 +41,12 @@ internal static class WriteWorkItems
 
     static WriteWorkItems() => _classGenerator = new ClassGenerator();
 
-    public static void WriteVo(VoWorkItem item, SourceProductionContext context)
+    public static void WriteVo(VoWorkItem item, SourceProductionContext context, bool isNetFramework)
     {
         // get the recorded user class
         TypeDeclarationSyntax voClass = item.TypeToAugment;
 
-        string classAsText = _generatedPreamble + Environment.NewLine + ((IGenerateSourceCode) _classGenerator).BuildClass(item, voClass);
+        string classAsText = _generatedPreamble + Environment.NewLine + ((IGenerateSourceCode) _classGenerator).BuildClass(item, voClass, isNetFramework);
 
         SourceText sourceText = SourceText.From(classAsText, Encoding.UTF8);
         

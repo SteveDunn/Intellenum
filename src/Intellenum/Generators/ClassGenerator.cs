@@ -1,11 +1,11 @@
-﻿using Intellenum.Generators.Snippets;
+using Intellenum.Generators.Snippets;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Intellenum.Generators;
 
 public class ClassGenerator : IGenerateSourceCode
 {
-    public string BuildClass(VoWorkItem item, TypeDeclarationSyntax tds)
+    public string BuildClass(VoWorkItem item, TypeDeclarationSyntax tds, bool isNetFramework)
     {
         var className = tds.Identifier;
 
@@ -13,6 +13,7 @@ public class ClassGenerator : IGenerateSourceCode
         
         return $@"
 using Intellenum;
+using System;
 {Util.TryWriteNamespaceIfSpecified(item)}
 
 {Util.WriteStartNamespace(item.FullNamespace)}
@@ -76,9 +77,9 @@ using Intellenum;
             Value = this.Value;
         }}
 
-        {SnippetGenerationFactory.Generate(item, tds, SnippetType.FromValueRelateMethods)}
+        {SnippetGenerationFactory.Generate(item, tds, SnippetType.FromValueRelateMethods, isNetFramework)}
 
-        {SnippetGenerationFactory.Generate(item, tds, SnippetType.FromNameRelatedMethods)}
+        {SnippetGenerationFactory.Generate(item, tds, SnippetType.FromNameRelatedMethods, isNetFramework)}
 
         /// <summary>
         /// Builds a member from the provided underlying type.

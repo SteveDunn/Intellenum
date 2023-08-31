@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Intellenum.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -72,7 +73,7 @@ namespace Intellenum
             {
                 foreach (var eachWorkItem in workItems)
                 {
-                    WriteWorkItems.WriteVo(eachWorkItem, context);
+                    WriteWorkItems.WriteVo(eachWorkItem, context, compilation.TargetsDotNetFramework());
                 }
             }
         }

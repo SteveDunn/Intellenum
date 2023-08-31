@@ -1,8 +1,8 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Intellenum.Generators;
 
 public interface IGenerateSourceCode
 {
-    string BuildClass(VoWorkItem item, TypeDeclarationSyntax tds);
+    string BuildClass(VoWorkItem item, TypeDeclarationSyntax tds, bool isNetFramework);
 }
