@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Intellenum;
 
@@ -17,15 +16,8 @@ public class IntellenumException : Exception
     public IntellenumException(string message, Exception inner) : base(message, inner)
     {
     }
-
-    protected IntellenumException(
-        SerializationInfo info,
-        StreamingContext context) : base(info, context)
-    {
-    }
 }
 
-[Serializable]
 public class IntellenumUninitialisedException : IntellenumException
 {
     public IntellenumUninitialisedException()
@@ -39,14 +31,8 @@ public class IntellenumUninitialisedException : IntellenumException
     public IntellenumUninitialisedException(string message, Exception inner) : base(message, inner)
     {
     }
-
-    protected IntellenumUninitialisedException(
-        SerializationInfo info,
-        StreamingContext context) : base(info, context)
-    {
-    }
 }
-[Serializable]
+
 public class IntellenumCreationFailedException : IntellenumException
 {
     public IntellenumCreationFailedException()
@@ -60,15 +46,8 @@ public class IntellenumCreationFailedException : IntellenumException
     public IntellenumCreationFailedException(string message, Exception inner) : base(message, inner)
     {
     }
-
-    protected IntellenumCreationFailedException(
-        SerializationInfo info,
-        StreamingContext context) : base(info, context)
-    {
-    }
 }
 
-[Serializable]
 public class IntellenumMatchFailedException : IntellenumException
 {
     public IntellenumMatchFailedException()
@@ -80,12 +59,6 @@ public class IntellenumMatchFailedException : IntellenumException
     }
 
     public IntellenumMatchFailedException(string message, Exception inner) : base(message, inner)
-    {
-    }
-
-    protected IntellenumMatchFailedException(
-        SerializationInfo info,
-        StreamingContext context) : base(info, context)
     {
     }
 }
