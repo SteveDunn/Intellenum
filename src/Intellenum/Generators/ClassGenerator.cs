@@ -26,6 +26,8 @@ using System;
         global::System.IComparable, 
         global::System.IComparable<{className}> 
     {{
+        {MemberGeneration.GenerateConstValuesIfPossible(item)}
+
         {Util.GenerateLazyLookupsIfNeeded(item)}
 
 #if DEBUG    
