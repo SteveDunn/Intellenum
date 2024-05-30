@@ -28,7 +28,7 @@ public partial class CustomerType
         new SnapshotRunner<IntellenumGenerator>()
             .WithSource(source)
             .IgnoreInitialCompilationErrors()
-            .RunOn(TargetFramework.Net7_0);
+            .RunOn(TargetFramework.Net8_0);
 
     [SkippableFact]
     public Task No_namespace() =>

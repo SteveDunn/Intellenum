@@ -94,7 +94,13 @@ namespace Shared
                     AddNuGetReference("linq2db", "4.3.0", "lib/net6.0/");
                     AddNuGetReference("Microsoft.EntityFrameworkCore", "7.0.0", "lib/net6.0/");
                     AddNuGetReference("Dapper", "2.0.123", "lib/net5.0/");
+                    break;
 
+                case TargetFramework.Net8_0:
+                    AddNuGetReference("Microsoft.NETCore.App.Ref", "8.0.0", "ref/net8.0/");
+                    AddNuGetReference("linq2db", "4.3.0", "lib/net6.0/"); // TODO: Update?
+                    AddNuGetReference("Microsoft.EntityFrameworkCore", "8.0.0", "lib/net8.0/");
+                    AddNuGetReference("Dapper", "2.0.123", "lib/net5.0/"); // TODO: Update?
                     break;
 
                 case TargetFramework.AspNetCore5_0:
@@ -122,7 +128,7 @@ namespace Shared
 
             AddNuGetReference("System.Collections.Immutable", "1.5.0", "lib/netstandard2.0/");
             
-            if (TargetFramework != TargetFramework.Net7_0)
+            if (TargetFramework is not TargetFramework.Net7_0 and not TargetFramework.Net8_0)
             {
                 AddNuGetReference("System.Numerics.Vectors", "4.5.0", "ref/netstandard2.0/");
 //                AddNuGetReference("System.Memory", "4.5.5", "lib/net462/");
