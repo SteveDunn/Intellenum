@@ -2,7 +2,6 @@
 
 namespace Intellenum;
 
-[Serializable]
 public class IntellenumException : Exception
 {
     public IntellenumException()
