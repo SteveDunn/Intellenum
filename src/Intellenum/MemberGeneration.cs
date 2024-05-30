@@ -211,7 +211,7 @@ public static class MemberGeneration
         sb.AppendLine();
         foreach (var memberProperties in item.MemberProperties)
         {
-            sb.AppendLine($"public const {item.UnderlyingTypeFullName} {memberProperties.FieldName}Const = {memberProperties.ValueAsText};");
+            sb.AppendLine($"public const {item.UnderlyingTypeFullName} {memberProperties.FieldName}Value = {memberProperties.ValueAsText};");
         }
         
         return sb.ToString();
