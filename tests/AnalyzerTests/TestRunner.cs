@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Immutable;
-using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions.Execution;
 using Microsoft.CodeAnalysis;
 using Shared;
@@ -10,10 +10,10 @@ namespace AnalyzerTests
     public class TestRunner<T> where T : IIncrementalGenerator, new()
     {
         private readonly TargetFramework[] _allFrameworks = {
-            TargetFramework.Net6_0,
-            TargetFramework.Net7_0,
             TargetFramework.Net8_0,
 #if THOROUGH
+            TargetFramework.Net6_0,
+            TargetFramework.Net7_0,
             TargetFramework.Net4_6_1,
             TargetFramework.Net4_8,
             TargetFramework.NetCoreApp3_1,
@@ -24,9 +24,9 @@ namespace AnalyzerTests
         private Action<ImmutableArray<Diagnostic>>? _validationMethod;
         private string? _source;
 
-        public void RunOnAllFrameworks(bool ignoreInitialCompilationErrors = false)
+        public async Task RunOnAllFrameworks(bool ignoreInitialCompilationErrors = false)
         {
-            RunOn(
+            await RunOn(
                 ignoreInitialCompilationErrors,
                 _allFrameworks);
         }
@@ -36,7 +36,7 @@ namespace AnalyzerTests
             _source = source;
             return this;
         }
-
+        
         public TestRunner<T> ValidateWith(Action<ImmutableArray<Diagnostic>> method)
         {
             _validationMethod = method;
@@ -44,23 +44,10 @@ namespace AnalyzerTests
             return this;
         }
 
-        private void RunOn(bool ignoreInitialCompilationErrors,
-            params TargetFramework[] frameworks)
+        private async Task RunOn(bool ignoreInitialCompilationErrors, params TargetFramework[] frameworks)
         {
             _ = _source ?? throw new InvalidOperationException("No source!");
             _ = _validationMethod ?? throw new InvalidOperationException("No validation method!");
-
-#if NET8_0
-            // Only run .NET 8 tests when using the .NET 8 SDK
-            frameworks = frameworks.Where(framework => framework == TargetFramework.Net8_0).ToArray();
-#elif NET7_0
-            // Only run .NET 7 tests when using the .NET 7 SDK (prevents assembly versioning issues with <6.0)
-            frameworks = frameworks.Where(framework => framework == TargetFramework.Net7_0).ToArray();
-#elif NET6_0
-            // Alternatively, only run non-net7 tests when using the .NET 6 target
-            // as .NET 6 will use the .NET standard Intellenum binary (without C#11 support)
-            frameworks = frameworks.Where(framework => framework != TargetFramework.Net7_0 && framework != TargetFramework.Net8_0).ToArray();
-#endif
 
             // Skips tests targeting specific frameworks that were excluded above
             // NOTE: Requires [SkippableFact] attribute to be added to single-framework tests
@@ -70,7 +57,7 @@ namespace AnalyzerTests
             {
                 using var scope = new AssertionScope();
 
-                var (diagnostics, _) = GetGeneratedOutput(
+                var (diagnostics, _) = await GetGeneratedOutput(
                     _source,
                     eachFramework,
                     ignoreInitialCompilationErrors);
@@ -79,15 +66,16 @@ namespace AnalyzerTests
             }
         }
 
-        private static (ImmutableArray<Diagnostic> Diagnostics, string Output) GetGeneratedOutput(
+        private static async Task<(ImmutableArray<Diagnostic> Diagnostics, SyntaxTree[] GeneratedSource)> GetGeneratedOutput(
             string source,
             TargetFramework targetFramework, 
             bool ignoreInitialCompilationErrors)
         {
-            var results = new ProjectBuilder()
-                .WithSource(source)
+            var results =await new ProjectBuilder()
+                // .WithMicrosoftCodeAnalysisNetAnalyzers()
+                .WithUserSource(source)
                 .WithTargetFramework(targetFramework)
-                .GetGeneratedOutput<T>(ignoreInitialCompilationErrors, false);
+                .GetGeneratedOutput<T>(ignoreInitialCompilationErrors);
 
             return results;
         }

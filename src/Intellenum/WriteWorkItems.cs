@@ -36,6 +36,8 @@ internal static class WriteWorkItems
 // The generator copies signatures from the BCL, e.g. for `TryParse`, and some of those have nullable annotations.
 #pragma warning disable CS8669
 
+#pragma warning disable CS1573
+
 // Suppress warnings about CS1591: Missing XML comment for publicly visible type or member 'Type_or_Member'
 #pragma warning disable CS1591".Replace("\r\n", "\n").Replace("\n", Environment.NewLine); // normalize regardless of git checkout policy        
 
@@ -46,7 +48,7 @@ internal static class WriteWorkItems
         // get the recorded user class
         TypeDeclarationSyntax voClass = item.TypeToAugment;
 
-        string classAsText = _generatedPreamble + Environment.NewLine + ((IGenerateSourceCode) _classGenerator).BuildClass(item, voClass, isNetFramework);
+        string classAsText = _generatedPreamble + Environment.NewLine + _classGenerator.BuildClass(item, voClass, isNetFramework);
 
         SourceText sourceText = SourceText.From(classAsText, Encoding.UTF8);
         

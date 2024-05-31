@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Intellenum;
 using Microsoft.CodeAnalysis;
@@ -11,18 +12,18 @@ public class DisallowNonPartialTests
     [Theory]
     [InlineData("abstract class")]
     [InlineData("abstract record class")]
-    public void Disallows_non_partial_types(string type)
+    public async Task Disallows_non_partial_types(string type)
     {
         var source = $@"using Intellenum;
 
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public {type} CustomerType {{ }}
 ";
-        new TestRunner<IntellenumGenerator>()
+        await new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -32,9 +33,9 @@ public {type} CustomerType {{ }}
             diagnostics.Should().HaveCount(1);
             Diagnostic diagnostic = diagnostics.Single();
 
-            diagnostic.Id.Should().Be("VOG021");
+            diagnostic.Id.Should().Be("INTELLENUM021");
             diagnostic.ToString().Should()
-                .Match("*: error VOG021: Type CustomerId is decorated as a Value Object and should be in a partial type.");
+                .Match("*: error INTELLENUM021: Type CustomerType is decorated as an Intellenum and should be in a partial type.");
         }
     }
 }

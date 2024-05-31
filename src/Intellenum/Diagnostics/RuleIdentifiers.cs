@@ -1,8 +1,10 @@
 ﻿namespace Intellenum.Diagnostics;
 
-internal static class RuleIdentifiers
+public static class RuleIdentifiers
 {
     public const string AddValidationMethod = "AddValidationMethod";
+    public const string AddStaticToExistingValidationMethod = "AddStaticToExistingValidationMethod";
+    public const string FixInputTypeOfValidationMethod = "FixInputTypeOfValidationMethod";
 
     public const string TypeCannotBeNested = "INTELLENUM001";
     public const string UnderlyingTypeMustNotBeSameAsEnum = "INTELLENUM002";

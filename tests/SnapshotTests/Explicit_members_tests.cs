@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Intellenum;
 using VerifyXunit;
 
-namespace ScratchSnapshotTests
+namespace SnapshotTests
 {
     [UsesVerify]
     public class Explicit_members_tests

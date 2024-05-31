@@ -1,9 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-
-
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
@@ -17,8 +15,13 @@
     <DefineConstants>$(DefineConstants);THOROUGH</DefineConstants>
 </PropertyGroup>
 
+  <PropertyGroup Condition="'$(ResetSnapshots)'=='true'">
+    <DefineConstants>$(DefineConstants);RESET_SNAPSHOTS</DefineConstants>
+  </PropertyGroup>
+
+
   <ItemGroup>
-    <PackageReference Include="GitHubActionsTestLogger" Version="2.3.2">
+    <PackageReference Include="GitHubActionsTestLogger" Version="2.3.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -31,12 +34,12 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="FluentAssertions" Version="6.11.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
-    <PackageReference Include="Verify.SourceGenerators" Version="2.1.0" />
-    <PackageReference Include="Verify.Xunit" Version="20.4.0" />
-    <PackageReference Include="xunit" Version="2.4.2" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Verify.SourceGenerators" Version="2.2.0" />
+    <PackageReference Include="Verify.Xunit" Version="22.5.0" />
+    <PackageReference Include="xunit" Version="2.6.5" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -53,64 +56,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="xunit.runner.json" />
-    <None Include="TryParseHoisting\TryParseHoistingGenerationTests.cs" />
-    <None Update="TryParseHoisting\snapshots\snap-v6.0\partial_class_None.verified.txt">
-      <ParentFile>partial_class_None</ParentFile>
-      <DependentUpon>partial_class_None.cs</DependentUpon>
-    </None>
-    <None Update="TryParseHoisting\snapshots\snap-v6.0\partial_class_Method.verified.txt">
-      <ParentFile>partial_class_Method</ParentFile>
-      <DependentUpon>partial_class_Method.cs</DependentUpon>
-    </None>
-    <None Update="TryParseHoisting\snapshots\snap-v6.0\partial_class_ExpressionBodiedMethod.verified.txt">
-      <ParentFile>partial_class_ExpressionBodiedMethod</ParentFile>
-      <DependentUpon>partial_class_ExpressionBodiedMethod.cs</DependentUpon>
-    </None>
-    <None Update="TryParseHoisting\snapshots\snap-v7.0\partial_class_None.verified.txt">
-      <ParentFile>partial_class_None</ParentFile>
-      <DependentUpon>partial_class_None.cs</DependentUpon>
-    </None>
-    <None Update="TryParseHoisting\snapshots\snap-v7.0\partial_class_Method.verified.txt">
-      <ParentFile>partial_class_Method</ParentFile>
-      <DependentUpon>partial_class_Method.cs</DependentUpon>
-    </None>
-    <None Update="TryParseHoisting\snapshots\snap-v7.0\partial_class_ExpressionBodiedMethod.verified.txt">
-      <ParentFile>partial_class_ExpressionBodiedMethod</ParentFile>
-      <DependentUpon>partial_class_ExpressionBodiedMethod.cs</DependentUpon>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="xunit.runner.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
-  <ItemGroup>
-    <None Update="SnapshotTests\Snapshots\ValueObjectGeneratorTests.Validation_with_camelCased_validate_method.verified.txt">
-      <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
-      <DependentUpon>%(ParentFile).cs</DependentUpon>
-    </None>
-    <None Update="SnapshotTests\Snapshots\ValueObjectGeneratorTests.Validation_with_PacalCased_validate_method.verified.txt">
-      <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
-      <DependentUpon>%(ParentFile).cs</DependentUpon>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Config\GlobalConfigTests.cs" />
-    <None Include="Config\LocalConfigTests.cs" />
-    <None Include="ConversionPermutations\PermutationsOfConversions.cs" />
-    <None Include="ConversionPermutations\PermutationsOfConversionsTests.cs" />
-    <None Include="Escaping\GenerationOfEscapedTypesTests.cs" />
-    <None Include="GenerationPermutations\GenerationPermutationTests.cs" />
-    <None Include="InstanceFields\InstanceFieldGenerationTests.cs" />
-    <None Include="ToString\ToStringGenerationTests.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="InstanceFields\" />
-  </ItemGroup>
-
 </Project>

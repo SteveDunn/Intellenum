@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Intellenum;
 using Microsoft.CodeAnalysis;
@@ -11,19 +12,20 @@ public class DisallowAbstractTests
     [Theory]
     [InlineData("abstract partial class")]
     [InlineData("abstract partial record class")]
-    public void Disallows_abstract_value_objects(string type)
+    public async Task Disallows_abstract_value_objects(string type)
     {
-        var source = $@"using Intellenum;
+        var source = $$"""
+                       using Intellenum;
 
-namespace Whatever;
+                       namespace Whatever;
 
-[Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
-public {type} CustomerType {{ }}
-";
+                       [Intellenum]
+                       [Member("Normal", 0)]
+                       [Member("Gold", 1)]
+                       public {{type}} CustomerType { }
+                       """;
         
-        new TestRunner<IntellenumGenerator>()
+        await new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -33,31 +35,32 @@ public {type} CustomerType {{ }}
             diagnostics.Should().HaveCount(1);
             Diagnostic diagnostic = diagnostics.Single();
 
-            diagnostic.Id.Should().Be("VOG017");
+            diagnostic.Id.Should().Be("INTELLENUM017");
             diagnostic.ToString()
                 .Should()
-                .Match("* error VOG017: Type 'CustomerType' cannot be abstract");
+                .Match("* error INTELLENUM017: Type 'CustomerType' cannot be abstract");
         }
     }
 
 
-    [Theory]
-    [InlineData("abstract partial class")]
-    [InlineData("abstract partial record class")]
-    public void Disallows_nested_abstract_value_objects(string type)
+    [Fact]
+    public async Task Disallows_nested_abstract_value_objects()
     {
-        var source = $@"using Intellenum;
+        var source = $$"""
+                       using Intellenum;
 
-namespace Whatever;
+                       namespace Whatever;
 
-public class MyContainer {{
-    [Instance(""Normal"", 0)]
-    [Instance(""Gold"", 1)]
-    public {type} CustomerType {{ }}
-}}
-";
+                       public class MyContainer {
+                           [Intellenum]
+                           [Member("Normal", 0)]
+                           [Member("Gold", 1)]
+                           public abstract partial class CustomerType { }
+                       }
 
-        new TestRunner<IntellenumGenerator>()
+                       """;
+
+        await new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -67,15 +70,15 @@ public class MyContainer {{
             diagnostics.Should().HaveCount(2);
             Diagnostic diagnostic = diagnostics.ElementAt(0);
 
-            diagnostic.Id.Should().Be("VOG017");
+            diagnostic.Id.Should().Be("INTELLENUM017");
             diagnostic.ToString().Should()
-                .Match("*error VOG017: Type 'CustomerType' cannot be abstract");
+                .Match("*error INTELLENUM017: Type 'CustomerType' cannot be abstract");
 
             diagnostic = diagnostics.ElementAt(1);
 
-            diagnostic.Id.Should().Be("VOG001");
+            diagnostic.Id.Should().Be("INTELLENUM001");
             diagnostic.ToString().Should()
-                .Match("*error VOG001: Type 'CustomerType' cannot be nested - remove it from inside MyContainer");
+                .Match("*error INTELLENUM001: Type 'CustomerType' cannot be nested - remove it from inside MyContainer");
         }
     }
 }

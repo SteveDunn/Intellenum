@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+
+    <!-- Version and PackageVersion are handled in Directory.Build.targets -->
+    <PackageId>Intellenum</PackageId>
+    <PackageProjectUrl>https://github.com/SteveDunn/Intellenum</PackageProjectUrl>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)\artifacts</PackageOutputPath>
+    <PackageTags>enums</PackageTags>
+    <PackageIcon>package_logo_128x128.png</PackageIcon>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageReadmeFile>nuget-readme.md</PackageReadmeFile>
+
+    <Authors>Steve Dunn</Authors>
+    <Copyright>Copyright Steve Dunn</Copyright>
+    <Title>Intellenum - intelligence for your enums!</Title>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+    <Description>
+       This package contains a Souce Generator which generates enums.
+    </Description>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\assets\logo\package_logo_128x128.png" Pack="true" PackagePath="" />
+    <None Include="..\docs\nuget-readme.md" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)\Intellenum\bin\$(Configuration)\netstandard2.0\Intellenum.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)\Intellenum.CodeFixers\bin\$(Configuration)\netstandard2.0\Intellenum.CodeFixers.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)\Intellenum\bin\$(Configuration)\netstandard2.0\Intellenum.SharedTypes.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+
+    <None Include="$(MSBuildThisFileDirectory)\Intellenum\bin\$(Configuration)\netstandard2.0\Intellenum.SharedTypes.dll" Pack="true" PackagePath="lib\netstandard2.0" Visible="true" />
+    <None Include="$(MSBuildThisFileDirectory)\Intellenum\bin\$(Configuration)\net8.0\Intellenum.SharedTypes.dll" Pack="true" PackagePath="lib\net8.0" Visible="true" />
+  </ItemGroup>
+
+</Project>

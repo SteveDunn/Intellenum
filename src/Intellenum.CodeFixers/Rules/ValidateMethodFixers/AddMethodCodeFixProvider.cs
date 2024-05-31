@@ -1,22 +1,19 @@
 ﻿using System.Collections.Immutable;
 using System.Composition;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Intellenum.Diagnostics;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Simplification;
+using Intellenum.Diagnostics;
 using Document = Microsoft.CodeAnalysis.Document;
 using Formatter = Microsoft.CodeAnalysis.Formatting.Formatter;
 
-namespace Intellenum.Rules
+namespace Intellenum.Rules.ValidateMethodFixers
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(AddValidationAnalyzerCodeFixProvider)), Shared]
-    public class AddValidationAnalyzerCodeFixProvider : CodeFixProvider
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(AddMethodCodeFixProvider)), Shared]
+    public class AddMethodCodeFixProvider : CodeFixProvider
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
@@ -34,16 +31,20 @@ namespace Intellenum.Rules
             var diagnosticSpan = diagnostic.Location.SourceSpan;
 
             // Find the type declaration identified by the diagnostic.
-            var declaration = root!.FindToken(diagnosticSpan.Start).Parent!.AncestorsAndSelf().OfType<TypeDeclarationSyntax>().First();
+            var syntaxToken = root!.FindToken(diagnosticSpan.Start);
+            
+            var declaration = syntaxToken.Parent!.AncestorsAndSelf().OfType<TypeDeclarationSyntax>().First();
 
             // Register a code action that will invoke the fix.
-            context.RegisterCodeFix(
-                CodeAction.Create(
-                    title: Resources.AddValidationCodeFixTitle,
-                    createChangedDocument: c => GenerateValidationMethodAsync(context.Document, context.Diagnostics, declaration, c),
-                    // createChangedSolution: c => GenerateValidationMethodAsync(context.Document, declaration, c),
-                    equivalenceKey: nameof(Resources.AddValidationCodeFixTitle)),
-                diagnostic);
+            string title = "Add validation method";
+
+            var codeAction = CodeAction.Create(
+                title: title,
+                createChangedDocument: c => GenerateValidationMethodAsync(context.Document, context.Diagnostics, declaration, c),
+                // createChangedSolution: c => GenerateValidationMethodAsync(context.Document, declaration, c),
+                equivalenceKey: title);
+            
+            context.RegisterCodeFix(codeAction, diagnostic);
         }
 
         private static async Task<Document> GenerateValidationMethodAsync(Document document,

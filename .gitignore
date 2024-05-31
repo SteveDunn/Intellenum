@@ -458,9 +458,7 @@ $RECYCLE.BIN/
 *.received.txt
 BenchmarkDotNet.Artifacts
 /samples/Intellenum.Examples/Generated
+/tests/SmallTests/Generated
 /tests/Testbench/Generated
 /local-global-packages
-
-
-# temporary file used to write out the generated code - useful for early development of this library
-/tests/ScratchSnapshotTests/test.cs
+/tests/SmallTests/msbuild.binlog

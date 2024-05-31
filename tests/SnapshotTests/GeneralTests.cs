@@ -2,7 +2,7 @@
 using Intellenum;
 using VerifyXunit;
 
-namespace ScratchSnapshotTests
+namespace SnapshotTests
 {
     [UsesVerify]
     public class GeneralTests

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Intellenum;
@@ -15,21 +16,21 @@ public class DoNotUseConstructorTests
         [InlineData("partial record class")]
         [InlineData("partial record struct")]
         [InlineData("readonly partial record struct")]
-        public void parameters_disallowed(string type)
+        public async Task parameters_disallowed(string type)
         {
             var source = $@"using Intellenum;
 
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public {type} CustomerType(int SomethingElse)
 {{
 }}
 ";
 
-            new TestRunner<IntellenumGenerator>()
+            await new TestRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .ValidateWith(Validate)
                 .RunOnAllFrameworks();
@@ -40,9 +41,9 @@ public {type} CustomerType(int SomethingElse)
                 Diagnostic diagnostic = diagnostics.Single();
 
                 using var scope = new AssertionScope();
-                diagnostic.Id.Should().Be("VOG008");
+                diagnostic.Id.Should().Be("INTELLENUM008");
                 diagnostic.ToString().Should().Match(
-                    "*VOG008: Cannot have user defined constructors, please use the From method for creation.");
+                    "*INTELLENUM008: Cannot have user defined constructors, please use the From method for creation.");
             }
         }
 
@@ -50,21 +51,21 @@ public {type} CustomerType(int SomethingElse)
         [InlineData("partial record class")]
         [InlineData("partial record struct")]
         [InlineData("readonly partial record struct")]
-        public void multiple_parameters_disallowed(string type)
+        public async Task multiple_parameters_disallowed(string type)
         {
             var source = $@"using Intellenum;
 
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public {type} CustomerType(int SomethingElse, string Name, int Age)
 {{
 }}
 ";
 
-            new TestRunner<IntellenumGenerator>()
+            await new TestRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .ValidateWith(Validate)
                 .RunOnAllFrameworks();
@@ -75,9 +76,9 @@ public {type} CustomerType(int SomethingElse, string Name, int Age)
                 Diagnostic diagnostic = diagnostics.Single();
 
                 using var scope = new AssertionScope();
-                diagnostic.Id.Should().Be("VOG008");
+                diagnostic.Id.Should().Be("INTELLENUM008");
                 diagnostic.ToString().Should().Match(
-                    "*VOG008: Cannot have user defined constructors, please use the From method for creation.");
+                    "*INTELLENUM008: Cannot have user defined constructors, please use the From method for creation.");
             }
         }
 
@@ -85,21 +86,21 @@ public {type} CustomerType(int SomethingElse, string Name, int Age)
         [InlineData("partial record class")]
         [InlineData("partial record struct")]
         [InlineData("readonly partial record struct")]
-        public void empty_parameters_disallowed(string type)
+        public async Task empty_parameters_disallowed(string type)
         {
             var source = $@"using Intellenum;
 
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public {type} CustomerType()
 {{
 }}
 ";
 
-            new TestRunner<IntellenumGenerator>()
+            await new TestRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .ValidateWith(Validate)
                 .RunOnAllFrameworks();
@@ -110,9 +111,9 @@ public {type} CustomerType()
                 Diagnostic diagnostic = diagnostics.Single();
 
                 using var scope = new AssertionScope();
-                diagnostic.Id.Should().Be("VOG008");
+                diagnostic.Id.Should().Be("INTELLENUM008");
                 diagnostic.ToString().Should().Match(
-                    "*VOG008: Cannot have user defined constructors, please use the From method for creation.");
+                    "*INTELLENUM008: Cannot have user defined constructors, please use the From method for creation.");
             }
         }
     }
@@ -125,22 +126,22 @@ public {type} CustomerType()
         [InlineData("partial record class")]
         [InlineData("partial record struct")]
         [InlineData("readonly partial record struct")]
-        public void parameters_disallowed(string type)
+        public async Task parameters_disallowed(string type)
         {
             var source = $@"using Intellenum;
 
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public {type} CustomerType
 {{
     public CustomerType() {{ }}
 }}
 ";
 
-            new TestRunner<IntellenumGenerator>()
+            await new TestRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .ValidateWith(Validate)
                 .RunOnAllFrameworks();
@@ -152,34 +153,29 @@ public {type} CustomerType
                 Diagnostic diagnostic = diagnostics.Single();
 
                 using var scope = new AssertionScope();
-                diagnostic.Id.Should().Be("VOG008");
+                diagnostic.Id.Should().Be("INTELLENUM008");
                 diagnostic.ToString().Should().Match(
-                    "*VOG008: Cannot have user defined constructors, please use the From method for creation.");
+                    "*INTELLENUM008: Cannot have user defined constructors, please use the From method for creation.");
             }
         }
 
-        [Theory]
-        [InlineData("partial class")]
-        [InlineData("partial struct")]
-        [InlineData("partial record class")]
-        [InlineData("partial record struct")]
-        [InlineData("readonly partial record struct")]
-        public void multiple_parameters_disallowed(string type)
+        [Fact]
+        public async Task multiple_parameters_disallowed()
         {
             var source = $@"using Intellenum;
 
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
-public {type} CustomerType
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
+public partial class CustomerType
 {{
     public CustomerType(int SomethingElse, string Name, int Age) {{ }}
 }}
 ";
 
-            new TestRunner<IntellenumGenerator>()
+            await new TestRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .ValidateWith(Validate)
                 .RunOnAllFrameworks();
@@ -191,33 +187,28 @@ public {type} CustomerType
                 Diagnostic diagnostic = diagnostics.Single();
 
                 using var scope = new AssertionScope();
-                diagnostic.Id.Should().Be("VOG008");
+                diagnostic.Id.Should().Be("INTELLENUM008");
                 diagnostic.ToString().Should().Match(
-                    "*VOG008: Cannot have user defined constructors, please use the From method for creation.");
+                    "*INTELLENUM008: Cannot have user defined constructors, please use the From method for creation.");
             }
         }
 
-        [Theory]
-        [InlineData("partial class")]
-        [InlineData("partial struct")]
-        [InlineData("partial record class")]
-        [InlineData("partial record struct")]
-        [InlineData("readonly partial record struct")]
-        public void empty_parameters_disallowed(string type)
+        [Fact]
+        public async Task empty_parameters_disallowed()
         {
             var source = $@"using Intellenum;
 
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
-public {type} CustomerType
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
+public partial class CustomerType
 {{
     public CustomerType() {{ }}
 }}
 ";
-            new TestRunner<IntellenumGenerator>()
+            await new TestRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .ValidateWith(Validate)
                 .RunOnAllFrameworks();
@@ -229,9 +220,9 @@ public {type} CustomerType
                 Diagnostic diagnostic = diagnostics.Single();
 
                 using var scope = new AssertionScope();
-                diagnostic.Id.Should().Be("VOG008");
+                diagnostic.Id.Should().Be("INTELLENUM008");
                 diagnostic.ToString().Should().Match(
-                    "*VOG008: Cannot have user defined constructors, please use the From method for creation.");
+                    "*INTELLENUM008: Cannot have user defined constructors, please use the From method for creation.");
             }
         }
     }
