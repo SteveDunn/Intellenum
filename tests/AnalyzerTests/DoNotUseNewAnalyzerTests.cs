@@ -18,66 +18,71 @@ namespace AnalyzerTests
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
         
-#if NET7_0_OR_GREATER
         [Fact]
         public async Task Disallow_new_for_using_generic_attribute()
         {
-            var source = $@"using Intellenum;
-namespace Whatever;
+            var source = $$"""
+                           using Intellenum;
+                         
+                           namespace Whatever;
 
-[Intellenum<int>()]
-public class MyEnum {{ }}
+                           [Intellenum<int>]
+                           public class MyEnum { }
 
-public class Test {{
-    public Test() {{
-        var c = {{|#0:new MyEnum()|}};
-        MyEnum c2 = {{|#1:new()|}};
-    }}
-}}
-";
+                           public class Test {
+                               public Test() {
+                                   var c = {|#0:new MyEnum()|};
+                                   MyEnum c2 = {|#1:new()|};
+                               }
+                           }
+
+                           """;
             await Run(
                 source,
                 WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyEnum", 0, 1));
         }
-#endif
         
 
         [Fact]
         public async Task Allow_new_for_newing_up_inside_of_type_itself()
         {
-            var source = @"using Intellenum;
-namespace Whatever;
+            var source = """
+                         using Intellenum;
+                         namespace Whatever;
 
-[Intellenum(typeof(int))]
-public partial class Condiments 
-{
-    // just for the test - it's generated in real life
-    public Condiments(string name, int value) { }
-    
-    public static readonly Condiments Salt = new Condiments(""Salt"", 1); 
-}
-";
+                         [Intellenum(typeof(int))]
+                         public partial class Condiments 
+                         {
+                             // just for the test - it's generated in real life
+                             public Condiments(string name, int value) { }
+                             
+                             public static readonly Condiments Salt = new Condiments("Salt", 1); 
+                         }
+
+                         """;
             await Run(
                 source,
-                Enumerable.Empty<DiagnosticResult>());
+                []);
         }
 
         [Fact]
         public async Task Disallow_new_for_newing_up_outside_of_type_itself()
         {
-            var source = $@"using Intellenum;
-namespace Whatever;
+            var source = $$"""
+                           using Intellenum;
+                           namespace Whatever;
 
-[Intellenum(typeof(int))]
-public partial class MyEnum {{ }}
+                           [Intellenum(typeof(int))]
+                           public partial class MyEnum { }
 
-public class Test {{
-    public Test() {{
-        var c = {{|#0:new MyEnum()|}};
-        MyEnum c2 = {{|#1:new()|}};
-    }}
-}}
-";
+                           public class Test {
+                               public Test() {
+                                   var c = {|#0:new MyEnum()|};
+                                   MyEnum c2 = {|#1:new()|};
+                               }
+                           }
+
+                           """;
             await Run(
                 source,
                 WithDiagnostics("INTELLENUM010", DiagnosticSeverity.Error, "MyEnum", 0, 1));
@@ -86,18 +91,20 @@ public class Test {{
         [Fact]
         public async Task Disallow_new_for_method_return_type()
         {
-            var source = $@"
-using Intellenum;
-namespace Whatever;
+            var source = $$"""
 
-[Intellenum]
-public partial class MyEnum {{ }}
+                           using Intellenum;
+                           namespace Whatever;
 
-public class Test {{
-    public MyEnum Get() => {{|#0:new MyEnum()|}};
-    public MyEnum Get2() => {{|#1:new MyEnum()|}};
-}}
-";
+                           [Intellenum]
+                           public partial class MyEnum { }
+
+                           public class Test {
+                               public MyEnum Get() => {|#0:new MyEnum()|};
+                               public MyEnum Get2() => {|#1:new MyEnum()|};
+                           }
+
+                           """;
 
             await Run(
                 source,
@@ -107,20 +114,22 @@ public class Test {{
         [Fact]
         public async Task Disallow_new_from_local_function()
         {
-            var source = $@"
-using Intellenum;
-namespace Whatever;
+            var source = $$"""
 
-[Intellenum]
-public partial class MyEnum {{ }}
+                           using Intellenum;
+                           namespace Whatever;
 
-public class Test {{
-    public Test() {{
-        MyEnum Get() => {{|#0:new MyEnum()|}};
-        MyEnum Get2() => {{|#1:new()|}};
-    }}
-}}
-";
+                           [Intellenum]
+                           public partial class MyEnum { }
+
+                           public class Test {
+                               public Test() {
+                                   MyEnum Get() => {|#0:new MyEnum()|};
+                                   MyEnum Get2() => {|#1:new()|};
+                               }
+                           }
+
+                           """;
 
             await Run(
                 source,
@@ -130,23 +139,25 @@ public class Test {{
         [Fact]
         public async Task Disallow_new_from_func()
         {
-            var source = $@"
-using System;
-using System.Threading.Tasks;
-using Intellenum;
-namespace Whatever;
+            var source = $$"""
 
-[Intellenum]
-public partial class MyEnum {{ }}
+                           using System;
+                           using System.Threading.Tasks;
+                           using Intellenum;
+                           namespace Whatever;
 
-public class Test {{
-        Func<MyEnum> f = () =>  {{|#0:new MyEnum()|}};
-        Func<MyEnum> f2 = () =>  {{|#1:new()|}};
-        Func<int, int, MyEnum, string, MyEnum> f3 = (a,b,c,d) =>  {{|#2:new MyEnum()|}};
-        Func<int, int, MyEnum, string, MyEnum> f4 = (a,b,c,d) =>  {{|#3:new()|}};
-        Func<int, int, MyEnum, string, Task<MyEnum>> f5 = async (a,b,c,d) => await Task.FromResult({{|#4:new MyEnum()|}});
-}}
-";
+                           [Intellenum]
+                           public partial class MyEnum { }
+
+                           public class Test {
+                                   Func<MyEnum> f = () =>  {|#0:new MyEnum()|};
+                                   Func<MyEnum> f2 = () =>  {|#1:new()|};
+                                   Func<int, int, MyEnum, string, MyEnum> f3 = (a,b,c,d) =>  {|#2:new MyEnum()|};
+                                   Func<int, int, MyEnum, string, MyEnum> f4 = (a,b,c,d) =>  {|#3:new()|};
+                                   Func<int, int, MyEnum, string, Task<MyEnum>> f5 = async (a,b,c,d) => await Task.FromResult({|#4:new MyEnum()|});
+                           }
+
+                           """;
 
             await Run(
                 source,
@@ -156,29 +167,31 @@ public class Test {{
         [Fact(DisplayName = "Bug https://github.com/SteveDunn/INTELLENUMen/issues/182")]
         public async Task Analyzer_false_position_for_implicit_new_in_array_initializer()
         {
-            var source = @"using System;
-using System.Threading.Tasks;
-using Intellenum;
+            var source = """
+                         using System;
+                         using System.Threading.Tasks;
+                         using Intellenum;
 
-public class Test {
-    Vo c = Create(new Object[]
-    {
-        // This call is the issue
-        new()
-    });
+                         public class Test {
+                             Vo c = Create(new Object[]
+                             {
+                                 // This call is the issue
+                                 new()
+                             });
+                         
+                             static Vo Create(Object[] normalObject)
+                             {
+                                 throw null; // we don't actually generate the VO in this test
+                             }
+                         }
 
-    static Vo Create(Object[] normalObject)
-    {
-        throw null; // we don't actually generate the VO in this test
-    }
-}
-
-[Intellenum(typeof(int))]
-public partial class Vo { }";
+                         [Intellenum(typeof(int))]
+                         public partial class Vo { }
+                         """;
 
             await Run(
                 source,
-                Enumerable.Empty<DiagnosticResult>());
+                []);
         }
 
         private static IEnumerable<DiagnosticResult> WithDiagnostics(string code, DiagnosticSeverity severity,
@@ -201,7 +214,7 @@ public partial class Vo { }";
                 },
 
                 CompilerDiagnostics = CompilerDiagnostics.Errors,
-                ReferenceAssemblies = References.Net70AndOurs.Value,
+                ReferenceAssemblies = References.Net80AndOurs.Value,
             };
 
             test.ExpectedDiagnostics.AddRange(expected);

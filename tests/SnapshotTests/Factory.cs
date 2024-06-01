@@ -43,7 +43,7 @@ public static class Factory
             "double" => @"[Member(""One"", 1d)]",
             "float" => @"[Member(""One"", 1f)]",
             "System.Guid" => @"[Member(""One"", System.Guid.Empty)]",
-            "long" => @"[Member(""One"", 1l)]",
+            "long" => @"[Member(""One"", 1L)]",
             "short" => @"[Member(""One"", 1)]",
 #endif
             _ => throw new Exception($"Nothing for '{type}'")
@@ -66,7 +66,7 @@ public static class Factory
             "double" => @"Member(""One"", 1d);",
             "float" => @"Member(""One"", 1f);",
             "System.Guid" => @"Member(""One"", System.Guid.Empty);",
-            "long" => @"Member(""One"", 1l);",
+            "long" => @"Member(""One"", 1L);",
             "short" => @"Member(""One"", 1);",
             "record.@struct.@float.@decimal" => @"Member(""One"", new @class.record.@struct.@float.@decimal(1));",
             "record.@struct.@float.@event" => @"Member(""One"", new @class.record.@struct.@float.@event(1));",

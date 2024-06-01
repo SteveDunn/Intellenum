@@ -17,8 +17,7 @@
     </Target>
 
   <PropertyGroup>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">net461;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netcoreapp3.1;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -40,43 +39,6 @@
     <PackageReference Include="System.Text.Json" Version="8.0.3" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0'">
-    <PackageReference Include="linq2db" Version="4.4.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-rc.1.22426.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-rc.1.22426.7" />
-    <PackageReference Include="System.Text.Json" Version="7.0.2" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0'">
-    <PackageReference Include="linq2db" Version="4.4.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-*" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0-*" />
-    <PackageReference Include="System.Text.Json" Version="7.0.2-*" />
-
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0'">
-    <PackageReference Include="linq2db" Version="4.4.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.0" />
-    <PackageReference Include="System.Text.Json" Version="7.0.2" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' != 'net5.0' and '$(TargetFramework)' != 'net6.0' and '$(TargetFramework)' != 'net7.0' and '$(TargetFramework)' != 'net8.0'">
-    <PackageReference Include="linq2db" Version="3.7.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.17" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.17" />
-    <PackageReference Include="System.Text.Json" Version="7.0.2" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461'">
-    <PackageReference Include="SQLitePCLRaw.bundle_winsqlite3" Version="2.1.5" />
-  </ItemGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461'">
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-
 	<ItemGroup Condition=" '$(UseLocallyBuiltPackage)' != ''">
 		<PackageReference Include="Intellenum" Version="999.9.*" />
 	</ItemGroup>
@@ -93,14 +55,14 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Dapper" Version="2.0.143" />
-    <PackageReference Include="GitHubActionsTestLogger" Version="2.3.2">
+    <PackageReference Include="GitHubActionsTestLogger" Version="2.3.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="FluentAssertions" Version="6.11.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
-    <PackageReference Include="xunit" Version="2.4.2" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="xunit" Version="2.6.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.4">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -113,11 +75,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
-    <NoWarn>;CS1701;CS1702;CS1591;CA1014;CS9057;CA2255;CS1718</NoWarn>
+    <DocumentationFile>bin\Debug\ConsumerTests.xml</DocumentationFile>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+        <NoWarn>CS1701;CS1702;CS1591;CA1014;CS9057;CA2255;CS1718</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <NoWarn>;CS1701;CS1702;CS1591;CA1014;CS9057;CA2255;CS1718</NoWarn>
+    <DocumentationFile>bin\Release\ConsumerTests.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

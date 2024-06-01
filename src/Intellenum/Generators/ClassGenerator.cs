@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Intellenum.Generators;
 
-public class ClassGenerator : IGenerateSourceCode
+public class ClassGenerator
 {
     public string BuildClass(VoWorkItem item, TypeDeclarationSyntax tds, bool isNetFramework)
     {

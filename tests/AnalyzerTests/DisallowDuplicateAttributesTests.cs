@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Intellenum;
 using Microsoft.CodeAnalysis;
@@ -11,7 +12,7 @@ public class DisallowDuplicateAttributesTests
     [Theory]
     [InlineData("abstract partial class")]
     [InlineData("abstract partial record class")]
-    public void Disallows_multiple_value_object_attributes(string type)
+    public async Task Disallows_multiple_value_object_attributes(string type)
     {
         var source = $@"using Intellenum;
 
@@ -19,11 +20,11 @@ namespace Whatever;
 
 [Intellenum]
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public {type} CustomerType {{ }}
 ";
-        new TestRunner<IntellenumGenerator>()
+        await new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -35,7 +36,7 @@ public {type} CustomerType {{ }}
 
             diagnostic.Id.Should().Be("CS0579");
             diagnostic.ToString().Should()
-                .Match("* error CS0579: Duplicate 'ValueObject' attribute");
+                .Match("* error CS0579: Duplicate 'Intellenum' attribute");
         }
     }
 }

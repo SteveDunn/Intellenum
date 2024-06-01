@@ -7,9 +7,8 @@ using System;
 
 namespace Intellenum
 {
-#if NETCOREAPP
     /// <summary>
-    /// Marks a type as a Value Object. The type should be partial so that the
+    /// Marks a type as an Intellenum. The type should be a partial class so that the
     /// source generator can augment the type with equality and validation.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
@@ -26,7 +25,6 @@ namespace Intellenum
         {
         }
     }
-#endif
 
     /// <summary>
     /// Marks a type as a Value Object. The type that this is applied to should be partial so that the

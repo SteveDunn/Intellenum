@@ -18,7 +18,7 @@ namespace ConsumerTests.GenericDeserializationTests;
 public class StringDeserializationTests
 {
     [Fact]
-    public async void Deserialization_dapper()
+    public async Task Deserialization_dapper()
     {
         using var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();
@@ -29,7 +29,7 @@ public class StringDeserializationTests
     }
 
     [Fact]
-    public async void Deserialization_efcore()
+    public async Task Deserialization_efcore()
     {
         var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();
@@ -46,7 +46,7 @@ public class StringDeserializationTests
     }
 
     [Fact]
-    public async void Deserialization_linqtodb()
+    public async Task Deserialization_linqtodb()
     {
         var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rules SYSTEM "https://resources.jetbrains.com/writerside/1.0/redirection-rules.dtd">
+<rules>
+    <!-- format is as follows
+    <rule id="<unique id>">
+        <accepts>page.html</accepts>
+    </rule>
+    -->
+    <rule id="6db6c912">
+        <description><![CDATA[Created after removal of "<Vogen1.md>" from Help Instance]]></description>
+        <accepts>Vogen1.html</accepts>
+    </rule>
+    <rule id="4a3e0576">
+        <description><![CDATA[Created after removal of "<Home1.md>" from Help Instance]]></description>
+        <accepts>Home1.html</accepts>
+    </rule>
+    <rule id="5d089268">
+        <description>Created after removal of "Records" from Help Instance</description>
+        <accepts>Records1.html</accepts>
+    </rule>
+    <rule id="2311987d">
+        <description>Created after removal of "Vogen" from Help Instance</description>
+        <accepts>Empty-MD-Topic1.html</accepts>
+    </rule>
+    <rule id="bf07c4">
+        <description>Created after removal of "FAQ" from Help Instance</description>
+        <accepts>Welcome-to-Vogen!1.html</accepts>
+    </rule>
+    <rule id="5925df16">
+        <description>Created after removal of "Casting" from Vogen</description>
+        <accepts>Casting.html</accepts>
+    </rule>
+    <rule id="42e976fc">
+        <description>Created after removal of "Tutorials" from Vogen</description>
+        <accepts>Tutorials.html</accepts>
+    </rule>
+    <rule id="39894332">
+        <description>Created after removal of "Tutorial" from Vogen</description>
+        <accepts>Tutorial.html</accepts>
+    </rule>
+    <rule id="7a00689f">
+        <description>Created after removal of "Primitive Obsession" from Vogen</description>
+        <accepts>Primitive-Obsession.html</accepts>
+    </rule>
+    <rule id="648a0ff9">
+        <description>Created after removal of "Vogen - Explanation" from Vogen</description>
+        <accepts>Vogen-Explanation.html</accepts>
+    </rule>
+    <rule id="471551f9">
+        <description>Created after removal of "How to create Value Objects" from Vogen</description>
+        <accepts>Basics.html</accepts>
+    </rule>
+    <rule id="6f7ba5bc">
+        <description>Created after removal of "Working with protobuf" from Vogen</description>
+        <accepts>Working-with-protobuf.html</accepts>
+    </rule>
+    <rule id="75608444">
+        <description>Created after removal of "Primitive Obsession" from Intellenum</description>
+        <accepts>Home.html</accepts>
+    </rule>
+</rules>

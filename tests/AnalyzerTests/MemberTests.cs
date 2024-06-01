@@ -13,7 +13,7 @@ namespace AnalyzerTests
         public class When_there_are_members
         {
             [Fact]
-            public Task Of_a_customType()
+            public async Task Of_a_customType()
             {
                 string source = $$"""
 using System;
@@ -39,7 +39,7 @@ public record class Foo(string Name, int Age) : IComparable<Foo>
 
 """;
 
-                new TestRunner<IntellenumGenerator>()
+                await new TestRunner<IntellenumGenerator>()
                     .WithSource(source)
                     .ValidateWith(validate)
                     .RunOnAllFrameworks(true);
@@ -50,8 +50,6 @@ public record class Foo(string Name, int Age) : IComparable<Foo>
 
                     d.Count.Should().Be(0);
                 }
-
-                return Task.CompletedTask;
             }
 
         }
@@ -60,7 +58,7 @@ public record class Foo(string Name, int Age) : IComparable<Foo>
             {
             
             [Fact]
-            public Task No_members()
+            public async Task No_members()
             {
                 string declaration = $@"using System;
   [Intellenum]
@@ -71,7 +69,7 @@ namespace Whatever
 " + declaration + @"
 }";
 
-                new TestRunner<IntellenumGenerator>()
+                await new TestRunner<IntellenumGenerator>()
                     .WithSource(source)
                     .ValidateWith(validate)
                     .RunOnAllFrameworks();
@@ -84,29 +82,29 @@ namespace Whatever
                     
                     d.HasError("INTELLENUM026", "MyMembersTests must have at least 1 member");
                 }
-
-                return Task.CompletedTask;
             }
         }
-        
-        
         
         public class When_values_cannot_be_converted_to_their_underlying_types
         {
             [Fact]
-            public Task Malformed_float_causes_compilation_error()
+            public async Task Malformed_float_causes_compilation_error()
             {
-                string declaration = $@"using System;
-  [Intellenum(underlyingType: typeof(float))]
-  [Member(name: ""Invalid"", value: ""1.23x"")]
-  public partial class MyMemberTests {{ }}";
-                var source = @"using Intellenum;
-namespace Whatever
-{
-" + declaration + @"
+                string declaration = $$"""
+                                       using System;
+                                         [Intellenum(underlyingType: typeof(float))]
+                                         [Member(name: "Invalid", value: "1.23x")]
+                                         public partial class MyMemberTests { }
+                                       """;
+                var source = """
+                             using Intellenum;
+                             namespace Whatever
+                             {
+
+                             """ + declaration + @"
 }";
 
-                new TestRunner<IntellenumGenerator>()
+                await new TestRunner<IntellenumGenerator>()
                     .WithSource(source)
                     .ValidateWith(validate)
                     .RunOnAllFrameworks();
@@ -115,19 +113,13 @@ namespace Whatever
                 {
                     DiagnosticCollection d = new(diagnostics);
                     d.Count.Should().Be(2);
-#if NET7_0_OR_GREATER
-                    d.HasError("INTELLENUM023", "MyMemberTests cannot be converted. Member value named Invalid has an attribute with a 'System.String' of '1.23x' which cannot be converted to the underlying type of 'System.Single' - The input string '1.23x' was not in a correct format.");
-#else
-                    d.HasError("INTELLENUM023", "MyMemberTests cannot be converted. Member value named Invalid has an attribute with a 'System.String' of '1.23x' which cannot be converted to the underlying type of 'System.Single' - Input string was not in a correct format.");
 
-#endif
+                    d.HasError("INTELLENUM023", "MyMemberTests cannot be converted. Member value named Invalid has an attribute with a 'System.String' of '1.23x' which cannot be converted to the underlying type of 'System.Single'*");
                 }
-
-                return Task.CompletedTask;
             }
 
             [Fact]
-            public Task Malformed_datetime_causes_compilation_error()
+            public async Task Malformed_datetime_causes_compilation_error()
             {
                 var source = @"
 using Intellenum;
@@ -139,7 +131,7 @@ namespace Whatever
     public partial class MyMemberTests { }
 }";
 
-                new TestRunner<IntellenumGenerator>()
+                await new TestRunner<IntellenumGenerator>()
                     .WithSource(source)
                     .ValidateWith(validate)
                     .RunOnAllFrameworks();
@@ -151,12 +143,10 @@ namespace Whatever
                         "The string 'x2022-13-99' was not recognized as a valid DateTime") && d.Id == "INTELLENUM023");
                     diagnostics.Should().ContainSingle(d => d.Id == "INTELLENUM026");
                 }
-
-                return Task.CompletedTask;
             }
 
             [Fact]
-            public Task Malformed_DateTimeOffset_causes_compilation_error()
+            public async Task Malformed_DateTimeOffset_causes_compilation_error()
             {
                 var source = @"
 using Intellenum;
@@ -168,7 +158,7 @@ namespace Whatever
     public partial class MyMemberTests { }
 }";
 
-                new TestRunner<IntellenumGenerator>()
+                await new TestRunner<IntellenumGenerator>()
                     .WithSource(source)
                     .ValidateWith(Validate)
                     .RunOnAllFrameworks();
@@ -180,8 +170,6 @@ namespace Whatever
                     d.HasErrorContaining("MyMemberTests cannot be converted. Member value named Invalid has an attribute with a 'System.String' of 'x2022-13-99' which cannot be converted to the underlying type of 'System.DateTimeOffset'");
                     d.HasId("INTELLENUM023");
                 }
-
-                return Task.CompletedTask;
             }
         }
     }

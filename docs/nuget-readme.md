@@ -8,7 +8,7 @@ The main goal is that the intelligent enums have almost the same speed and memor
 
 ```csharp
 [Intellenum<int>]
-[Instance("One", 1)]
+[Member("One", 1)]
 public partial struct Numbers 
 {
 }

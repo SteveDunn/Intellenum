@@ -19,20 +19,22 @@ namespace AnalyzerTests
         [Fact]
         public async Task Disallows_generic_method()
         {
-            var source = $@"using Intellenum;
-using System;
+            var source = $$"""
+                           using System;
+                           using Intellenum;
 
-namespace Whatever;
+                           namespace Whatever;
 
-public class Test {{
-    public Test() {{
-        var c = {{|#0:Activator.CreateInstance<MyVo>()|}};
-    }}
-}}
+                           public class Test {
+                               public Test() {
+                                   var c = {|#0:Activator.CreateInstance<MyVo>()|};
+                               }
+                           }
 
-[Intellenum(typeof(int))]
-public partial class MyVo {{ }}
-";
+                           [Intellenum(typeof(int))]
+                           public partial class MyVo { }
+
+                           """;
             
             await Run(
                 source,
@@ -42,20 +44,22 @@ public partial class MyVo {{ }}
         [Fact]
         public async Task Disallows_non_generic_method()
         {
-            var source = $@"using Intellenum;
-using System;
+            var source = $$"""
+                           using Intellenum;
+                           using System;
 
-namespace Whatever;
+                           namespace Whatever;
 
-public class Test {{
-    public Test() {{
-        var c = {{|#0:Activator.CreateInstance(typeof(MyVo))|}};
-    }}
-}}
+                           public class Test {
+                               public Test() {
+                                   var c = {|#0:Activator.CreateInstance(typeof(MyVo))|};
+                               }
+                           }
 
-[Intellenum(typeof(int))]
-public partial class MyVo {{ }}
-";
+                           [Intellenum(typeof(int))]
+                           public partial class MyVo { }
+
+                           """;
             
             await Run(
                 source,
@@ -81,7 +85,7 @@ public partial class MyVo {{ }}
                 },
 
                 CompilerDiagnostics = CompilerDiagnostics.Errors,
-                ReferenceAssemblies = References.Net70AndOurs.Value,
+                ReferenceAssemblies = References.Net80AndOurs.Value,
             };
 
             test.ExpectedDiagnostics.AddRange(expected);

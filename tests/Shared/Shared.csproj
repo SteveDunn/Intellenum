@@ -8,5 +8,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Intellenum.SharedTypes\Intellenum.SharedTypes.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzer.Testing" Version="1.1.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
+  </ItemGroup>
 
 </Project>

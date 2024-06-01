@@ -11,8 +11,8 @@ jobs:
     name: ubuntu-latest
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-dotnet@v3.2.0
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4.0.0
         with:
           dotnet-version: |
             8.0.x
@@ -27,8 +27,8 @@ jobs:
     name: windows-latest
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-dotnet@v3.2.0
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4.0.0
         with:
           dotnet-version: |
             8.0.x
@@ -39,12 +39,24 @@ jobs:
       - name: Build and Test
         run: ./Build.ps1
         shell: pwsh
+  run-snapshots:
+    name: run-snapshots
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: |
+            8.0.x
+      - name: Run Snapshots
+        run: ./RunSnapshots.ps1
+        shell: pwsh
   macOS-latest:
     name: macOS-latest
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-dotnet@v3.2.0
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4.0.0
         with:
           dotnet-version: |
             8.0.x

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Intellenum;
 using Microsoft.CodeAnalysis;
@@ -9,178 +10,7 @@ namespace AnalyzerTests.GlobalConfig;
 public class SadTests
 {
     [Fact]
-    public void Missing_any_constructors()
-    {
-        var source = """
-            using System;
-            using Intellenum;
-            
-            [assembly: IntellenumDefaults(throws: typeof(Whatever.MyValidationException))]
-            
-            namespace Whatever;
-            
-            [Intellenum]
-            [Instance("Normal", 0]
-            [Instance("Gold", 1]
-            public partial struct CustomerType
-            {
-                private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid("xxxx");
-            }
-            
-            public class MyValidationException : Exception
-            {
-            }
-
-            """;
-
-        new TestRunner<IntellenumGenerator>()
-            .WithSource(source)
-            .ValidateWith(Validate)
-            .RunOnAllFrameworks();
-
-        void Validate(ImmutableArray<Diagnostic> diagnostics)
-        {
-            diagnostics.Should().HaveCount(1);
-
-            Diagnostic diagnostic = diagnostics.Single();
-
-            diagnostic.Id.Should().Be("VOG013");
-            diagnostic.ToString().Should().Be(
-                "(14,14): error VOG013: MyValidationException must have at least 1 public constructor with 1 parameter of type System.String");
-        }
-    }
-
-    [Fact]
-    public void Missing_string_constructor()
-    {
-        var source = @"using System;
-using Intellenum;
-
-[assembly: IntellenumDefaults(throws: typeof(Whatever.MyValidationException))]
-
-namespace Whatever;
-
-[Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
-public partial struct CustomerType
-{
-    private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
-}
-
-public class MyValidationException : Exception
-{
-    public MyValidationException(object o) : base(o.ToString()) { }
-}
-";
-
-        new TestRunner<IntellenumGenerator>()
-            .WithSource(source)
-            .ValidateWith(Validate)
-            .RunOnAllFrameworks();
-
-        void Validate(ImmutableArray<Diagnostic> diagnostics)
-        {
-            diagnostics.Should().HaveCount(1);
-
-            Diagnostic diagnostic = diagnostics.Single();
-
-            diagnostic.Id.Should().Be("VOG013");
-            diagnostic.ToString().Should().Be(
-                "(14,14): error VOG013: MyValidationException must have at least 1 public constructor with 1 parameter of type System.String");
-        }
-    }
-
-    [Fact]
-    public void Missing_public_string_constructor_on_exception()
-    {
-        const string source = @"using System;
-using Intellenum;
-
-[assembly: IntellenumDefaults(throws: typeof(Whatever.MyValidationException))]
-
-namespace Whatever;
-
-[Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
-public partial struct CustomerType
-{
-    private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
-}
-
-public class MyValidationException : Exception
-{
-    private MyValidationException(object o) : base(o.ToString()) { } // PRIVATE!
-}
-";
-
-        new TestRunner<IntellenumGenerator>()
-            .WithSource(source)
-            .ValidateWith(Validate)
-            .RunOnAllFrameworks();
-
-        void Validate(ImmutableArray<Diagnostic> diagnostics)
-        {
-            diagnostics.Should().HaveCount(1);
-
-            Diagnostic diagnostic = diagnostics.Single();
-
-            diagnostic.Id.Should().Be("VOG013");
-            diagnostic.ToString().Should().Be(
-                "(14,14): error VOG013: MyValidationException must have at least 1 public constructor with 1 parameter of type System.String");
-        }
-    }
-
-    [Fact]
-    public void Not_an_exception()
-    {
-        var source = @"using System;
-using Intellenum;
-
-[assembly: IntellenumDefaults(throws: typeof(Whatever.MyValidationException))]
-
-namespace Whatever;
-
-[Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
-public partial struct CustomerType
-{
-    private static Validation Validate(int value) => value > 0 ? Validation.Ok : Validation.Invalid(""xxxx"");
-}
-
-public class MyValidationException { } // NOT AN EXCEPTION!
-";
-
-        new TestRunner<IntellenumGenerator>()
-            .WithSource(source)
-            .ValidateWith(Validate)
-            .RunOnAllFrameworks();
-
-        void Validate(ImmutableArray<Diagnostic> diagnostics)
-        {
-
-            diagnostics.Should().HaveCount(2);
-
-            diagnostics.Should().SatisfyRespectively(
-                first =>
-                {
-                    first.Id.Should().Be("VOG012");
-                    first.ToString().Should().Be(
-                        "(14,14): error VOG012: MyValidationException must derive from System.Exception");
-                },
-                second =>
-                {
-                    second.Id.Should().Be("VOG013");
-                    second.ToString().Should().Be(
-                        "(14,14): error VOG013: MyValidationException must have at least 1 public constructor with 1 parameter of type System.String");
-                });
-        }
-    }
-
-    [Fact]
-    public void Not_valid_conversion()
+    public async Task Not_valid_conversion()
     {
         var source = @"using System;
 using Intellenum;
@@ -190,12 +20,12 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public partial struct CustomerType { }
 ";
 
-        new TestRunner<IntellenumGenerator>()
+        await new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -208,15 +38,15 @@ public partial struct CustomerType { }
             diagnostics.Should().SatisfyRespectively(
                 first =>
                 {
-                    first.Id.Should().Be("VOG011");
+                    first.Id.Should().Be("INTELLENUM011");
                     first.ToString().Should().Be(
-                        "(4,12): error VOG011: The Conversions specified do not match any known conversions - see the Conversions type");
+                        "(4,12): error INTELLENUM011: The Conversions specified do not match any known conversions - see the Conversions type");
                 });
         }
     }
 
     [Fact]
-    public void Not_valid_customization()
+    public async Task Not_valid_customization()
     {
         var source = @"using System;
 using Intellenum;
@@ -226,12 +56,12 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public partial struct CustomerType { }
 ";
 
-        new TestRunner<IntellenumGenerator>()
+        await new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -243,51 +73,15 @@ public partial struct CustomerType { }
             diagnostics.Should().SatisfyRespectively(
                 first =>
                 {
-                    first.Id.Should().Be("VOG019");
+                    first.Id.Should().Be("INTELLENUM019");
                     first.ToString().Should().Be(
-                        "(4,12): error VOG019: The Customizations specified do not match any known customizations - see the Customizations type");
+                        "(4,12): error INTELLENUM019: The Customizations specified do not match any known customizations - see the Customizations type");
                 });
         }
     }
 
     [Fact]
-    public void Not_valid_deserialization_strictness()
-    {
-        var source = @"using System;
-using Intellenum;
-
-[assembly: IntellenumDefaults(deserializationStrictness: (DeserializationStrictness)666)]
-
-namespace Whatever;
-
-[Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
-public partial struct CustomerType { }
-";
-
-        new TestRunner<IntellenumGenerator>()
-            .WithSource(source)
-            .ValidateWith(Validate)
-            .RunOnAllFrameworks();
-
-        void Validate(ImmutableArray<Diagnostic> diagnostics)
-        {
-
-            diagnostics.Should().HaveCount(1);
-
-            diagnostics.Should().SatisfyRespectively(
-                first =>
-                {
-                    first.Id.Should().Be("VOG022");
-                    first.ToString().Should().Be(
-                        "(4,12): error VOG022: The Deserialization Strictness specified does not match any known customizations - see the DeserializationStrictness type for valid values");
-                });
-        }
-    }
-
-    [Fact]
-    public void Not_valid_customization_or_conversion()
+    public async Task Not_valid_customization_or_conversion()
     {
         var source = @"using System;
 using Intellenum;
@@ -297,12 +91,12 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-[Instance(""Normal"", 0)]
-[Instance(""Gold"", 1)]
+[Member(""Normal"", 0)]
+[Member(""Gold"", 1)]
 public partial struct CustomerType { }
 ";
 
-        new TestRunner<IntellenumGenerator>()
+        await new TestRunner<IntellenumGenerator>()
             .WithSource(source)
             .ValidateWith(Validate)
             .RunOnAllFrameworks();
@@ -314,15 +108,15 @@ public partial struct CustomerType { }
             diagnostics.Should().SatisfyRespectively(
                 first =>
                 {
-                    first.Id.Should().Be("VOG011");
+                    first.Id.Should().Be("INTELLENUM011");
                     first.ToString().Should().Be(
-                        "(4,12): error VOG011: The Conversions specified do not match any known conversions - see the Conversions type");
+                        "(4,12): error INTELLENUM011: The Conversions specified do not match any known conversions - see the Conversions type");
                 },
                 second =>
                 {
-                    second.Id.Should().Be("VOG019");
+                    second.Id.Should().Be("INTELLENUM019");
                     second.ToString().Should().Be(
-                        "(4,12): error VOG019: The Customizations specified do not match any known customizations - see the Customizations type");
+                        "(4,12): error INTELLENUM019: The Customizations specified do not match any known customizations - see the Customizations type");
                 });
         }
     }

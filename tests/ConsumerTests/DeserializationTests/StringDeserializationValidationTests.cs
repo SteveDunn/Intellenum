@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Dapper;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
@@ -12,7 +13,7 @@ namespace ConsumerTests.DeserializationTests;
 public class StringDeserializationValidationTests
 {
     [Fact]
-    public async void Deserialization_dapper()
+    public async Task Deserialization_dapper()
     {
         using var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();
@@ -23,7 +24,7 @@ public class StringDeserializationValidationTests
     }
 
     [Fact]
-    public async void Deserialization_efcore()
+    public async Task Deserialization_efcore()
     {
         var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();
@@ -40,7 +41,7 @@ public class StringDeserializationValidationTests
     }
 
     [Fact]
-    public async void Deserialization_linqtodb()
+    public async Task Deserialization_linqtodb()
     {
         var connection = new SqliteConnection("DataSource=:memory:");
         await connection.OpenAsync();
