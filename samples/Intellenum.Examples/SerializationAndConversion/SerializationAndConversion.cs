@@ -2,6 +2,7 @@
 #pragma warning disable CS0219
 using System.Threading.Tasks;
 using Intellenum.Examples.Types;
+using JetBrains.Annotations;
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
 
