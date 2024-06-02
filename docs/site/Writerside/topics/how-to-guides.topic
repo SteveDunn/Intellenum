@@ -23,8 +23,8 @@
 
         <!--    Add up to 2 topics that you want to promote. Use the "type" attribute to select an icon.    -->
         <spotlight>
-            <a href="create-and-use-value-objects.md" type="account"/>
-            <a href="Instances.md" type="search" summary="Create known instances with specific up-front values">Up-front values</a>
+            <a href="create-and-use-intellenum-enums.md" type="account"/>
+            <a href="Serialization.md" type="search" summary="Serialize to and from various formats">Serialization</a>
         </spotlight>
 
         <!--    Add several topics that are most important for this section.    -->
@@ -38,7 +38,6 @@
         <secondary>
             <title>Exploring more advanced features</title>
             <a href="EfCoreIntegrationHowTo.md"/>
-            <a href="NormalizationHowTo.md" summary="How to normalize (sanitize) input values"/>
         </secondary>
     </section-starting-page>
 

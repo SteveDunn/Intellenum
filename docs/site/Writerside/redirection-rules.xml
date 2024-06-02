@@ -82,4 +82,8 @@
         <description>Created after removal of "Records" from Intellenum</description>
         <accepts>Records.html</accepts>
     </rule>
+    <rule id="3e1cff78">
+        <description>Created after removal of "Specify pre-set Instances" from Intellenum</description>
+        <accepts>Instances.html</accepts>
+    </rule>
 </rules>

@@ -30,7 +30,6 @@ The snapshot tests in the IDE run in about 5 minutes. In the CI build, we set a 
   These tests are much quicker to run.
   They verify the behavior
  of created Value Objects, such as:
-    * [Normalization](NormalizationHowTo.md "How to use normalization")
     * Equality
     * Hashing
     * ToString

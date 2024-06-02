@@ -16,7 +16,7 @@
         <spotlight>
             <a href="Overview.md"
                description="Overview" type="learn" summary="Discover what Intellenum is"/>
-            <a href="your-first-value-object.md"
+            <a href="your-first-intellenum-enum.md"
                description="Get started" type="development" summary="Get started"/>
         </spotlight>
 

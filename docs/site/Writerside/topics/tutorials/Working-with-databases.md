@@ -4,7 +4,7 @@
 This topic is incomplete and is being improved.
 </note>
 
-Vogen has converters and serializers for databases, including:
+Intellenum has converters and serializers for databases, including:
 
 * Dapper
 * EFCore

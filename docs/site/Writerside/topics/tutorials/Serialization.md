@@ -1,5 +1,12 @@
 # Working with ASP.NET Core
 
+<note>
+This topic is copied from Vogen and/or is incomplete. It is being worked on (or is planned
+to be worked on). 
+
+If you would like to help with this, please see the list of [open issues](https://github.com/SteveDunn/Intellenum/issues).
+</note>
+
 In this tutorial, we'll create a value object and use it an ASP.NET Core Web API project.
 
 We'll see how the .NET Runtime uses 'Type Converters' to convert from primitives that are provided
