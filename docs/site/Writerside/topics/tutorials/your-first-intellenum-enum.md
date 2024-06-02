@@ -49,7 +49,8 @@ var find2 = CustomerType.FromValue(2);
 You can also list values:
 
 ```c#
-Console.WriteLine(string.Join(", ", CustomerType.List())); // Standard, Gold
+Console.WriteLine(
+    string.Join(", ", CustomerType.List())); // Standard, Gold
 ```
 
 To see if a value is defined, use:
@@ -67,9 +68,14 @@ Console.WriteLine(CustomerType.IsDefined(3)); // False
 To try to get instances from name or value:
 
 ```c#
-bool b1 = CustomerType.TryFromName("Standard", out CustomerType standard);
-bool b2 = CustomerType.TryFromValue(2, out CustomerType gold);
-bool b3 = CustomerType.TryFromName("Silver", out CustomerType silver);
+bool b1 = CustomerType.TryFromName(
+    "Standard", out CustomerType standard);
+
+bool b2 = CustomerType.TryFromValue(
+    2, out CustomerType gold);
+
+bool b3 = CustomerType.TryFromName(
+    "Silver", out CustomerType silver);
 
 Console.WriteLine(b1 + " " + standard.Name);
 Console.WriteLine(b2 + " " + gold.Name);
