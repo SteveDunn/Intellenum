@@ -1,6 +1,4 @@
-﻿#if NET6_0_OR_GREATER
-
-using System;
+﻿using System;
 
 namespace ConsumerTests.TestEnums
 {
@@ -96,4 +94,3 @@ namespace ConsumerTests.TestEnums
         }
     }
 }
-#endif

@@ -12,16 +12,12 @@ public static class ModuleInitialization
         SqlMapper.AddTypeHandler(new ConsumerTests.DeserializationTests.MyIntEnum.DapperTypeHandler());
         SqlMapper.AddTypeHandler(new ConsumerTests.DeserializationTests.MyStringEnum.DapperTypeHandler());
 
-#if NET6_0_OR_GREATER
         MappingSchema.Default.SetConverter<DateTime, TimeOnly>(dt => TimeOnly.FromDateTime(dt));
         SqlMapper.AddTypeHandler(new ConsumerTests.TestEnums.DapperDateOnlyVo.DapperTypeHandler());
         SqlMapper.AddTypeHandler(new ConsumerTests.TestEnums.DapperTimeOnlyEnum.DapperTypeHandler());
-#endif
 
-#if NET7_0_OR_GREATER
         SqlMapper.AddTypeHandler(new ConsumerTests.GenericDeserializationTests.MyIntEnum.DapperTypeHandler());
         SqlMapper.AddTypeHandler(new ConsumerTests.GenericDeserializationTests.MyStringEnum.DapperTypeHandler());
-#endif
 
         SqlMapper.AddTypeHandler(new ConsumerTests.TestEnums.DapperFooEnum.DapperTypeHandler());
         SqlMapper.AddTypeHandler(new ConsumerTests.TestEnums.DapperCharEnum.DapperTypeHandler());

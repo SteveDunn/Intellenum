@@ -1,6 +1,5 @@
 ﻿namespace ConsumerTests.IComparableTests
 {
-#if NET6_0_OR_GREATER
     [Intellenum(typeof(DateOnly))]
     public partial class DOS1
     {
@@ -11,7 +10,6 @@
             Member("JanThird", new DateOnly(2021, 1, 3));
         }
     }
-#endif
 
     [Intellenum(typeof(int))]
     [Member("Item1", 1)]

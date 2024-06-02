@@ -7,6 +7,7 @@ using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Intellenum.Examples.SerializationAndConversion
 {
+    [UsedImplicitly]
     public class SerializationAndConversionExamples : IScenario
     {
         public Task Run()

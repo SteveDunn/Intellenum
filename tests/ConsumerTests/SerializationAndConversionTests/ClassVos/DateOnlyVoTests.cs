@@ -1,6 +1,4 @@
-﻿#if NET6_0_OR_GREATER
-
-#nullable disable
+﻿#nullable disable
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -270,5 +268,3 @@ namespace ConsumerTests.SerializationAndConversionTests.ClassVos
         }
     }
 }
-
-#endif

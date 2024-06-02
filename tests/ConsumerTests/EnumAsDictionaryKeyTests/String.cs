@@ -1,5 +1,4 @@
-﻿#if NET6_0_OR_GREATER
-#nullable disable
+﻿#nullable disable
 
 using System.Text.Json;
 using Intellenum.Tests.Types;
@@ -35,5 +34,3 @@ public class StringTests
         d2[EmployeeTypeString.Operator].Should().Contain(new Employee("Dave Angel", 42));
     }
 }
-
-#endif
