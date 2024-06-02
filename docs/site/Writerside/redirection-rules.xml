@@ -58,4 +58,28 @@
         <description>Created after removal of "Primitive Obsession" from Intellenum</description>
         <accepts>Home.html</accepts>
     </rule>
+    <rule id="1241b763">
+        <description>Created after removal of "Validate values" from Intellenum</description>
+        <accepts>Validate-values.html</accepts>
+    </rule>
+    <rule id="7d181c7">
+        <description>Created after removal of "Normalize input values" from Intellenum</description>
+        <accepts>NormalizationHowTo.html</accepts>
+    </rule>
+    <rule id="79f24679">
+        <description>Created after removal of "Validating user-provided values" from Intellenum</description>
+        <accepts>ValidationTutorial.html</accepts>
+    </rule>
+    <rule id="4d24d230">
+        <description>Created after removal of "Normalizing user-provided values" from Intellenum</description>
+        <accepts>NormalizationTutorial.html</accepts>
+    </rule>
+    <rule id="7282c43c">
+        <description>Created after removal of "Differences with records" from Intellenum</description>
+        <accepts>Differences-when-using-records.html</accepts>
+    </rule>
+    <rule id="49e40be0">
+        <description>Created after removal of "Records" from Intellenum</description>
+        <accepts>Records.html</accepts>
+    </rule>
 </rules>

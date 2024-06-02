@@ -7,10 +7,17 @@ public class BasicFunctionality
     [Fact]
     public void ToString_uses_generated_method()
     {
-        Age.LegalVotingAge.ToString().Should().Be("LegalVotingAge");
-        Age.LegalDrivingAge.ToString().Should().Be("LegalDrivingAge");
+        MilestoneAges.LegalVotingAge.ToString().Should().Be("LegalVotingAge");
+        MilestoneAges.LegalDrivingAge.ToString().Should().Be("LegalDrivingAge");
 
         NameType.FirstAndLast.ToString().Should().Be("FirstAndLast");
         NameType.Nickname.ToString().Should().Be("Nickname");
+    }
+
+    [Fact]
+    public void Uses_users_method_if_supplied()
+    {
+        PacManPoints.Dot.ToString().Should().Be("00010");
+        PacManPoints.PowerPellet.ToString().Should().Be("00050");
     }
 }

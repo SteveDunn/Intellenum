@@ -1,5 +1,13 @@
 # Hoisting
 
+<note>
+This topic is copied from Vogen and/or is incomplete. It is being worked on (or is planned
+to be worked on). 
+
+If you would like to help with this, please see the list of [open issues](https://github.com/SteveDunn/Intellenum/issues).
+</note>
+
+
 Vogen 'hoists' functionality from the underlying primitive. For instance, if the underlying type implements `IComparable<>`, then the code that Vogen generates will also implement `IComparable<>` with the generic argument being the type of wrapper.
 
 Here is what is hoisted:

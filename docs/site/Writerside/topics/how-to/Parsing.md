@@ -1,5 +1,13 @@
 # Parsing
 
+<note>
+This topic is copied from Vogen and/or is incomplete. It is being worked on (or is planned
+to be worked on). 
+
+If you would like to help with this, please see the list of [open issues](https://github.com/SteveDunn/Intellenum/issues).
+</note>
+
+
 Vogen 'hoists' (copies up to the wrapper) certain functionality from the underlying primitive. For instance, any method named `Parse` or `TryParse` from the underlying primitive is hoisted.
 
 The `IParsable` family of interfaces (including `ISpanParsable` and `IUtf8SpanParsable`) that are **implemented 

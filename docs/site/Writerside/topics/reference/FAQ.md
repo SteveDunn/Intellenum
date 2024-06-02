@@ -1,9 +1,11 @@
 # FAQ
 
 <note>
-This topic is incomplete and is currently being improved.
-</note>
+This topic is copied from Vogen and/or is incomplete. It is being worked on (or is planned
+to be worked on). 
 
+If you would like to help with this, please see the list of [open issues](https://github.com/SteveDunn/Intellenum/issues).
+</note>
 
 ## What tests are there
 There are unit tests for Vogen itself, and there are snapshot tests to test that the source code that is generated

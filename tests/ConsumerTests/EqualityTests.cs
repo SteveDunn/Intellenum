@@ -21,57 +21,57 @@ namespace ConsumerTests
         [Fact]
         public void equality_between_same_value_objects()
         {
-            Age.LegalVotingAge.Equals(Age.LegalVotingAge).Should().BeTrue();
-            (Age.LegalVotingAge == Age.LegalVotingAge).Should().BeTrue();
+            MilestoneAges.LegalVotingAge.Equals(MilestoneAges.LegalVotingAge).Should().BeTrue();
+            (MilestoneAges.LegalVotingAge == MilestoneAges.LegalVotingAge).Should().BeTrue();
             
             // uses the generated IEquatable<> 
-            (Age.LegalVotingAge == 18).Should().BeTrue();
-            (18 == Age.LegalVotingAge).Should().BeTrue();
+            (MilestoneAges.LegalVotingAge == 18).Should().BeTrue();
+            (18 == MilestoneAges.LegalVotingAge).Should().BeTrue();
 
-            (Age.LegalVotingAge != Age.LegalDrivingAge).Should().BeTrue();
-            (Age.LegalVotingAge == Age.LegalDrivingAge).Should().BeFalse();
+            (MilestoneAges.LegalVotingAge != MilestoneAges.LegalDrivingAge).Should().BeTrue();
+            (MilestoneAges.LegalVotingAge == MilestoneAges.LegalDrivingAge).Should().BeFalse();
 
-            Age.LegalVotingAge.Equals(Age.LegalVotingAge).Should().BeTrue();
-            (Age.LegalVotingAge == Age.LegalVotingAge).Should().BeTrue();
+            MilestoneAges.LegalVotingAge.Equals(MilestoneAges.LegalVotingAge).Should().BeTrue();
+            (MilestoneAges.LegalVotingAge == MilestoneAges.LegalVotingAge).Should().BeTrue();
         }
 
         [Fact]
         public void equality_between_different_value_objects()
         {
-            Age.LegalVotingAge.Equals(ScoreType.Points).Should().BeFalse();
-            (Age.LegalVotingAge == (object)ScoreType.Points).Should().BeFalse();
+            MilestoneAges.LegalVotingAge.Equals(ScoreType.Points).Should().BeFalse();
+            (MilestoneAges.LegalVotingAge == (object)ScoreType.Points).Should().BeFalse();
         }
 
         [Fact]
         public void equals_method_with_the_underlying_is_always_false()
         {
-            Age.LegalVotingAge.Equals(-1).Should().BeFalse();
-            (Age.LegalVotingAge.Equals(18)).Should().BeFalse();
-            (Age.LegalVotingAge.Equals(null)).Should().BeFalse();
-            Age.LegalVotingAge!.Equals(Age.LegalDrivingAge).Should().BeFalse();
+            MilestoneAges.LegalVotingAge.Equals(-1).Should().BeFalse();
+            (MilestoneAges.LegalVotingAge.Equals(18)).Should().BeFalse();
+            (MilestoneAges.LegalVotingAge.Equals(null)).Should().BeFalse();
+            MilestoneAges.LegalVotingAge!.Equals(MilestoneAges.LegalDrivingAge).Should().BeFalse();
 
-            Age.LegalVotingAge.Equals(new StackFrame()).Should().BeFalse();
+            MilestoneAges.LegalVotingAge.Equals(new StackFrame()).Should().BeFalse();
             
-            Age.LegalVotingAge.Equals(ScoreType.Points).Should().BeFalse();
+            MilestoneAges.LegalVotingAge.Equals(ScoreType.Points).Should().BeFalse();
         }
 
         [Fact]
         public void equality_with_primitives()
         {
-            Age.LegalVotingAge.Equals(-1).Should().BeFalse();
-            (Age.LegalVotingAge == 18).Should().BeTrue();
-            (18 == Age.LegalVotingAge).Should().BeTrue();
+            MilestoneAges.LegalVotingAge.Equals(-1).Should().BeFalse();
+            (MilestoneAges.LegalVotingAge == 18).Should().BeTrue();
+            (18 == MilestoneAges.LegalVotingAge).Should().BeTrue();
 
-            (Age.LegalVotingAge != Age.LegalDrivingAge).Should().BeTrue();
-            (Age.LegalVotingAge != 2).Should().BeTrue();
-            (Age.LegalVotingAge == 2).Should().BeFalse();
+            (MilestoneAges.LegalVotingAge != MilestoneAges.LegalDrivingAge).Should().BeTrue();
+            (MilestoneAges.LegalVotingAge != 2).Should().BeTrue();
+            (MilestoneAges.LegalVotingAge == 2).Should().BeFalse();
         }
 
         [Fact]
         public void reference_equality()
         {
-            var age1 = Age.LegalVotingAge;
-            var age2 = Age.LegalVotingAge;
+            var age1 = MilestoneAges.LegalVotingAge;
+            var age2 = MilestoneAges.LegalVotingAge;
 
             age1.Equals(age1).Should().BeTrue();
 
@@ -81,7 +81,7 @@ namespace ConsumerTests
         [Fact]
         public void equality_with_object()
         {
-            var age = Age.LegalVotingAge;
+            var age = MilestoneAges.LegalVotingAge;
             age.Equals((object)age).Should().BeTrue();
             
             age.Equals((object)"???").Should().BeFalse();
@@ -93,10 +93,10 @@ namespace ConsumerTests
         [Fact]
         public void Nullness()
         {
-            (Age.LegalVotingAge == null!).Should().BeFalse();
-            Age.LegalVotingAge!.Equals(null!).Should().BeFalse();
+            (MilestoneAges.LegalVotingAge == null!).Should().BeFalse();
+            MilestoneAges.LegalVotingAge!.Equals(null!).Should().BeFalse();
 
-            (Age.LegalDrivingAge != null!).Should().BeTrue();
+            (MilestoneAges.LegalDrivingAge != null!).Should().BeTrue();
         }
     }
 }

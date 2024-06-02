@@ -40,10 +40,10 @@ namespace ConsumerTests.HashCodes
         [Fact]
         public void Storing_1()
         {
-            var a1 = Age.LegalVotingAge;
-            var a2 = Age.LegalDrivingAge;
+            var a1 = MilestoneAges.LegalVotingAge;
+            var a2 = MilestoneAges.LegalDrivingAge;
 
-            var d = new Dictionary<Age, string>
+            var d = new Dictionary<MilestoneAges, string>
             {
                 { a1, "hello1" },
                 { a2, "hello2" }
@@ -58,10 +58,10 @@ namespace ConsumerTests.HashCodes
         [Fact]
         public void Storing_2()
         {
-            var a1 = Age.LegalVotingAge;
-            var a2 = Age.LegalVotingAge;
+            var a1 = MilestoneAges.LegalVotingAge;
+            var a2 = MilestoneAges.LegalVotingAge;
 
-            var d = new Dictionary<Age, string> { { a1, "hello1" } };
+            var d = new Dictionary<MilestoneAges, string> { { a1, "hello1" } };
 
             d[a2] = "hello2";
 

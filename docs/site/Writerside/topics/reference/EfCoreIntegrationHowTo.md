@@ -1,5 +1,13 @@
 # Integration with Entity Framework Core
 
+<note>
+This topic is copied from Vogen and/or is incomplete. It is being worked on (or is planned
+to be worked on). 
+
+If you would like to help with this, please see the list of [open issues](https://github.com/SteveDunn/Intellenum/issues).
+</note>
+
+
 It is possible to use Value Objects in EFCore.
 Using VO structs is straightforward, and no converter is required.
 Using VO classes requires generating a converter.

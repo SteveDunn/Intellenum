@@ -31,7 +31,7 @@ Now, add a `CityName` value object and use it as part of the request.
 public partial struct CityName { }
 ```
 
-... now, add this as a parameter to the endpoint:
+… now, add this as a parameter to the endpoint:
 ```C#
     [HttpGet("/WeatherForecast/{cityName}")]
     public IEnumerable<WeatherForecast> Get(CityName cityName)
@@ -99,5 +99,4 @@ parameter to see if it has any type converters that can convert from the primiti
 
 It then calls the generated type converter's `ConvertTo` method with a `string`.
 The type converter then just calls the `From` method
-with that string and returns a `CityName` instance
-(after the usual [normalization](NormalizationTutorial.md) and [validation](ValidationTutorial.md) steps).
+with that string and returns a `CityName` instance.

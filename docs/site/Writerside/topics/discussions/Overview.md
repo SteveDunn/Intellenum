@@ -114,7 +114,7 @@ if(type == CustomerType.Gold) Accept();
 
 ### Configuration
 
-Each Intellenum can have it's own *optional* configuration. Configuration includes:
+Each Intellenum can have its own *optional* configuration. Configuration includes:
 
 * The underlying type
 * Any 'conversions' (Dapper, System.Text.Json, Newtonsoft.Json, etc.) - see below for more information
@@ -123,7 +123,9 @@ Each Intellenum can have it's own *optional* configuration. Configuration includ
 If any of those above are not specified, then global configuration is used. You can define global config like this:
 
 ```C#
-[assembly: IntellenumDefaults(underlyingType: typeof(int), conversions: Conversions.Default)]
+[assembly: IntellenumDefaults(
+    underlyingType: typeof(int), 
+    conversions: Conversions.Default)]
 ```
 Those values are all optional and default to:
 
@@ -149,43 +151,60 @@ operators on the enum type. e.g.
 [Intellenum<Planet>]
 public partial class PlanetEnum
 {
-    public static readonly PlanetEnum Jupiter = new(new Planet("Brown", 273_400));
-    public static readonly PlanetEnum Mars=  new(new Planet("Red", 13_240));
-    public static readonly PlanetEnum Venus=  new(new Planet("White", 23_622));
+    public static readonly PlanetEnum Jupiter = 
+      new(new Planet("Brown", 273_400));
+    
+    public static readonly PlanetEnum Mars=  
+      new(new Planet("Red", 13_240));
+    
+    public static readonly PlanetEnum Venus=  
+      new(new Planet("White", 23_622));
 }
 
-public record class Planet(string Colour, int CircumferenceInMiles) : IComparable<Planet>
+public record class Planet(string Colour, int CircumferenceInMiles) 
+    : IComparable<Planet>
 {
-    public int CompareTo(Planet other) => CircumferenceInMiles.CompareTo(other.CircumferenceInMiles);
+    public int CompareTo(Planet other) => 
+        CircumferenceInMiles.CompareTo(other.CircumferenceInMiles);
 }
 
 Console.WriteLine(PlanetEnum.Mars < PlanetEnum.Jupiter); // true
 
-Console.WriteLine(string.Join(", ", PlanetEnum.List().OrderDescending())); // Jupiter, Venus, Mars
+// Prints Jupiter, Venus, Mars
+Console.WriteLine(
+    string.Join(", ", PlanetEnum.List().OrderDescending())); 
 ```
 
 Additionally, if the underlying type contains a static method named `TryParse`, then a `TryParse` method will be generated for the enum itself.
 This `TryParse` method is useful if you want to find an enum by an alternative representation of its value.
 The generated `TryParse` first calls the static `TryParse` on the underlying type, and then does a lookup with `TryFromValue`.
-The code below demonstrates this. The enum has an underlying type of `Planet`, which has a `TryParse` method that parses a string in the format `'Colour-Circumference'.
+The code below demonstrates this. The enum has an underlying type of `Planet`, which has a `TryParse` method that parses a string in the format `'Colour-Circumference'`.
 Because the underlying type has a `TryParse` method, the generated enum also has a `TryParse` method which delegates to the underlying type's `TryParse` method:
 
 ```C#
 [Intellenum(typeof(Planet))]
 public partial class PlanetEnum
 {
-    public static readonly PlanetEnum Jupiter = new(new Planet("Brown", 273_400));
-    public static readonly PlanetEnum Mars=  new(new Planet("Red", 13_240));
-    public static readonly PlanetEnum Venus=  new(new Planet("White", 23_622));
+    public static readonly PlanetEnum Jupiter = 
+        new(new Planet("Brown", 273_400));
+    
+    public static readonly PlanetEnum Mars =  
+        new(new Planet("Red", 13_240));
+    
+    public static readonly PlanetEnum Venus =  
+        new(new Planet("White", 23_622));
 }
 
-public record class Planet(string Colour, int CircumferenceInMiles)  : IComparable<Planet>
+public record class Planet(string Colour, int CircumferenceInMiles)  
+    : IComparable<Planet>
 {
-    public int CompareTo(Planet other) => CircumferenceInMiles.CompareTo(other.CircumferenceInMiles);
+    public int CompareTo(Planet other) => 
+        CircumferenceInMiles.CompareTo(other.CircumferenceInMiles);
 
     public static bool TryParse(string input, out Planet result)
     {
-        string pattern = "^(?<colour>[a-zA-Z]+)-(?<circumference>\\d+)$";
+        string pattern = 
+            "^(?<colour>[a-zA-Z]+)-(?<circumference>\\d+)$";
 
         Match match = Regex.Match(input, pattern);
 
@@ -258,7 +277,7 @@ Returns an `IEnumerable<T>` of all the members of the enum.
 
 ### Deconstructing
 
-Deconstructs an enum into it's name and value. For example:
+Deconstructs an enum into its name and value. For example:
 
 ```C#
 var (name, value) = CustomerType.Gold;
@@ -285,16 +304,14 @@ There were a few requests to use the same source generation and analyzers used f
 This is what Intellenum is.
 
 There are a few other libraries for dealing with enums. Some, for example, SmartEnum, declare a base class containing functionality.
-Others, e.g. EnumGenerators, use attributes on standard enums to generate source code.
+Others, e.g., EnumGenerators, use attributes on standard enums to generate source code.
 
 Intellenum is a mixture of both. It uses an attribute to specify an 'enum' and then source-generates the functionality.
 
 
+## FAQ
 
-
-# FAQ
-
-## How fast is it? ⚡
+### How fast is it? ⚡
 
 Very fast! Here's some comparisons of various libraries (and the default `enum` in C#)
 
@@ -333,15 +350,15 @@ Very fast! Here's some comparisons of various libraries (and the default `enum` 
 | SmartEnums     | 0.3246 ns | 0.0082 ns  | 0.0069 ns  | -         |
 | **Intellenums**   | **0.3198 ns** | **0.0103 ns** | **0.0096 ns** | **-**         |
 
-## What does `ToString` return?
+### What does `ToString` return?
 It returns the **name** of the member.
 There is also a TypeConverter; when this is asked to convert a member to a `string',
 it returns the **value** of the member as a string.
 
-## What can the `TypeConverters` convert to and from?
+### What can the `TypeConverters` convert to and from?
 They can convert an underlying type back to a matching enum.
 
-## Can it serialize/deserialize?
+### Can it serialize/deserialize?
 Yes, it can. There's various ways to do this, including:
 * System.Text.Json
 * Newtonsoft.Json
@@ -352,10 +369,10 @@ Yes, it can. There's various ways to do this, including:
 
 Right now, Intellenum serializes using the `Value` property just like native enums.
 
-## I use an Intellenum as a key in a Dictionary - can I serialize that dictionary?
+### I use an Intellenum as a key in a Dictionary - can I serialize that dictionary?
 Yes, at least if you use `System.Text.Json`.
 
-# A look at the generated code
+## A look at the generated code
 For compile-time constant (and `decimal`) values, a switch expression is generated for `IsDefined`:
 
 ```C#
@@ -452,7 +469,7 @@ The alternative in this case is to use a dictionary to map between names and val
 
 
 
-## How this documentation is organized
+### How this documentation is organized
 
 * These top level pages discuss key topics and concepts at a fairly high level and provide useful background information
   and explanation.

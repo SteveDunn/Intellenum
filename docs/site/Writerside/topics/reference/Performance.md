@@ -1,8 +1,12 @@
 # Performance
 
 <note>
-This topic is incomplete and is currently being improved.
+This topic is copied from Vogen and/or is incomplete. It is being worked on (or is planned
+to be worked on). 
+
+If you would like to help with this, please see the list of [open issues](https://github.com/SteveDunn/Intellenum/issues).
 </note>
+
 
 
 (to run these yourself: `dotnet run -c Release --framework net8.0 -- --job short --filter *` in the `Vogen.Benchmarks` folder)

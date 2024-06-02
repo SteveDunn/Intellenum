@@ -3,29 +3,26 @@
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
 <topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
-       title="Vogen" id="Intellenum" help-id="test">
+       title="Intellenum" id="Intellenum" help-id="test">
 
     <section-starting-page>
-        <title>Vogen</title>
+        <title>Intellenum</title>
         <description>
-            Vogen is a C# .NET Source Generator and a set of Roslyn analyzers.
+            Intellenum is a C# .NET Source Generator and a set of Roslyn analyzers.
 
-            It wraps your primitives (integers, decimals, etc.) in a 'Value Object' that represents
-            domain concepts like CustomerId, AccountBalance, etc.
-
-            It adds new compilation errors to help stop the creation of invalid Value Objects.
+            It adds new compilation errors to help stop the creation of invalid instances.
         </description>
 
         <spotlight>
             <a href="Overview.md"
-               description="Overview" type="learn" summary="Discover what Vogen is"/>
+               description="Overview" type="learn" summary="Discover what Intellenum is"/>
             <a href="your-first-value-object.md"
                description="Get started" type="development" summary="Get started"/>
         </spotlight>
 
         <primary>
             <title>Discover</title>
-            <a type="learn" href="Tutorials.topic" summary="Step by step guides on working with Vogen"/>
+            <a type="learn" href="Tutorials.topic" summary="Step by step guides on working with Intellenum"/>
         </primary>
 
         <secondary><title>Learn</title>

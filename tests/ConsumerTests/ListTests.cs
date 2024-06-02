@@ -20,5 +20,8 @@ public class ListTests
         {
             _testOutputHelper.WriteLine($"{name} - {value}");
         }
+
+        CustomerType.FromName("Standard").Should().Be(CustomerType.FromValue(1));
+        CustomerType.FromName("Gold").Should().Be(CustomerType.FromValue(2));
     }
 }

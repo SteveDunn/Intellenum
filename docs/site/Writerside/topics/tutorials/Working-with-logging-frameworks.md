@@ -4,58 +4,58 @@ In this tutorial, we'll see how to log instances of value objects.
 
 ## Writing to the console
 
-In a new console application, add a NuGet reference to `Vogen`, and create:
+In a new console application, add a NuGet reference to `Intellenum`, and create:
 
 ```c#
-[ValueObject<int>] 
-public readonly partial struct Age 
+[Intellenum<int>]
+public partial class PacManPoints
 {
+    static PacManPoints()
+    {
+        Member("Dot", 10);
+        Member("PowerPellet", 50);
+        Member("Ghost1", 200);
+        Member("Ghost2", 400);
+        Member("Ghost3", 800);
+        Member("Ghost4", 1600);
+    }
 }
 ```
 
 Now, create an instance and write it to the console:
 
 ```c#
-var age = Age.From(42);
-Console.WriteLine("Age is " + age);
+Console.WriteLine(PacManPoints.PowerPellet.ToString()); 
 ```
 
 As expected, you'll see:
 
 ```Bash
-Age is 42
+PowerPellet
 ```
 
-Vogen generates a default `ToString` method that looks like this:
+Intellenum generates a default `ToString` method that looks like this:
 
 ```C#
-public override string ToString() =>_isInitialized 
-    ? Value.ToString() 
-    : "[UNINITIALIZED]";
+public override string ToString() => Name;
 ```
 
-If the value is uninitialized, for example, through deserialization, then it writes
-uninitialized, otherwise, it uses the underlying type's `ToString` method.
-
-[//]: # (TODO: expand on ToString, either here, or in another page, and/or another How-to article)
-
-It is possible to override `ToString`—for example, you might want to pad the value with zeroes. Add the following
-method to `Age` above:
+It is possible to override `ToString`—for example, you might want to write the _value_ out and possibly pad the value with zeroes.
+Let's see how to do that. Add the following method to `PacManPoints`:
 
 ```C#
-[ValueObject<int>]
-public readonly partial struct Age
+[Intellenum<int>]
+public partial class PacManPoints
 {
-    public override string ToString() =>_isInitialized 
-        ? Value.ToString("D4") 
-        : "[UNINITIALIZED]";    
+    ...
+    public override string ToString() => Value.ToString("D5");
 }
 ```
 
-That will now print:
+Run it again and it'll now print:
 
 ```Bash
-Age is 0042
+00050
 ```
 
 ## Using the default logging framework
@@ -83,17 +83,18 @@ ILogger logger = loggerFactory.CreateLogger<Program>();
 Now, change the `Console.WriteLine` to:
 
 ```C#
-logger.LogInformation($"Age is {Age}", age);
+var  points = PacManPoints.PowerPellet;
+logger.LogInformation("Points awarded! {PointsAwarded}", points);
 ```
 
 The output is something like this:
 
 ```Bash
 info: Program[0]
-      Age is 0042
+      Points awarded! 00050
 ```
 
-So far, we've used the standard .NET logger to write to a console, and we've written a value object using structured
+So far, we've used the standard .NET logger to write to a console, and we've written an Intellenum instance using structured
 logging.
 
 Next, we'll look more at structured logging and switch to **Serilog**, a common choice for .NET.
@@ -107,81 +108,81 @@ The structured data objects can then be stored, queried, and processed in ways t
 </note>
 
 Structure logging is supported by the default .NET logger.
-The structured properties are inside 'index placeholders', for example, `{Age}` above.
+The structured properties are inside 'index placeholders', for example, `{PointsAwarded}` above.
 The default logger supports structured logging.
 However, it can't fully use structured data.
 For this, we'll use Serilog.
 
 * create a new console app
-* add NuGet packages for `Vogen`, `Serilog`, and `Serilog.Sinks.Console`
-* create the `Age` value object from above
+* add NuGet packages for `Intellenum`, `Serilog`, and `Serilog.Sinks.Console`
+* create the `PacManPoints` type from above
 
 Add the following initialization:
 
 ```C#
 using Serilog;
-using Vogen;
+using Intellenum;
 
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .WriteTo.Console()
     .CreateLogger();
 
-
-Age age = Age.From(42);
-Log.Information("Age is {Age}", age);
+var  points = PacManPoints.PowerPellet;
+Log.Information("Points awarded! {PointsAwarded}", points);
 ```
 
 Run it again, and you'll see something like this:
 
 ```Bash
-[06:24:32 INF] Age is 0042
+[06:33:12 INF] Points awarded! 00050
 ```
 
-Let's create a bit more structure. Add a `Person` object:
+Let's create a bit more structure. Add a `GameEvent` object:
 
 ```C#
-public record Person(string Name, Age Age)
-{
-}
+public record GameEvent(string Name, PacManPoints Points);
 ```
 
 Replace what is logged with:
 
 ```C#
-Log.Information("Person is {Person}", new Person("Joe", age));
+Log.Information("{GameEvent}", 
+    new GameEvent("Fred", PacManPoints.PowerPellet));
 ```
 
 You'll see:
 
 ```c#
-[06:26:32 INF] Person is Person { Name = Joe, Age = 0042 }
+[06:38:38 INF] GameEvent { Name = Fred, Points = 00050 }
 ```
 
-In Serilog and some other .NET logging libraries that support structured logging, the `@` character in a placeholder 
-is called the destructuring operator.
-When you use the @ character before a placeholder, it tells the logging system to serialize the object completely 
-instead of just calling ToString().
-This means the complete state of the object is logged,
-which can give you much more useful information for complex objects.
+In Serilog and some other .NET logging libraries that support structured logging, the `@` character in a _placeholder_ 
+is called the _destructuring operator_.
+It tells the logging system to serialize the object completely instead of just calling `ToString()`.
+This means the complete state of the object is logged, which can give you much more useful information for complex objects.
 
 In our simple example, changing the logging line to:
 
 ```C#
-Log.Information("Person is {@Person}", new Person("Joe", age));
+Log.Information("{@GameEvent}",
+    new GameEvent("Fred", PacManPoints.PowerPellet));
 ```
 
 Results in:
 ```Bash
-Person is {"Name": "Joe", "Age": {"Value": 42, "$type": "Age"}, "$type": "Person"}
+[06:40:57 INF] {"Name": "Fred", "Points": 
+    {"Value": 50, "Name": "PowerPellet", "$type": "PacManPoints"}, 
+    "$type": "GameEvent"}
 ```
 
-You can see that `Name` is written as: `Joe`.
-But `Age` is written as: `{"Value": 42, "$type": "Age"}`
+You can see that `Name` is written as: `Fred`.
+But `Points` is written as: `{"Value": 50, "Name": "PowerPellet", "$type": "PacManPoints"},
+"$type": "GameEvent"}`
 
-You might find this output too detailed for value objects and that it pollutes the logs.
+You might find this output for Intellenums is too detailed and that it pollutes the logs.
 
-We can tell Serilog to use the simpler format for value objects generated by Vogen.
+We can tell Serilog to use the simpler format for Intellenums.
 
 Add the following `Destructure` line to the initialization:
 
@@ -189,39 +190,38 @@ Add the following `Destructure` line to the initialization:
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .WriteTo.Console()
-    .Destructure.With(new VogenDestructuringPolicy())
+    ++ .Destructure.With(new IntellenumDestructuringPolicy())
     .CreateLogger();
 ```
 
 And add this type to the project:
 
 ```C#
-public class VogenDestructuringPolicy : IDestructuringPolicy
+public class IntellenumDestructuringPolicy : IDestructuringPolicy
 {
-    public bool TryDestructure(
-        object value, 
+    public bool TryDestructure(object value, 
         ILogEventPropertyValueFactory propertyValueFactory, 
-        out LogEventPropertyValue result)
+        out LogEventPropertyValue? result)
     {
-        if(value.GetType().GetCustomAttribute(
-            typeof(ValueObjectAttribute)) is ValueObjectAttribute)
-        {
-            result = new ScalarValue(value.ToString());
-            return true;
-        }
-
-        result = null;
-        return false;
+        bool isIntellenum = value.GetType().GetCustomAttribute(
+            typeof(IntellenumAttribute)) is IntellenumAttribute;
+        
+        result = isIntellenum 
+            ? new ScalarValue(value.ToString()) 
+            : null;
+        
+        return isIntellenum;
     }
 }
 ```
 
-Now, run again, and see that our value object `Age` is written more simply:
+Now, run again, and see that enum is written more simply:
 
 ```Bash
-Person is {"Name": "Joe", "Age": "0042", "$type": "Person"}
+[06:46:49 INF] 
+    {"Name": "Fred", "Points": "00050", "$type": "GameEvent"}
 ```
 
-In this tutorial, we've seen how to log value objects to the console and to the default logger.
-We've also seen how to use structured logging and how to customize the output of value objects written to Serilog.
+In this tutorial, we've seen how to Intellenums to the console and to the default logger.
+We've also seen how to use structured logging and how to customize the output of Intellenums written to Serilog.
 

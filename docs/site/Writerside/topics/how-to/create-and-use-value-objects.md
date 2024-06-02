@@ -1,39 +1,36 @@
-# Create and use Value Objects
+# Create and use Intellenum enums
 
 <card-summary>
-How to create and use Value Objects, how they better represent domain concepts, and how they help ensure
-that no invalid instances can be created.
+How to create and use Intellenum enums, how it's easier to create than standard enums, and how more extensible they are than standard enums.
 </card-summary>
 
 <note>
 This topic is incomplete and is currently being improved.
 </note>
 
-Create a new Value Object by decorating a partial type with the `ValueObject` attribute:
+Create a new Intellenum enum by decorating a partial class with the `Intellenum` attribute:
 
 ```c#
-[ValueObject<int>] 
-public partial struct CustomerId { }
+[Intellenum<int>] 
+[Member("Standard", 1)]
+[Member("Gold", 2)]
+public partial class CustomerType;
 ```
 
 The type must be `partial` as the source generator augments the type with another partial class containing the
 generator code.
 
-Now, create a new instance by using the `From` method:
+Now, reference an instance:
 
 ```c#
-var customerId = CustomerId.From(42);
+var customerType = CustomerType.Gold;
 ```
 
 If you try to use the constructors, the [analyzer rules](Analyzer-Rules.md) will catch this and stop you.
 
-You can now be more explicit in your methods with signatures such as:
+As well as accessing instances, you can also quickly find instances, e.g.
 
 ```c#
-public void HandlePayment(
-    CustomerId customerId, 
-    AccountId accountId, 
-    PaymentAmount paymentAmount)
+CustomerType.IsDefined("Silver"); // False
 ```
 
-[//]: # (TODO: enhance)
