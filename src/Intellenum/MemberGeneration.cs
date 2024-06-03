@@ -199,6 +199,23 @@ public static class MemberGeneration
                 $"Member '{propertyName}' has a value type '{propertyValue.GetType()}' of '{propertyValue}' which cannot be converted to the underlying type of '{underlyingType}' - {e.Message}");
         }
     }
+    
+    public static string GenerateConstValuesIfPossible(VoWorkItem item)
+    {
+        if (!item.IsConstant || item.MemberProperties.Count == 0)
+        {
+            return string.Empty;
+        }
+        
+        StringBuilder sb = new StringBuilder("// const fields...");
+        sb.AppendLine();
+        foreach (var memberProperties in item.MemberProperties)
+        {
+            sb.AppendLine($"public const {item.UnderlyingTypeFullName} {memberProperties.FieldName}Value = {memberProperties.ValueAsText};");
+        }
+        
+        return sb.ToString();
+    }
 
     public static string GeneratePrivateConstructionInitialisationIfNeeded(VoWorkItem item)
     {
