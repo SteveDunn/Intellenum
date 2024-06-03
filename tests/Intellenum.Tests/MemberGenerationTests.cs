@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Intellenum.MemberBuilding;
 using Xunit;
 // ReSharper disable RedundantCast
 

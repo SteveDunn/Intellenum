@@ -80,7 +80,7 @@ namespace Whatever
 
                     d.Count.Should().Be(1);
                     
-                    d.HasError("INTELLENUM026", "MyMembersTests must have at least 1 member");
+                    d.ShouldHaveError("INTELLENUM026", "MyMembersTests must have at least 1 member");
                 }
             }
         }
@@ -114,7 +114,7 @@ namespace Whatever
                     DiagnosticCollection d = new(diagnostics);
                     d.Count.Should().Be(2);
 
-                    d.HasError("INTELLENUM023", "MyMemberTests cannot be converted. Member value named Invalid has an attribute with a 'System.String' of '1.23x' which cannot be converted to the underlying type of 'System.Single'*");
+                    d.ShouldHaveError("INTELLENUM023", "MyMemberTests cannot be converted. Member value named Invalid has an attribute with a 'System.String' of '1.23x' which cannot be converted to the underlying type of 'System.Single'*");
                 }
             }
 
@@ -167,7 +167,7 @@ namespace Whatever
                 {
                     var d = new DiagnosticCollection(diagnostics);
                     d.Count.Should().Be(2);
-                    d.HasErrorContaining("MyMemberTests cannot be converted. Member value named Invalid has an attribute with a 'System.String' of 'x2022-13-99' which cannot be converted to the underlying type of 'System.DateTimeOffset'");
+                    d.ShouldHaveErrorContaining("MyMemberTests cannot be converted. Member value named Invalid has an attribute with a 'System.String' of 'x2022-13-99' which cannot be converted to the underlying type of 'System.DateTimeOffset'");
                     d.HasId("INTELLENUM023");
                 }
             }

@@ -1,4 +1,5 @@
 using Intellenum.Generators.Snippets;
+using Intellenum.MemberBuilding;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Intellenum.Generators;

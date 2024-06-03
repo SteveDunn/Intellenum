@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
+using FluentAssertions;
 using Microsoft.CodeAnalysis;
 
 // a wrapper around diagnostics for easier testing
@@ -13,16 +14,16 @@ public class DiagnosticCollection
 
     public int Count => _items.Length;
 
-    public bool HasId(string id) => _items.Any(i => i.Id == id);
+    public void HasId(string id) => _items.Any(i => i.Id == id).Should().BeTrue();
 
-    public bool HasError(string error) => _items.Any(i => i.GetMessage() == error);
+    public void HasError(string error) => _items.Any(i => i.GetMessage() == error).Should().BeTrue();
     
-    public bool HasError(string id, string error) => _items.Any(i => i.Id == id && i.GetMessage() == error);
+    public void ShouldHaveError(string id, string error) => _items.Should().Contain(i => i.Id == id && i.GetMessage(null) == error);
     
 
-    public bool HasErrorStartingWith(string error) => _items.Any(i => i.GetMessage().StartsWith(error));
-    public bool HasErrorStartingWith(string id, string error) => _items.Any(i => i.Id == id && i.GetMessage().StartsWith(error));
+    public void ShouldHaveErrorStartingWith(string error) => _items.Any(i => i.GetMessage().StartsWith(error));
+    public void ShouldHaveErrorStartingWith(string id, string error) => _items.Any(i => i.Id == id && i.GetMessage().StartsWith(error)).Should().BeTrue();
 
-    public bool HasErrorContaining(string error) => _items.Any(i => i.GetMessage().Contains(error));
-    public bool HasErrorContaining(string id, string error) => _items.Any(i => i.Id == id && i.GetMessage().Contains(error));
+    public void ShouldHaveErrorContaining(string error) => _items.Any(i => i.GetMessage().Contains(error)).Should().BeTrue();
+    public void ShouldHaveErrorContaining(string id, string error) => _items.Any(i => i.Id == id && i.GetMessage().Contains(error)).Should().BeTrue();
 }
