@@ -43,6 +43,10 @@ namespace @class
         global::System.IComparable, 
         global::System.IComparable<escapedTestspublic_partial_classConversions_EfCoreValueConverterstring> 
     {
+        // const fields...
+public const System.String OneValue = "1";
+
+
         
 
 #if DEBUG    

@@ -45,6 +45,8 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<internal_partial_classchar> 
     {
+        
+
                 private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, internal_partial_classchar>> _namesToEnums = new( () =>
         new()
         {

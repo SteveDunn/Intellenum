@@ -43,6 +43,8 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<public_partial_classConversions_EfCoreValueConverterbool> 
     {
+        
+
                 private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, public_partial_classConversions_EfCoreValueConverterbool>> _namesToEnums = new( () =>
         new()
         {

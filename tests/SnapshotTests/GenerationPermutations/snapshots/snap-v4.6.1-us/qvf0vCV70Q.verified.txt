@@ -44,6 +44,10 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<public_partial_classConversions_NewtonsoftJson> 
     {
+        // const fields...
+public const System.Int32 OneValue = 1;
+
+
         
 
 #if DEBUG    

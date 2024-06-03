@@ -43,6 +43,8 @@ namespace @class
         global::System.IComparable, 
         global::System.IComparable<escapedTestspublic_partial_classConversions_DapperTypeHandlerdouble> 
     {
+        
+
                 private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, escapedTestspublic_partial_classConversions_DapperTypeHandlerdouble>> _namesToEnums = new( () =>
         new()
         {

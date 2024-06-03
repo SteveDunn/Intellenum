@@ -45,6 +45,14 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<MinimumWageInUK> 
     {
+        // const fields...
+public const System.Decimal ApprenticeValue = 4.3m;
+public const System.Decimal UnderEighteenValue = 4.62m;
+public const System.Decimal EighteenToTwentyValue = 6.56m;
+public const System.Decimal TwentyOneAndOverValue = 8.36m;
+public const System.Decimal TwentyFiveAndOverValue = 8.91m;
+
+
         
 
 #if DEBUG    

@@ -15,20 +15,20 @@ using VerifyTests;
 using VerifyXunit;
 using Xunit.Abstractions;
 
-namespace SnapshotTests
+namespace SnapshotTests;
+
+public class SnapshotRunner<T> where T : IIncrementalGenerator, new()
 {
-    public class SnapshotRunner<T> where T : IIncrementalGenerator, new()
+    public SnapshotRunner([CallerFilePath]string caller = "")
     {
-        public SnapshotRunner([CallerFilePath]string caller = "")
-        {
             int n = caller.LastIndexOf('\\');
             n = n > 0 ? n : caller.LastIndexOf('/');
             _path = Path.Combine(caller.Substring(0, n), "snapshots");
         }
 
-        private readonly TargetFramework[] _allFrameworks =
-        {
-            TargetFramework.Net8_0,
+    private readonly TargetFramework[] _allFrameworks =
+    {
+        TargetFramework.Net8_0,
 #if THOROUGH
             TargetFramework.Net5_0,
             TargetFramework.Net6_0,
@@ -37,70 +37,70 @@ namespace SnapshotTests
             TargetFramework.Net4_8,
             TargetFramework.NetCoreApp3_1,
 #endif
-        };
+    };
 
-        public SnapshotRunner<T> WithLocale(string locale)
-        {
+    public SnapshotRunner<T> WithLocale(string locale)
+    {
             _locale = locale;
             return this;
         }
 
-        private string? _source;
-        private readonly string _path;
-        private Action<VerifySettings>? _customizesSettings;
+    private string? _source;
+    private readonly string _path;
+    private Action<VerifySettings>? _customizesSettings;
 
-        private string _locale = string.Empty;
-        private bool _ignoreInitialCompilationErrors;
-        private ITestOutputHelper? _logger;
-        private readonly List<NuGetPackage> _additionalNuGetPackages = new();
-        private LanguageVersion _languageVersion = LanguageVersion.Default;
-        private bool _excludeStj = false;
+    private string _locale = string.Empty;
+    private bool _ignoreInitialCompilationErrors;
+    private ITestOutputHelper? _logger;
+    private readonly List<NuGetPackage> _additionalNuGetPackages = new();
+    private LanguageVersion _languageVersion = LanguageVersion.Default;
+    private bool _excludeStj = false;
 
-        public async Task RunOnAllFrameworks() => await RunOn(_allFrameworks);
+    public async Task RunOnAllFrameworks() => await RunOn(_allFrameworks);
 
-        public SnapshotRunner<T> WithSource(string source)
-        {
+    public SnapshotRunner<T> WithSource(string source)
+    {
             _source = source;
             return this;
         }
 
-        public SnapshotRunner<T> IgnoreInitialCompilationErrors()
-        {
+    public SnapshotRunner<T> IgnoreInitialCompilationErrors()
+    {
             _ignoreInitialCompilationErrors = true;
             return this;
         }
 
-        public SnapshotRunner<T> CustomizeSettings(Action<VerifySettings> settings)
-        {
+    public SnapshotRunner<T> CustomizeSettings(Action<VerifySettings> settings)
+    {
             _customizesSettings = settings;
             return this;
         }
 
-        public async Task RunOn(params TargetFramework[] frameworks)
+    public async Task RunOn(params TargetFramework[] frameworks)
+    {
+        _ = _source ?? throw new InvalidOperationException("No source!");
+
+        // Skips tests targeting specific frameworks that were excluded above
+        // NOTE: Requires [SkippableFact] attribute to be added to single-framework tests
+        Skip.If(frameworks.Length == 0);
+
+        foreach (var eachFramework in frameworks)
         {
-            _ = _source ?? throw new InvalidOperationException("No source!");
+            _logger?.WriteLine($"Running on {eachFramework}");
+            VerifySettings? verifySettings = null;
 
-            // Skips tests targeting specific frameworks that were excluded above
-            // NOTE: Requires [SkippableFact] attribute to be added to single-framework tests
-            Skip.If(frameworks.Length == 0);
-
-            foreach (var eachFramework in frameworks)
+            if (_customizesSettings is not null)
             {
-                _logger?.WriteLine($"Running on {eachFramework}");
-                VerifySettings? verifySettings = null;
+                verifySettings = new();
+                _customizesSettings(verifySettings);
+            }
 
-                if (_customizesSettings is not null)
-                {
-                    verifySettings = new();
-                    _customizesSettings(verifySettings);
-                }
+            using var scope = new AssertionScope();
 
-                using var scope = new AssertionScope();
+            (ImmutableArray<Diagnostic> diagnostics, SyntaxTree[] syntaxTrees) = await GetGeneratedOutput(_source, eachFramework);
+            diagnostics.Should().BeEmpty(@$"because the following source code should compile on {eachFramework}: " + Environment.NewLine + _source + Environment.NewLine);
 
-                (ImmutableArray<Diagnostic> diagnostics, SyntaxTree[] syntaxTrees) = await GetGeneratedOutput(_source, eachFramework);
-                diagnostics.Should().BeEmpty(@$"because the following source code should compile on {eachFramework}: " + Environment.NewLine + _source + Environment.NewLine);
-
-                var outputFolder = Path.Combine(_path, SnapshotUtils.GetSnapshotDirectoryName(eachFramework, _locale));
+            var outputFolder = Path.Combine(_path, SnapshotUtils.GetSnapshotDirectoryName(eachFramework, _locale));
 
 #if RESET_SNAPSHOTS
                 _logger?.WriteLine("** Auto verifying snapshots as RESET_SNAPSHOTS is true!");
@@ -109,12 +109,12 @@ namespace SnapshotTests
                     verifySettings.AutoVerify();
 #endif
 
-                await Verifier.Verify(syntaxTrees.Select(s => s.ToString()), verifySettings).UseDirectory(outputFolder);
-            }
+            await Verifier.Verify(syntaxTrees.Select(s => s.ToString()), verifySettings).UseDirectory(outputFolder);
         }
+    }
 
-        private async Task<(ImmutableArray<Diagnostic> Diagnostics, SyntaxTree[] GeneratedSource)> GetGeneratedOutput(string source, TargetFramework targetFramework)
-        {
+    private async Task<(ImmutableArray<Diagnostic> Diagnostics, SyntaxTree[] GeneratedSource)> GetGeneratedOutput(string source, TargetFramework targetFramework)
+    {
             var r = MetadataReference.CreateFromFile(typeof(IntellenumAttribute).Assembly.Location);
 
             var results = await new ProjectBuilder()
@@ -128,32 +128,31 @@ namespace SnapshotTests
             return results;
         }
 
-        public SnapshotRunner<T> WithLogger(ITestOutputHelper logger)
-        {
+    public SnapshotRunner<T> WithLogger(ITestOutputHelper logger)
+    {
             _logger = logger;
 
             return this;
         }
 
-        public SnapshotRunner<T> WithPackage(NuGetPackage package)
-        {
+    public SnapshotRunner<T> WithPackage(NuGetPackage package)
+    {
             _additionalNuGetPackages.Add(package);
 
             return this;
         }
 
-        public SnapshotRunner<T> WithLanguageVersion(LanguageVersion languageVersion)
-        {
+    public SnapshotRunner<T> WithLanguageVersion(LanguageVersion languageVersion)
+    {
             _languageVersion = languageVersion;
             return this;
         }
 
-        public SnapshotRunner<T> ExcludeSystemTextJsonNugetPackage()
-        {
+    public SnapshotRunner<T> ExcludeSystemTextJsonNugetPackage()
+    {
             _excludeStj = true;
             return this;
         }
 
-        public SnapshotRunner<T> IgnoreFinalCompilationErrors() => this;
-    }
+    public SnapshotRunner<T> IgnoreFinalCompilationErrors() => this;
 }

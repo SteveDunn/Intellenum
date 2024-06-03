@@ -2,14 +2,14 @@
 using Intellenum;
 using VerifyXunit;
 
-namespace SnapshotTests.GeneralStuff
+namespace SnapshotTests.GeneralStuff;
+
+[UsesVerify]
+public class GeneralTests
 {
-    [UsesVerify]
-    public class GeneralTests
+    [Fact]
+    public Task Partial_partial_class_created_successfully()
     {
-        [Fact]
-        public Task Partial_partial_class_created_successfully()
-        {
             var source = @"using Intellenum;
 namespace Whatever;
 
@@ -24,15 +24,15 @@ public partial class CustomerType
             return RunTest(source);
         }
 
-        private static Task RunTest(string source) =>
-            new SnapshotRunner<IntellenumGenerator>()
-                .WithSource(source)
-                .IgnoreFinalCompilationErrors()
-                .RunOnAllFrameworks();
+    private static Task RunTest(string source) =>
+        new SnapshotRunner<IntellenumGenerator>()
+            .WithSource(source)
+            .IgnoreFinalCompilationErrors()
+            .RunOnAllFrameworks();
 
-        [Fact]
-        public Task No_namespace() =>
-            RunTest(@"using Intellenum;
+    [Fact]
+    public Task No_namespace() =>
+        RunTest(@"using Intellenum;
 
 [Intellenum]
 [Member(""Normal"", 0)]
@@ -42,9 +42,9 @@ public partial class CustomerType
 {
 }");
 
-        [Fact]
-        public Task Produces_instances() =>
-            RunTest(@"using Intellenum;
+    [Fact]
+    public Task Produces_instances() =>
+        RunTest(@"using Intellenum;
 
 namespace Whatever;
 
@@ -59,9 +59,9 @@ public partial class CustomerType
 }
 ");
 
-        [Fact]
-        public Task Namespace_names_can_have_reserved_keywords() =>
-            RunTest(@"using Intellenum;
+    [Fact]
+    public Task Namespace_names_can_have_reserved_keywords() =>
+        RunTest(@"using Intellenum;
 
 namespace @double;
 
@@ -74,5 +74,4 @@ public partial class @class
 {
 }
 ");
-    }
 }

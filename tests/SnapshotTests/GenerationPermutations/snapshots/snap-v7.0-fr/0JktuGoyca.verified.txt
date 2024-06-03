@@ -44,6 +44,10 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<public_partial_classConversions_SystemTextJsonlong> 
     {
+        // const fields...
+public const System.Int64 OneValue = 1L;
+
+
         
 
 #if DEBUG    

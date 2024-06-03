@@ -43,6 +43,10 @@ namespace @class
         global::System.IComparable, 
         global::System.IComparable<escapedTestsinternal_partial_classConversions_LinqToDbValueConverterbyte> 
     {
+        // const fields...
+public const System.Byte OneValue = 1;
+
+
         
 
 #if DEBUG    

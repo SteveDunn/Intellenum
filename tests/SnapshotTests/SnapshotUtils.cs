@@ -1,16 +1,16 @@
 ﻿using System;
 using Shared;
 
-namespace SnapshotTests
+namespace SnapshotTests;
+
+/// <summary>
+/// We have tests targeting different versions of the framework and different locales.
+/// This method uses the major and minor version of the runtime version.
+/// </summary>
+public static class SnapshotUtils
 {
-    /// <summary>
-    /// We have tests targeting different versions of the framework and different locales.
-    /// This method uses the major and minor version of the runtime version.
-    /// </summary>
-    public static class SnapshotUtils
+    public static string GetSnapshotDirectoryName(TargetFramework targetFramework, string locale = "")
     {
-        public static string GetSnapshotDirectoryName(TargetFramework targetFramework, string locale = "")
-        {
             string shortened = targetFramework switch
             {
                 TargetFramework.Net4_6_1 => "4.6.1",
@@ -35,5 +35,4 @@ namespace SnapshotTests
 
             return s;
         }
-    }
 }

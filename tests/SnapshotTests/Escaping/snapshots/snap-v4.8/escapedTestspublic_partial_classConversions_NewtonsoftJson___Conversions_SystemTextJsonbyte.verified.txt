@@ -45,6 +45,10 @@ namespace @class
         global::System.IComparable, 
         global::System.IComparable<escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonbyte> 
     {
+        // const fields...
+public const System.Byte OneValue = 1;
+
+
         
 
 #if DEBUG    

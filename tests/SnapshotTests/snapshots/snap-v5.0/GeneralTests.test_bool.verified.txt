@@ -43,6 +43,8 @@ using System;
         global::System.IComparable, 
         global::System.IComparable<BoolVo> 
     {
+        
+
                 private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, BoolVo>> _namesToEnums = new( () =>
         new()
         {

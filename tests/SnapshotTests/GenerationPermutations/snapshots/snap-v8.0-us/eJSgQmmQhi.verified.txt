@@ -43,6 +43,10 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<public_partial_classConversions_LinqToDbValueConverterdecimal> 
     {
+        // const fields...
+public const System.Decimal OneValue = 1m;
+
+
         
 
 #if DEBUG    

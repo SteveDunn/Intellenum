@@ -44,6 +44,8 @@ namespace @class
         global::System.IComparable, 
         global::System.IComparable<escapedTestsinternal_partial_classConversions_TypeConverterSystem_Guid> 
     {
+        
+
                 private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, escapedTestsinternal_partial_classConversions_TypeConverterSystem_Guid>> _namesToEnums = new( () =>
         new()
         {

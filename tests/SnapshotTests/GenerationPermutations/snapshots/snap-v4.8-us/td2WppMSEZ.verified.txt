@@ -43,6 +43,10 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<internal_partial_classConversions_Nonestring> 
     {
+        // const fields...
+public const System.String OneValue = "1";
+
+
         
 
 #if DEBUG    

@@ -45,6 +45,10 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<public_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsondecimal> 
     {
+        // const fields...
+public const System.Decimal OneValue = 1m;
+
+
         
 
 #if DEBUG    

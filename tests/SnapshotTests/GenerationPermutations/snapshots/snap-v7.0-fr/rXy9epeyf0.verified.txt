@@ -44,6 +44,10 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<public_partial_classConversions_TypeConverterstring> 
     {
+        // const fields...
+public const System.String OneValue = "1";
+
+
         
 
 #if DEBUG    

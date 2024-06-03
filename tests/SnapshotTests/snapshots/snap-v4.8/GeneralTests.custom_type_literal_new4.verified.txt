@@ -45,6 +45,8 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<FooVo> 
     {
+        
+
                 private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, FooVo>> _namesToEnums = new( () =>
         new()
         {

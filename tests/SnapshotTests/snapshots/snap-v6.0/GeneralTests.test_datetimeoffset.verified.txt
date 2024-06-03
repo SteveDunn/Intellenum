@@ -43,6 +43,8 @@ using System;
         global::System.IComparable, 
         global::System.IComparable<DateTimeOffsetVo> 
     {
+        
+
                 private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, DateTimeOffsetVo>> _namesToEnums = new( () =>
         new()
         {

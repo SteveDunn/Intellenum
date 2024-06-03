@@ -43,6 +43,8 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<internal_partial_classConversions_NoneSystem_DateTime> 
     {
+        
+
                 private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, internal_partial_classConversions_NoneSystem_DateTime>> _namesToEnums = new( () =>
         new()
         {

@@ -45,6 +45,11 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<CSharpSymbol> 
     {
+        // const fields...
+public const System.Int32 @classValue = 42;
+public const System.Int32 @eventValue = 69;
+
+
         
 
 #if DEBUG    

@@ -44,6 +44,8 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<internal_partial_classConversions_NewtonsoftJsonbool> 
     {
+        
+
                 private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, internal_partial_classConversions_NewtonsoftJsonbool>> _namesToEnums = new( () =>
         new()
         {

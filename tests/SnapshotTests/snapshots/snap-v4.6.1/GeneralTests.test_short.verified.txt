@@ -45,6 +45,11 @@ namespace SomethingElse
         global::System.IComparable, 
         global::System.IComparable<ShortHolderId_normal> 
     {
+        // const fields...
+public const System.Int16 Item1Value = 123;
+public const System.Int16 Item2Value = 321;
+
+
         
 
 #if DEBUG    

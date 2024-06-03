@@ -43,6 +43,8 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<public_partial_classConversions_DapperTypeHandlerchar> 
     {
+        
+
                 private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, public_partial_classConversions_DapperTypeHandlerchar>> _namesToEnums = new( () =>
         new()
         {

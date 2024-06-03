@@ -45,6 +45,10 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<public_partial_classstring> 
     {
+        // const fields...
+public const System.String MyValueValue = "123";
+
+
         
 
 #if DEBUG    

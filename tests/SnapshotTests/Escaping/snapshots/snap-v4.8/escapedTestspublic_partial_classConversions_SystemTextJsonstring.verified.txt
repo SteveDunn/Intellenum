@@ -44,6 +44,10 @@ namespace @class
         global::System.IComparable, 
         global::System.IComparable<escapedTestspublic_partial_classConversions_SystemTextJsonstring> 
     {
+        // const fields...
+public const System.String OneValue = "1";
+
+
         
 
 #if DEBUG    
