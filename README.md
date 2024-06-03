@@ -7,7 +7,7 @@
 [![NuGet Badge](https://buildstats.info/nuget/intellenum)](https://www.nuget.org/packages/Intellenum/)
 
 <p align="center">
-  <img src="./assets/intellenum.png" alt="The Intellenum logo">
+  <img src="./assets/social-preview.png" alt="The Intellenum logo">
 </p>
 
 [![Sparkline](https://stars.medv.io/stevedunn/intellenum.svg)](https://stars.medv.io/stevedunn/intellenum)
