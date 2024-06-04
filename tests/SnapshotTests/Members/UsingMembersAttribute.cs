@@ -36,7 +36,7 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum]
-[Member("OffPeak")]
+[Member("OffPeak", 3)]
 [Members("Standard, Gold, Diamond")]
 public partial class CustomerType
 {
