@@ -48,7 +48,7 @@ public record class Foo(string Name, int Age) : IComparable<Foo>
                 {
                     DiagnosticCollection d = new(diagnostics);
 
-                    d.Count.Should().Be(0);
+                    d.ShouldBeEmpty();
                 }
             }
 
@@ -78,7 +78,7 @@ namespace Whatever
                 {
                     DiagnosticCollection d = new(diagnostics);
 
-                    d.Count.Should().Be(1);
+                    d.ShouldHaveCountOf(1);
                     
                     d.ShouldHaveError("INTELLENUM026", "MyMembersTests must have at least 1 member");
                 }
@@ -112,9 +112,9 @@ namespace Whatever
                 void validate(ImmutableArray<Diagnostic> diagnostics)
                 {
                     DiagnosticCollection d = new(diagnostics);
-                    d.Count.Should().Be(2);
+                    d.ShouldHaveCountOf(2);
 
-                    d.ShouldHaveError("INTELLENUM023", "MyMemberTests cannot be converted. Member value named Invalid has an attribute with a 'System.String' of '1.23x' which cannot be converted to the underlying type of 'System.Single'*");
+                    d.ShouldHaveErrorStartingWith("INTELLENUM023", "MyMemberTests cannot be converted. Member 'Invalid' has a value type 'System.String' of '1.23x' which cannot be converted to the underlying type of 'System.Single'");
                 }
             }
 
@@ -148,15 +148,16 @@ namespace Whatever
             [Fact]
             public async Task Malformed_DateTimeOffset_causes_compilation_error()
             {
-                var source = @"
-using Intellenum;
-using System;
-namespace Whatever
-{
-    [Intellenum(underlyingType: typeof(DateTimeOffset))]
-    [Member(name: ""Invalid"", value: ""x2022-13-99"")]
-    public partial class MyMemberTests { }
-}";
+                var source = """
+                             using Intellenum;
+                             using System;
+
+                             namespace Whatever;
+
+                             [Intellenum(underlyingType: typeof(DateTimeOffset))]
+                             [Member(name: "Invalid", value: "x2022-13-99")]
+                             public partial class MyMemberTests;
+                             """;
 
                 await new TestRunner<IntellenumGenerator>()
                     .WithSource(source)
@@ -166,9 +167,8 @@ namespace Whatever
                 void Validate(ImmutableArray<Diagnostic> diagnostics)
                 {
                     var d = new DiagnosticCollection(diagnostics);
-                    d.Count.Should().Be(2);
-                    d.ShouldHaveErrorContaining("MyMemberTests cannot be converted. Member value named Invalid has an attribute with a 'System.String' of 'x2022-13-99' which cannot be converted to the underlying type of 'System.DateTimeOffset'");
-                    d.HasId("INTELLENUM023");
+                    d.ShouldHaveCountOf(2);
+                    d.ShouldHaveErrorStartingWith("INTELLENUM023", "MyMemberTests cannot be converted. Member 'Invalid' has a value type 'System.String' of 'x2022-13-99' which cannot be converted to the underlying type of 'System.DateTimeOffset'");
                 }
             }
         }
