@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Intellenum;
+namespace Intellenum.MemberBuilding;
 
 public static class MemberGeneration
 {

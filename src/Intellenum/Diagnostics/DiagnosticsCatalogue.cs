@@ -87,6 +87,11 @@ internal static class DiagnosticsCatalogue
         "Must have members",
         "{0} must have at least 1 member");
 
+    private static readonly DiagnosticDescriptor _membersAttributeCanOnlyBeUsedOnIntBasedEnums = CreateDescriptor(
+        RuleIdentifiers.MembersAttributeCanOnlyBeUsedOnIntBasedEnums,
+        "Members attribute can only be used on int based enums",
+        "The type '{0}' cannot have a Members attribute because it is not based on int");
+
     public static Diagnostic TypeCannotBeNested(INamedTypeSymbol typeModel, INamedTypeSymbol container) => 
         Create(_typeCannotBeNested, typeModel.Locations, typeModel.Name, container.Name);
 
@@ -133,6 +138,9 @@ internal static class DiagnosticsCatalogue
 
     public static Diagnostic MustHaveMembers(INamedTypeSymbol symbol) => 
         Create(_mustHaveMembers, symbol.Locations, symbol.Name);
+
+    public static Diagnostic MembersAttributeShouldOnlyBeOnIntBasedEnums(INamedTypeSymbol symbol) => 
+        Create(_membersAttributeCanOnlyBeUsedOnIntBasedEnums, symbol.Locations, symbol.Name);
 
     private static DiagnosticDescriptor CreateDescriptor(string code, string title, string messageFormat, DiagnosticSeverity severity = DiagnosticSeverity.Error)
     {

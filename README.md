@@ -134,7 +134,18 @@ Another way is via attributes:
 public partial class CustomerType { }
 ```
 
-... or mix them up!
+For integer based enums, you can also use the `Members` (plural) attribute:
+```csharp
+[Intellenum]
+[Members("Standard, Gold, Diamond, Platinum")]
+public partial class CustomerType { }
+```
+
+This will generate the items in the order specified and the values will start at zero and increase. The `Members` 
+attribute _can_ be applied with other `Member` attributes, but only one `Members` attribute can be specified per type.
+
+If you use the `Member` attribute or create a field with an inferred name (using `new CustomerType(x)`), then it is not 
+possible to use the static constructor as Intellenum generates the static constructor to fully define the members.
 
 ```csharp
 [Intellenum]
@@ -143,12 +154,8 @@ public partial class CustomerType
 {
     public static readonly CustomerType Gold = new CustomerType(2);
     public static readonly CustomerType Diamond = new CustomerType(3);
-
-    static CustomerType()
-    {
-        Member("Platinum", 4);
-    }
- }
+    public static readonly CustomerType Platinum = new CustomerType(4);
+}
 ```
 
 ... you can then treat the type just like an enum:
@@ -160,7 +167,7 @@ if(type == CustomerType.Gold) Accept();
 
 ### Configuration
 
-Each Intellenum can have it's own *optional* configuration. Configuration includes:
+Each Intellenum can have its own *optional* configuration. Configuration includes:
 
 * The underlying type
 * Any 'conversions' (Dapper, System.Text.Json, Newtonsoft.Json, etc.) - see below for more information

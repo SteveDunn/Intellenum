@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using Intellenum.Diagnostics;
 using Intellenum.Extensions;
+using Intellenum.MemberBuilding;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -72,11 +73,15 @@ internal static class BuildWorkItems
 
         ReportErrorIfNestedType(target, context, voSymbolInformation);
 
-        var memberProperties =
+        var individualMemberProperties =
             FindMembersFromMemberAttribute(allAttributes, voSymbolInformation, context, config.UnderlyingType).ToList();
 
-        memberProperties.AddRange(FindMembersFromMemberMethodInStaticConstructor(voSymbolInformation).ToList());
-        memberProperties.AddRange(FindMembersFromNewStatements(voSymbolInformation).ToList());
+        var bulkMemberProperties =
+            FindMembersFromMembersAttribute(allAttributes, voSymbolInformation, context, config.UnderlyingType).ToList();
+
+        individualMemberProperties.AddRange(FindMembersFromMemberMethodInStaticConstructor(voSymbolInformation).ToList());
+        individualMemberProperties.AddRange(FindMembersFromNewStatements(voSymbolInformation).ToList());
+        individualMemberProperties.AddRange(bulkMemberProperties.ToList());
 
         var toStringInfo = HasToStringOverload(voSymbolInformation);
 
@@ -84,7 +89,7 @@ internal static class BuildWorkItems
 
         ReportErrorIfUnderlyingTypeIsCollection(context, voSymbolInformation, config.UnderlyingType);
         
-        ReportErrorIfNoMembersFound(memberProperties, context, voSymbolInformation);
+        ReportErrorIfNoMembersFound(individualMemberProperties, context, voSymbolInformation);
 
         var isValueType = IsUnderlyingAValueType(config.UnderlyingType);
 
@@ -93,7 +98,7 @@ internal static class BuildWorkItems
         return new VoWorkItem
         {
             IsConstant = isConstant,
-            MemberProperties = memberProperties.ToList(),
+            MemberProperties = individualMemberProperties.ToList(),
             TypeToAugment = voTypeSyntax,
             IsValueType = isValueType,
             HasToString = toStringInfo.HasToString,
@@ -249,7 +254,33 @@ internal static class BuildWorkItems
         IEnumerable<AttributeData> matchingAttributes =
             attributes.Where(a => a.AttributeClass?.FullName() is "Intellenum.MemberAttribute");
 
-        var props = BuildMembersFromAttributes.Build(matchingAttributes, context, voClass, underlyingType);
+        var props = matchingAttributes.Select(a => MemberBuilder.BuildFromMemberAttribute(a, context, voClass, underlyingType));
+        
+        return props.Where(a => a is not null)!;
+    }
+
+    private static IEnumerable<MemberProperties> FindMembersFromMembersAttribute(
+        ImmutableArray<AttributeData> attributes,
+        INamedTypeSymbol voClass,
+        SourceProductionContext context,
+        INamedTypeSymbol? underlyingType)
+    {
+        var matchingAttributes =
+            attributes.Where(a => a.AttributeClass?.FullName() is "Intellenum.MembersAttribute").ToList();
+
+        if (matchingAttributes.Count != 1)
+        {
+            return [];
+        }
+
+        var matchingAttribute = matchingAttributes[0];
+
+        if (underlyingType?.SpecialType != SpecialType.System_Int32)
+        {
+            context.ReportDiagnostic(DiagnosticsCatalogue.MembersAttributeShouldOnlyBeOnIntBasedEnums(voClass));
+        }
+        
+        var props = MemberBuilder.TryBuildFromMembersCsv(matchingAttribute, context, voClass, underlyingType);
         
         return props.Where(a => a is not null)!;
     }

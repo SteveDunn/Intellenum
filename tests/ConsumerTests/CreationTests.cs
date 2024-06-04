@@ -14,17 +14,23 @@ namespace ConsumerTests
 {
     public class CreationTests
     {
-#if NET7_0_OR_GREATER
         [Fact]
-    public void Creation_Happy_Path_MyIntGeneric()
-    {
-        MyIntGeneric vo1 = MyIntGeneric.Item1;
-        MyIntGeneric vo2 = MyIntGeneric.Item1;
-    
-        vo1.Should().Be(vo2);
-        (vo1 == vo2).Should().BeTrue();
-    }
-#endif
+        public void Creation_using_the_Members_attribute()
+        {
+            UsingMembersAttribute.Member1.Value.Should().Be(0);
+            UsingMembersAttribute.Member2.Value.Should().Be(1);
+            UsingMembersAttribute.Member3.Value.Should().Be(2);
+        }
+
+        [Fact]
+        public void Creation_Happy_Path_MyIntGeneric()
+        {
+            MyIntGeneric vo1 = MyIntGeneric.Item1;
+            MyIntGeneric vo2 = MyIntGeneric.Item1;
+
+            vo1.Should().Be(vo2);
+            (vo1 == vo2).Should().BeTrue();
+        }
 
         // There is an analyzer that stops creation of VOs via Activator.CreateInstance.
         // This test is here to ensure that it *only* catches System.Activator.
@@ -40,7 +46,7 @@ namespace ConsumerTests
         {
             MyInt vo1 = MyInt.Item1;
             MyInt vo2 = MyInt.Item1;
-    
+
             vo1.Should().Be(vo2);
             (vo1 == vo2).Should().BeTrue();
         }
@@ -60,13 +66,13 @@ namespace ConsumerTests
         {
             @class c1 = @class.Item1;
             @class c2 = @class.Item1;
-    
+
             c1.Should().Be(c2);
             (c1 == c2).Should().BeTrue();
-    
+
             @event e1 = @event.Item1;
             @event e2 = @event.Item1;
-    
+
             e1.Should().Be(e2);
             (e1 == e2).Should().BeTrue();
         }
@@ -76,7 +82,7 @@ namespace ConsumerTests
         {
             @classFromEscapedNamespace c1 = @classFromEscapedNamespace.Item1;
             @classFromEscapedNamespace c2 = @classFromEscapedNamespace.Item1;
-    
+
             c1.Should().Be(c2);
             (c1 == c2).Should().BeTrue();
         }
@@ -86,7 +92,7 @@ namespace ConsumerTests
         {
             @classFromEscapedNamespace c1 = @classFromEscapedNamespace.Item1;
             @classFromEscapedNamespace c2 = @classFromEscapedNamespace.Item1;
-    
+
             c1.Should().Be(c2);
             (c1 == c2).Should().BeTrue();
         }

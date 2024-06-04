@@ -29,6 +29,15 @@ internal static class IntellenumFilter
                      || a.AttributeClass?.BaseType?.BaseType?.FullName() == "Intellenum.IntellenumAttribute");
     }
 
+    public static AttributeData? TryGetMembersAttribute(INamedTypeSymbol voSymbolInformation)
+    {
+        var attrs = voSymbolInformation.GetAttributes();
+
+        var matched = attrs.Where(a => a.AttributeClass?.FullName() == "Intellenum.MembersAttribute").ToList();
+        
+        return matched.Count == 1 ? matched[0] : null;
+    }
+
     // This is stage 2 in the pipeline - we filter down to just 1 target
     public static VoTarget? TryGetTarget(GeneratorSyntaxContext context)
     {

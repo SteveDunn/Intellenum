@@ -25,4 +25,5 @@ public static class RuleIdentifiers
     public const string DuplicateTypesFound = "INTELLENUM024";
     public const string DoNotUseReflection = "INTELLENUM025";
     public const string MustHaveMembers = "INTELLENUM026";
+    public const string MembersAttributeCanOnlyBeUsedOnIntBasedEnums = "INTELLENUM027";
 }
