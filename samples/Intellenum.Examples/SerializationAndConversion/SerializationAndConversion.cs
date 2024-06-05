@@ -1,8 +1,11 @@
 ﻿// ReSharper disable UnusedVariable
 #pragma warning disable CS0219
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Intellenum.Examples.Types;
 using JetBrains.Annotations;
+using ServiceStack.Text;
+
 using NewtonsoftJsonSerializer = Newtonsoft.Json.JsonConvert;
 using SystemTextJsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -15,11 +18,25 @@ namespace Intellenum.Examples.SerializationAndConversion
         {
             SerializeWithNewtonsoftJson();
             SerializeWithSystemTextJson();
+            SerializeWithServiceStackTextJson();
+
 
             return Task.CompletedTask;
         }
+        
+        public static void SerializeWithServiceStackTextJson()
+        {
+            ServiceStackDotTextIntEnum orig = ServiceStackDotTextIntEnum.Item1;
 
-        public void SerializeWithNewtonsoftJson()
+            string json = JsonSerializer.SerializeToString(orig);
+            
+            var deserialised = JsonSerializer.DeserializeFromString<ServiceStackDotTextIntEnum>(json);
+            
+            Debug.Assert(deserialised.Value == orig.Value); 
+        }
+
+
+        public static void SerializeWithNewtonsoftJson()
         {
             var g1 = NewtonsoftJsonDateTimeOffsetEnum.Item1;
 
@@ -30,7 +47,7 @@ namespace Intellenum.Examples.SerializationAndConversion
                 NewtonsoftJsonSerializer.DeserializeObject<NewtonsoftJsonDateTimeOffsetEnum>(serializedString);
         }
 
-        public void SerializeWithSystemTextJson()
+        public static void SerializeWithSystemTextJson()
         {
             var foo = SystemTextJsonDateTimeOffsetEnum.Item1;
 

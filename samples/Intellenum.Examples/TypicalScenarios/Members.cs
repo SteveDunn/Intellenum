@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
+
 // ReSharper disable RedundantCast
 
 namespace Intellenum.Examples.TypicalScenarios.Members;
 
+[UsedImplicitly]
 internal class MemberExamples : IScenario
 {
     public Task Run()

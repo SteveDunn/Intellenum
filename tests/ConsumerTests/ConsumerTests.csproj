@@ -37,6 +37,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
     <PackageReference Include="System.Text.Json" Version="8.0.3" />
+    <PackageReference Include="ServiceStack.Text" Version="8.2.2" />
   </ItemGroup>
 
 	<ItemGroup Condition=" '$(UseLocallyBuiltPackage)' != ''">

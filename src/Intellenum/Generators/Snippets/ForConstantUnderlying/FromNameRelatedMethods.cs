@@ -26,7 +26,7 @@ public static class FromNameRelatedMethods
         /// Tries to get the matching member from a name.
         /// </summary>
         /// <param name=""name"">The name.</param>
-        /// <returns>The matching enum, or an exception.</returns>
+        /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(string name, out {className} member)
         {{
@@ -58,7 +58,7 @@ public static class FromNameRelatedMethods
         /// Tries to get the matching member from a name.
         /// </summary>
         /// <param name=""name"">The name.</param>
-        /// <returns>The matching enum, or an exception.</returns>
+        /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(ReadOnlySpan<char> name, out {className} member)
         {{

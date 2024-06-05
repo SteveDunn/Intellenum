@@ -217,30 +217,5 @@ public static class MemberGeneration
         return sb.ToString();
     }
 
-    public static string GeneratePrivateConstructionInitialisationIfNeeded(VoWorkItem item)
-    {
-        var implicitlyNamedMembers = item.MemberProperties.Where(i => !i.ExplicitlyNamed).ToList();
-        if (implicitlyNamedMembers.Count == 0)
-        {
-            return "";
-        }
-        
-        StringBuilder sb = new StringBuilder();
-        sb.AppendLine(
-            $$"""
-        static {{item.VoTypeName}}()
-{
-""");
-        
-        foreach (var eachMember in implicitlyNamedMembers)
-        {
-            sb.AppendLine($"{eachMember.FieldName}.Name = \"{eachMember.FieldName}\";");
-        }
-        
-        sb.AppendLine(
-            $$"""
-}
-""");
-        return sb.ToString();
-    }
+
 }

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Intellenum;
+using Shared;
 using VerifyXunit;
 
 namespace SnapshotTests;
@@ -9,6 +10,36 @@ public class GeneralTests
 {
     [Fact]
     public Task test_int()
+    {
+        var source = """
+using System;
+using Intellenum;
+
+namespace Whatever;
+
+[Intellenum]
+[Member("Three", 3)]
+public partial class E
+{
+    public static readonly E Four = new(4); 
+    static E()
+    {
+        Member("One", 1);
+        Member("Two", 2);
+    }
+}
+""";
+
+        return new SnapshotRunner<IntellenumGenerator>()
+            .WithSource(source)
+            .IgnoreInitialCompilationErrors()
+            // .IgnoreFinalCompilationErrors()
+            .RunOn(TargetFramework.Net8_0);
+
+    }
+
+    [Fact]
+    public Task test_escaped_types()
     {
         var source = """
                      using System;
@@ -640,6 +671,87 @@ public class GeneralTests
 
         return RunTest(source);
     }
+    
+    [Fact]
+    public async Task ServiceStackDotTextConversion_generates_static_constructor_for_strings()
+    {
+        var source = """
+                        using System;
+                        using Intellenum;
+                        
+                        [Intellenum(conversions: Conversions.ServiceStackDotText, underlyingType: typeof(string))]
+                        [Member("Item1", "1"]
+                        [Member("Item2", "2"]
+                        public partial class MyVo;
+                     """;
+
+        await RunTest(source);
+
+        static Task RunTest(string source) =>
+            new SnapshotRunner<IntellenumGenerator>()
+                .WithSource(source)
+                .RunOn(TargetFramework.Net8_0);
+    }
+
+    [Fact]
+    public async Task ServiceStackDotTextConversion_generates_static_constructor_for_non_strings()
+    {
+        var source = """
+                        using System;
+                        using Intellenum;
+                        
+                        [Intellenum(conversions: Conversions.ServiceStackDotText, underlyingType: typeof(int))]
+                        [Member("Item1", 1)]
+                        [Member("Item2", 2)]
+                        public partial class MyVo;
+                     """;
+
+        await RunTest(source);
+
+        static Task RunTest(string source) =>
+            new SnapshotRunner<IntellenumGenerator>()
+                .WithSource(source)
+                .RunOn(TargetFramework.Net8_0);
+    }
+
+    [Fact]
+    public async Task ServiceStackDotTextConversion_generates_static_constructor_for_time_related_primitives()
+    {
+        var source = """
+                        using System;
+                        using Intellenum;
+                        
+                        [Intellenum(conversions: Conversions.ServiceStackDotText, underlyingType: typeof(TimeOnly))]
+                        public partial class MyVo
+                     """;
+
+        await RunTest(source);
+
+        static Task RunTest(string source) =>
+            new SnapshotRunner<IntellenumGenerator>()
+                .WithSource(source)
+                .RunOn(TargetFramework.Net8_0);
+    }
+
+    [Fact]
+    public async Task ServiceStackDotTextConversion_generates_static_constructor_for_date_time()
+    {
+        var source = """
+                     using System;
+                     using Vogen;
+                     
+                     [Intellenum(conversions: Conversions.ServiceStackDotText, underlyingType: typeof(DateTime))]
+                     public partial class MyVo;
+                     """;
+
+        await RunTest(source);
+
+        static Task RunTest(string source) =>
+            new SnapshotRunner<IntellenumGenerator>()
+                .WithSource(source)
+                .RunOn(TargetFramework.Net8_0);
+    }
+    
 
     private static Task RunTest(string source) =>
         new SnapshotRunner<IntellenumGenerator>()

@@ -88,7 +88,7 @@ public static class FromNameRelatedMethods
         // Not a fan of using foreach here, but Dictionary<,>.KeyCollection is a bit limited
         foreach (var key in _namesToEnums.Value.Keys)
         {
-            if (key.AsSpan() != name)
+            if(!name.Equals(key, global::System.StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
