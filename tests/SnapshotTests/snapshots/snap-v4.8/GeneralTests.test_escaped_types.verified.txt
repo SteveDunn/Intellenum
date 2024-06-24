@@ -89,7 +89,7 @@ namespace SomethingElse
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
-        private @event2(@record.@struct.@float.@decimal value)
+        public @event2(@record.@struct.@float.@decimal value)
         {
             _value = value;
             Name = "[INFERRED-TO-BE-REPLACED!]";
@@ -147,6 +147,38 @@ namespace SomethingElse
         
 
         
+#region .NET Framework Compatability Methods
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static @event2 FromName(string name)
+        {
+            return FromName(name.AsSpan());
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool TryFromName(string name, out @event2 member)
+        {
+            return TryFromName(name.AsSpan(), out member);
+        }
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool IsNamedDefined(string name)
+        {
+            return IsNamedDefined(name.AsSpan());
+        }
+
+#endregion
+        
+        
         /// <summary>
         /// Gets the matching member based on name.
         /// </summary>
@@ -167,10 +199,13 @@ namespace SomethingElse
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(ReadOnlySpan<char> name, out @event2 member)
         {
-            // Not a fan of using foreach here, but Dictionary<,>.KeyCollection is a bit limited
-foreach (var key in _namesToEnums.Value.Keys)
+            foreach (var key in _namesToEnums.Value.Keys)
 {
-    if (key.AsSpan() != name)
+#if NETCOREAPP
+    if(!name.Equals(key, global::System.StringComparison.Ordinal))
+#else
+    if(!name.SequenceEqual(key.AsSpan()))
+#endif
     {
         continue;
     }

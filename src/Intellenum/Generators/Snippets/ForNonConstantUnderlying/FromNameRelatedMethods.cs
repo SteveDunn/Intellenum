@@ -85,10 +85,13 @@ public static class FromNameRelatedMethods
 
     private static string GenerateTryFromNameImplementation(SyntaxToken className) =>
         $$"""
-        // Not a fan of using foreach here, but Dictionary<,>.KeyCollection is a bit limited
         foreach (var key in _namesToEnums.Value.Keys)
         {
-            if(!name.Equals(key, global::System.StringComparison.OrdinalIgnoreCase))
+        #if NETCOREAPP
+            if(!name.Equals(key, global::System.StringComparison.Ordinal))
+        #else
+            if(!name.SequenceEqual(key.AsSpan()))
+        #endif
             {
                 continue;
             }

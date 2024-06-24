@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumerTests", "tests\Cons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "tests\Intellenum.Benchmarks\Benchmarks\Benchmarks.csproj", "{53289848-CDBE-426A-B55C-467851F5BF4D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "samples\WebApplication\WebApplication.csproj", "{625E1FA1-1058-4032-A9B8-2CC77E0DF0EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{53289848-CDBE-426A-B55C-467851F5BF4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53289848-CDBE-426A-B55C-467851F5BF4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53289848-CDBE-426A-B55C-467851F5BF4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{625E1FA1-1058-4032-A9B8-2CC77E0DF0EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{625E1FA1-1058-4032-A9B8-2CC77E0DF0EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{625E1FA1-1058-4032-A9B8-2CC77E0DF0EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{625E1FA1-1058-4032-A9B8-2CC77E0DF0EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

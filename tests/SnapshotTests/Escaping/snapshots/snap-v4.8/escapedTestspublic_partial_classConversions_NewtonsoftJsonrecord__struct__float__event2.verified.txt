@@ -86,7 +86,7 @@ namespace @class
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
-        private escapedTestspublic_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2(@class.@record.@struct.@float.event2 value)
+        public escapedTestspublic_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2(@class.@record.@struct.@float.event2 value)
         {
             _value = value;
             Name = "[INFERRED-TO-BE-REPLACED!]";
@@ -196,10 +196,13 @@ namespace @class
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(ReadOnlySpan<char> name, out escapedTestspublic_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 member)
         {
-            // Not a fan of using foreach here, but Dictionary<,>.KeyCollection is a bit limited
-foreach (var key in _namesToEnums.Value.Keys)
+            foreach (var key in _namesToEnums.Value.Keys)
 {
-    if (key.AsSpan() != name)
+#if NETCOREAPP
+    if(!name.Equals(key, global::System.StringComparison.Ordinal))
+#else
+    if(!name.SequenceEqual(key.AsSpan()))
+#endif
     {
         continue;
     }

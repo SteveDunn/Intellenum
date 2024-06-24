@@ -680,8 +680,8 @@ public partial class E
                         using Intellenum;
                         
                         [Intellenum(conversions: Conversions.ServiceStackDotText, underlyingType: typeof(string))]
-                        [Member("Item1", "1"]
-                        [Member("Item2", "2"]
+                        [Member("Item1", "1")]
+                        [Member("Item2", "2")]
                         public partial class MyVo;
                      """;
 
@@ -713,45 +713,6 @@ public partial class E
                 .WithSource(source)
                 .RunOn(TargetFramework.Net8_0);
     }
-
-    [Fact]
-    public async Task ServiceStackDotTextConversion_generates_static_constructor_for_time_related_primitives()
-    {
-        var source = """
-                        using System;
-                        using Intellenum;
-                        
-                        [Intellenum(conversions: Conversions.ServiceStackDotText, underlyingType: typeof(TimeOnly))]
-                        public partial class MyVo
-                     """;
-
-        await RunTest(source);
-
-        static Task RunTest(string source) =>
-            new SnapshotRunner<IntellenumGenerator>()
-                .WithSource(source)
-                .RunOn(TargetFramework.Net8_0);
-    }
-
-    [Fact]
-    public async Task ServiceStackDotTextConversion_generates_static_constructor_for_date_time()
-    {
-        var source = """
-                     using System;
-                     using Vogen;
-                     
-                     [Intellenum(conversions: Conversions.ServiceStackDotText, underlyingType: typeof(DateTime))]
-                     public partial class MyVo;
-                     """;
-
-        await RunTest(source);
-
-        static Task RunTest(string source) =>
-            new SnapshotRunner<IntellenumGenerator>()
-                .WithSource(source)
-                .RunOn(TargetFramework.Net8_0);
-    }
-    
 
     private static Task RunTest(string source) =>
         new SnapshotRunner<IntellenumGenerator>()

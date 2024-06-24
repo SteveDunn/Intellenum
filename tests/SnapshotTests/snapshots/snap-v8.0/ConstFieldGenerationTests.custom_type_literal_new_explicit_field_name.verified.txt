@@ -59,11 +59,18 @@ public const System.Int32 Member3Value = 3;
         private readonly global::System.Boolean _isInitialized;
         private readonly System.Int32 _value;
 
-                static FooEnum()
+        private static class __Inner
 {
+    public static int __ComeAlive() => 42;  
+    
+    static __Inner()
+    {
 Member1.Name = "Member1";
 Member2.Name = "Member2";
+  }
 }
+
+private static readonly int __discard = __Inner.__ComeAlive();
 
 
         /// <summary>
@@ -84,7 +91,7 @@ Member2.Name = "Member2";
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
-        private FooEnum(System.Int32 value)
+        public FooEnum(System.Int32 value)
         {
             _value = value;
             Name = "[INFERRED-TO-BE-REPLACED!]";
@@ -177,7 +184,7 @@ _ => false
         /// Tries to get the matching member from a name.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <returns>The matching enum, or an exception.</returns>
+        /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(ReadOnlySpan<char> name, out FooEnum member)
         {

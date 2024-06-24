@@ -70,15 +70,15 @@ public partial class CSharpSymbol
 
     private Task Run(string type, string underlyingType, string memberValue, string className, string locale)
     {
-        string declaration = $@"
-  [Intellenum(underlyingType: typeof({underlyingType}))]
-  [Member(name: ""MyValue"", value: {memberValue})]
-  {type} {className} {{}}";
-        var source = @"using Intellenum;
-namespace Whatever
-{
-" + declaration + @"
-}";
+        var source = $$"""
+                       using Intellenum;
+                       namespace Whatever
+                       {
+                         [Intellenum(underlyingType: typeof({{underlyingType}}))]
+                         [Member(name: "MyValue", value: {{memberValue}})]
+                         {{type}} {{className}} {}
+                       }
+                       """;
 
         return new SnapshotRunner<IntellenumGenerator>()
             .WithSource(source)
