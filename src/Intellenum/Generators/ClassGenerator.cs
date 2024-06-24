@@ -1,5 +1,6 @@
 using Intellenum.Generators.Snippets;
 using Intellenum.MemberBuilding;
+using Intellenum.StaticConstructorBuilding;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Intellenum.Generators;
@@ -37,7 +38,7 @@ using System;
         private readonly global::System.Boolean _isInitialized;
         private readonly {itemUnderlyingType} _value;
 
-        {MemberGeneration.GeneratePrivateConstructionInitialisationIfNeeded(item)}
+        {StaticConstructorBuilder.BuildIfNeeded(item)}
 
         /// <summary>
         /// Gets the underlying <see cref=""{itemUnderlyingType}"" /> value if set, otherwise default
@@ -57,7 +58,7 @@ using System;
         }}
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
-        private {className}({itemUnderlyingType} value)
+        public {className}({itemUnderlyingType} value)
         {{
             _value = value;
             Name = ""[INFERRED-TO-BE-REPLACED!]"";

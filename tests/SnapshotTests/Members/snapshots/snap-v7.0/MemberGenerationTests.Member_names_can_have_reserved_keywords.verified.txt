@@ -78,7 +78,7 @@ public const System.Int32 @eventValue = 69;
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
-        private CSharpSymbol(System.Int32 value)
+        public CSharpSymbol(System.Int32 value)
         {
             _value = value;
             Name = "[INFERRED-TO-BE-REPLACED!]";
@@ -167,7 +167,7 @@ _ => false
         /// Tries to get the matching member from a name.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <returns>The matching enum, or an exception.</returns>
+        /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(ReadOnlySpan<char> name, out CSharpSymbol member)
         {

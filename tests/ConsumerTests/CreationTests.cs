@@ -15,6 +15,18 @@ namespace ConsumerTests
     public class CreationTests
     {
         [Fact]
+        public void Creation_using_a_mixture_of_everything()
+        {
+            UsingAMixtureOfEverything.Member1.Value.Should().Be(0);
+            UsingAMixtureOfEverything.Member2.Value.Should().Be(1);
+            UsingAMixtureOfEverything.Member3.Value.Should().Be(2);
+            UsingAMixtureOfEverything.Member4.Value.Should().Be(3);
+            UsingAMixtureOfEverything.Member5.Value.Should().Be(4);
+            UsingAMixtureOfEverything.Member6.Value.Should().Be(5);
+            UsingAMixtureOfEverything.Member7.Value.Should().Be(6);
+        }
+
+        [Fact]
         public void Creation_using_the_Members_attribute()
         {
             UsingMembersAttribute.Member1.Value.Should().Be(0);

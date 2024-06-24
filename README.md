@@ -111,7 +111,8 @@ public static readonly CustomerType Standard = new("STD", 1);
 ```
 By default, the underlying type is `int`, but you can specify a different type, e.g. `[Intellenum(typeof(short))]` or the generic version `[Intellenum<short>]`.
 
-As well as explicitly declaring members like above, there are a couple of other ways - here is an example:
+As well as explicitly declaring members like above, there are a couple of other ways. You can use a static 
+constructor that calls `Member`. 
 
 ```csharp
 [Intellenum]
@@ -125,7 +126,10 @@ public partial class CustomerType
 }
 ```
 
-Another way is via attributes:
+`Member` is actually executed at runtime, it is used at compile time and real declarations source generated.
+
+Another way is via attributes. You can use the `Member` attribute for single values, or the `Members` for multiple 
+attributes. Here's an example of the `Member` attribute:
 
 ```csharp
 [Intellenum]
@@ -134,27 +138,32 @@ Another way is via attributes:
 public partial class CustomerType { }
 ```
 
-For integer based enums, you can also use the `Members` (plural) attribute:
+Here's an example of the `Members` attribute. Not that this can only be applied to `int` based enums:
+
 ```csharp
 [Intellenum]
 [Members("Standard, Gold, Diamond, Platinum")]
 public partial class CustomerType { }
 ```
 
-This will generate the items in the order specified and the values will start at zero and increase. The `Members` 
-attribute _can_ be applied with other `Member` attributes, but only one `Members` attribute can be specified per type.
+Using this attribute will generate the items in the order specified and the values will start at zero and 
+increase. 
+The `Members` attribute _can_ be applied with other `Member` attributes, 
+but only one `Members` attribute can be specified per type.
 
-If you use the `Member` attribute or create a field with an inferred name (using `new CustomerType(x)`), then it is not 
-possible to use the static constructor as Intellenum generates the static constructor to fully define the members.
+You can also use a mixture of all of the above methods!
 
 ```csharp
 [Intellenum]
-[Member("Standard", 1)]
+[Members("Standard, Gold")]
+[Member("Diamond", 2)]
 public partial class CustomerType 
 {
-    public static readonly CustomerType Gold = new CustomerType(2);
-    public static readonly CustomerType Diamond = new CustomerType(3);
-    public static readonly CustomerType Platinum = new CustomerType(4);
+    static CustomerType()
+    {
+        Member("Platinum", 3)
+    }
+    public static readonly CustomerType Royalty = new(4);
 }
 ```
 

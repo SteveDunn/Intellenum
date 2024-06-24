@@ -62,3 +62,8 @@ public partial class DapperIntEnum { }
 [Member("Item1", 1)]
 [Member("Item2", 2)]
 public partial class LinqToDbIntEnum { }
+
+[Intellenum(conversions: Conversions.ServiceStackDotText)]
+[Member("Item1", 1)]
+[Member("Item2", 2)]
+public partial class ServiceStackDotTextIntEnum { }
