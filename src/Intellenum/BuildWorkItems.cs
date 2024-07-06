@@ -77,11 +77,16 @@ internal static class BuildWorkItems
             FindMembersFromMemberAttribute(allAttributes, voSymbolInformation, context, config.UnderlyingType).ToList();
 
         var bulkMemberProperties =
-            FindMembersFromMembersAttribute(allAttributes, voSymbolInformation, context, config.UnderlyingType).ToList();
+            FindMembersFromMembersAttribute(allAttributes, voSymbolInformation, config.UnderlyingType);
+        if (bulkMemberProperties.IsDiagnostic)
+        {
+            context.ReportDiagnostic(bulkMemberProperties.Diagnostic);
+            return null;
+        }
 
         individualMemberProperties.AddRange(FindMembersFromMemberMethodInStaticConstructor(voSymbolInformation).ToList());
         individualMemberProperties.AddRange(FindMembersFromNewStatements(voSymbolInformation).ToList());
-        individualMemberProperties.AddRange(bulkMemberProperties.ToList());
+        individualMemberProperties.AddRange(bulkMemberProperties.Values);
 
         var toStringInfo = HasToStringOverload(voSymbolInformation);
 
@@ -259,10 +264,9 @@ internal static class BuildWorkItems
         return props.Where(a => a is not null)!;
     }
 
-    private static IEnumerable<MemberProperties> FindMembersFromMembersAttribute(
+    private static ValuesOrDiagnostic<MemberProperties> FindMembersFromMembersAttribute(
         ImmutableArray<AttributeData> attributes,
         INamedTypeSymbol voClass,
-        SourceProductionContext context,
         INamedTypeSymbol? underlyingType)
     {
         var matchingAttributes =
@@ -270,19 +274,24 @@ internal static class BuildWorkItems
 
         if (matchingAttributes.Count != 1)
         {
-            return [];
+            return ValuesOrDiagnostic<MemberProperties>.WithNoValues();
         }
 
         var matchingAttribute = matchingAttributes[0];
 
-        if (underlyingType?.SpecialType != SpecialType.System_Int32)
+        if (underlyingType?.SpecialType is not (SpecialType.System_Int32 or SpecialType.System_String))
         {
-            context.ReportDiagnostic(DiagnosticsCatalogue.MembersAttributeShouldOnlyBeOnIntBasedEnums(voClass));
+            return ValuesOrDiagnostic<MemberProperties>.WithDiagnostic(
+                DiagnosticsCatalogue.MembersAttributeShouldOnlyBeOnIntOrStringBasedEnums(voClass));
         }
         
-        var props = MemberBuilder.TryBuildFromMembersCsv(matchingAttribute, context, voClass, underlyingType);
-        
-        return props.Where(a => a is not null)!;
+        var props = MemberBuilder.TryBuildFromMembersCsv(matchingAttribute, voClass, underlyingType);
+        if (props.IsDiagnostic)
+        {
+            return ValuesOrDiagnostic<MemberProperties>.WithDiagnostic(props.Diagnostic);
+        }
+
+        return ValuesOrDiagnostic<MemberProperties>.WithValue(props.Values.Where(a => a is not null)!);
     }
 
     private static IEnumerable<MemberProperties> FindMembersFromMemberMethodInStaticConstructor(INamedTypeSymbol voClass)

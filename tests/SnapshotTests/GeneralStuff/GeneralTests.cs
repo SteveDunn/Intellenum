@@ -25,6 +25,23 @@ public class GeneralTests
     }
 
     [Fact]
+    public Task One_parameter_string_instances_on_strings()
+    {
+        var source = """
+                     using Intellenum;
+                     namespace Whatever;
+
+                     [Intellenum<string>]
+                     [Members("Normal, Gold, Diamond")]
+                     public partial class CustomerType
+                     {
+                     }
+                     """;
+
+        return RunTest(source);
+    }
+
+    [Fact]
     public Task Partial_partial_class_created_successfully()
     {
         var source = """

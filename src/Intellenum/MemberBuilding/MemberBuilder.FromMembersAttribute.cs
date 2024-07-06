@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 using Intellenum.Diagnostics;
 using Microsoft.CodeAnalysis;
@@ -8,8 +9,7 @@ namespace Intellenum.MemberBuilding;
 
 public static partial class MemberBuilder
 {
-    public static IEnumerable<MemberProperties?> TryBuildFromMembersCsv(AttributeData matchingAttribute,
-        SourceProductionContext context,
+    public static ValuesOrDiagnostic<MemberProperties?> TryBuildFromMembersCsv(AttributeData matchingAttribute,
         INamedTypeSymbol voClass,
         INamedTypeSymbol? underlyingType)
     {
@@ -24,10 +24,10 @@ public static partial class MemberBuilder
 
             if (HasAnyErrors(args))
             {
-                return [];
+                return ValuesOrDiagnostic<MemberProperties?>.WithNoValues();
             }
 
-            return TryBuild(args[0], voClass, context, underlyingType);
+            return TryBuild(args[0], voClass, underlyingType);
         }
 
         // try build it from named arguments
@@ -35,12 +35,12 @@ public static partial class MemberBuilder
 
         if (namedArgs.IsEmpty)
         {
-            return [];
+            return ValuesOrDiagnostic<MemberProperties?>.WithNoValues();
         }
 
         if (namedArgs.Any(a => a.Value.Kind == TypedConstantKind.Error))
         {
-            return [];
+            return ValuesOrDiagnostic<MemberProperties?>.WithNoValues();
         }
 
         TypedConstant nameConstant = default;
@@ -57,33 +57,28 @@ public static partial class MemberBuilder
             }
         }
 
-        return TryBuild(nameConstant, voClass, context, underlyingType);
+        return TryBuild(nameConstant, voClass, underlyingType);
     }    
     
     
-    private static IEnumerable<MemberProperties?> TryBuild(
+    private static ValuesOrDiagnostic<MemberProperties?> TryBuild(
         TypedConstant namesConstant,
         INamedTypeSymbol voClass,
-        SourceProductionContext context,
         INamedTypeSymbol? underlyingType)
     {
-        bool hasErrors = false;
+        List<MemberProperties> result = new();
+        
         if (namesConstant.Value is null)
         {
-            context.ReportDiagnostic(DiagnosticsCatalogue.MemberMethodCallCannotHaveNullArgumentName(voClass));
-            hasErrors = true;
-        }
-
-        if (hasErrors)
-        {
-            yield break;
+            //context.ReportDiagnostic(DiagnosticsCatalogue.MemberMethodCallCannotHaveNullArgumentName(voClass));
+            return ValuesOrDiagnostic<MemberProperties?>.WithDiagnostic(DiagnosticsCatalogue.MemberMethodCallCannotHaveNullArgumentName(voClass));
         }
 
         var csv = (string?)namesConstant.Value;
         
         if(csv is null)
         {
-            yield break;
+            return ValuesOrDiagnostic<MemberProperties?>.WithNoValues();
         }
 
         var names = csv.Split(',').Select(each => each.Trim());
@@ -92,26 +87,43 @@ public static partial class MemberBuilder
         
         foreach (var eachName in names)
         {
+            string value = ResolveValue();
+
             MemberGeneration.BuildResult r = MemberGeneration.TryBuildMemberValueAsText(
                 eachName,
-                i.ToString(),
+                value,
                 underlyingType?.FullName());
-            
+
             if (!r.Success)
             {
-                context.ReportDiagnostic(DiagnosticsCatalogue.MemberValueCannotBeConverted(voClass, r.ErrorMessage));
-                yield return null;
+//                context.ReportDiagnostic(DiagnosticsCatalogue.MemberValueCannotBeConverted(voClass, r.ErrorMessage));
+                return ValuesOrDiagnostic<MemberProperties?>.WithDiagnostic(DiagnosticsCatalogue.MemberValueCannotBeConverted(voClass, r.ErrorMessage));
             }
-            
-            yield return new MemberProperties(
+
+            result.Add(new MemberProperties(
                 MemberSource.FromAttribute,
                 eachName,
                 eachName,
                 r.Value,
                 r,
-                string.Empty);
+                string.Empty));
 
             i++;
+            continue;
+
+            string ResolveValue()
+            {
+                if(underlyingType?.SpecialType is SpecialType.System_Int32)
+                    return i.ToString();
+                if(underlyingType?.SpecialType is SpecialType.System_String)
+                    return eachName;
+
+                Debug.Fail("Not a string or int");
+
+                return i.ToString();
+            }
         }
+
+        return ValuesOrDiagnostic<MemberProperties?>.WithValue(result);
     }
 }
