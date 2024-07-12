@@ -85,34 +85,30 @@ namespace Whatever
             }
         }
         
-        public class When_values_cannot_be_converted_to_their_underlying_types
+        public class WhenValuesCannotBeConvertedToTheirUnderlyingTypes
         {
             [Fact]
             public async Task Malformed_float_causes_compilation_error()
             {
-                string declaration = $$"""
-                                       using System;
-                                         [Intellenum(underlyingType: typeof(float))]
-                                         [Member(name: "Invalid", value: "1.23x")]
-                                         public partial class MyMemberTests { }
-                                       """;
                 var source = """
-                             using Intellenum;
-                             namespace Whatever
-                             {
+                                using System;
+                                using Intellenum;
+                                namespace Whatever;
 
-                             """ + declaration + @"
-}";
+                                [Intellenum(underlyingType: typeof(float))]
+                                [Member(name: "Invalid", value: "1.23x")]
+                                public partial class MyMemberTests;
+                             """;
 
                 await new TestRunner<IntellenumGenerator>()
                     .WithSource(source)
-                    .ValidateWith(validate)
+                    .ValidateWith(Validate)
                     .RunOnAllFrameworks();
 
-                void validate(ImmutableArray<Diagnostic> diagnostics)
+                static void Validate(ImmutableArray<Diagnostic> diagnostics)
                 {
                     DiagnosticCollection d = new(diagnostics);
-                    d.ShouldHaveCountOf(2);
+                    d.ShouldHaveCountOf(1);
 
                     d.ShouldHaveErrorStartingWith("INTELLENUM023", "MyMemberTests cannot be converted. Member 'Invalid' has a value type 'System.String' of '1.23x' which cannot be converted to the underlying type of 'System.Single'");
                 }
@@ -121,27 +117,27 @@ namespace Whatever
             [Fact]
             public async Task Malformed_datetime_causes_compilation_error()
             {
-                var source = @"
-using Intellenum;
-using System;
-namespace Whatever
-{
-    [Intellenum(underlyingType: typeof(DateTime))]
-    [Member(name: ""Invalid"", value: ""x2022-13-99"")]
-    public partial class MyMemberTests { }
-}";
+                var source = """
+                             using Intellenum;
+                             using System;
+                             
+                             namespace Whatever;
+
+                             [Intellenum(underlyingType: typeof(DateTime))]
+                             [Member(name: "Invalid", value: "x2022-13-99")]
+                             public partial class MyMemberTests { }
+                             """;
 
                 await new TestRunner<IntellenumGenerator>()
                     .WithSource(source)
-                    .ValidateWith(validate)
+                    .ValidateWith(Validate)
                     .RunOnAllFrameworks();
 
-                void validate(ImmutableArray<Diagnostic> diagnostics)
+                static void Validate(ImmutableArray<Diagnostic> diagnostics)
                 {
-                    diagnostics.Should().HaveCount(2);
+                    diagnostics.Should().HaveCount(1);
                     diagnostics.Should().ContainSingle(d => d.GetMessage(null).Contains(
                         "The string 'x2022-13-99' was not recognized as a valid DateTime") && d.Id == "INTELLENUM023");
-                    diagnostics.Should().ContainSingle(d => d.Id == "INTELLENUM026");
                 }
             }
 
@@ -164,10 +160,10 @@ namespace Whatever
                     .ValidateWith(Validate)
                     .RunOnAllFrameworks();
 
-                void Validate(ImmutableArray<Diagnostic> diagnostics)
+                static void Validate(ImmutableArray<Diagnostic> diagnostics)
                 {
                     var d = new DiagnosticCollection(diagnostics);
-                    d.ShouldHaveCountOf(2);
+                    d.ShouldHaveCountOf(1);
                     d.ShouldHaveErrorStartingWith("INTELLENUM023", "MyMemberTests cannot be converted. Member 'Invalid' has a value type 'System.String' of 'x2022-13-99' which cannot be converted to the underlying type of 'System.DateTimeOffset'");
                 }
             }

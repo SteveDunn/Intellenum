@@ -43,9 +43,7 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<internal_partial_classConversions_LinqToDbValueConverterstring> 
     {
-        // const fields...
-public const System.String OneValue = "1";
-
+        
 
         
 
@@ -200,13 +198,34 @@ _ => false
 
             return member;
         }
-
+        
         // A placeholder method used by the source generator during compilation so that
-        // users call 'Call' it. The source generator examines calls to this in order to 
+        // users can 'Call' it. The source generator examines calls to this in order to 
         // generate physical members (e.g. public static readonly MyEnum Item1 = new...)
         private static void Member(string name, System.String value)
         {
         }
+
+// A placeholder method used by the source generator during compilation so that
+// users can 'Call' it. The source generator examines calls to this in order to 
+// generate physical members (e.g. public static readonly MyEnum Item1 = new...)
+private static void Member(string name)
+{
+}
+
+        // A placeholder method used by the source generator during compilation so that
+        // users can 'Call' it. The source generator examines calls to this in order to 
+        // generate physical members (e.g. public static readonly MyEnum Item1 = new...)
+        /// <summary>
+        /// Sets up members using just the name. For ints, the values are 0 to n, and for strings,
+        /// the values are the names. 
+        /// The input is a comma separated string, e.g. ""Silver, Gold, Diamond"". The individual
+        /// items are trimmed of whitespace. 
+        /// </summary>
+        private static void Members(string csv)
+        {
+        }
+
 
         // only called internally when something has been deserialized into
         // its primitive type.

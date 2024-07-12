@@ -14,11 +14,17 @@ namespace @double
 {
     public readonly record struct @decimal() : IComparable<@decimal>
     {
+        private static int n;
+
+        public int Number { get; } = ++n;
+        
         public int CompareTo(@decimal other) => throw new NotImplementedException();
     }
 
     [Intellenum(typeof(@decimal))]
+#pragma warning disable INTELLENUM030
     public partial class classFromEscapedNamespaceWithReservedUnderlyingType
+#pragma warning restore INTELLENUM030
     {
         static classFromEscapedNamespaceWithReservedUnderlyingType()
         {

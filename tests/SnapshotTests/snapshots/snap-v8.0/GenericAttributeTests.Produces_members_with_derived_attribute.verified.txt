@@ -45,13 +45,7 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<CustomerType> 
     {
-        // const fields...
-public const System.Int64 UnspecifiedValue = -1;
-public const System.Int64 Unspecified1Value = -2;
-public const System.Int64 Unspecified2Value = -3;
-public const System.Int64 Unspecified3Value = -4;
-public const System.Int64 Cust42Value = 42;
-
+        
 
         
 
@@ -230,13 +224,14 @@ _ => false
 
             return member;
         }
-
+        
         // A placeholder method used by the source generator during compilation so that
-        // users call 'Call' it. The source generator examines calls to this in order to 
+        // users can 'Call' it. The source generator examines calls to this in order to 
         // generate physical members (e.g. public static readonly MyEnum Item1 = new...)
         private static void Member(string name, System.Int64 value)
         {
         }
+
 
         // only called internally when something has been deserialized into
         // its primitive type.

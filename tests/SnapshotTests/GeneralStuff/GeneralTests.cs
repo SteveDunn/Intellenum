@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Intellenum;
+using Shared;
 using VerifyXunit;
 
 namespace SnapshotTests.GeneralStuff;
@@ -40,6 +41,29 @@ public class GeneralTests
 
         return RunTest(source);
     }
+
+    [Fact]
+    public async Task One_parameter_string_instances_on_strings_from_constructor()
+    {
+        var source = """
+                     using Intellenum;
+                     namespace Whatever;
+
+                     [Intellenum<string>]
+                     public partial class CustomerType
+                     {
+                        static CustomerType()
+                        {
+                            Members("Normal, Gold, Diamond");
+                        }
+                     }
+                     """;
+
+            await new SnapshotRunner<IntellenumGenerator>()
+                .WithSource(source)
+                .IgnoreInitialCompilationErrors()
+                .RunOn(TargetFramework.Net8_0);
+        }
 
     [Fact]
     public Task Partial_partial_class_created_successfully()

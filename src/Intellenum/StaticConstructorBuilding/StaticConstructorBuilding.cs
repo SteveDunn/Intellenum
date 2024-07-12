@@ -9,8 +9,9 @@ public static class StaticConstructorBuilder
     {
         bool hasSsdt = item.Conversions.HasFlag(Conversions.ServiceStackDotText);
 
-        var implicitlyNamedMembers = item.MemberProperties.Where(i => !i.ExplicitlyNamed).ToList();
-        bool hasImplicitMembers = implicitlyNamedMembers.Count > 0;
+        var implicitlyNamedMembers = item.MemberProperties.ImplicitlyNamedMembers.ToList();
+        
+        bool hasImplicitMembers = implicitlyNamedMembers.Any();
 
         if (!hasSsdt && !hasImplicitMembers)
         {

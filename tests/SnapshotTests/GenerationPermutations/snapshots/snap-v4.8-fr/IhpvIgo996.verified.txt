@@ -43,9 +43,7 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<internal_partial_classConversions_Nonelong> 
     {
-        // const fields...
-public const System.Int64 OneValue = 1L;
-
+        
 
         
 
@@ -228,13 +226,14 @@ _ => false
 
             return member;
         }
-
+        
         // A placeholder method used by the source generator during compilation so that
-        // users call 'Call' it. The source generator examines calls to this in order to 
+        // users can 'Call' it. The source generator examines calls to this in order to 
         // generate physical members (e.g. public static readonly MyEnum Item1 = new...)
         private static void Member(string name, System.Int64 value)
         {
         }
+
 
         // only called internally when something has been deserialized into
         // its primitive type.

@@ -13,7 +13,7 @@ public class ValueOrDiagnostic<T>
         _isValue = true;
     }
 
-    private ValueOrDiagnostic(Diagnostic diagnostic)
+    private ValueOrDiagnostic(DiagnosticAndLocation diagnostic)
     {
         Diagnostic = diagnostic;
         _isValue = false;
@@ -21,7 +21,8 @@ public class ValueOrDiagnostic<T>
 
     public static ValueOrDiagnostic<T> WithValue(T value) => new(value);
     
-    public static ValueOrDiagnostic<T> WithDiagnostic(Diagnostic diagnostic) => new(diagnostic);
+    public static ValueOrDiagnostic<T> WithDiagnostic(DiagnosticAndLocation diagnostic) => new(diagnostic);
+    public static ValueOrDiagnostic<T> WithDiagnostic(Diagnostic d, Location l) => WithDiagnostic(new(d, l));
 
     public bool IsDiagnostic => !_isValue;
 
@@ -29,9 +30,11 @@ public class ValueOrDiagnostic<T>
 
     public T Value { get; set; } = default!;
 
-    public Diagnostic Diagnostic { get; set; } = null!;
+    public DiagnosticAndLocation Diagnostic { get; set; } = null!;
 }
 
+
+public record DiagnosticAndLocation(Diagnostic Diagnostic, Location Location);
 
 public class ValuesOrDiagnostic<T>
 {
@@ -43,17 +46,17 @@ public class ValuesOrDiagnostic<T>
         _isValue = true;
     }
 
-    private ValuesOrDiagnostic(Diagnostic diagnostic)
+    private ValuesOrDiagnostic(DiagnosticAndLocation diagnosticAndLocation)
     {
-        Diagnostic = diagnostic;
+        DiagnosticAndLocation = diagnosticAndLocation;
         _isValue = false;
     }
 
-    public static ValuesOrDiagnostic<T> WithValue(IEnumerable<T> value) => new(value);
+    public static ValuesOrDiagnostic<T> WithValues(IEnumerable<T> value) => new(value);
     public static ValuesOrDiagnostic<T> WithNoValues() => new([]);
     
     
-    public static ValuesOrDiagnostic<T> WithDiagnostic(Diagnostic diagnostic) => new(diagnostic);
+    public static ValuesOrDiagnostic<T> WithDiagnostic(DiagnosticAndLocation diagnosticAndLocation) => new(diagnosticAndLocation);
 
     public bool IsDiagnostic => !_isValue;
 
@@ -61,6 +64,6 @@ public class ValuesOrDiagnostic<T>
 
     public IEnumerable<T> Values { get; set; } = default!;
 
-    public Diagnostic Diagnostic { get; set; } = null!;
+    public DiagnosticAndLocation DiagnosticAndLocation { get; set; } = null!;
 }
 

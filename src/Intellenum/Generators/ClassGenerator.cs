@@ -11,7 +11,7 @@ public class ClassGenerator
     {
         var className = tds.Identifier;
 
-        var itemUnderlyingType = item.UnderlyingTypeFullName;
+        string itemUnderlyingType = item.UnderlyingTypeFullName;
         
         return $@"
 using Intellenum;
@@ -98,13 +98,7 @@ using System;
 
             return member;
         }}
-
-        // A placeholder method used by the source generator during compilation so that
-        // users call 'Call' it. The source generator examines calls to this in order to 
-        // generate physical members (e.g. public static readonly MyEnum Item1 = new...)
-        private static void Member(string name, {itemUnderlyingType} value)
-        {{
-        }}
+        {EmitMemberMethods.Emit(item)}
 
         // only called internally when something has been deserialized into
         // its primitive type.

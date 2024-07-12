@@ -5,11 +5,11 @@
     },
     "Roslyn - scratch project": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\..\\tests\\ScratchTests\\ScratchTests.csproj"
+      "targetProject": "../../tests/Testbench/Testbench.csproj"
     },
     "Roslyn - testbench": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\..\\tests\\Testbench\\Testbench.csproj"
+      "targetProject": "../../tests/Testbench/Testbench.csproj"
     }
   }
 }

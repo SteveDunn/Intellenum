@@ -1,5 +1,5 @@
 ﻿using System;
-using Vogen;
+using Intellenum;
 
 #pragma warning disable CS0219
 
@@ -7,13 +7,13 @@ using Vogen;
 // Console.WriteLine(x.Value);
 Console.WriteLine("Hello world!");
 
-var vo = CustomerId.From(123);
-Console.WriteLine(vo.Value);
 
-[ValueObject<int>]
-public partial record CustomerId;
 
-// [ValueObject(typeof(int))]
-// public partial record MyVo2;
+[Intellenum<int>]
+[Member("Standard", 0)]
+[Member("Gold", 1)]
+[Member("Diamond", 2)]
+public partial class CustomerType;
+
 
 

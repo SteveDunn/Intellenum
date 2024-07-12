@@ -1,4 +1,4 @@
-param($verbosity = "minimal") #quite|q, minimal|m, normal|n, detailed|d
+param($verbosity = "minimal", $buildConfig = "Release") #quite|q, minimal|m, normal|n, detailed|d
 
 $artifacts = ".\artifacts"
 $localPackages = ".\local-global-packages"
@@ -42,7 +42,7 @@ function Exec
     }
 }
 
-WriteStage("Building release version of Intellenum...")
+WriteStage("Building $buildConfig version of Intellenum...")
 
 if(Test-Path $artifacts) { Remove-Item $artifacts -Force -Recurse }
 
@@ -52,22 +52,22 @@ New-Item -Path $localPackages -ItemType Directory -ErrorAction SilentlyContinue
 
 if(Test-Path $localPackages) { Remove-Item $localPackages\intellenum.* -Force -ErrorAction SilentlyContinue }
 
-WriteStage("Cleaning, restoring, and building release version of Intellenum...")
+WriteStage("Cleaning, restoring, and building $buildConfig version of Intellenum...")
 
 WriteStage("... clean ...")
-exec { & dotnet clean Intellenum.sln -c Release --verbosity $verbosity}
+exec { & dotnet clean Intellenum.sln -c $buildConfig --verbosity $verbosity}
 
 WriteStage("... restore ...")
 exec { & dotnet restore Intellenum.sln --no-cache --verbosity $verbosity }
 
-exec { & dotnet build Intellenum.sln -c Release -p Thorough=true --no-restore --verbosity $verbosity}
+exec { & dotnet build Intellenum.sln -c $buildConfig -p Thorough=true --no-restore --verbosity $verbosity}
 
 # run the analyzer tests
 WriteStage("Running analyzer tests...")
-exec { & dotnet test tests/AnalyzerTests/AnalyzerTests.csproj -c Release --no-build -l trx -l "GitHubActions;report-warnings=false" --verbosity $verbosity }
+exec { & dotnet test tests/AnalyzerTests/AnalyzerTests.csproj -c $buildConfig --no-build -l trx -l "GitHubActions;report-warnings=false" --verbosity $verbosity }
 
 WriteStage("Running unit tests...")
-exec { & dotnet test tests/Intellenum.Tests/Intellenum.Tests.csproj -c Release --no-build -l trx -l "GitHubActions;report-warnings=false" --verbosity $verbosity }
+exec { & dotnet test tests/Intellenum.Tests/Intellenum.Tests.csproj -c $buildConfig --no-build -l trx -l "GitHubActions;report-warnings=false" --verbosity $verbosity }
     
 # Run the end to end tests. The tests can't have project references to Intellenum. This is because, in Visual Studio, 
 # it causes conflicts caused by the difference in runtime; VS uses netstandard2.0 to load and run the analyzers, but the 
@@ -92,7 +92,7 @@ exec { & dotnet pack ./src/Intellenum.Pack.csproj -c Debug -o:$localPackages /p:
 WriteStage("Cleaning and building consumers (tests and samples)")
 
 exec { & dotnet restore Consumers.sln --no-cache --verbosity $verbosity }
-exec { & dotnet clean Consumers.sln -c Release --verbosity $verbosity}
+exec { & dotnet clean Consumers.sln -c $buildConfig --verbosity $verbosity}
 
 
 # Restore the project using the custom config file, restoring packages to a local folder
@@ -111,10 +111,10 @@ WriteStage("Building samples using the local version of the NuGet package...")
 exec { & dotnet run --project samples/Intellenum.Examples/Intellenum.Examples.csproj -c Debug --no-build --no-restore }
 
 
-WriteStage("Finally, packing the release version into " + $artifacts)
+WriteStage("Finally, packing the $buildConfig version into " + $artifacts)
 
 
-exec { & dotnet pack src/Intellenum.Pack.csproj -c Release -o $artifacts --no-build --verbosity $verbosity }
+exec { & dotnet pack src/Intellenum.Pack.csproj -c $buildConfig -o $artifacts --no-build --verbosity $verbosity }
 
 WriteStage("Done! Package generated at " + $artifacts)
 
