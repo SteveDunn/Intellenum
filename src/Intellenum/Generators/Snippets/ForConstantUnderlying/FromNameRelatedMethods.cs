@@ -93,7 +93,7 @@ switch (name)
 
         foreach (var eachMember in item.MemberProperties)
         {
-            generate(eachMember.FieldName, eachMember.EnumEnumFriendlyName);
+            generate(eachMember.Value.FieldName, eachMember.Value.EnumEnumFriendlyName);
         }
 
         sb.AppendLine("""

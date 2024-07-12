@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -8,10 +9,11 @@ namespace Intellenum.MemberBuilding;
 
 public static partial class MemberBuilder
 {
-    public static MemberProperties? BuildFromMemberAttribute(AttributeData matchingAttribute,
-        SourceProductionContext context,
+    public static ValueOrDiagnostic<MemberProperties>? BuildFromMemberAttribute(
+        AttributeData matchingAttribute,
         INamedTypeSymbol voClass,
-        INamedTypeSymbol? underlyingType)
+        INamedTypeSymbol underlyingType,
+        Func<string, object>? defaultValueGetter = null)
     {
         // try build it from non-named arguments
 
@@ -27,7 +29,11 @@ public static partial class MemberBuilder
                 return null;
             }
 
-            return TryBuild(args[0], args[1], args[2], voClass, context, underlyingType);
+            var name = args[0];
+            TypedConstant? value = args.Length > 1 ? args[1] : null;
+            TypedConstant? comment = args.Length > 2 ? args[2] : null;
+
+            return TryBuild(name, value, comment, voClass, underlyingType, defaultValueGetter);
         }
 
         // try build it from named arguments
@@ -65,52 +71,92 @@ public static partial class MemberBuilder
             }
         }
 
-        return TryBuild(nameConstant, valueConstant, commentConstant, voClass, context, underlyingType);
+        return TryBuild(nameConstant, valueConstant, commentConstant, voClass, underlyingType, defaultValueGetter);
+    }
+
+    public static MemberPropertiesCollection BuildFromMemberAttributes(
+        IEnumerable<AttributeData> matchingAttributes,
+        INamedTypeSymbol voClass,
+        INamedTypeSymbol underlyingType)
+    {
+        // try build it from non-named arguments
+
+        int index = 0;
+        MemberPropertiesCollection c = new MemberPropertiesCollection();
+
+        foreach (AttributeData e in matchingAttributes)
+        {
+            ValueOrDiagnostic<MemberProperties>? m = BuildFromMemberAttribute(
+                e,
+                voClass,
+                underlyingType,
+                name =>
+                {
+                    if (underlyingType?.SpecialType is SpecialType.System_String)
+                    {
+                        return name;
+                    }
+
+                    return index++;
+                });
+
+            if (m is not null)
+            {
+                c.Add(m);
+            }
+        }
+
+        return c;
     }
     
-    private static MemberProperties? TryBuild(
-        TypedConstant nameConstant,
-        TypedConstant valueConstant,
-        TypedConstant commentConstant,
+    private static ValueOrDiagnostic<MemberProperties> TryBuild(TypedConstant nameConstant,
+        TypedConstant? valueConstant,
+        TypedConstant? commentConstant,
         INamedTypeSymbol voClass,
-        SourceProductionContext context,
-        INamedTypeSymbol? underlyingType)
+        INamedTypeSymbol underlyingType,
+        Func<string, object>? defaultValueGetter)
     {
-        bool hasErrors = false;
+        //List<Diagnostic> errors = new();
+        
+        //bool hasErrors = false;
         if (nameConstant.Value is null)
         {
-            context.ReportDiagnostic(DiagnosticsCatalogue.MemberMethodCallCannotHaveNullArgumentName(voClass));
-            hasErrors = true;
+            return ValueOrDiagnostic<MemberProperties>.WithDiagnostic(DiagnosticsCatalogue.MemberMethodCallCannotHaveNullArgumentName(voClass), voClass.Locations[0]);
         }
 
-        if (valueConstant.Value is null)
+        var name = (string) nameConstant.Value!;
+
+        if (valueConstant is null && !underlyingType.SpecialType.IsStringOrInt())
         {
-            context.ReportDiagnostic(DiagnosticsCatalogue.MemberMethodCallCannotHaveNullArgumentValue(voClass));
-            hasErrors = true;
+            return ValueOrDiagnostic<MemberProperties>.WithDiagnostic(DiagnosticsCatalogue.MemberMethodCallCannotHaveNullArgumentValue(voClass), voClass.Locations[0]);
         }
 
-        if (hasErrors)
+        bool isExplicit = valueConstant is not null;
+
+        object? value = valueConstant?.Value ?? defaultValueGetter?.Invoke(name);
+        if (value is null)
         {
-            return null;
+            return ValueOrDiagnostic<MemberProperties>.WithDiagnostic(DiagnosticsCatalogue.MemberMethodCallCannotHaveNullArgumentValue(voClass), voClass.Locations[0]);
+          //  hasErrors = true;
         }
 
-        var r = MemberGeneration.TryBuildMemberValueAsText(
-            (string) nameConstant.Value!,
-            valueConstant.Value!,
+        MemberGeneration.BuildResult r = MemberGeneration.TryBuildMemberValueAsText(
+            name,
+            value,
             underlyingType?.FullName());
 
         if (!r.Success)
         {
-            context.ReportDiagnostic(DiagnosticsCatalogue.MemberValueCannotBeConverted(voClass, r.ErrorMessage));
-            return null;
+            return ValueOrDiagnostic<MemberProperties>.WithDiagnostic(DiagnosticsCatalogue.MemberValueCannotBeConverted(voClass, r.ErrorMessage), voClass.Locations[0]);
         }
 
-        return new MemberProperties(
-            MemberSource.FromAttribute,
-            (string) nameConstant.Value!,
-            (string) nameConstant.Value!,
-            r.Value,
-            valueConstant.Value!,
-            (string) (commentConstant.Value ?? string.Empty));
+        return ValueOrDiagnostic<MemberProperties>.WithValue(new MemberProperties(
+            source: MemberSource.FromAttribute,
+            fieldName: name,
+            enumFriendlyName: name,
+            valueAsText: r.Value,
+            value: value,
+            tripleSlashComments: (string) (commentConstant?.Value ?? string.Empty),
+            wasExplicitlyNamed: isExplicit));
     }
 }

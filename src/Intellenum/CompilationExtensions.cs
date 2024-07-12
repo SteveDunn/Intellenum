@@ -85,4 +85,8 @@ internal static class CompilationExtensions
 
         return type;
     }
+
+    public static bool IsStringOrInt(this SpecialType st) => st is (SpecialType.System_Int32 or SpecialType.System_String);
+
+
 }

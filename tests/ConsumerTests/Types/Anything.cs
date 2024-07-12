@@ -4,6 +4,10 @@
 [Members("Member1,Member2,      Member3")]
 public partial class UsingMembersAttribute;
 
+[Intellenum<string>]
+[Members("Member1,Member2,      Member3")]
+public partial class UsingMembersAttributeOnStringPrimitive;
+
 [Intellenum]
 [Members("Standard, Gold")]
 [Member("Diamond", 2)]

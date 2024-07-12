@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Intellenum;
+using Shared;
 using VerifyXunit;
 
 namespace SnapshotTests.Members;
@@ -25,6 +26,74 @@ public partial class BooleanThing
         return new SnapshotRunner<IntellenumGenerator>()
             .WithSource(source)
             .RunOnAllFrameworks();
+    }
+
+    [Fact]
+    public Task Mixture_with_strings()
+    {
+        var source = """
+using Intellenum;
+
+namespace Whatever;
+
+[Intellenum<string>]
+[Members("Zero, One, Two, Three")]
+[Member("Four")]
+[Member("Five")]
+[Member("Six")]
+public partial class Mixture
+{
+    static Mixture()
+    {
+        Member("Nine");
+        Member("Ten");
+        Members("Eleven, Twelve");
+        Member("Thirteen");
+    }
+  
+    public static readonly Mixture Seven = new();
+    public static readonly Mixture Eight = new("Eight");
+}
+""";
+
+        return new SnapshotRunner<IntellenumGenerator>()
+            .WithSource(source)
+            .IgnoreInitialCompilationErrors()
+            .RunOn(TargetFramework.Net8_0);
+    }
+
+    [Fact]
+    public Task Mixture_with_ints()
+    {
+        var source = """
+using Intellenum;
+
+namespace Whatever;
+
+[Intellenum<int>]
+// [Members("Zero, One, Two, Three")]
+// [Member("Four")]
+// [Member("Five")]
+// [Member("Six")]
+public partial class Mixture
+{
+    static Mixture()
+    {
+        Member("Nine");
+        Member("Ten");
+        //Members("Eleven, Twelve");
+        Member("Thirteen");
+    }
+  
+//    public static readonly Mixture Seven = new();
+//    public static readonly Mixture Eight = new(888);
+}
+""";
+
+        return new SnapshotRunner<IntellenumGenerator>()
+            .WithSource(source)
+            .IgnoreInitialCompilationErrors()
+            .RunOn(TargetFramework.Net8_0);
     }
 
     [Fact]

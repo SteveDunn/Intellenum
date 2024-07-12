@@ -26,4 +26,7 @@ public static class RuleIdentifiers
     public const string DoNotUseReflection = "INTELLENUM025";
     public const string MustHaveMembers = "INTELLENUM026";
     public const string MembersAttributeCanOnlyBeUsedOnIntBasedEnums = "INTELLENUM027";
+    public const string CallToMembersMethodShouldOnlyBeCalledOnce = "INTELLENUM028";
+    public const string MemberMethodCallCanOnlyOmitValuesForStringsAndInts = "INTELLENUM029";
+    public const string DuplicateMembers = "INTELLENUM030";
 }

@@ -67,6 +67,11 @@ internal static class DiagnosticsCatalogue
         "Member attribute cannot have null value",
         "{0} cannot have a null value");
 
+    private static readonly DiagnosticDescriptor _memberMethodCallCanOnlyOmitValuesForStringsAndInts = CreateDescriptor(
+        RuleIdentifiers.MemberMethodCallCanOnlyOmitValuesForStringsAndInts,
+        "Member method calls must specify a value",
+        "{0} cannot omit a value to the Member method unless it is a string or int");
+
     private static readonly DiagnosticDescriptor _memberValueCannotBeConverted = CreateDescriptor(
         RuleIdentifiers.MemberValueCannotBeConverted,
         "Member attribute has value that cannot be converted",
@@ -87,10 +92,15 @@ internal static class DiagnosticsCatalogue
         "Must have members",
         "{0} must have at least 1 member");
 
-    private static readonly DiagnosticDescriptor _membersAttributeCanOnlyBeUsedOnIntBasedEnums = CreateDescriptor(
+    private static readonly DiagnosticDescriptor _membersAttributeCanOnlyBeUsedOnIntOrStringBasedEnums = CreateDescriptor(
         RuleIdentifiers.MembersAttributeCanOnlyBeUsedOnIntBasedEnums,
-        "Members attribute can only be used on int based enums",
-        "The type '{0}' cannot have a Members attribute because it is not based on int");
+        "Members attribute can only be used on int or string based enums",
+        "The type '{0}' cannot have a Members attribute because it is not based on int or string");
+
+    private static readonly DiagnosticDescriptor _callToMembersMethodShouldOnlyBeCalledOnce = CreateDescriptor(
+        RuleIdentifiers.CallToMembersMethodShouldOnlyBeCalledOnce,
+        "The Members method can only be called once",
+        "The type '{0}' cannot call the Members attribute more than once");
 
     public static Diagnostic TypeCannotBeNested(INamedTypeSymbol typeModel, INamedTypeSymbol container) => 
         Create(_typeCannotBeNested, typeModel.Locations, typeModel.Name, container.Name);
@@ -127,6 +137,9 @@ internal static class DiagnosticsCatalogue
     public static Diagnostic MemberMethodCallCannotHaveNullArgumentValue(INamedTypeSymbol ieClass) => 
         Create(_memberMethodCallCannotHaveNullArgumentValue, ieClass.Locations, ieClass.Name);
 
+    public static Diagnostic MemberMethodCallCanOnlyOmitValuesForStringsAndInts(INamedTypeSymbol ieClass) => 
+        Create(_memberMethodCallCanOnlyOmitValuesForStringsAndInts, ieClass.Locations, ieClass.Name);
+
     public static Diagnostic MemberValueCannotBeConverted(INamedTypeSymbol ieClass, string message) => 
         Create(_memberValueCannotBeConverted, ieClass.Locations, ieClass.Name, message);
 
@@ -139,8 +152,14 @@ internal static class DiagnosticsCatalogue
     public static Diagnostic MustHaveMembers(INamedTypeSymbol symbol) => 
         Create(_mustHaveMembers, symbol.Locations, symbol.Name);
 
-    public static Diagnostic MembersAttributeShouldOnlyBeOnIntBasedEnums(INamedTypeSymbol symbol) => 
-        Create(_membersAttributeCanOnlyBeUsedOnIntBasedEnums, symbol.Locations, symbol.Name);
+    public static Diagnostic MembersAttributeShouldOnlyBeOnIntOrStringBasedEnums(INamedTypeSymbol symbol) => 
+        Create(_membersAttributeCanOnlyBeUsedOnIntOrStringBasedEnums, symbol.Locations, symbol.Name);
+
+    // public static Diagnostic DuplicateMembersDeclared(INamedTypeSymbol symbol, string description) =>
+    //     Create(_duplicateMembersDeclared, symbol.Locations, symbol.Name, description);
+    
+    public static Diagnostic CallToMembersMethodShouldOnlyBeCalledOnce(INamedTypeSymbol symbol) => 
+        Create(_callToMembersMethodShouldOnlyBeCalledOnce, symbol.Locations, symbol.Name);
 
     private static DiagnosticDescriptor CreateDescriptor(string code, string title, string messageFormat, DiagnosticSeverity severity = DiagnosticSeverity.Error)
     {
@@ -152,7 +171,7 @@ internal static class DiagnosticsCatalogue
     public static Diagnostic BuildDiagnostic(DiagnosticDescriptor descriptor, string name, Location location) => 
         Diagnostic.Create(descriptor, location, name);
 
-    private static Diagnostic Create(DiagnosticDescriptor descriptor, IEnumerable<Location> locations, params object?[] args)
+    public static Diagnostic Create(DiagnosticDescriptor descriptor, IEnumerable<Location> locations, params object?[] args)
     {
         var locationsList = (locations as IReadOnlyList<Location>) ?? locations.ToList();
 

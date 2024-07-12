@@ -12,6 +12,33 @@ namespace Intellenum;
 
 internal static class ManageAttributes
 {
+    public static IntellenumConfigurationBuildResult GetDefaultConfigFromGlobalAttribute(Compilation compilation)
+    {
+        ImmutableArray<AttributeData> assemblyAttributes = compilation.Assembly.GetAttributes();
+        if (assemblyAttributes.IsDefaultOrEmpty)
+        {
+            return IntellenumConfigurationBuildResult.Null;
+        }
+
+        INamedTypeSymbol? allThatMatchByName = compilation.GetTypeByMetadataName("Intellenum.IntellenumDefaultsAttribute");
+        if (allThatMatchByName is null)
+        {
+            return IntellenumConfigurationBuildResult.Null;
+        }
+
+        AttributeData? matchingAttribute = assemblyAttributes.SingleOrDefault(aa =>
+            allThatMatchByName.Equals(aa.AttributeClass, SymbolEqualityComparer.Default));
+
+        if (matchingAttribute is null)
+        {
+            return IntellenumConfigurationBuildResult.Null;
+        }
+
+        IntellenumConfigurationBuildResult globalConfig = TryBuildConfigurationFromAttribute(matchingAttribute);
+
+        return globalConfig;
+    }
+
     /// <summary>
     /// Gets global default configuration from any global (assembly) attribute.
     /// If none are specified, then the default configuration is used.

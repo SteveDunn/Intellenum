@@ -1,6 +1,5 @@
 ﻿using System.Collections.Immutable;
 using System.Threading.Tasks;
-using FluentAssertions;
 using Intellenum;
 using Microsoft.CodeAnalysis;
 using VerifyXunit;
@@ -11,7 +10,7 @@ namespace AnalyzerTests;
 public class MembersAttributeTests
 {
     [Fact]
-    public async Task Cannot_be_applied_to_enums_that_are_not_based_on_int()
+    public async Task Cannot_be_applied_to_enums_that_are_not_based_on_int_or_string()
     {
         string source = $$"""
                           using Intellenum;
@@ -35,7 +34,7 @@ public class MembersAttributeTests
 
             d.ShouldHaveCountOf(1);
 
-            d.ShouldHaveError("INTELLENUM027", "The type 'CustomerType' cannot have a Members attribute because it is not based on int");
+            d.ShouldHaveError("INTELLENUM027", "The type 'CustomerType' cannot have a Members attribute because it is not based on int or string");
         }
     }
 
@@ -67,7 +66,7 @@ public class MembersAttributeTests
 
             d.ShouldHaveCountOf(1);
 
-            d.ShouldHaveError("INTELLENUM027", "The type 'CustomerType' cannot have a Members attribute because it is not based on int");
+            d.ShouldHaveError("INTELLENUM027", "The type 'CustomerType' cannot have a Members attribute because it is not based on int or string");
         }
     }
 }

@@ -39,24 +39,16 @@ namespace Intellenum.Extensions
         }
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        public static T? SingleOrDefault<T>(this IEnumerable<T?> source, Func<T?, bool> func, string message)
+        public static T? SingleOrDefaultNoThrow<T>(this IEnumerable<T> source)
         {
-            try
+            var first = source.ElementAtOrDefault(0);
+            if (first is null)
             {
-                return source.SingleOrDefault(func);
+                return default;
             }
-            catch (Exception e)
-            {
-                try
-                {
-                    throw new InvalidOperationException($"There were {source.Count()} item(s) found in the collection. {message}", e);
-                }
-                catch (Exception e2)
-                {
-                    throw new InvalidOperationException("There were none or multiple items found in the collection. " + message, e2);
 
-                }
-            }
+            var second = source.ElementAtOrDefault(1);
+            return second is null ? first : default;
         }
     }
 

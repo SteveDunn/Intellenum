@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Immutable;
 using System.IO;
 using Intellenum;
 using Microsoft.CodeAnalysis.Testing;

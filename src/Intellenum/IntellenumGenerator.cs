@@ -78,7 +78,7 @@ namespace Intellenum
             }
         }
 
-        static IEnumerable<VoWorkItem> GetWorkItems(ImmutableArray<VoTarget> targets,
+        private static IEnumerable<VoWorkItem> GetWorkItems(ImmutableArray<VoTarget> targets,
             SourceProductionContext context,
             IntellenumConfiguration? globalConfig,
             Compilation compilation)
@@ -95,7 +95,7 @@ namespace Intellenum
                     continue;
                 }
                 
-                var ret = BuildWorkItems.TryBuild(eachTarget, context, globalConfig, compilation);
+                VoWorkItem? ret = BuildWorkItems.TryBuild(eachTarget, context, globalConfig, compilation);
                 
                 if (ret is not null)
                 {

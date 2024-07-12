@@ -1,4 +1,7 @@
-﻿namespace Intellenum;
+﻿using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
+
+namespace Intellenum;
 
 public class MemberProperties
 {
@@ -7,8 +10,8 @@ public class MemberProperties
         string enumFriendlyName,
         string valueAsText,
         object value,
-        string tripleSlashComments = "",
-        bool explicitlyNamed = true)
+        string tripleSlashComments,
+        bool wasExplicitlyNamed)
     {
         Source = source;
         FieldName = fieldName;
@@ -16,7 +19,12 @@ public class MemberProperties
         ValueAsText = valueAsText;
         Value = value;
         TripleSlashComments = tripleSlashComments;
-        ExplicitlyNamed = explicitlyNamed;
+        WasExplicitlyNamed = wasExplicitlyNamed;
+    }
+
+    private MemberProperties(List<Diagnostic> errors)
+    {
+        throw new System.NotImplementedException();
     }
 
     public MemberSource Source { get; }
@@ -30,5 +38,17 @@ public class MemberProperties
     public object Value { get; }
     
     public string TripleSlashComments { get; }
-    public bool ExplicitlyNamed { get; }
+    
+    /// <summary>
+    /// An explicitly declared member has a name and value.
+    /// An implicitly declared member has just a name.
+    /// In the case of strings, new expressions don't even need a name
+    /// as the name is implied from the field name.
+    /// </summary>
+    public bool WasExplicitlyNamed { get; }
+
+    public static MemberProperties? WithErrors(List<Diagnostic> errors)
+    {
+        return new(errors);
+    }
 }

@@ -11,6 +11,10 @@ public class MemberAttribute : Attribute
     
     public string TripleSlashComment { get; }
 
-    public MemberAttribute(string name, object value, string tripleSlashComment = "") =>
+    public MemberAttribute(string name) => Name = name;
+    
+    public MemberAttribute(string name, object value) => (Name, Value) = (name, value);
+
+    public MemberAttribute(string name, object value, string tripleSlashComment) =>
         (Name, Value, TripleSlashComment) = (name, value, tripleSlashComment);
 }

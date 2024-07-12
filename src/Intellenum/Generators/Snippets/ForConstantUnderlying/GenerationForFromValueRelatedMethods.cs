@@ -64,7 +64,7 @@ public static class FromValueRelatedMethods
 
             foreach (var each in item.MemberProperties)
             {
-                sb.AppendLine($"{each.ValueAsText} => true,");
+                sb.AppendLine($"{each.Value.ValueAsText} => true,");
             }
 
             sb.AppendLine("_ => false");
@@ -84,7 +84,7 @@ switch (value)
 """);
         foreach (var each in item.MemberProperties)
         {
-            generate(each.ValueAsText, each.FieldName);
+            generate(each.Value.ValueAsText, each.Value.FieldName);
         }
 
         sb.AppendLine(

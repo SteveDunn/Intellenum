@@ -43,9 +43,7 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<public_partial_classConversions_LinqToDbValueConverterdecimal> 
     {
-        // const fields...
-public const System.Decimal OneValue = 1m;
-
+        
 
         
 
@@ -228,13 +226,14 @@ _ => false
 
             return member;
         }
-
+        
         // A placeholder method used by the source generator during compilation so that
-        // users call 'Call' it. The source generator examines calls to this in order to 
+        // users can 'Call' it. The source generator examines calls to this in order to 
         // generate physical members (e.g. public static readonly MyEnum Item1 = new...)
         private static void Member(string name, System.Decimal value)
         {
         }
+
 
         // only called internally when something has been deserialized into
         // its primitive type.

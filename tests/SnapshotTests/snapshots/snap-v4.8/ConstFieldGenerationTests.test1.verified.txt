@@ -43,10 +43,7 @@ using System;
         global::System.IComparable, 
         global::System.IComparable<DecimalHolderId_string> 
     {
-        // const fields...
-public const System.Decimal Item1Value = 720742592373919744m;
-public const System.Decimal Item2Value = 2.2m;
-
+        
 
         
 
@@ -236,13 +233,14 @@ _ => false
 
             return member;
         }
-
+        
         // A placeholder method used by the source generator during compilation so that
-        // users call 'Call' it. The source generator examines calls to this in order to 
+        // users can 'Call' it. The source generator examines calls to this in order to 
         // generate physical members (e.g. public static readonly MyEnum Item1 = new...)
         private static void Member(string name, System.Decimal value)
         {
         }
+
 
         // only called internally when something has been deserialized into
         // its primitive type.

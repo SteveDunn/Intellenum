@@ -14,9 +14,11 @@ namespace Intellenum.Rules.ValidateMethodFixers
     public class FixInputTypeCodeFixProvider : CodeFixProvider
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds => 
+            // ReSharper disable UseCollectionExpression
             ImmutableArray.Create(RuleIdentifiers.FixInputTypeOfValidationMethod);
+        // ReSharper restore UseCollectionExpression
 
-        public sealed override FixAllProvider GetFixAllProvider() => null!;
+        public sealed override FixAllProvider? GetFixAllProvider() => null;
 
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
@@ -27,7 +29,9 @@ namespace Intellenum.Rules.ValidateMethodFixers
             string? ulType = diagnostic.Properties["PrimitiveType"];
             
             if (ulType is null)
+            {
                 return;
+            }
 
             // Find the type declaration identified by the diagnostic.
             SyntaxToken identifierToken = root!.FindToken(diagnosticSpan.Start);

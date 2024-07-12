@@ -27,11 +27,19 @@ namespace ConsumerTests
         }
 
         [Fact]
-        public void Creation_using_the_Members_attribute()
+        public void Creation_using_the_Members_attribute_on_int_primitives()
         {
             UsingMembersAttribute.Member1.Value.Should().Be(0);
             UsingMembersAttribute.Member2.Value.Should().Be(1);
             UsingMembersAttribute.Member3.Value.Should().Be(2);
+        }
+
+        [Fact]
+        public void Creation_using_the_Members_attribute_on_string_primitives()
+        {
+            UsingMembersAttributeOnStringPrimitive.Member1.Value.Should().Be("Member1");
+            UsingMembersAttributeOnStringPrimitive.Member2.Value.Should().Be("Member2");
+            UsingMembersAttributeOnStringPrimitive.Member3.Value.Should().Be("Member3");
         }
 
         [Fact]

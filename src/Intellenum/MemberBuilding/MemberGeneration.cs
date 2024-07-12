@@ -12,16 +12,16 @@ public static class MemberGeneration
 {
     public static string GenerateIEnumerableYields(VoWorkItem item)
     {
-        if (item.MemberProperties.Count == 0)
+        if (!item.MemberProperties.ValidMembers.Any())
         {
             return "yield break;";
         }
 
         StringBuilder sb = new StringBuilder();
 
-        foreach (MemberProperties each in item.MemberProperties)
+        foreach (ValueOrDiagnostic<MemberProperties> each in item.MemberProperties.ValidMembers)
         {
-            sb.AppendLine($"yield return {each.FieldName};");
+            sb.AppendLine($"yield return {each.Value.FieldName};");
         }
 
         return sb.ToString();
@@ -29,16 +29,17 @@ public static class MemberGeneration
 
     public static string GenerateAnyMembers(TypeDeclarationSyntax classDeclarationSyntax, VoWorkItem item)
     {
-        if (item.MemberProperties.Count == 0)
+        if (!item.MemberProperties.ValidMembers.Any())
         {
             return string.Empty;
         }
 
         StringBuilder sb = new StringBuilder();
 
-        foreach (MemberProperties each in item.MemberProperties.Where(i => i.Source is not MemberSource.FromNewExpression))
+        foreach (ValueOrDiagnostic<MemberProperties> each in item.MemberProperties.ValidMembers.Where(
+                     i => i.Value.Source is not MemberSource.FromNewExpression))
         {
-            sb.AppendLine(GenerateMember(each, classDeclarationSyntax, item.FullNamespace));
+            sb.AppendLine(GenerateMember(each.Value, classDeclarationSyntax, item.FullNamespace));
         }
 
         return sb.ToString();
@@ -202,16 +203,20 @@ public static class MemberGeneration
     
     public static string GenerateConstValuesIfPossible(VoWorkItem item)
     {
-        if (!item.IsConstant || item.MemberProperties.Count == 0)
+        if (!item.IsConstant || item.MemberProperties.ValidMembers.Any())
         {
             return string.Empty;
         }
-        
+
         StringBuilder sb = new StringBuilder("// const fields...");
         sb.AppendLine();
-        foreach (var memberProperties in item.MemberProperties)
+        foreach (var memberProperties in item.MemberProperties.ValidMembers)
         {
-            sb.AppendLine($"public const {item.UnderlyingTypeFullName} {memberProperties.FieldName}Value = {memberProperties.ValueAsText};");
+            if (memberProperties.IsValue)
+            {
+                sb.AppendLine(
+                    $"public const {item.UnderlyingTypeFullName} {memberProperties.Value.FieldName}Value = {memberProperties.Value.ValueAsText};");
+            }
         }
         
         return sb.ToString();

@@ -5,12 +5,14 @@ namespace Intellenum.StaticConstructorBuilding;
 
 public class ImplicitFieldBuilder
 {
-    public static void GenerateEachImplicitField(List<MemberProperties> implicitlyNamedMembers, StringBuilder sb)
+    public static void GenerateEachImplicitField(IEnumerable<ValueOrDiagnostic<MemberProperties>> implicitlyNamedMembers, StringBuilder sb)
     {
         foreach (var eachMember in implicitlyNamedMembers)
         {
-            sb.AppendLine($"{eachMember.FieldName}.Name = \"{eachMember.FieldName}\";");
+            if (eachMember.IsValue)
+            {
+                sb.AppendLine($"{eachMember.Value.FieldName}.Name = \"{eachMember.Value.FieldName}\";");
+            }
         }
     }
-  
 }

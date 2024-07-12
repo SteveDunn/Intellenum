@@ -28,9 +28,9 @@ public static class Util
     {
         StringBuilder sb = new StringBuilder();
 
-        foreach (var eachMember in workItem.MemberProperties)
+        foreach (var eachMember in workItem.MemberProperties.ValidMembers)
         {
-            string escapedName = EscapeIfRequired(eachMember.FieldName);
+            string escapedName = EscapeIfRequired(eachMember.Value.FieldName);
             sb.AppendLine($"        if(value == {escapedName}.Value) return {escapedName};");
         }
 
@@ -199,8 +199,11 @@ causes Rider's debugger to crash.
 
         foreach (var eachItem in item.MemberProperties)
         {
-            var (first, second) = callback(eachItem);
-            sb.AppendLine($"{{ {first}, {second} }},");
+            if (eachItem.IsValue)
+            {
+                var (first, second) = callback(eachItem.Value);
+                sb.AppendLine($"{{ {first}, {second} }},");
+            }
         }
 
         return sb.ToString();
