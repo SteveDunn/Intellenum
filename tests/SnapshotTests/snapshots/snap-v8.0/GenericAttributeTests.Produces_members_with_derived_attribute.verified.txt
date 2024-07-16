@@ -45,7 +45,13 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<CustomerType> 
     {
-        
+        // const fields...
+public const System.Int64 UnspecifiedValue = -1;
+public const System.Int64 Unspecified1Value = -2;
+public const System.Int64 Unspecified2Value = -3;
+public const System.Int64 Unspecified3Value = -4;
+public const System.Int64 Cust42Value = 42;
+
 
         
 

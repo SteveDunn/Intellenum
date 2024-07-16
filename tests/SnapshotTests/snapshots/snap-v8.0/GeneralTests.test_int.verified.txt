@@ -45,7 +45,12 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<E> 
     {
-        
+        // const fields...
+public const System.Int32 ThreeValue = 3;
+public const System.Int32 OneValue = 1;
+public const System.Int32 TwoValue = 2;
+public const System.Int32 FourValue = 4;
+
 
         
 

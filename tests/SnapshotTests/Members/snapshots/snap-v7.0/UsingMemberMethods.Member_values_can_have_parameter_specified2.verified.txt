@@ -45,7 +45,10 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<IeIntWithMembersInvalidAndUnspecified> 
     {
-        
+        // const fields...
+public const System.Int32 InvalidValue = -1;
+public const System.Int32 UnspecifiedValue = -2;
+
 
         
 

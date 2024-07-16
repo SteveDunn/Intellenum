@@ -45,7 +45,10 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<CustomerType> 
     {
-        
+        // const fields...
+public const System.Int32 @classValue = 42;
+public const System.Int32 @eventValue = 69;
+
 
         
 

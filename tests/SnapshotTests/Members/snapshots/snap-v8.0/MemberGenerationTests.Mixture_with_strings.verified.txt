@@ -45,7 +45,22 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<Mixture> 
     {
-        
+        // const fields...
+public const System.String FourValue = "Four";
+public const System.String FiveValue = "Five";
+public const System.String SixValue = "Six";
+public const System.String ZeroValue = "Zero";
+public const System.String OneValue = "One";
+public const System.String TwoValue = "Two";
+public const System.String ThreeValue = "Three";
+public const System.String NineValue = "Nine";
+public const System.String TenValue = "Ten";
+public const System.String ThirteenValue = "Thirteen";
+public const System.String ElevenValue = "Eleven";
+public const System.String TwelveValue = "Twelve";
+public const System.String SevenValue = "Seven";
+public const System.String EightValue = "Eight";
+
 
         
 

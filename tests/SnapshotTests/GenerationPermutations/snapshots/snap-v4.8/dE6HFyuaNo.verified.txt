@@ -43,7 +43,9 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<internal_partial_classConversions_EfCoreValueConverter> 
     {
-        
+        // const fields...
+public const System.Int32 OneValue = 1;
+
 
         
 

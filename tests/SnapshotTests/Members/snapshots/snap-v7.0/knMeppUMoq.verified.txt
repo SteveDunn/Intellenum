@@ -45,7 +45,9 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<internal_partial_classbyte> 
     {
-        
+        // const fields...
+public const System.Byte MyValueValue = 42;
+
 
         
 

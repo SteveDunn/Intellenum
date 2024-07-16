@@ -45,7 +45,12 @@ namespace @double
         global::System.IComparable, 
         global::System.IComparable<@class> 
     {
-        
+        // const fields...
+public const System.Int32 @structValue = 42;
+public const System.Int32 @doubleValue = 52;
+public const System.Int32 @eventValue = 69;
+public const System.Int32 @voidValue = 666;
+
 
         
 

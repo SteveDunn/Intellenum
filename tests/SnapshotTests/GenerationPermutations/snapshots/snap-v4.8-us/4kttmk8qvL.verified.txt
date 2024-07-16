@@ -44,7 +44,9 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<internal_partial_classConversions_NewtonsoftJsonlong> 
     {
-        
+        // const fields...
+public const System.Int64 OneValue = 1L;
+
 
         
 

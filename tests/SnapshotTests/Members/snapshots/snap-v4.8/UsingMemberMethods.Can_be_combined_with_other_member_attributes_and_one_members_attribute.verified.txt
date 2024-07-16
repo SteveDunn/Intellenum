@@ -45,7 +45,15 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<CustomerType> 
     {
-        
+        // const fields...
+public const System.String OffPeakValue = "OffPeak";
+public const System.String ElderlyValue = "Elderly";
+public const System.String ChildValue = "Child";
+public const System.String BlueLightWorkerValue = "BlueLightWorker";
+public const System.String StandardValue = "Standard";
+public const System.String GoldValue = "Gold";
+public const System.String DiamondValue = "Diamond";
+
 
         
 

@@ -44,7 +44,9 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<public_partial_classConversions_SystemTextJsonbyte> 
     {
-        
+        // const fields...
+public const System.Byte OneValue = 1;
+
 
         
 

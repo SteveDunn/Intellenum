@@ -43,7 +43,9 @@ namespace @class
         global::System.IComparable, 
         global::System.IComparable<escapedTestsinternal_partial_classConversions_LinqToDbValueConverterstring> 
     {
-        
+        // const fields...
+public const System.String OneValue = "1";
+
 
         
 

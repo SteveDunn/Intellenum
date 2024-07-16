@@ -41,7 +41,10 @@ using System;
         global::System.IComparable, 
         global::System.IComparable<MyVo> 
     {
-        
+        // const fields...
+public const System.String Item1Value = "1";
+public const System.String Item2Value = "2";
+
 
         
 

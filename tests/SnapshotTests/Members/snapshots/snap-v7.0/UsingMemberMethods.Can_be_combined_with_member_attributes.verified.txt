@@ -45,7 +45,12 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<CustomerType> 
     {
-        
+        // const fields...
+public const System.Int32 OffPeakValue = 3;
+public const System.Int32 StandardValue = 0;
+public const System.Int32 GoldValue = 1;
+public const System.Int32 DiamondValue = 2;
+
 
         
 

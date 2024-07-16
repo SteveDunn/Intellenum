@@ -43,7 +43,9 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<MyIntVo> 
     {
-        
+        // const fields...
+public const System.Int32 OneValue = 1;
+
 
         
 

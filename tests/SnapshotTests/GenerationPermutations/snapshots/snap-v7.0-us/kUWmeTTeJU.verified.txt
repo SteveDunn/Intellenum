@@ -43,7 +43,9 @@ namespace Whatever
         global::System.IComparable, 
         global::System.IComparable<internal_partial_classConversions_EfCoreValueConverterbyte> 
     {
-        
+        // const fields...
+public const System.Byte OneValue = 1;
+
 
         
 

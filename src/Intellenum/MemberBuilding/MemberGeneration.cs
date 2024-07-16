@@ -203,7 +203,7 @@ public static class MemberGeneration
     
     public static string GenerateConstValuesIfPossible(VoWorkItem item)
     {
-        if (!item.IsConstant || item.MemberProperties.ValidMembers.Any())
+        if (!item.IsConstant || !item.MemberProperties.ValidMembers.Any())
         {
             return string.Empty;
         }
