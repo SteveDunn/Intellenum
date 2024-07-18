@@ -1,73 +1,72 @@
 ﻿using Intellenum.Tests.Types;
 
-namespace ConsumerTests.HashCodes
+namespace ConsumerTests.HashCodes;
+
+[Intellenum(typeof(int))]
+[Member("Item1", 1)]
+[Member("Item2", 2)]
+public partial class MyClassInt
 {
-    [Intellenum(typeof(int))]
-    [Member("Item1", 1)]
-    [Member("Item2", 2)]
-    public partial class MyClassInt
+}
+
+[Intellenum(typeof(int))]
+[Member("Item1", 1)]
+[Member("Item2", 2)]
+public partial class MyClassInt2
+{
+}
+
+public class HashCodeTests
+{
+    [Fact]
+    public void SameClassesHaveSameHashCode()
     {
+        MyClassInt.Item1.GetHashCode().Should().Be(MyClassInt.Item1.GetHashCode());
+
+        MyClassInt.Item2.GetHashCode().Should().Be(MyClassInt.Item2.GetHashCode());
     }
 
-    [Intellenum(typeof(int))]
-    [Member("Item1", 1)]
-    [Member("Item2", 2)]
-    public partial class MyClassInt2
+    /// <summary>
+    /// The same as record structs, GetHashCode only considers the underlying type and not the type itself.
+    /// </summary>
+    [Fact]
+    public void DifferentClassesWithSameUnderlyingTypeAndValueHaveDifferentHashCode()
     {
+        MyClassInt.Item1.GetHashCode().Should().NotBe(MyClassInt2.Item1.GetHashCode());
+
+        MyClassInt.Item2.GetHashCode().Should().NotBe(MyClassInt2.Item2.GetHashCode());
     }
 
-    public class HashCodeTests
+    [Fact]
+    public void Storing_1()
     {
-        [Fact]
-        public void SameClassesHaveSameHashCode()
+        var a1 = MilestoneAges.LegalVotingAge;
+        var a2 = MilestoneAges.LegalDrivingAge;
+
+        var d = new Dictionary<MilestoneAges, string>
         {
-            MyClassInt.Item1.GetHashCode().Should().Be(MyClassInt.Item1.GetHashCode());
+            { a1, "hello1" },
+            { a2, "hello2" }
+        };
 
-            MyClassInt.Item2.GetHashCode().Should().Be(MyClassInt.Item2.GetHashCode());
-        }
+        d.Count.Should().Be(2);
 
-        /// <summary>
-        /// The same as record structs, GetHashCode only considers the underlying type and not the type itself.
-        /// </summary>
-        [Fact]
-        public void DifferentClassesWithSameUnderlyingTypeAndValueHaveDifferentHashCode()
-        {
-            MyClassInt.Item1.GetHashCode().Should().NotBe(MyClassInt2.Item1.GetHashCode());
+        d[a1].Should().Be("hello1");
+        d[a2].Should().Be("hello2");
+    }
 
-            MyClassInt.Item2.GetHashCode().Should().NotBe(MyClassInt2.Item2.GetHashCode());
-        }
+    [Fact]
+    public void Storing_2()
+    {
+        var a1 = MilestoneAges.LegalVotingAge;
+        var a2 = MilestoneAges.LegalVotingAge;
 
-        [Fact]
-        public void Storing_1()
-        {
-            var a1 = MilestoneAges.LegalVotingAge;
-            var a2 = MilestoneAges.LegalDrivingAge;
+        var d = new Dictionary<MilestoneAges, string> { { a1, "hello1" } };
 
-            var d = new Dictionary<MilestoneAges, string>
-            {
-                { a1, "hello1" },
-                { a2, "hello2" }
-            };
+        d[a2] = "hello2";
 
-            d.Count.Should().Be(2);
+        d.Count.Should().Be(1);
 
-            d[a1].Should().Be("hello1");
-            d[a2].Should().Be("hello2");
-        }
-
-        [Fact]
-        public void Storing_2()
-        {
-            var a1 = MilestoneAges.LegalVotingAge;
-            var a2 = MilestoneAges.LegalVotingAge;
-
-            var d = new Dictionary<MilestoneAges, string> { { a1, "hello1" } };
-
-            d[a2] = "hello2";
-
-            d.Count.Should().Be(1);
-
-            d[a1].Should().Be("hello2");
-        }
+        d[a1].Should().Be("hello2");
     }
 }

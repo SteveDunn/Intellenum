@@ -3,6 +3,12 @@ using System.Threading.Tasks;
 
 namespace Intellenum.Examples.TypicalScenarios.Lists;
 
+[Intellenum]
+internal partial class Result
+{
+    static Result() => Members("Lost, Drawn, Won");
+}
+
 internal class ListsScenario : IScenario
 {
     public Task Run()
@@ -17,13 +23,4 @@ internal class ListsScenario : IScenario
         
         return Task.CompletedTask;
     }
-}
-
-// defaults to int
-[Intellenum]
-[Member("Won", 2)]
-[Member("Drawn", 1)]
-[Member("Lost", 0)]
-internal partial class Result
-{
 }
