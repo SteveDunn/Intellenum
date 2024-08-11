@@ -42,6 +42,8 @@ public partial class Mixture
     }
     public static readonly Mixture Seven = new();
     public static readonly Mixture Eight = new();
+    public static readonly Mixture Fourteen = new();
+    
 }
 
 [Intellenum]

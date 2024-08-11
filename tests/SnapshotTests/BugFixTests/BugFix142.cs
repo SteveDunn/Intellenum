@@ -90,6 +90,54 @@ public partial class E
     }
 
     [Fact]
+    public Task With_field_declarations_that_combine_newed_up_and_non_newed_up()
+    {
+        var source = """
+using Intellenum;
+
+namespace Whatever;
+
+[Intellenum<string>]
+public partial class E
+{
+    public static readonly E One, Two = new("Two!");
+}
+""";
+
+        return new SnapshotRunner<IntellenumGenerator>()
+            .IgnoreInitialCompilationErrors()
+            .WithSource(source)
+            .RunOn(TargetFramework.Net8_0);
+    }
+
+    [Fact]
+    public Task Ignores_non_field_syntax()
+    {
+        var source = """
+using Intellenum;
+
+namespace Whatever;
+
+[Intellenum]
+[Members("London, Paris, Peckham")]
+public partial class City
+{
+    public static readonly City Frankfurt;
+    
+    public static City RandomMember()
+    {
+       return City.FromValue(Random.Shared.Next(List().Count()));
+    }
+}
+""";
+
+        return new SnapshotRunner<IntellenumGenerator>()
+            .IgnoreInitialCompilationErrors()
+            .WithSource(source)
+            .RunOn(TargetFramework.Net8_0);
+    }
+
+    [Fact]
     public Task With_a_field_declaration_for_two_declators()
     {
         var source = """

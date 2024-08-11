@@ -221,28 +221,28 @@ namespace ConsumerTests.MembersMethodTests.IntFieldDeclarations
             {
                 E.Member1.Name.Should().Be("Member1");
                 E.Member1.Value.Should().Be(0);
-
+        
                 E.Member2.Name.Should().Be("Member2");
                 E.Member2.Value.Should().Be(1);
                 
                 E.Member3.Name.Should().Be("Member3");
                 E.Member3.Value.Should().Be(2);
-
+        
                 E.Member4.Name.Should().Be("Member4");
                 E.Member4.Value.Should().Be(3);
-
+        
                 E.Member5.Name.Should().Be("Member5");
                 E.Member5.Value.Should().Be(4);
                 
                 E.Member6.Name.Should().Be("Member6");
                 E.Member6.Value.Should().Be(5);
-
+        
                 E.Member7.Name.Should().Be("Member7");
                 E.Member7.Value.Should().Be(6);
-
+        
                 E.Member8.Name.Should().Be("Member8");
                 E.Member8.Value.Should().Be(888);
-
+        
                 E.Member9.Name.Should().Be("9!");
                 E.Member9.Value.Should().Be(999);
             }
@@ -264,7 +264,7 @@ namespace ConsumerTests.MembersMethodTests.IntFieldDeclarations
             {
                 E.Member1.Name.Should().Be("Member1");
                 E.Member1.Value.Should().Be(0);
-
+            
                 E.Member2.Name.Should().Be("Member2");
                 E.Member2.Value.Should().Be(1);
             }
