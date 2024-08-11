@@ -9,10 +9,11 @@ namespace Intellenum.MemberBuilding;
 
 public static partial class MemberBuilder
 {
-    public static MemberPropertiesCollection TryBuildFromMembersFromCsvInAttribute(
+    internal static MemberPropertiesCollection TryBuildFromMembersFromCsvInAttribute(
         AttributeData matchingAttribute,
         INamedTypeSymbol voClass,
-        INamedTypeSymbol? underlyingType)
+        INamedTypeSymbol? underlyingType,
+         Counter indexForImplicitValues)
     {
         // try build it from non-named arguments
 
@@ -28,7 +29,7 @@ public static partial class MemberBuilder
                 return MemberPropertiesCollection.Empty();
             }
 
-            return TryBuild(args[0], voClass, underlyingType);
+            return TryBuild(args[0], voClass, underlyingType, indexForImplicitValues);
         }
 
         // try build it from named arguments
@@ -58,14 +59,15 @@ public static partial class MemberBuilder
             }
         }
 
-        return TryBuild(nameConstant, voClass, underlyingType);
+        return TryBuild(nameConstant, voClass, underlyingType, indexForImplicitValues);
     }
 
 
     private static MemberPropertiesCollection TryBuild(
         TypedConstant namesConstant,
         INamedTypeSymbol voClass,
-        INamedTypeSymbol? underlyingType)
+        INamedTypeSymbol? underlyingType,
+        Counter counter)
     {
         if (namesConstant.Value is null)
         {
@@ -80,16 +82,14 @@ public static partial class MemberBuilder
             return MemberPropertiesCollection.Empty();
         }
 
-        return GenerateFromCsv(csv, voClass, underlyingType);
+        return GenerateFromCsv(csv, voClass, underlyingType, counter);
     }
 
-    public static MemberPropertiesCollection GenerateFromCsv(string csv, INamedTypeSymbol voClass, INamedTypeSymbol? underlyingType)
+    internal static MemberPropertiesCollection GenerateFromCsv(string csv, INamedTypeSymbol voClass, INamedTypeSymbol? underlyingType, Counter counter)
     {
         var names = csv.Split(',').Select(each => each.Trim());
 
         List<ValueOrDiagnostic<MemberProperties>> result = new();
-
-        int i = 0;
 
         foreach (var eachName in names)
         {
@@ -115,21 +115,26 @@ public static partial class MemberBuilder
                         r.Value,
                         r,
                         string.Empty,
+                        true,
                         true)));
 
-            i++;
             continue;
 
             string ResolveValue()
             {
-                if (underlyingType?.SpecialType is SpecialType.System_Int32)
-                    return i.ToString();
                 if (underlyingType?.SpecialType is SpecialType.System_String)
+                {
                     return eachName;
+                }
+
+                if (underlyingType?.SpecialType is SpecialType.System_Int32)
+                {
+                    return counter.Increment().ValueAsText;
+                }
 
                 Debug.Fail("Not a string or int");
 
-                return i.ToString();
+                return counter.Increment().ValueAsText;
             }
         }
 

@@ -11,7 +11,8 @@ public class MemberProperties
         string valueAsText,
         object value,
         string tripleSlashComments,
-        bool wasExplicitlyNamed)
+        bool wasExplicitlySetAName,
+        bool wasExplicitlySetAValue)
     {
         Source = source;
         FieldName = fieldName;
@@ -19,13 +20,14 @@ public class MemberProperties
         ValueAsText = valueAsText;
         Value = value;
         TripleSlashComments = tripleSlashComments;
-        WasExplicitlyNamed = wasExplicitlyNamed;
+        WasExplicitlySetAName = wasExplicitlySetAName;
+        WasExplicitlySetAValue = wasExplicitlySetAValue;
     }
 
-    private MemberProperties(List<Diagnostic> errors)
-    {
-        throw new System.NotImplementedException();
-    }
+    // private MemberProperties(List<Diagnostic> errors)
+    // {
+    //     throw new System.NotImplementedException();
+    // }
 
     public MemberSource Source { get; }
     
@@ -44,11 +46,17 @@ public class MemberProperties
     /// An implicitly declared member has just a name.
     /// In the case of strings, new expressions don't even need a name
     /// as the name is implied from the field name.
+    /// Also, for strings and ints, a field doesn't even need to be newed up
+    /// as the name and value are inferred.
     /// </summary>
-    public bool WasExplicitlyNamed { get; }
+    public bool WasExplicitlySetAName { get; }
+    
+    public bool WasExplicitlySetAValue { get; }
 
-    public static MemberProperties? WithErrors(List<Diagnostic> errors)
-    {
-        return new(errors);
-    }
+    public bool NeedsInitializing => Source is MemberSource.FromFieldDeclator || !WasExplicitlySetAName || !WasExplicitlySetAValue;
+
+    // public static MemberProperties? WithErrors(List<Diagnostic> errors)
+    // {
+    //     return new(errors);
+    // }
 }

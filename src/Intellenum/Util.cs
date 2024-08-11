@@ -30,7 +30,7 @@ public static class Util
 
         foreach (var eachMember in workItem.MemberProperties.ValidMembers)
         {
-            string escapedName = EscapeIfRequired(eachMember.Value.FieldName);
+            string escapedName = EscapeIfRequired(eachMember.FieldName);
             sb.AppendLine($"        if(value == {escapedName}.Value) return {escapedName};");
         }
 

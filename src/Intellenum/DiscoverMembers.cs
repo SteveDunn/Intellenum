@@ -12,34 +12,40 @@ namespace Intellenum;
 
 internal class DiscoverMembers
 {
-    public static MemberPropertiesCollection Discover(ImmutableArray<AttributeData> allAttributes,
-        INamedTypeSymbol voSymbolInformation,
-        INamedTypeSymbol underlyingType,
-        Compilation compilation) =>
-        MemberPropertiesCollection.Combine(
-            FromMemberAttributes(allAttributes, voSymbolInformation, underlyingType),
-            FromMembersAttribute(allAttributes, voSymbolInformation, underlyingType),
-            FromCallsToMemberMethod(voSymbolInformation, underlyingType, compilation),
-            FromTheSingleCallToMembersMethod(voSymbolInformation, underlyingType),
-            FromNewStatements(voSymbolInformation, underlyingType));
+    public static MemberPropertiesCollection Discover(INamedTypeSymbol ieSymbol,
+        INamedTypeSymbol underlyingSymbol,
+        Compilation compilation)
+    {
+        Counter counter = new();
 
-    private static MemberPropertiesCollection FromMemberAttributes(
-        ImmutableArray<AttributeData> attributes,
-        INamedTypeSymbol voClass, 
-        INamedTypeSymbol underlyingType)
+        var allAttributes = ieSymbol.GetAttributes();
+
+        return MemberPropertiesCollection.Combine(
+            FromMemberAttributes(allAttributes, ieSymbol, underlyingSymbol, counter),
+            FromMembersAttribute(allAttributes, ieSymbol, underlyingSymbol, counter),
+            FromCallsToMemberMethod(ieSymbol, underlyingSymbol, compilation, counter),
+            FromTheSingleCallToMembersMethod(ieSymbol, underlyingSymbol, counter),
+            FromNewExpressions(ieSymbol, underlyingSymbol, counter),
+            FromFieldDeclarations(ieSymbol, underlyingSymbol, counter));
+    }
+
+    private static MemberPropertiesCollection FromMemberAttributes(ImmutableArray<AttributeData> attributes,
+        INamedTypeSymbol ieSymbol,
+        INamedTypeSymbol underlyingType,
+        Counter counter)
     {
         var matchingAttributes = FilterToAttributesNamed(attributes, "Intellenum.MemberAttribute");
 
-        return MemberBuilder.BuildFromMemberAttributes(matchingAttributes, voClass, underlyingType);
+        return MemberBuilder.BuildFromMemberAttributes(matchingAttributes, ieSymbol, underlyingType, counter);
     }
 
     private static IEnumerable<AttributeData> FilterToAttributesNamed(ImmutableArray<AttributeData> attributes, string name) => 
         attributes.Where(a => a.AttributeClass?.FullName() == name);
 
-    private static MemberPropertiesCollection FromMembersAttribute(
-        ImmutableArray<AttributeData> attributes,
-        INamedTypeSymbol voClass,
-        INamedTypeSymbol underlyingType)
+    private static MemberPropertiesCollection FromMembersAttribute(ImmutableArray<AttributeData> attributes,
+        INamedTypeSymbol ieSymbol,
+        INamedTypeSymbol underlyingSymbol,
+        Counter counter)
     {
         var matchingAttributes = FilterToAttributesNamed(attributes, "Intellenum.MembersAttribute").ToList();
 
@@ -50,14 +56,14 @@ internal class DiscoverMembers
 
         AttributeData matchingAttribute = matchingAttributes[0];
 
-        if (!underlyingType.SpecialType.IsStringOrInt())
+        if (!underlyingSymbol.SpecialType.IsStringOrInt())
         {
             return MemberPropertiesCollection.WithDiagnostic(
-                DiagnosticsCatalogue.MembersAttributeShouldOnlyBeOnIntOrStringBasedEnums(voClass),
-                voClass.Locations[0]);
+                DiagnosticsCatalogue.MembersAttributeShouldOnlyBeOnIntOrStringBasedEnums(ieSymbol),
+                ieSymbol.Locations[0]);
         }
 
-        return MemberBuilder.TryBuildFromMembersFromCsvInAttribute(matchingAttribute, voClass, underlyingType);
+        return MemberBuilder.TryBuildFromMembersFromCsvInAttribute(matchingAttribute, ieSymbol, underlyingSymbol, counter);
     }
 
     private static IEnumerable<InvocationExpressionSyntax> GetInvocationsInConstructor(INamedTypeSymbol voClass, string methodName)
@@ -82,14 +88,13 @@ internal class DiscoverMembers
 
     private static MemberPropertiesCollection FromCallsToMemberMethod(INamedTypeSymbol voClass,
         INamedTypeSymbol underlyingType,
-        Compilation compilation)
+        Compilation compilation,
+        Counter indexForImplicitValues)
     {
         MemberPropertiesCollection l = new();
         
         var memberInvocations = GetInvocationsInConstructor(voClass, "Member");
 
-        int index = 0;
-        
         foreach (InvocationExpressionSyntax? eachInvocation in memberInvocations)
         {
             SemanticModel m = compilation.GetSemanticModel(eachInvocation.SyntaxTree);
@@ -129,7 +134,7 @@ internal class DiscoverMembers
                 }
                 else
                 {
-                    secondAsString = $"{index++}";
+                    secondAsString = $"{indexForImplicitValues.Increment()}";
                 }
             }
             else
@@ -147,15 +152,16 @@ internal class DiscoverMembers
                     valueAsText: secondAsString,
                     value: secondAsString,
                     tripleSlashComments: string.Empty,
-                    wasExplicitlyNamed: isExplicitlyNamed));
+                    wasExplicitlySetAName: isExplicitlyNamed,
+                    wasExplicitlySetAValue: true));
         }
 
         return l;
     }
 
-    private static MemberPropertiesCollection FromTheSingleCallToMembersMethod(
-        INamedTypeSymbol voClass,
-        INamedTypeSymbol underlyingType)
+    private static MemberPropertiesCollection FromTheSingleCallToMembersMethod(INamedTypeSymbol voClass,
+        INamedTypeSymbol underlyingType,
+        Counter indexForImplicitValues)
     {
         MemberPropertiesCollection l = new();
         
@@ -181,19 +187,17 @@ internal class DiscoverMembers
             return l;
         }
 
-        return MemberBuilder.GenerateFromCsv(firstAsString, voClass, underlyingType);
+        return MemberBuilder.GenerateFromCsv(firstAsString, voClass, underlyingType, indexForImplicitValues);
     }
 
-    private static MemberPropertiesCollection FromNewStatements(INamedTypeSymbol voClass, INamedTypeSymbol underlyingType)
+    private static MemberPropertiesCollection FromNewExpressions(INamedTypeSymbol ieSymbol, INamedTypeSymbol underlyingSymbol, Counter counter)
     {
         MemberPropertiesCollection l = new();
 
-        var publicStaticMembers = voClass.GetMembers().Where(m => m.IsStatic && m.IsPublic());
+        var publicStaticMembers = ieSymbol.GetMembers().Where(m => m.IsStatic && m.IsPublic());
         
         var hits = publicStaticMembers.Where(IsSameSymbol);
 
-        int indexForImplicitValues = 0;
-        
         // we have the field
         foreach (ISymbol eachMemberSymbol in hits)
         {
@@ -204,17 +208,13 @@ internal class DiscoverMembers
                 continue;
             }
 
-            var syntax = decl.GetSyntax();
-
-            var allConstructors = syntax.DescendantNodes().OfType<BaseObjectCreationExpressionSyntax>();
-            
-            var newExpressions = allConstructors.ToList();
+            var newExpressions = decl.GetSyntax().DescendantNodes().OfType<BaseObjectCreationExpressionSyntax>().ToList();
 
             List<ImplicitObjectCreationExpressionSyntax> implicitNews = newExpressions.OfType<ImplicitObjectCreationExpressionSyntax>()
-                .Where(x => IsMatch(x, voClass.Name)).ToList();
+                .Where(x => IsMatch(x, ieSymbol.Name)).ToList();
                 
             IEnumerable<BaseObjectCreationExpressionSyntax> explicitNews = newExpressions.OfType<ObjectCreationExpressionSyntax>()
-                .Where(c => c.Type is IdentifierNameSyntax ins && ins.Identifier.Text == voClass.Name);
+                .Where(c => c.Type is IdentifierNameSyntax ins && ins.Identifier.Text == ieSymbol.Name);
             
             var combined = implicitNews.Concat(explicitNews);
 
@@ -241,27 +241,26 @@ internal class DiscoverMembers
 
             if (args.Arguments.Count == 0)
             {
-                if (underlyingType.SpecialType is not (SpecialType.System_Int32 or SpecialType.System_String))
+                if (underlyingSymbol.SpecialType is not (SpecialType.System_Int32 or SpecialType.System_String))
                 {
-                    l.Add(DiagnosticsCatalogue.MemberMethodCallCanOnlyOmitValuesForStringsAndInts(voClass), eachMemberSymbol.Locations[0]);
+                    l.Add(DiagnosticsCatalogue.MemberMethodCallCanOnlyOmitValuesForStringsAndInts(ieSymbol), eachMemberSymbol.Locations[0]);
                     continue;
                 }
 
                 string value;
 
-                if (underlyingType.SpecialType is SpecialType.System_String)
+                if (underlyingSymbol.SpecialType is SpecialType.System_String)
                 {
                     value = $"\"{enumName}\"";
                 }
                 else
                 {
-                    value = indexForImplicitValues.ToString();
-                    indexForImplicitValues += 1;
+                    value = counter.Increment().ValueAsText;
                 }
 
                 enumName = fieldName;
 
-                l.Add(new MemberProperties(MemberSource.FromNewExpression, fieldName, enumName, value, value, "", false));
+                l.Add(new MemberProperties(MemberSource.FromNewExpression, fieldName, enumName, value, value, "", false, false));
                 continue;
             }
 
@@ -273,7 +272,7 @@ internal class DiscoverMembers
                 var firstAsString = (first.Expression as LiteralExpressionSyntax)?.Token.Value as string;
 
                 enumName = firstAsString ?? throw new InvalidOperationException(
-                    $"Expected string literal as name parameter to a parameter of the constructor for creating a type of '{voClass.Name}'");
+                    $"Expected string literal as name parameter to a parameter of the constructor for creating a type of '{ieSymbol.Name}'");
             }
             
             int index = args.Arguments.Count == 2 ? 1 : 0;
@@ -304,14 +303,79 @@ internal class DiscoverMembers
                     secondAsString,
                     secondAsString,
                     "",
-                    explicitlyNamed));
+                    explicitlyNamed,
+                    true));
         }
 
         return l;
 
         bool IsSameSymbol(ISymbol m)
         {
-            return SymbolEqualityComparer.Default.Equals(m.GetMemberType(), voClass);
+            return SymbolEqualityComparer.Default.Equals(m.GetMemberType(), ieSymbol);
+        }
+    }
+
+    // a 'field declaration' is just `public static readonly MyEnum One, Two, Three;`
+    private static MemberPropertiesCollection FromFieldDeclarations(INamedTypeSymbol ieSymbol, INamedTypeSymbol underlyingSymbol, Counter counter)
+    {
+        MemberPropertiesCollection l = new();
+
+        var publicStaticMembers = ieSymbol.GetMembers().Where(m => m.IsStatic && m.IsPublic());
+        
+        var hits = publicStaticMembers.Where(IsMemberTypeSameAsUnderlyingType);
+
+        // we have the field
+        foreach (ISymbol eachMemberSymbol in hits)
+        {
+            var decl = eachMemberSymbol.DeclaringSyntaxReferences.SingleOrDefaultNoThrow();
+            
+            if (decl is null)
+            {
+                continue;
+            }
+
+            var syntax = decl.GetSyntax() as VariableDeclaratorSyntax;
+            if (syntax is null)
+            {
+                continue;
+            }
+            
+            // We don't care, here, about stuff that is created using new, as that is done elsewhere
+            // in this type.
+            bool isNewedUp = syntax.DescendantNodes().OfType<BaseObjectCreationExpressionSyntax>().Any();
+            if (isNewedUp)
+            {
+                continue;
+            }
+
+            string enumName = syntax.GetFirstToken().ValueText;
+            
+            if (underlyingSymbol.SpecialType is not (SpecialType.System_Int32 or SpecialType.System_String))
+            {
+                l.Add(DiagnosticsCatalogue.MemberMethodCallCanOnlyOmitValuesForStringsAndInts(ieSymbol), eachMemberSymbol.Locations[0]);
+                continue;
+            }
+
+            string value;
+
+            if (underlyingSymbol.SpecialType is SpecialType.System_String)
+            {
+                value = $"\"{enumName}\"";
+            }
+            else
+            {
+                value = counter.Increment().ValueAsText;
+            }
+
+            l.Add(new MemberProperties(MemberSource.FromFieldDeclator, enumName, enumName, value, value, "", false, false));
+            
+        }
+
+        return l;
+
+        bool IsMemberTypeSameAsUnderlyingType(ISymbol m)
+        {
+            return SymbolEqualityComparer.Default.Equals(m.GetMemberType(), ieSymbol);
         }
     }
 
@@ -342,5 +406,6 @@ public enum MemberSource
 {
     FromAttribute,
     FromMemberMethod,
-    FromNewExpression
+    FromNewExpression,
+    FromFieldDeclator
 }    

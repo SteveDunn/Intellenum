@@ -19,9 +19,9 @@ public static class MemberGeneration
 
         StringBuilder sb = new StringBuilder();
 
-        foreach (ValueOrDiagnostic<MemberProperties> each in item.MemberProperties.ValidMembers)
+        foreach (var each in item.MemberProperties.ValidMembers)
         {
-            sb.AppendLine($"yield return {each.Value.FieldName};");
+            sb.AppendLine($"yield return {each.FieldName};");
         }
 
         return sb.ToString();
@@ -36,10 +36,10 @@ public static class MemberGeneration
 
         StringBuilder sb = new StringBuilder();
 
-        foreach (ValueOrDiagnostic<MemberProperties> each in item.MemberProperties.ValidMembers.Where(
-                     i => i.Value.Source is not MemberSource.FromNewExpression))
+        foreach (var each in item.MemberProperties.ValidMembers.Where(
+                     i => i.Source is MemberSource.FromAttribute or MemberSource.FromMemberMethod))
         {
-            sb.AppendLine(GenerateMember(each.Value, classDeclarationSyntax, item.FullNamespace));
+            sb.AppendLine(GenerateMember(each, classDeclarationSyntax, item.FullNamespace));
         }
 
         return sb.ToString();
@@ -212,11 +212,8 @@ public static class MemberGeneration
         sb.AppendLine();
         foreach (var memberProperties in item.MemberProperties.ValidMembers)
         {
-            if (memberProperties.IsValue)
-            {
-                sb.AppendLine(
-                    $"public const {item.UnderlyingTypeFullName} {memberProperties.Value.FieldName}Value = {memberProperties.Value.ValueAsText};");
-            }
+            sb.AppendLine(
+                    $"public const {item.UnderlyingTypeFullName} {memberProperties.FieldName}Value = {memberProperties.ValueAsText};");
         }
         
         return sb.ToString();
