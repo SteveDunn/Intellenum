@@ -236,7 +236,7 @@ public partial class E
     }
 
     [Fact]
-    public Task test1()
+    public Task test_static_constructor_calling_member_method()
     {
         var source = """
                      using System;

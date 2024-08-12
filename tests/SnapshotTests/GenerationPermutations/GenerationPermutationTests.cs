@@ -18,22 +18,21 @@ public class GenerationPermutationTests
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            foreach (string conversion in _conversions)
+            string conversions =
+                "Conversions.NewtonsoftJson | Conversions.SystemTextJson | Conversions.EfCoreValueConverter | Conversions.DapperTypeHandler | Conversions.LinqToDbValueConverter";
+            foreach (string underlyingType in Factory.UnderlyingTypes)
             {
-                foreach (string underlyingType in Factory.UnderlyingTypes)
+                foreach (string accessModifier in _accessModifiers)
                 {
-                    foreach (string accessModifier in _accessModifiers)
-                    {
-                        var qualifiedType = $"{accessModifier} partial class";
-                        yield return new object[]
-                        {
-                            qualifiedType,
-                            Factory.MemberCallFor(underlyingType),
-                            conversion,
-                            underlyingType,
-                            CreateClassName(qualifiedType, conversion, underlyingType)
-                        };
-                    }
+                    var qualifiedType = $"{accessModifier} partial class";
+                    yield return
+                    [
+                        qualifiedType,
+                        Factory.MemberCallFor(underlyingType),
+                        conversions,
+                        underlyingType,
+                        CreateClassName(qualifiedType, conversions, underlyingType)
+                    ];
                 }
             }
         }
@@ -49,21 +48,6 @@ public class GenerationPermutationTests
             "public"
 #if THOROUGH
             , "internal"
-#endif
-        };
-        
-        // for each of the types above, create classes for each one of these attributes
-        private readonly string[] _conversions = 
-        {
-            "Conversions.None",
-            "Conversions.TypeConverter",
-            "Conversions.NewtonsoftJson",
-            "Conversions.SystemTextJson",
-#if THOROUGH
-            "Conversions.NewtonsoftJson | Conversions.SystemTextJson",
-            "Conversions.EfCoreValueConverter",
-            "Conversions.DapperTypeHandler",
-            "Conversions.LinqToDbValueConverter",
 #endif
         };
 

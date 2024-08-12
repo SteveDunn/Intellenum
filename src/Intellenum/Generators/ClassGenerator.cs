@@ -1,3 +1,4 @@
+using System.Linq;
 using Intellenum.Generators.Snippets;
 using Intellenum.MemberBuilding;
 using Intellenum.StaticConstructorBuilding;
@@ -9,6 +10,11 @@ public class ClassGenerator
 {
     public string BuildClass(VoWorkItem item, TypeDeclarationSyntax tds, bool isNetFramework)
     {
+//        bool valueCanBeReadonly = item.MemberProperties.
+
+        bool valueCanBeReadonly = item.MemberProperties.ValidMembers.All(m => m.WasExplicitlySetAValue && m.WasExplicitlySetAName);
+        string @readonly = valueCanBeReadonly ? "readonly" : "";
+        
         var className = tds.Identifier;
 
         string itemUnderlyingType = item.UnderlyingTypeFullName;
@@ -35,10 +41,10 @@ using System;
 #if DEBUG    
         private readonly global::System.Diagnostics.StackTrace _stackTrace = null;
 #endif
-        private readonly global::System.Boolean _isInitialized;
-        private readonly {itemUnderlyingType} _value;
+        private {@readonly} global::System.Boolean _isInitialized;
+        private {@readonly} {itemUnderlyingType} _value;
 
-        {StaticConstructorBuilder.BuildIfNeeded(item)}
+        {StaticInitializationBuilder.BuildIfNeeded(item)}
 
         /// <summary>
         /// Gets the underlying <see cref=""{itemUnderlyingType}"" /> value if set, otherwise default

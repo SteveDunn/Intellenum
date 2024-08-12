@@ -61,7 +61,13 @@ public partial class Mixture
             .IgnoreInitialCompilationErrors()
             .RunOn(TargetFramework.Net8_0);
     }
-
+    
+    // It doesn't really make sense to use this style of creation, especially for ints.
+    // Values are assigned in the order specified in the source generator, not the order that they're specified
+    // in the code. For instance, in this example, the `Member` attributes are processed first, then the `Members` attribute,
+    // then the static constructor `Member` methods, then the field declarations.
+    //
+    // It makes _more_ sense to use this style with strings, as the values are the same as the name.
     [Fact]
     public Task Mixture_with_ints()
     {
@@ -71,22 +77,22 @@ using Intellenum;
 namespace Whatever;
 
 [Intellenum<int>]
-// [Members("Zero, One, Two, Three")]
-// [Member("Four")]
-// [Member("Five")]
-// [Member("Six")]
+[Members("Zero, One, Two, Three")]
+[Member("Four")]
+[Member("Five")]
+[Member("Six")]
 public partial class Mixture
 {
     static Mixture()
     {
         Member("Nine");
         Member("Ten");
-        //Members("Eleven, Twelve");
+        Members("Eleven, Twelve");
         Member("Thirteen");
     }
   
-//    public static readonly Mixture Seven = new();
-//    public static readonly Mixture Eight = new(888);
+    public static readonly Mixture Seven = new();
+    public static readonly Mixture Eight = new(888);
 }
 """;
 

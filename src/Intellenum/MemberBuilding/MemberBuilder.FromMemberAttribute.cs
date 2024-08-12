@@ -74,14 +74,13 @@ public static partial class MemberBuilder
         return TryBuild(nameConstant, valueConstant, commentConstant, voClass, underlyingType, defaultValueGetter);
     }
 
-    public static MemberPropertiesCollection BuildFromMemberAttributes(
-        IEnumerable<AttributeData> matchingAttributes,
+    internal static MemberPropertiesCollection BuildFromMemberAttributes(IEnumerable<AttributeData> matchingAttributes,
         INamedTypeSymbol voClass,
-        INamedTypeSymbol underlyingType)
+        INamedTypeSymbol underlyingType,
+        Counter counter)
     {
         // try build it from non-named arguments
 
-        int index = 0;
         MemberPropertiesCollection c = new MemberPropertiesCollection();
 
         foreach (AttributeData e in matchingAttributes)
@@ -97,7 +96,7 @@ public static partial class MemberBuilder
                         return name;
                     }
 
-                    return index++;
+                    return counter.Increment().Value;
                 });
 
             if (m is not null)
@@ -108,6 +107,7 @@ public static partial class MemberBuilder
 
         return c;
     }
+
     
     private static ValueOrDiagnostic<MemberProperties> TryBuild(TypedConstant nameConstant,
         TypedConstant? valueConstant,
@@ -116,9 +116,6 @@ public static partial class MemberBuilder
         INamedTypeSymbol underlyingType,
         Func<string, object>? defaultValueGetter)
     {
-        //List<Diagnostic> errors = new();
-        
-        //bool hasErrors = false;
         if (nameConstant.Value is null)
         {
             return ValueOrDiagnostic<MemberProperties>.WithDiagnostic(DiagnosticsCatalogue.MemberMethodCallCannotHaveNullArgumentName(voClass), voClass.Locations[0]);
@@ -131,7 +128,11 @@ public static partial class MemberBuilder
             return ValueOrDiagnostic<MemberProperties>.WithDiagnostic(DiagnosticsCatalogue.MemberMethodCallCannotHaveNullArgumentValue(voClass), voClass.Locations[0]);
         }
 
-        bool isExplicit = valueConstant is not null;
+        // For the `Member` attribute, if a value isn't supplied, then it's not an implicit
+        // value per-se, as the code for the entry is emitted so it *doesn't need to set in the static constructor*.
+        // If this were set, then the static constructor would run before the static field is initialized, and a null is thrown
+        // as reported in https://github.com/SteveDunn/Intellenum/issues/142
+        var isExplicit = true;
 
         object? value = valueConstant?.Value ?? defaultValueGetter?.Invoke(name);
         if (value is null)
@@ -157,6 +158,7 @@ public static partial class MemberBuilder
             valueAsText: r.Value,
             value: value,
             tripleSlashComments: (string) (commentConstant?.Value ?? string.Empty),
-            wasExplicitlyNamed: isExplicit));
+            wasExplicitlySetAName: isExplicit,
+            wasExplicitlySetAValue: true));
     }
 }

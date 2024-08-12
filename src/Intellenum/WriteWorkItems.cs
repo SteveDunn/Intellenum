@@ -58,9 +58,6 @@ internal static class WriteWorkItems
 
         context.AddSource(filename, sourceText);
 
-        string SanitizeToALegalFilename(string input)
-        {
-            return input.Replace('@', '_');
-        }
+        static string SanitizeToALegalFilename(string input) => input.Replace('@', '_');
     }
 }

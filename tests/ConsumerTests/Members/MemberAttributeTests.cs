@@ -5,6 +5,12 @@ namespace ConsumerTests.MembersTests;
 public class MemberAttributeTests
 {
     [Fact]
+    public void String_tests()
+    {
+        MyStringEnum.One.Value.Should().Be("One");
+    }
+
+    [Fact]
     public void Type_with_two_members()
     {
         MyIntWithMembersInvalidAndUnspecified.Invalid.Value.Should().Be(-1);
@@ -75,6 +81,10 @@ public class MemberAttributeTests
     }
 
 }
+
+[Intellenum<string>]
+[Member("One")]
+public partial class MyStringEnum;
 
 [Intellenum(typeof(int))]
 [Member(name: "Invalid", value: -1)]

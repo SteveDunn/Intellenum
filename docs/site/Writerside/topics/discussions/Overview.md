@@ -85,7 +85,7 @@ Another way is via attributes:
 [Intellenum]
 [Member("Standard", 1)]
 [Member("Gold", 2)]
-public partial class CustomerType { }
+public partial class CustomerType;
 ```
 
 ... or mix them up!
@@ -236,7 +236,6 @@ public record class Planet(string Colour, int CircumferenceInMiles)
     bool r = PlanetEnum.TryParse("Blue-24901", out _);
     r.Should().BeFalse();
 }    
-}
 ```
 
 ### FromName
@@ -297,7 +296,7 @@ Intellenum supports serialization to and from JSON using `System.Text.Json` and 
 It also supports storing and retrieving from Dapper, EFCore and Linq2Db.
 
 
-# Comparison with other libraries
+### Comparison with other libraries
 The bulk of Intellenum is based on the work done for Vogen which is a source generator for value objects. One of the features of Vogen
 is the ability to specify 'instances'. These instances are very similar to the members of an enum, but they are not enums.
 There were a few requests to use the same source generation and analyzers used for Vogen but to generate enums instead.

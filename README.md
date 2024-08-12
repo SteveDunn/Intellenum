@@ -56,10 +56,11 @@ with the `FromName` and `FromValue` methods (and the equivalent `Try...` methods
 [Intellenum]
 public partial class CustomerType
 {
-    public static readonly CustomerType Standard = new(1);
-    public static readonly CustomerType Gold = new(2);
+    public static readonly CustomerType Standard, Gold;
 }
 ```
+
+Like normal enums, by default they're `int`s, and values are zero based.
 
 As well as speed, it also has code analyzers for safety; safety from defaulting, e.g.:
 
@@ -99,8 +100,17 @@ To get started, add a using for the `Intellenum` namespace and declare an enumer
 [Intellenum]
 public partial class CustomerType
 {
-    public static readonly CustomerType Standard = new(1);
-    public static readonly CustomerType Gold = new(2);
+    public static readonly CustomerType Standard, Gold;
+}
+```
+
+You can also specify different values:
+
+```csharp
+[Intellenum]
+public partial class CustomerType
+{
+    public static readonly CustomerType Standard = new(1000), Gold = new(2000);
 }
 ```
 
@@ -109,7 +119,7 @@ You can also supply a different name, e.g.:
 ```csharp
 public static readonly CustomerType Standard = new("STD", 1);
 ```
-By default, the underlying type is `int`, but you can specify a different type, e.g. `[Intellenum(typeof(short))]` or the generic version `[Intellenum<short>]`.
+By default, the underlying type is `int`, but you can specify a different type, e.g. `[Intellenum<short>]`.
 
 As well as explicitly declaring members like above, there are a couple of other ways. You can use a static 
 constructor that calls `Member`. 
@@ -120,13 +130,13 @@ public partial class CustomerType
 {
     static CustomerType()
     {
-        Member("Standard", 1);
-        Member("Gold", 2);
+        Member("Standard", 0);
+        Member("Gold", 0);
     }
 }
 ```
 
-`Member` is actually executed at runtime, it is used at compile time and real declarations source generated.
+`Member` is actually executed at runtime, it is used at compile time to generate field declarations.
 
 Another way is via attributes. You can use the `Member` attribute for single values, or the `Members` for multiple 
 attributes. Here's an example of the `Member` attribute:
@@ -161,7 +171,7 @@ public partial class CustomerType
 {
     static CustomerType()
     {
-        Member("Platinum", 3)
+        Member("Platinum", 3);
     }
     public static readonly CustomerType Royalty = new(4);
 }
@@ -172,6 +182,21 @@ public partial class CustomerType
 ```csharp
 if(type == CustomerType.Standard) Reject();
 if(type == CustomerType.Gold) Accept();
+```
+
+
+### Switch
+C# doesn't treat Intellenums as constants like it does with native enums. This makes it difficult to use in 
+scenarios were a constant expression is needed, like in switch expressions. To get around this, const fields are 
+generated which _can_ be used in switch expressions:
+```c#
+string shortCode = vendorType.Value switch
+{
+    VendorType.StandardValue => "STD",
+    VendorType.PreferredValue => "PRFRD",
+    VendorType.BlockedValue => "BLCKED",
+    _ => throw new InvalidOperationException("Unknown vendor type")
+};
 ```
 
 ### Configuration
@@ -211,9 +236,10 @@ operators on the enum type. e.g.
 [Intellenum<Planet>]
 public partial class PlanetEnum
 {
-    public static readonly PlanetEnum Jupiter = new(new Planet("Brown", 273_400));
-    public static readonly PlanetEnum Mars=  new(new Planet("Red", 13_240));
-    public static readonly PlanetEnum Venus=  new(new Planet("White", 23_622));
+    public static readonly PlanetEnum
+        Jupiter = new(new Planet("Brown", 273_400)),
+        Mars = new(new Planet("Red", 13_240)),
+        Venus = new(new Planet("White", 23_622));
 }
 
 public record class Planet(string Colour, int CircumferenceInMiles) : IComparable<Planet>
@@ -233,12 +259,13 @@ The code below demonstrates this. The enum has an underlying type of `Planet`, w
 Because the underlying type has a `TryParse` method, the generated enum also has a `TryParse` method which delegates to the underlying type's `TryParse` method:
 
 ```csharp
-[Intellenum(typeof(Planet))]
+[Intellenum<Planet>]
 public partial class PlanetEnum
 {
-    public static readonly PlanetEnum Jupiter = new(new Planet("Brown", 273_400));
-    public static readonly PlanetEnum Mars=  new(new Planet("Red", 13_240));
-    public static readonly PlanetEnum Venus=  new(new Planet("White", 23_622));
+    public static readonly PlanetEnum
+        Jupiter = new(new Planet("Brown", 273_400)),
+        Mars = new(new Planet("Red", 13_240)),
+        Venus = new(new Planet("White", 23_622));
 }
 
 public record class Planet(string Colour, int CircumferenceInMiles)  : IComparable<Planet>

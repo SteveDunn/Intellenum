@@ -8,6 +8,27 @@ namespace SnapshotTests.GeneralStuff;
 [UsesVerify]
 public class GeneralTests
 {
+    [UsesVerify]
+    public class When_using_static_fields_that_are_newed_up
+    {
+        [Fact]
+        public Task The_name_and_value_of_the_member_is_inferred()
+        {
+            var source = """
+                         using Intellenum;
+                         namespace Whatever;
+
+                         [Intellenum<string>]
+                         public partial class E
+                         {
+                            public static readonly E Two = new();
+                         }
+                         """;
+
+            return RunTest(source);
+        }
+    }
+
     [Fact]
     public Task One_parameter_string_instances()
     {

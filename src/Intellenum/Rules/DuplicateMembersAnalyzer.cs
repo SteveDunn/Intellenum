@@ -66,11 +66,11 @@ public class DuplicateMembersAnalyzer : DiagnosticAnalyzer
         // translated to new statements, so we only want to find duplicates in the new statements.
 
         var members = DiscoverMembers
-            .Discover(symbol.GetAttributes(), symbol, config.UnderlyingType, context.Compilation)
+            .Discover(symbol, config.UnderlyingType, context.Compilation)
             .ValidMembers
-            .Where(m => m.Value.Source == MemberSource.FromNewExpression);
+            .Where(m => m.Source == MemberSource.FromNewExpression);
 
-        MemberPropertiesCollection justFromNewStatements = new(members.ToList());
+        MemberPropertiesCollection justFromNewStatements = new(members.Select(ValueOrDiagnostic<MemberProperties>.WithValue).ToList());
 
         foreach (var eachDuplicate in justFromNewStatements.DescribeAnyDuplicates())
         {

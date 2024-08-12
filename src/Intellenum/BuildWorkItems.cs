@@ -73,7 +73,7 @@ internal static class BuildWorkItems
         // otherwise we'd get seemingly unrelated compilation errors, such as
         // 'The name 'Member' does not exist in the current context
         MemberPropertiesCollection discoveredMembers =
-            DiscoverMembers.Discover(allAttributes, voSymbolInformation, config.UnderlyingType, compilation);
+            DiscoverMembers.Discover(voSymbolInformation, config.UnderlyingType, compilation);
         
         foreach (var eachDiagnostic in discoveredMembers.AllDiagnostics)
         {

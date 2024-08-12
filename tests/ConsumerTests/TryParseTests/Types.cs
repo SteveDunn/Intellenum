@@ -43,12 +43,13 @@ public partial class DecimalEnum
 [Member("Item2", 3.21d)]
 public partial class DoubleEnum { }
 
-[Intellenum(typeof(Planet))]
+[Intellenum<Planet>]
 public partial class PlanetEnum
 {
-    public static readonly PlanetEnum Jupiter = new(new Planet("Brown", 273_400));
-    public static readonly PlanetEnum Mars=  new(new Planet("Red", 13_240));
-    public static readonly PlanetEnum Venus=  new(new Planet("White", 23_622));
+    public static readonly PlanetEnum
+        Jupiter = new(new Planet("Brown", 273_400)),
+        Mars = new(new Planet("Red", 13_240)),
+        Venus = new(new Planet("White", 23_622));
 }
 
 public record class Planet(string Colour, int CircumferenceInMiles) : IComparable<Planet>
