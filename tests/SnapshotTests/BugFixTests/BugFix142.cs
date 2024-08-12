@@ -124,10 +124,7 @@ public partial class City
 {
     public static readonly City Frankfurt;
     
-    public static City RandomMember()
-    {
-       return City.FromValue(Random.Shared.Next(List().Count()));
-    }
+    public static City RandomMember() => City.Peckham;
 }
 """;
 

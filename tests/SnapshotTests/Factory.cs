@@ -26,30 +26,6 @@ public static class Factory
 #endif
     }.ToImmutableHashSet();
 
-    public static string MemberAttributeFor(string type)
-    {
-        return type switch
-        {
-            "" => @"[Member(""One"", 1)]", // don't include underlying type - should default to int
-            "int" => @"[Member(""One"", 1)]",
-            "string" => @"[Member(""One"", ""1"")]",
-            "decimal" => throw new Exception("decimal not supported for attributes"),
-#if THOROUGH
-            "byte" => @"[Member(""One"", 1)]",
-            "char" => @"[Member(""One"", '1')]",
-            "bool" => @"[Member(""One"", true)]",
-            "System.DateTimeOffset" => @"[Member(""One"", DateTimeOffset.MinValue)]",
-            "System.DateTime" => @"[Member(""One"", DateTime.MinValue)]",
-            "double" => @"[Member(""One"", 1d)]",
-            "float" => @"[Member(""One"", 1f)]",
-            "System.Guid" => @"[Member(""One"", System.Guid.Empty)]",
-            "long" => @"[Member(""One"", 1L)]",
-            "short" => @"[Member(""One"", 1)]",
-#endif
-            _ => throw new Exception($"Nothing for '{type}'")
-        };
-    }
-
     public static string MemberCallFor(string type)
     {
         return type switch

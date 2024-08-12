@@ -56,8 +56,8 @@ public const System.Int32 Member3Value = 3;
 #if DEBUG    
         private readonly global::System.Diagnostics.StackTrace _stackTrace = null;
 #endif
-        private readonly global::System.Boolean _isInitialized;
-        private readonly System.Int32 _value;
+        private  global::System.Boolean _isInitialized;
+        private  System.Int32 _value;
 
         private static class __Inner
 {
@@ -67,7 +67,7 @@ public const System.Int32 Member3Value = 3;
     {
 Member1.Name = "Member1";
 Member2.Name = "Member2";
-  }
+    }
 }
 
 private static readonly int __discard = __Inner.__ComeAlive();

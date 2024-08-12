@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Intellenum;
 
-internal class DiscoverMembers
+internal static class DiscoverMembers
 {
     public static MemberPropertiesCollection Discover(INamedTypeSymbol ieSymbol,
         INamedTypeSymbol underlyingSymbol,

@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 // ReSharper disable RedundantCast
 
-namespace Intellenum.Examples.TypicalScenarios.Members;
+namespace Intellenum.Examples.TypicalScenarios.MembersScenario;
 
 [UsedImplicitly]
 internal class MembersScenario : IScenario
@@ -15,7 +15,7 @@ internal class MembersScenario : IScenario
         Console.WriteLine(vi.VendorType == VendorType.Unspecified); // true
         Console.WriteLine(vi.VendorType != VendorType.Invalid); // true
 
-        // from a text file that is screwed, we'll end up with:
+        // from a text file that has invalid data, we'll end up with:
         var invalidVi = VendorInformation.FromTextFile();
 
         Console.WriteLine((bool) (invalidVi.VendorType == VendorType.Invalid)); // true
@@ -58,18 +58,15 @@ public partial class ImpliedMemberNames
 [Member("Freezing", 0.0f)]
 [Member("Boiling", 100.0f)]
 [Member("AbsoluteZero", -273.15f)]
-public partial class Centigrade
-{
-}
+public partial class Centigrade;
+
 
 [Intellenum<string>]
 [Member("Unspecified", "[UNSPCFD]")]
 [Member("Invalid", "[INVLD]")]
 [Member("Standard", "[STD]")]
 [Member("Preferred", "[PRF]")]
-public partial class VendorType
-{
-}
+public partial class VendorType;
     
 [Intellenum]
 [Member("Salt", 1)]
@@ -83,6 +80,15 @@ public partial class CondimentMixedMembers
     {
         Member("Vinegar", 3);
         Member("Mustard", 4);
+    }
+}    
+
+[Intellenum]
+public partial class Condiment
+{
+    static Condiment()
+    {
+        Members("Salt, Pepper, Vinegar, Mustard, Mayo, Ketchup");
     }
 }    
 

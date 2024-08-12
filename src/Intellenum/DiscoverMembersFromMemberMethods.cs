@@ -90,7 +90,7 @@ internal class DiscoverMembersFromMemberMethods
                 }
                 else
                 {
-                    secondAsString = $"{indexForImplicitValues.Increment()}";
+                    secondAsString = $"{indexForImplicitValues.Increment().ValueAsText}";
                 }
             }
             else

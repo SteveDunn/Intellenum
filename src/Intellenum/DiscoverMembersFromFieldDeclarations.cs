@@ -5,11 +5,10 @@ using Intellenum.Diagnostics;
 using Intellenum.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using ISymbolExtensions = Intellenum.Extensions.ISymbolExtensions;
 
 namespace Intellenum;
 
-internal class DiscoverMembersFromFieldDeclarations
+internal static class DiscoverMembersFromFieldDeclarations
 {
     internal static MemberPropertiesCollection Discover(INamedTypeSymbol ieSymbol,
         INamedTypeSymbol underlyingSymbol,

@@ -15,7 +15,7 @@ namespace Intellenum.Examples.SerializationAndConversion
             return Task.CompletedTask;
         }
 
-        private void EfCoreValueConverterUsesValueConverter()
+        private static void EfCoreValueConverterUsesValueConverter()
         {
             var connection = new SqliteConnection("DataSource=:memory:");
             connection.Open();

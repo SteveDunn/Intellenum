@@ -2,60 +2,61 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Intellenum.Examples.Types;
+using JetBrains.Annotations;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.DataProvider.SQLite;
 using LinqToDB.Mapping;
 using Microsoft.Data.Sqlite;
 
-namespace Intellenum.Examples.SerializationAndConversion
+namespace Intellenum.Examples.SerializationAndConversion;
+
+[UsedImplicitly]
+public class LinqToDbExamples : IScenario
 {
-	public class LinqToDbExamples : IScenario
+	public Task Run()
 	{
-		public Task Run()
-        {
-			LinqToDbValueConverterUsesValueConverter();
-			return Task.CompletedTask;
-		}
+		LinqToDbValueConverterUsesValueConverter();
+		return Task.CompletedTask;
+	}
 
-		private void LinqToDbValueConverterUsesValueConverter()
+	private static void LinqToDbValueConverterUsesValueConverter()
+	{
+		var connection = new SqliteConnection("DataSource=:memory:");
+		connection.Open();
+
+		var original = new TestEntity { Id = LinqToDbStringEnum.Item1};
+		using (var context = new TestDbContext(connection))
 		{
-			var connection = new SqliteConnection("DataSource=:memory:");
-			connection.Open();
-
-			var original = new TestEntity { Id = LinqToDbStringEnum.Item1};
-			using (var context = new TestDbContext(connection))
-			{
-				context.CreateTable<TestEntity>();
-				context.Insert(original);
-			}
-			using (var context = new TestDbContext(connection))
-			{
-				var all = context.Entities.ToList();
-				var retrieved = all.Single();
-
-				Console.WriteLine(retrieved);
-			}
+			context.CreateTable<TestEntity>();
+			context.Insert(original);
 		}
-
-		public class TestDbContext : DataConnection
+		using (var context = new TestDbContext(connection))
 		{
-			public ITable<TestEntity> Entities => GetTable<TestEntity>();
+			var all = context.Entities.ToList();
+			var retrieved = all.Single();
 
-			public TestDbContext(SqliteConnection connection)
-				: base(
-					  SQLiteTools.GetDataProvider("SQLite.MS"),
-					  connection,
-					  disposeConnection: false)
-			{ }
+			Console.WriteLine(retrieved);
 		}
+	}
 
-		public class TestEntity
-		{
-			[PrimaryKey]
-			[Column(DataType = DataType.VarChar)]
-			[ValueConverter(ConverterType = typeof(LinqToDbStringEnum.LinqToDbValueConverter))]
-			public LinqToDbStringEnum Id { get; set; }
-		}
+	public class TestDbContext : DataConnection
+	{
+		public ITable<TestEntity> Entities => GetTable<TestEntity>();
+
+		public TestDbContext(SqliteConnection connection)
+			: base(
+				SQLiteTools.GetDataProvider("SQLite.MS"),
+				connection,
+				disposeConnection: false)
+		{ }
+	}
+
+	public class TestEntity
+	{
+		[PrimaryKey]
+		[Column(DataType = DataType.VarChar)]
+		[ValueConverter(ConverterType = typeof(LinqToDbStringEnum.LinqToDbValueConverter))]
+		public LinqToDbStringEnum Id { get; set; }
 	}
 }

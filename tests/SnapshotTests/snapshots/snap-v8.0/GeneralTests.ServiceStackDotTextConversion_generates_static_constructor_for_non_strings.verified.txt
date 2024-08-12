@@ -61,7 +61,7 @@ public const System.Int32 Item2Value = 2;
     static __Inner()
     {
    global::ServiceStack.Text.JsConfig<MyVo>.DeSerializeFn = v => MyVo.FromName(v);
-   global::ServiceStack.Text.JsConfig<MyVo>.SerializeFn = v => v.Name;  }
+   global::ServiceStack.Text.JsConfig<MyVo>.SerializeFn = v => v.Name;    }
 }
 
 private static readonly int __discard = __Inner.__ComeAlive();
