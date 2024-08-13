@@ -33,10 +33,17 @@ public static class FromNameRelatedMethods
             return TryFromName(name.AsSpan(), out member);
         }}
 
+        [global::System.ObsoleteAttribute(""Please use IsNameDefined rather than this, which has a typo"")]
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool IsNamedDefined(string name)
         {{
             return IsNamedDefined(name.AsSpan());
+        }}
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool IsNameDefined(string name)
+        {{
+            return IsNameDefined(name.AsSpan());
         }}
 
 #endregion
@@ -65,8 +72,15 @@ public static class FromNameRelatedMethods
             {GenerateTryFromNameImplementation(item)}
         }}
 
+        [global::System.ObsoleteAttribute(""Please use IsNameDefined rather than this, which has a typo"")]
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool IsNamedDefined(ReadOnlySpan<char> name)
+        {{
+            {GenerateIsNameDefinedImplementation()}
+        }}
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool IsNameDefined(ReadOnlySpan<char> name)
         {{
             {GenerateIsNameDefinedImplementation()}
         }}

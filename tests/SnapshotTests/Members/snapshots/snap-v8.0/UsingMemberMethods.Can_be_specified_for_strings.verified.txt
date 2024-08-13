@@ -207,8 +207,15 @@ _ => false
 
         }
 
+        [global::System.ObsoleteAttribute("Please use IsNameDefined rather than this, which has a typo")]
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool IsNamedDefined(ReadOnlySpan<char> name)
+        {
+            return TryFromName(name, out _);
+        }
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool IsNameDefined(ReadOnlySpan<char> name)
         {
             return TryFromName(name, out _);
         }

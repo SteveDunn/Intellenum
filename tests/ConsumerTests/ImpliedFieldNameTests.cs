@@ -20,7 +20,7 @@ public class ImpliedFieldNameTests
         i3.Value.Should().Be(3);
 
         ImpliedFieldName.IsDefined(3).Should().BeTrue();
-        ImpliedFieldName.IsNamedDefined("MEMBER 3!!").Should().BeTrue();
+        ImpliedFieldName.IsNameDefined("MEMBER 3!!").Should().BeTrue();
     }
 }
     
