@@ -263,7 +263,7 @@ _ => false
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static ShortHolderId_normal Deserialize(System.Int16 value)
+        private static ShortHolderId_normal __Deserialize(System.Int16 value)
         {
             
 
@@ -392,21 +392,32 @@ yield return Item2;
     public override global::System.String ToString() => Name;
 
         
-        class ShortHolderId_normalSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<ShortHolderId_normal>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class ShortHolderId_normalSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<ShortHolderId_normal>
         {
             public override ShortHolderId_normal Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return ShortHolderId_normal.Deserialize(reader.GetInt16());
+#if NET5_0_OR_GREATER
+                return ShortHolderId_normal.__Deserialize(global::System.Text.Json.JsonSerializer.Deserialize(ref reader, (global::System.Text.Json.Serialization.Metadata.JsonTypeInfo<global::System.Int16>)options.GetTypeInfo(typeof(global::System.Int16))));
+#else
+                return ShortHolderId_normal.__Deserialize(reader.GetInt16());
+#endif
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, ShortHolderId_normal value, global::System.Text.Json.JsonSerializerOptions options)
             {
+ #if NET5_0_OR_GREATER
+                global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value, options);
+ #else
                 writer.WriteNumberValue(value.Value);
+ #endif
             }
 #if NET6_0_OR_GREATER
             public override ShortHolderId_normal ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return ShortHolderId_normal.Deserialize(global::System.Int16.Parse(reader.GetString(), global::System.Globalization.NumberStyles.Any, global::System.Globalization.CultureInfo.InvariantCulture));
+                return ShortHolderId_normal.__Deserialize(global::System.Int16.Parse(reader.GetString(), global::System.Globalization.NumberStyles.Any, global::System.Globalization.CultureInfo.InvariantCulture));
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, ShortHolderId_normal value, global::System.Text.Json.JsonSerializerOptions options)
@@ -428,10 +439,10 @@ yield return Item2;
             {
                 return value switch
                 {
-                    global::System.Int16 shortValue => ShortHolderId_normal.Deserialize(shortValue),
-                    global::System.Int32 intValue => ShortHolderId_normal.Deserialize((global::System.Int16)intValue),
-                    global::System.Int64 longValue => ShortHolderId_normal.Deserialize((global::System.Int16)longValue),
-                    global::System.String stringValue when  !global::System.String.IsNullOrEmpty(stringValue) && global::System.Int16.TryParse(stringValue, out var result) => ShortHolderId_normal.Deserialize(result),
+                    global::System.Int16 shortValue => ShortHolderId_normal.__Deserialize(shortValue),
+                    global::System.Int32 intValue => ShortHolderId_normal.__Deserialize((global::System.Int16)intValue),
+                    global::System.Int64 longValue => ShortHolderId_normal.__Deserialize((global::System.Int16)longValue),
+                    global::System.String stringValue when  !global::System.String.IsNullOrEmpty(stringValue) && global::System.Int16.TryParse(stringValue, out var result) => ShortHolderId_normal.__Deserialize(result),
                     _ => base.ConvertFrom(context, culture, value),
                 };
             }

@@ -240,7 +240,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static AttributeBasedEnum Deserialize(System.String value)
+        private static AttributeBasedEnum __Deserialize(System.String value)
         {
                         if (value is null)
             {
@@ -367,11 +367,14 @@ public static readonly AttributeBasedEnum One = new AttributeBasedEnum("One","On
     public override global::System.String ToString() => Name;
 
         
-        class AttributeBasedEnumSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<AttributeBasedEnum>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class AttributeBasedEnumSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<AttributeBasedEnum>
         {
             public override AttributeBasedEnum Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return AttributeBasedEnum.Deserialize(reader.GetString());
+                return AttributeBasedEnum.__Deserialize(reader.GetString());
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, AttributeBasedEnum value, global::System.Text.Json.JsonSerializerOptions options)
@@ -382,7 +385,7 @@ public static readonly AttributeBasedEnum One = new AttributeBasedEnum("One","On
 #if NET6_0_OR_GREATER
             public override AttributeBasedEnum ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return AttributeBasedEnum.Deserialize(reader.GetString());
+                return AttributeBasedEnum.__Deserialize(reader.GetString());
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, AttributeBasedEnum value, global::System.Text.Json.JsonSerializerOptions options)
@@ -405,7 +408,7 @@ public static readonly AttributeBasedEnum One = new AttributeBasedEnum("One","On
                 var stringValue = value as global::System.String;
                 if (stringValue is not null)
                 {
-                    return AttributeBasedEnum.Deserialize(stringValue);
+                    return AttributeBasedEnum.__Deserialize(stringValue);
                 }
 
                 return base.ConvertFrom(context, culture, value);

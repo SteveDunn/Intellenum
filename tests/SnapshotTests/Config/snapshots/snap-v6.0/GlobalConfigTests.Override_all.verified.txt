@@ -246,7 +246,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static CustomerType Deserialize(System.String value)
+        private static CustomerType __Deserialize(System.String value)
         {
                         if (value is null)
             {

@@ -263,7 +263,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static E Deserialize(System.String value)
+        private static E __Deserialize(System.String value)
         {
                         if (value is null)
             {
@@ -388,11 +388,14 @@ yield return Two;
     public override global::System.String ToString() => Name;
 
         
-        class ESystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<E>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class ESystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<E>
         {
             public override E Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return E.Deserialize(reader.GetString());
+                return E.__Deserialize(reader.GetString());
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, E value, global::System.Text.Json.JsonSerializerOptions options)
@@ -403,7 +406,7 @@ yield return Two;
 #if NET6_0_OR_GREATER
             public override E ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return E.Deserialize(reader.GetString());
+                return E.__Deserialize(reader.GetString());
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, E value, global::System.Text.Json.JsonSerializerOptions options)
@@ -426,7 +429,7 @@ yield return Two;
                 var stringValue = value as global::System.String;
                 if (stringValue is not null)
                 {
-                    return E.Deserialize(stringValue);
+                    return E.__Deserialize(stringValue);
                 }
 
                 return base.ConvertFrom(context, culture, value);

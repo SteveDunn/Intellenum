@@ -238,7 +238,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestsinternal_partial_classConversions_DapperTypeHandlerstring Deserialize(System.String value)
+        private static escapedTestsinternal_partial_classConversions_DapperTypeHandlerstring __Deserialize(System.String value)
         {
                         if (value is null)
             {
@@ -380,7 +380,7 @@ public static readonly escapedTestsinternal_partial_classConversions_DapperTypeH
             {
                 return value switch
                 {
-                    global::System.String stringValue => escapedTestsinternal_partial_classConversions_DapperTypeHandlerstring.Deserialize(stringValue),
+                    global::System.String stringValue => escapedTestsinternal_partial_classConversions_DapperTypeHandlerstring.__Deserialize(stringValue),
                     _ => throw new global::System.InvalidCastException($"Unable to cast object of type {value.GetType()} to escapedTestsinternal_partial_classConversions_DapperTypeHandlerstring"),
                 };
             }

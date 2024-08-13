@@ -220,7 +220,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestspublic_partial_classConversions_DapperTypeHandlerrecord__struct__float__event Deserialize(@class.@record.@struct.@float.@event value)
+        private static escapedTestspublic_partial_classConversions_DapperTypeHandlerrecord__struct__float__event __Deserialize(@class.@record.@struct.@float.@event value)
         {
             
 
@@ -358,7 +358,7 @@ public static readonly escapedTestspublic_partial_classConversions_DapperTypeHan
                 return value switch
                 {
                     global::System.String stringValue =>
-                        escapedTestspublic_partial_classConversions_DapperTypeHandlerrecord__struct__float__event.Deserialize(global::System.Text.Json.JsonSerializer.Deserialize<@class.@record.@struct.@float.@event>(stringValue)),
+                        escapedTestspublic_partial_classConversions_DapperTypeHandlerrecord__struct__float__event.__Deserialize(global::System.Text.Json.JsonSerializer.Deserialize<@class.@record.@struct.@float.@event>(stringValue)),
                     _ => throw new global::System.InvalidCastException($"Unable to cast object of type {value.GetType()} to escapedTestspublic_partial_classConversions_DapperTypeHandlerrecord__struct__float__event"),
                 };
             }

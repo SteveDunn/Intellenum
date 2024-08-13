@@ -222,7 +222,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__event Deserialize(@class.@record.@struct.@float.@event value)
+        private static escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__event __Deserialize(@class.@record.@struct.@float.@event value)
         {
             
 
@@ -345,24 +345,27 @@ public static readonly escapedTestsinternal_partial_classConversions_NewtonsoftJ
     public override global::System.String ToString() => Name;
 
         
-        class escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__eventSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__event>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__eventSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__event>
         {
             public override escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__event Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
                 var primitive = global::System.Text.Json.JsonSerializer.Deserialize<@class.@record.@struct.@float.@event>(ref reader, options);
-                return escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__event.Deserialize(primitive);
+                return escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__event.__Deserialize(primitive);
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__event value, global::System.Text.Json.JsonSerializerOptions options)
             {
-                global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value);
+                global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value, options);
             }
 
 #if NET6_0_OR_GREATER
             public override escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__event ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
                 var primitive = global::System.Text.Json.JsonSerializer.Deserialize<@class.@record.@struct.@float.@event>(ref reader, options);
-                return escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__event.Deserialize(primitive);
+                return escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__event.__Deserialize(primitive);
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__event value, global::System.Text.Json.JsonSerializerOptions options)
@@ -388,7 +391,7 @@ public static readonly escapedTestsinternal_partial_classConversions_NewtonsoftJ
             public override object ReadJson(Newtonsoft.Json.JsonReader reader, System.Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
             {
                 var result = serializer.Deserialize<@class.@record.@struct.@float.@event?>(reader);
-                return result.HasValue ? escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__event.Deserialize(result.Value) : null;
+                return result.HasValue ? escapedTestsinternal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonrecord__struct__float__event.__Deserialize(result.Value) : null;
             }
         }
 

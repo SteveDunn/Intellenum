@@ -256,7 +256,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static CustomerType Deserialize(System.String value)
+        private static CustomerType __Deserialize(System.String value)
         {
                         if (value is null)
             {
@@ -395,11 +395,14 @@ yield return Diamond;
     public override global::System.String ToString() => Name;
 
         
-        class CustomerTypeSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<CustomerType>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class CustomerTypeSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<CustomerType>
         {
             public override CustomerType Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return CustomerType.Deserialize(reader.GetString());
+                return CustomerType.__Deserialize(reader.GetString());
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, CustomerType value, global::System.Text.Json.JsonSerializerOptions options)
@@ -410,7 +413,7 @@ yield return Diamond;
 #if NET6_0_OR_GREATER
             public override CustomerType ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return CustomerType.Deserialize(reader.GetString());
+                return CustomerType.__Deserialize(reader.GetString());
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, CustomerType value, global::System.Text.Json.JsonSerializerOptions options)
@@ -433,7 +436,7 @@ yield return Diamond;
                 var stringValue = value as global::System.String;
                 if (stringValue is not null)
                 {
-                    return CustomerType.Deserialize(stringValue);
+                    return CustomerType.__Deserialize(stringValue);
                 }
 
                 return base.ConvertFrom(context, culture, value);

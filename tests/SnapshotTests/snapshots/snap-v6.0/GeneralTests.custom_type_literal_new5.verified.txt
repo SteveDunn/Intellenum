@@ -228,7 +228,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static FooEnum Deserialize(Whatever.Foo value)
+        private static FooEnum __Deserialize(Whatever.Foo value)
         {
                         if (value is null)
             {
@@ -353,24 +353,27 @@ yield return Wilma;
     public override global::System.String ToString() => Name;
 
         
-        class FooEnumSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<FooEnum>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class FooEnumSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<FooEnum>
         {
             public override FooEnum Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
                 var primitive = global::System.Text.Json.JsonSerializer.Deserialize<Whatever.Foo>(ref reader, options);
-                return FooEnum.Deserialize(primitive);
+                return FooEnum.__Deserialize(primitive);
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, FooEnum value, global::System.Text.Json.JsonSerializerOptions options)
             {
-                global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value);
+                global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value, options);
             }
 
 #if NET6_0_OR_GREATER
             public override FooEnum ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
                 var primitive = global::System.Text.Json.JsonSerializer.Deserialize<Whatever.Foo>(ref reader, options);
-                return FooEnum.Deserialize(primitive);
+                return FooEnum.__Deserialize(primitive);
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, FooEnum value, global::System.Text.Json.JsonSerializerOptions options)
@@ -392,7 +395,7 @@ yield return Wilma;
             {
                 Whatever.Foo ut = (Whatever.Foo)value;
 
-                return FooEnum.Deserialize(ut);
+                return FooEnum.__Deserialize(ut);
             }
         
             public override bool CanConvertTo(global::System.ComponentModel.ITypeDescriptorContext context, global::System.Type sourceType)

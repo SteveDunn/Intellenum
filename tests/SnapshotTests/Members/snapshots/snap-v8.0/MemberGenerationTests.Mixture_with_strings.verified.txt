@@ -361,7 +361,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static Mixture Deserialize(System.String value)
+        private static Mixture __Deserialize(System.String value)
         {
                         if (value is null)
             {
@@ -558,11 +558,14 @@ yield return Eight;
     public override global::System.String ToString() => Name;
 
         
-        class MixtureSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<Mixture>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class MixtureSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<Mixture>
         {
             public override Mixture Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return Mixture.Deserialize(reader.GetString());
+                return Mixture.__Deserialize(reader.GetString());
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, Mixture value, global::System.Text.Json.JsonSerializerOptions options)
@@ -573,7 +576,7 @@ yield return Eight;
 #if NET6_0_OR_GREATER
             public override Mixture ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return Mixture.Deserialize(reader.GetString());
+                return Mixture.__Deserialize(reader.GetString());
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, Mixture value, global::System.Text.Json.JsonSerializerOptions options)
@@ -596,7 +599,7 @@ yield return Eight;
                 var stringValue = value as global::System.String;
                 if (stringValue is not null)
                 {
-                    return Mixture.Deserialize(stringValue);
+                    return Mixture.__Deserialize(stringValue);
                 }
 
                 return base.ConvertFrom(context, culture, value);

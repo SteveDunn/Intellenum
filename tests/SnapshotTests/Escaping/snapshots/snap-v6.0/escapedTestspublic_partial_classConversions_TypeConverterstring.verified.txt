@@ -239,7 +239,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestspublic_partial_classConversions_TypeConverterstring Deserialize(System.String value)
+        private static escapedTestspublic_partial_classConversions_TypeConverterstring __Deserialize(System.String value)
         {
                         if (value is null)
             {
@@ -380,7 +380,7 @@ public static readonly escapedTestspublic_partial_classConversions_TypeConverter
                 var stringValue = value as global::System.String;
                 if (stringValue is not null)
                 {
-                    return escapedTestspublic_partial_classConversions_TypeConverterstring.Deserialize(stringValue);
+                    return escapedTestspublic_partial_classConversions_TypeConverterstring.__Deserialize(stringValue);
                 }
 
                 return base.ConvertFrom(context, culture, value);

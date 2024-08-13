@@ -149,7 +149,7 @@ namespace ConsumerTests.SerializationAndConversionTests.ClassVos
             var newtonsoft = SystemTextJsonSerializer.Serialize(ie);
             var systemText = SystemTextJsonSerializer.Serialize(ie);
 
-            var expected = """{"Value":"2019-12-13T14:15:16","Name":"Item1"}""";
+            var expected = """{"Value":"1970-06-10T14:01:03.2345678Z","Name":"Item1"}""";
 
             newtonsoft.Should().Be(expected);
             systemText.Should().Be(expected);

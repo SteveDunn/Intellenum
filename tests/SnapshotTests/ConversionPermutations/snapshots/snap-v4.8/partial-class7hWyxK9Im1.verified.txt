@@ -275,7 +275,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static MyIntVo Deserialize(System.Int32 value)
+        private static MyIntVo __Deserialize(System.Int32 value)
         {
             
 
@@ -398,22 +398,33 @@ public static readonly MyIntVo One = new MyIntVo("One",1);
     public override global::System.String ToString() => Name;
 
         
-        class MyIntVoSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<MyIntVo>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class MyIntVoSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<MyIntVo>
         {
             public override MyIntVo Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return MyIntVo.Deserialize(reader.GetInt32());
+#if NET5_0_OR_GREATER
+                return MyIntVo.__Deserialize(global::System.Text.Json.JsonSerializer.Deserialize(ref reader, (global::System.Text.Json.Serialization.Metadata.JsonTypeInfo<global::System.Int32>)options.GetTypeInfo(typeof(global::System.Int32))));
+#else
+                return MyIntVo.__Deserialize(reader.GetInt32());
+#endif
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, MyIntVo value, global::System.Text.Json.JsonSerializerOptions options)
             {
+ #if NET5_0_OR_GREATER
+                global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value, options);
+ #else
                 writer.WriteNumberValue(value.Value);
+ #endif
             }
 
 #if NET6_0_OR_GREATER            
             public override MyIntVo ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return MyIntVo.Deserialize(global::System.Int32.Parse(reader.GetString(), global::System.Globalization.NumberStyles.Any, global::System.Globalization.CultureInfo.InvariantCulture));
+                return MyIntVo.__Deserialize(global::System.Int32.Parse(reader.GetString(), global::System.Globalization.NumberStyles.Any, global::System.Globalization.CultureInfo.InvariantCulture));
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, MyIntVo value, global::System.Text.Json.JsonSerializerOptions options)
@@ -439,7 +450,7 @@ public static readonly MyIntVo One = new MyIntVo("One",1);
             public override object ReadJson(Newtonsoft.Json.JsonReader reader, System.Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
             {
                 var result = serializer.Deserialize<global::System.Int32?>(reader);
-                return result.HasValue ? MyIntVo.Deserialize(result.Value) : null;
+                return result.HasValue ? MyIntVo.__Deserialize(result.Value) : null;
             }
         }
 
@@ -451,7 +462,7 @@ public static readonly MyIntVo One = new MyIntVo("One",1);
             public LinqToDbValueConverter()
                 : base(
                       v => v.Value,
-                      p => MyIntVo.Deserialize(p),
+                      p => MyIntVo.__Deserialize(p),
                       handlesNulls: false)
             { }
         }

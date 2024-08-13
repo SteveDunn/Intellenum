@@ -1,12 +1,13 @@
 ﻿namespace ConsumerTests.TestEnums
 {
+    
     [Intellenum(conversions: Conversions.None, underlyingType: typeof(DateTime))]
     public partial class DateTimeEnum
     {
         static DateTimeEnum()
         {
-            Member("Item1", new DateTime(2019, 12, 13, 14, 15, 16));
-            Member("Item2", new DateTime(2020, 12, 13, 14, 15, 16));
+            Member("Item1", TestDates._date1);
+            Member("Item2", TestDates._date2);
         }
     }
 
@@ -15,7 +16,7 @@
     {
         static NoConverterDateTimeVo()
         {
-            Member("Item1", new DateTime(2019, 12, 13, 14, 15, 16));
+            Member("Item1", TestDates._date1);
             Member("Item2", new DateTime(2020, 12, 13, 14, 15, 16));
         }
     }
@@ -37,7 +38,7 @@
     {
         static NewtonsoftJsonDateTimeVo()
         {
-            Member("Item1", new DateTime(2019, 12, 13, 14, 15, 16));
+            Member("Item1", TestDates._date1);
             Member("Item2", new DateTime(2020, 12, 13, 14, 15, 16));
         }
     }
@@ -47,7 +48,7 @@
     {
         static SystemTextJsonDateTimeVo()
         {
-            Member("Item1", new DateTime(2019, 12, 13, 14, 15, 16));
+            Member("Item1", TestDates._date1);
             Member("Item2", new DateTime(2020, 12, 13, 14, 15, 16));
         }
     }
@@ -57,8 +58,8 @@
     {
         static BothJsonDateTimeVo()
         {
-            Member("Item1", new DateTime(2019, 12, 13, 14, 15, 16));
-            Member("Item2", new DateTime(2020, 12, 13, 14, 15, 16));
+            Member("Item1", new DateTime(1970, 6, 10, 14, 01, 02, DateTimeKind.Utc) + TimeSpan.FromTicks(12345678));
+            Member("Item2", DateTime.Now.AddMinutes(42.69));
         }
     }
 
@@ -67,7 +68,7 @@
     {
         static EfCoreDateTimeVo()
         {
-            Member("Item1", new DateTime(2019, 12, 13, 14, 15, 16));
+            Member("Item1", TestDates._date1);
             Member("Item2", new DateTime(2020, 12, 13, 14, 15, 16));
         }
     }
@@ -77,7 +78,7 @@
     {
         static DapperDateTimeVo()
         {
-            Member("Item1", new DateTime(2019, 12, 13, 14, 15, 16));
+            Member("Item1", TestDates._date1);
             Member("Item2", new DateTime(2020, 12, 13, 14, 15, 16));
             Member("SomethingElse", new DateTime(2022,01,15,19,08,49,DateTimeKind.Utc).AddTicks(5413764));
         }
@@ -88,7 +89,7 @@
     {
         static LinqToDbDateTimeVo()
         {
-            Member("Item1", new DateTime(2019, 12, 13, 14, 15, 16));
+            Member("Item1", TestDates._date1);
             Member("Item2", new DateTime(2020, 12, 13, 14, 15, 16));
         }
     }

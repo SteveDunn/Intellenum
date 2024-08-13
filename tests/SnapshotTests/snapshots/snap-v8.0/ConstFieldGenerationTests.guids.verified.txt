@@ -224,7 +224,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static NotableGuids Deserialize(System.Guid value)
+        private static NotableGuids __Deserialize(System.Guid value)
         {
             
 
@@ -353,11 +353,14 @@ yield return SnapshotTestsProject;
     public override global::System.String ToString() => Name;
 
         
-        class NotableGuidsSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<NotableGuids>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class NotableGuidsSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<NotableGuids>
         {
             public override NotableGuids Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return NotableGuids.Deserialize(System.Guid.Parse(reader.GetString()));
+                return NotableGuids.__Deserialize(reader.GetGuid());
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, NotableGuids value, global::System.Text.Json.JsonSerializerOptions options)
@@ -365,10 +368,15 @@ yield return SnapshotTestsProject;
                 writer.WriteStringValue(value.Value);
             }
 
-#if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER // we can't call Read or use GetGuid from JsonReader as it expects a token type of string, but here we have have 'propertyname'.
             public override NotableGuids ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return NotableGuids.Deserialize(System.Guid.Parse(reader.GetString()));
+                if (global::System.Guid.TryParse(reader.GetString(), out global::System.Guid g))
+                {
+                    return NotableGuids.__Deserialize(g);
+                }
+
+                throw new global::System.Text.Json.JsonException("Unable to parse the GUID for an instance of NotableGuids");
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, NotableGuids value, global::System.Text.Json.JsonSerializerOptions options)
@@ -390,8 +398,8 @@ yield return SnapshotTestsProject;
             {
                 return value switch
                 {
-                    global::System.Guid guidValue => NotableGuids.Deserialize(guidValue),
-                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.Guid.TryParse(stringValue, out var result) => NotableGuids.Deserialize(result),
+                    global::System.Guid guidValue => NotableGuids.__Deserialize(guidValue),
+                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.Guid.TryParse(stringValue, out var result) => NotableGuids.__Deserialize(result),
                     _ => base.ConvertFrom(context, culture, value),
                 };
             }
