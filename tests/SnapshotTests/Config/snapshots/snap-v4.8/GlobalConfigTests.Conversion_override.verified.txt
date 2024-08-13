@@ -281,7 +281,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static CustomerType Deserialize(System.Int32 value)
+        private static CustomerType __Deserialize(System.Int32 value)
         {
             
 
@@ -425,9 +425,9 @@ yield return Gold;
             {
                 return value switch
                 {
-                    global::System.Int32 intValue => CustomerType.Deserialize(intValue),
-                    global::System.Int64 longValue when longValue < global::System.Int32.MaxValue => CustomerType.Deserialize((global::System.Int32)longValue),
-                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.Int32.TryParse(stringValue, out var result) => CustomerType.Deserialize(result),
+                    global::System.Int32 intValue => CustomerType.__Deserialize(intValue),
+                    global::System.Int64 longValue when longValue < global::System.Int32.MaxValue => CustomerType.__Deserialize((global::System.Int32)longValue),
+                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.Int32.TryParse(stringValue, out var result) => CustomerType.__Deserialize(result),
                     _ => throw new global::System.InvalidCastException($"Unable to cast object of type {value.GetType()} to CustomerType"),
                 };
             }

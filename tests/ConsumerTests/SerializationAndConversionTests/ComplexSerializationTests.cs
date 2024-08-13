@@ -1,5 +1,6 @@
 ﻿#nullable disable
 using System.Text.Json;
+using ConsumerTests.TestEnums;
 
 namespace MediumTests.SerializationAndConversionTests;
 
@@ -47,7 +48,7 @@ public class ComplexSerializationTests
         deserialized.SystemTextJsonByteEnum.Value.Should().Be(1);
         deserialized.SystemTextJsonCharEnum.Value.Should().Be('b');
         deserialized.SystemTextJsonDateTimeOffsetEnum.Value.Should().Be(new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero));
-        deserialized.TestTypes_SystemTextJsonDateTimeEnum.Value.Should().Be(new DateTime(2019, 12, 13, 14, 15, 16));
+        deserialized.TestTypes_SystemTextJsonDateTimeEnum.Value.Should().Be(TestDates._date1);
         deserialized.TestTypes_SystemTextJsonDecimalEnum.Value.Should().Be(1.1m);
         deserialized.TestTypes_SystemTextJsonDoubleEnum.Value.Should().Be(1.1d);
         deserialized.TestTypesClassEnumsSystemTextJsonFloatEnum.Value.Should().Be(1.1f);

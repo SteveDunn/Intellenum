@@ -214,7 +214,7 @@ _ => false
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestsinternal_partial_classConversions_EfCoreValueConverterbyte Deserialize(System.Byte value)
+        private static escapedTestsinternal_partial_classConversions_EfCoreValueConverterbyte __Deserialize(System.Byte value)
         {
             
 
@@ -347,7 +347,7 @@ public static readonly escapedTestsinternal_partial_classConversions_EfCoreValue
             public EfCoreValueConverter(global::Microsoft.EntityFrameworkCore.Storage.ValueConversion.ConverterMappingHints mappingHints = null)
                 : base(
                     vo => vo.Value,
-                    value => escapedTestsinternal_partial_classConversions_EfCoreValueConverterbyte.Deserialize(value),
+                    value => escapedTestsinternal_partial_classConversions_EfCoreValueConverterbyte.__Deserialize(value),
                     mappingHints
                 ) { }
         }

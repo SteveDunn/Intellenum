@@ -221,7 +221,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__decimal Deserialize(@class.@record.@struct.@float.@decimal value)
+        private static escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__decimal __Deserialize(@class.@record.@struct.@float.@decimal value)
         {
             
 
@@ -344,24 +344,27 @@ public static readonly escapedTestspublic_partial_classConversions_SystemTextJso
     public override global::System.String ToString() => Name;
 
         
-        class escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__decimalSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__decimal>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__decimalSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__decimal>
         {
             public override escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__decimal Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
                 var primitive = global::System.Text.Json.JsonSerializer.Deserialize<@class.@record.@struct.@float.@decimal>(ref reader, options);
-                return escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__decimal.Deserialize(primitive);
+                return escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__decimal.__Deserialize(primitive);
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__decimal value, global::System.Text.Json.JsonSerializerOptions options)
             {
-                global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value);
+                global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value, options);
             }
 
 #if NET6_0_OR_GREATER
             public override escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__decimal ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
                 var primitive = global::System.Text.Json.JsonSerializer.Deserialize<@class.@record.@struct.@float.@decimal>(ref reader, options);
-                return escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__decimal.Deserialize(primitive);
+                return escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__decimal.__Deserialize(primitive);
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__decimal value, global::System.Text.Json.JsonSerializerOptions options)

@@ -277,7 +277,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestspublic_partial_classConversions_LinqToDbValueConverterstring Deserialize(System.String value)
+        private static escapedTestspublic_partial_classConversions_LinqToDbValueConverterstring __Deserialize(System.String value)
         {
                         if (value is null)
             {
@@ -414,7 +414,7 @@ public static readonly escapedTestspublic_partial_classConversions_LinqToDbValue
             public LinqToDbValueConverter()
                 : base(
                       v => v.Value,
-                      p => escapedTestspublic_partial_classConversions_LinqToDbValueConverterstring.Deserialize(p),
+                      p => escapedTestspublic_partial_classConversions_LinqToDbValueConverterstring.__Deserialize(p),
                       handlesNulls: false)
             { }
         }

@@ -221,7 +221,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_Guid Deserialize(System.Guid value)
+        private static escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_Guid __Deserialize(System.Guid value)
         {
             
 
@@ -344,11 +344,14 @@ public static readonly escapedTestsinternal_partial_classConversions_SystemTextJ
     public override global::System.String ToString() => Name;
 
         
-        class escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_GuidSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_Guid>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_GuidSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_Guid>
         {
             public override escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_Guid Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_Guid.Deserialize(System.Guid.Parse(reader.GetString()));
+                return escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_Guid.__Deserialize(reader.GetGuid());
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_Guid value, global::System.Text.Json.JsonSerializerOptions options)
@@ -356,10 +359,15 @@ public static readonly escapedTestsinternal_partial_classConversions_SystemTextJ
                 writer.WriteStringValue(value.Value);
             }
 
-#if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER // we can't call Read or use GetGuid from JsonReader as it expects a token type of string, but here we have have 'propertyname'.
             public override escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_Guid ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_Guid.Deserialize(System.Guid.Parse(reader.GetString()));
+                if (global::System.Guid.TryParse(reader.GetString(), out global::System.Guid g))
+                {
+                    return escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_Guid.__Deserialize(g);
+                }
+
+                throw new global::System.Text.Json.JsonException("Unable to parse the GUID for an instance of escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_Guid");
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, escapedTestsinternal_partial_classConversions_SystemTextJsonSystem_Guid value, global::System.Text.Json.JsonSerializerOptions options)

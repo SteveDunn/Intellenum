@@ -259,7 +259,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid Deserialize(System.Guid value)
+        private static escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid __Deserialize(System.Guid value)
         {
             
 
@@ -392,7 +392,7 @@ public static readonly escapedTestsinternal_partial_classConversions_LinqToDbVal
             public LinqToDbValueConverter()
                 : base(
                       v => v.Value,
-                      p => escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid.Deserialize(p),
+                      p => escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid.__Deserialize(p),
                       handlesNulls: false)
             { }
         }

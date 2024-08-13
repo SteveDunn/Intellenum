@@ -287,7 +287,7 @@ _ => false
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static MinimumWageInUK Deserialize(System.Decimal value)
+        private static MinimumWageInUK __Deserialize(System.Decimal value)
         {
             
 
@@ -434,22 +434,33 @@ yield return TwentyFiveAndOver;
     public override global::System.String ToString() => Name;
 
         
-        class MinimumWageInUKSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<MinimumWageInUK>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class MinimumWageInUKSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<MinimumWageInUK>
         {
             public override MinimumWageInUK Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return MinimumWageInUK.Deserialize(reader.GetDecimal());
+#if NET5_0_OR_GREATER
+                return MinimumWageInUK.__Deserialize(global::System.Text.Json.JsonSerializer.Deserialize(ref reader, (global::System.Text.Json.Serialization.Metadata.JsonTypeInfo<global::System.Decimal>)options.GetTypeInfo(typeof(global::System.Decimal))));
+#else
+                return MinimumWageInUK.__Deserialize(reader.GetDecimal());
+#endif
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, MinimumWageInUK value, global::System.Text.Json.JsonSerializerOptions options)
             {
+ #if NET5_0_OR_GREATER
+                global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value, options);
+ #else
                 writer.WriteNumberValue(value.Value);
+ #endif
             }
 
 #if NET6_0_OR_GREATER
             public override MinimumWageInUK ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return MinimumWageInUK.Deserialize(global::System.Decimal.Parse(reader.GetString(), global::System.Globalization.NumberStyles.Any, global::System.Globalization.CultureInfo.InvariantCulture));
+                return MinimumWageInUK.__Deserialize(global::System.Decimal.Parse(reader.GetString(), global::System.Globalization.NumberStyles.Any, global::System.Globalization.CultureInfo.InvariantCulture));
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, MinimumWageInUK value, global::System.Text.Json.JsonSerializerOptions options)
@@ -471,8 +482,8 @@ yield return TwentyFiveAndOver;
             {
                 return value switch
                 {
-                    global::System.Decimal decimalValue => MinimumWageInUK.Deserialize(decimalValue),
-                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.Decimal.TryParse(stringValue, global::System.Globalization.NumberStyles.Number, culture.NumberFormat, out var result) => MinimumWageInUK.Deserialize(result),
+                    global::System.Decimal decimalValue => MinimumWageInUK.__Deserialize(decimalValue),
+                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.Decimal.TryParse(stringValue, global::System.Globalization.NumberStyles.Number, culture.NumberFormat, out var result) => MinimumWageInUK.__Deserialize(result),
                     _ => base.ConvertFrom(context, culture, value),
                 };
             }

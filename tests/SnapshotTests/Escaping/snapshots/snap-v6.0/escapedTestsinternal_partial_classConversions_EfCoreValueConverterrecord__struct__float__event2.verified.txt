@@ -220,7 +220,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestsinternal_partial_classConversions_EfCoreValueConverterrecord__struct__float__event2 Deserialize(@class.@record.@struct.@float.event2 value)
+        private static escapedTestsinternal_partial_classConversions_EfCoreValueConverterrecord__struct__float__event2 __Deserialize(@class.@record.@struct.@float.event2 value)
         {
             
 
@@ -353,7 +353,7 @@ public static readonly escapedTestsinternal_partial_classConversions_EfCoreValue
             public EfCoreValueConverter(global::Microsoft.EntityFrameworkCore.Storage.ValueConversion.ConverterMappingHints mappingHints = null)
                 : base(
                     vo => global::System.Text.Json.JsonSerializer.Serialize(vo.Value, default(global::System.Text.Json.JsonSerializerOptions)),
-                    text => escapedTestsinternal_partial_classConversions_EfCoreValueConverterrecord__struct__float__event2.Deserialize(global::System.Text.Json.JsonSerializer.Deserialize<@class.@record.@struct.@float.event2>(text, default(global::System.Text.Json.JsonSerializerOptions))),
+                    text => escapedTestsinternal_partial_classConversions_EfCoreValueConverterrecord__struct__float__event2.__Deserialize(global::System.Text.Json.JsonSerializer.Deserialize<@class.@record.@struct.@float.event2>(text, default(global::System.Text.Json.JsonSerializerOptions))),
                     mappingHints
                 ) { }
         }

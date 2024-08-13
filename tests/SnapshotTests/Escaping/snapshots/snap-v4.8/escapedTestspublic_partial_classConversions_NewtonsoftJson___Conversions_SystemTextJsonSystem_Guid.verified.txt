@@ -261,7 +261,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid Deserialize(System.Guid value)
+        private static escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid __Deserialize(System.Guid value)
         {
             
 
@@ -384,11 +384,14 @@ public static readonly escapedTestspublic_partial_classConversions_NewtonsoftJso
     public override global::System.String ToString() => Name;
 
         
-        class escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_GuidSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_GuidSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid>
         {
             public override escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid.Deserialize(System.Guid.Parse(reader.GetString()));
+                return escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid.__Deserialize(reader.GetGuid());
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid value, global::System.Text.Json.JsonSerializerOptions options)
@@ -396,10 +399,15 @@ public static readonly escapedTestspublic_partial_classConversions_NewtonsoftJso
                 writer.WriteStringValue(value.Value);
             }
 
-#if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER // we can't call Read or use GetGuid from JsonReader as it expects a token type of string, but here we have have 'propertyname'.
             public override escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid.Deserialize(System.Guid.Parse(reader.GetString()));
+                if (global::System.Guid.TryParse(reader.GetString(), out global::System.Guid g))
+                {
+                    return escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid.__Deserialize(g);
+                }
+
+                throw new global::System.Text.Json.JsonException("Unable to parse the GUID for an instance of escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid");
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid value, global::System.Text.Json.JsonSerializerOptions options)
@@ -425,7 +433,7 @@ public static readonly escapedTestspublic_partial_classConversions_NewtonsoftJso
             public override object ReadJson(Newtonsoft.Json.JsonReader reader, System.Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
             {
                 var guid = serializer.Deserialize<System.Guid?>(reader);
-                return guid.HasValue ? escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid.Deserialize(guid.Value) : null;
+                return guid.HasValue ? escapedTestspublic_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJsonSystem_Guid.__Deserialize(guid.Value) : null;
             }
         }
 

@@ -214,7 +214,7 @@ _ => false
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestspublic_partial_classConversions_LinqToDbValueConverterbyte Deserialize(System.Byte value)
+        private static escapedTestspublic_partial_classConversions_LinqToDbValueConverterbyte __Deserialize(System.Byte value)
         {
             
 
@@ -347,7 +347,7 @@ public static readonly escapedTestspublic_partial_classConversions_LinqToDbValue
             public LinqToDbValueConverter()
                 : base(
                       v => v.Value,
-                      p => escapedTestspublic_partial_classConversions_LinqToDbValueConverterbyte.Deserialize(p),
+                      p => escapedTestspublic_partial_classConversions_LinqToDbValueConverterbyte.__Deserialize(p),
                       handlesNulls: false)
             { }
         }

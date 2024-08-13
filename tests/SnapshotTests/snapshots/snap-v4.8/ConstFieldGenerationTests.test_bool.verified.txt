@@ -261,7 +261,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static BoolVo Deserialize(System.Boolean value)
+        private static BoolVo __Deserialize(System.Boolean value)
         {
             
 
@@ -390,11 +390,14 @@ yield return Yes;
     public override global::System.String ToString() => Name;
 
         
-        class BoolVoSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<BoolVo>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class BoolVoSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<BoolVo>
         {
             public override BoolVo Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return BoolVo.Deserialize(reader.GetBoolean());
+                return BoolVo.__Deserialize(reader.GetBoolean());
             }
 
             public override void Write(global::System.Text.Json.Utf8JsonWriter writer, BoolVo value, global::System.Text.Json.JsonSerializerOptions options)
@@ -405,7 +408,7 @@ yield return Yes;
 #if NET6_0_OR_GREATER
             public override BoolVo ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return BoolVo.Deserialize(bool.Parse(reader.GetString()));
+                return BoolVo.__Deserialize(bool.Parse(reader.GetString()));
             }
 
             public override void WriteAsPropertyName(global::System.Text.Json.Utf8JsonWriter writer, BoolVo value, global::System.Text.Json.JsonSerializerOptions options)
@@ -427,8 +430,8 @@ yield return Yes;
             {
                 return value switch
                 {
-                    global::System.Boolean boolValue => BoolVo.Deserialize(boolValue),
-                    global::System.String stringValue when  !global::System.String.IsNullOrEmpty(stringValue) && global::System.Boolean.TryParse(stringValue, out var result) => BoolVo.Deserialize(result),
+                    global::System.Boolean boolValue => BoolVo.__Deserialize(boolValue),
+                    global::System.String stringValue when  !global::System.String.IsNullOrEmpty(stringValue) && global::System.Boolean.TryParse(stringValue, out var result) => BoolVo.__Deserialize(result),
                     _ => base.ConvertFrom(context, culture, value),
                 };
             }

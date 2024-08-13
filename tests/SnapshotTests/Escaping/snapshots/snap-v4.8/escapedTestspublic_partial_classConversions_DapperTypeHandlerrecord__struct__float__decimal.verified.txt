@@ -259,7 +259,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestspublic_partial_classConversions_DapperTypeHandlerrecord__struct__float__decimal Deserialize(@class.@record.@struct.@float.@decimal value)
+        private static escapedTestspublic_partial_classConversions_DapperTypeHandlerrecord__struct__float__decimal __Deserialize(@class.@record.@struct.@float.@decimal value)
         {
             
 
@@ -397,7 +397,7 @@ public static readonly escapedTestspublic_partial_classConversions_DapperTypeHan
                 return value switch
                 {
                     global::System.String stringValue =>
-                        escapedTestspublic_partial_classConversions_DapperTypeHandlerrecord__struct__float__decimal.Deserialize(global::System.Text.Json.JsonSerializer.Deserialize<@class.@record.@struct.@float.@decimal>(stringValue)),
+                        escapedTestspublic_partial_classConversions_DapperTypeHandlerrecord__struct__float__decimal.__Deserialize(global::System.Text.Json.JsonSerializer.Deserialize<@class.@record.@struct.@float.@decimal>(stringValue)),
                     _ => throw new global::System.InvalidCastException($"Unable to cast object of type {value.GetType()} to escapedTestspublic_partial_classConversions_DapperTypeHandlerrecord__struct__float__decimal"),
                 };
             }

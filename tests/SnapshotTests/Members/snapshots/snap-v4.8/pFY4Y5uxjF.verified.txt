@@ -275,7 +275,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static internal_partial_classint Deserialize(System.Int32 value)
+        private static internal_partial_classint __Deserialize(System.Int32 value)
         {
             
 
@@ -398,22 +398,33 @@ public static readonly internal_partial_classint MyValue = new internal_partial_
     public override global::System.String ToString() => Name;
 
         
-        class internal_partial_classintSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<internal_partial_classint>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class internal_partial_classintSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<internal_partial_classint>
         {
             public override internal_partial_classint Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return internal_partial_classint.Deserialize(reader.GetInt32());
+#if NET5_0_OR_GREATER
+                return internal_partial_classint.__Deserialize(global::System.Text.Json.JsonSerializer.Deserialize(ref reader, (global::System.Text.Json.Serialization.Metadata.JsonTypeInfo<global::System.Int32>)options.GetTypeInfo(typeof(global::System.Int32))));
+#else
+                return internal_partial_classint.__Deserialize(reader.GetInt32());
+#endif
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, internal_partial_classint value, global::System.Text.Json.JsonSerializerOptions options)
             {
+ #if NET5_0_OR_GREATER
+                global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value, options);
+ #else
                 writer.WriteNumberValue(value.Value);
+ #endif
             }
 
 #if NET6_0_OR_GREATER            
             public override internal_partial_classint ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return internal_partial_classint.Deserialize(global::System.Int32.Parse(reader.GetString(), global::System.Globalization.NumberStyles.Any, global::System.Globalization.CultureInfo.InvariantCulture));
+                return internal_partial_classint.__Deserialize(global::System.Int32.Parse(reader.GetString(), global::System.Globalization.NumberStyles.Any, global::System.Globalization.CultureInfo.InvariantCulture));
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, internal_partial_classint value, global::System.Text.Json.JsonSerializerOptions options)
@@ -435,8 +446,8 @@ public static readonly internal_partial_classint MyValue = new internal_partial_
             {
                 return value switch
                 {
-                    global::System.Int32 intValue => internal_partial_classint.Deserialize(intValue),
-                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.Int32.TryParse(stringValue, out var result) => internal_partial_classint.Deserialize(result),
+                    global::System.Int32 intValue => internal_partial_classint.__Deserialize(intValue),
+                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.Int32.TryParse(stringValue, out var result) => internal_partial_classint.__Deserialize(result),
                     _ => base.ConvertFrom(context, culture, value),
                 };
             }

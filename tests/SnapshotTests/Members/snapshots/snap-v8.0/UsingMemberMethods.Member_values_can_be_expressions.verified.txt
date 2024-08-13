@@ -224,7 +224,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static C Deserialize(System.DateTimeOffset value)
+        private static C __Deserialize(System.DateTimeOffset value)
         {
             
 
@@ -353,11 +353,14 @@ yield return Item2;
     public override global::System.String ToString() => Name;
 
         
-        class CSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<C>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class CSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<C>
         {
             public override C Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return C.Deserialize(reader.GetDateTimeOffset());
+                return C.__Deserialize(reader.GetDateTimeOffset());
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, C value, global::System.Text.Json.JsonSerializerOptions options)
@@ -368,7 +371,7 @@ yield return Item2;
 #if NET6_0_OR_GREATER
             public override C ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return C.Deserialize(global::System.DateTimeOffset.ParseExact(reader.GetString(), "O", global::System.Globalization.CultureInfo.InvariantCulture));
+                return C.__Deserialize(global::System.DateTimeOffset.ParseExact(reader.GetString(), "O", global::System.Globalization.CultureInfo.InvariantCulture));
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, C value, global::System.Text.Json.JsonSerializerOptions options)
@@ -390,8 +393,8 @@ yield return Item2;
             {
                 return value switch
                 {
-                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.DateTimeOffset.TryParseExact(stringValue, "O", global::System.Globalization.CultureInfo.InvariantCulture, global::System.Globalization.DateTimeStyles.RoundtripKind, out var result) => C.Deserialize(result),
-                    global::System.DateTimeOffset dateTimeValue => C.Deserialize(dateTimeValue),
+                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.DateTimeOffset.TryParseExact(stringValue, "O", global::System.Globalization.CultureInfo.InvariantCulture, global::System.Globalization.DateTimeStyles.RoundtripKind, out var result) => C.__Deserialize(result),
+                    global::System.DateTimeOffset dateTimeValue => C.__Deserialize(dateTimeValue),
                     _ => base.ConvertFrom(context, culture, value),
                 };
             }

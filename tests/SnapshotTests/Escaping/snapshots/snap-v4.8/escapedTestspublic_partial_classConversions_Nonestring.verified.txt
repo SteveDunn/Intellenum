@@ -277,7 +277,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestspublic_partial_classConversions_Nonestring Deserialize(System.String value)
+        private static escapedTestspublic_partial_classConversions_Nonestring __Deserialize(System.String value)
         {
                         if (value is null)
             {

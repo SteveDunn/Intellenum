@@ -226,7 +226,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static DateTimeOffsetVo Deserialize(System.DateTimeOffset value)
+        private static DateTimeOffsetVo __Deserialize(System.DateTimeOffset value)
         {
             
 
@@ -361,11 +361,14 @@ yield return SomethingElse;
     public override global::System.String ToString() => Name;
 
         
-        class DateTimeOffsetVoSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<DateTimeOffsetVo>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class DateTimeOffsetVoSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<DateTimeOffsetVo>
         {
             public override DateTimeOffsetVo Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return DateTimeOffsetVo.Deserialize(reader.GetDateTimeOffset());
+                return DateTimeOffsetVo.__Deserialize(reader.GetDateTimeOffset());
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, DateTimeOffsetVo value, global::System.Text.Json.JsonSerializerOptions options)
@@ -376,7 +379,7 @@ yield return SomethingElse;
 #if NET6_0_OR_GREATER
             public override DateTimeOffsetVo ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return DateTimeOffsetVo.Deserialize(global::System.DateTimeOffset.ParseExact(reader.GetString(), "O", global::System.Globalization.CultureInfo.InvariantCulture));
+                return DateTimeOffsetVo.__Deserialize(global::System.DateTimeOffset.ParseExact(reader.GetString(), "O", global::System.Globalization.CultureInfo.InvariantCulture));
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, DateTimeOffsetVo value, global::System.Text.Json.JsonSerializerOptions options)
@@ -398,8 +401,8 @@ yield return SomethingElse;
             {
                 return value switch
                 {
-                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.DateTimeOffset.TryParseExact(stringValue, "O", global::System.Globalization.CultureInfo.InvariantCulture, global::System.Globalization.DateTimeStyles.RoundtripKind, out var result) => DateTimeOffsetVo.Deserialize(result),
-                    global::System.DateTimeOffset dateTimeValue => DateTimeOffsetVo.Deserialize(dateTimeValue),
+                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.DateTimeOffset.TryParseExact(stringValue, "O", global::System.Globalization.CultureInfo.InvariantCulture, global::System.Globalization.DateTimeStyles.RoundtripKind, out var result) => DateTimeOffsetVo.__Deserialize(result),
+                    global::System.DateTimeOffset dateTimeValue => DateTimeOffsetVo.__Deserialize(dateTimeValue),
                     _ => base.ConvertFrom(context, culture, value),
                 };
             }

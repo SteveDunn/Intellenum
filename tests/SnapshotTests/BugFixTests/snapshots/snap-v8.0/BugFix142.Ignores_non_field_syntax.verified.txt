@@ -274,7 +274,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static City Deserialize(System.Int32 value)
+        private static City __Deserialize(System.Int32 value)
         {
             
 
@@ -411,22 +411,33 @@ yield return Frankfurt;
     public override global::System.String ToString() => Name;
 
         
-        class CitySystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<City>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class CitySystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<City>
         {
             public override City Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return City.Deserialize(reader.GetInt32());
+#if NET5_0_OR_GREATER
+                return City.__Deserialize(global::System.Text.Json.JsonSerializer.Deserialize(ref reader, (global::System.Text.Json.Serialization.Metadata.JsonTypeInfo<global::System.Int32>)options.GetTypeInfo(typeof(global::System.Int32))));
+#else
+                return City.__Deserialize(reader.GetInt32());
+#endif
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, City value, global::System.Text.Json.JsonSerializerOptions options)
             {
+ #if NET5_0_OR_GREATER
+                global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value, options);
+ #else
                 writer.WriteNumberValue(value.Value);
+ #endif
             }
 
 #if NET6_0_OR_GREATER            
             public override City ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return City.Deserialize(global::System.Int32.Parse(reader.GetString(), global::System.Globalization.NumberStyles.Any, global::System.Globalization.CultureInfo.InvariantCulture));
+                return City.__Deserialize(global::System.Int32.Parse(reader.GetString(), global::System.Globalization.NumberStyles.Any, global::System.Globalization.CultureInfo.InvariantCulture));
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, City value, global::System.Text.Json.JsonSerializerOptions options)
@@ -448,8 +459,8 @@ yield return Frankfurt;
             {
                 return value switch
                 {
-                    global::System.Int32 intValue => City.Deserialize(intValue),
-                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.Int32.TryParse(stringValue, out var result) => City.Deserialize(result),
+                    global::System.Int32 intValue => City.__Deserialize(intValue),
+                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && global::System.Int32.TryParse(stringValue, out var result) => City.__Deserialize(result),
                     _ => base.ConvertFrom(context, culture, value),
                 };
             }

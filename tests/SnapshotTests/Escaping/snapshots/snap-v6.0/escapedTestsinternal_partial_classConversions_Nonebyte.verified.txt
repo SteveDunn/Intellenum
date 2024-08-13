@@ -214,7 +214,7 @@ _ => false
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestsinternal_partial_classConversions_Nonebyte Deserialize(System.Byte value)
+        private static escapedTestsinternal_partial_classConversions_Nonebyte __Deserialize(System.Byte value)
         {
             
 

@@ -221,7 +221,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestsinternal_partial_classConversions_TypeConverterrecord__struct__float__event Deserialize(@class.@record.@struct.@float.@event value)
+        private static escapedTestsinternal_partial_classConversions_TypeConverterrecord__struct__float__event __Deserialize(@class.@record.@struct.@float.@event value)
         {
             
 
@@ -357,7 +357,7 @@ public static readonly escapedTestsinternal_partial_classConversions_TypeConvert
             {
                 @class.@record.@struct.@float.@event ut = (@class.@record.@struct.@float.@event)value;
 
-                return escapedTestsinternal_partial_classConversions_TypeConverterrecord__struct__float__event.Deserialize(ut);
+                return escapedTestsinternal_partial_classConversions_TypeConverterrecord__struct__float__event.__Deserialize(ut);
             }
         
             public override bool CanConvertTo(global::System.ComponentModel.ITypeDescriptorContext context, global::System.Type sourceType)

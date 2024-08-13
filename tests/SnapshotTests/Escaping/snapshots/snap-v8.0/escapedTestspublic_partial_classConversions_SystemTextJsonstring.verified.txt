@@ -239,7 +239,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static escapedTestspublic_partial_classConversions_SystemTextJsonstring Deserialize(System.String value)
+        private static escapedTestspublic_partial_classConversions_SystemTextJsonstring __Deserialize(System.String value)
         {
                         if (value is null)
             {
@@ -366,11 +366,14 @@ public static readonly escapedTestspublic_partial_classConversions_SystemTextJso
     public override global::System.String ToString() => Name;
 
         
-        class escapedTestspublic_partial_classConversions_SystemTextJsonstringSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<escapedTestspublic_partial_classConversions_SystemTextJsonstring>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class escapedTestspublic_partial_classConversions_SystemTextJsonstringSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<escapedTestspublic_partial_classConversions_SystemTextJsonstring>
         {
             public override escapedTestspublic_partial_classConversions_SystemTextJsonstring Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return escapedTestspublic_partial_classConversions_SystemTextJsonstring.Deserialize(reader.GetString());
+                return escapedTestspublic_partial_classConversions_SystemTextJsonstring.__Deserialize(reader.GetString());
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, escapedTestspublic_partial_classConversions_SystemTextJsonstring value, global::System.Text.Json.JsonSerializerOptions options)
@@ -381,7 +384,7 @@ public static readonly escapedTestspublic_partial_classConversions_SystemTextJso
 #if NET6_0_OR_GREATER
             public override escapedTestspublic_partial_classConversions_SystemTextJsonstring ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
-                return escapedTestspublic_partial_classConversions_SystemTextJsonstring.Deserialize(reader.GetString());
+                return escapedTestspublic_partial_classConversions_SystemTextJsonstring.__Deserialize(reader.GetString());
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, escapedTestspublic_partial_classConversions_SystemTextJsonstring value, global::System.Text.Json.JsonSerializerOptions options)

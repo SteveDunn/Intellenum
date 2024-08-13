@@ -273,7 +273,7 @@ private static void Member(string name)
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static MyIntVo Deserialize(System.Int32 value)
+        private static MyIntVo __Deserialize(System.Int32 value)
         {
             
 

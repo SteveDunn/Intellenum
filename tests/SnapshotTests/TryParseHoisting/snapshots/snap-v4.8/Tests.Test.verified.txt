@@ -282,7 +282,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static PlanetEnum Deserialize(Whatever.Planet value)
+        private static PlanetEnum __Deserialize(Whatever.Planet value)
         {
                         if (value is null)
             {
@@ -409,24 +409,27 @@ yield return Venus;
     public override global::System.String ToString() => Name;
 
         
-        class PlanetEnumSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<PlanetEnum>
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
+        public class PlanetEnumSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<PlanetEnum>
         {
             public override PlanetEnum Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
                 var primitive = global::System.Text.Json.JsonSerializer.Deserialize<Whatever.Planet>(ref reader, options);
-                return PlanetEnum.Deserialize(primitive);
+                return PlanetEnum.__Deserialize(primitive);
             }
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, PlanetEnum value, global::System.Text.Json.JsonSerializerOptions options)
             {
-                global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value);
+                global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value, options);
             }
 
 #if NET6_0_OR_GREATER
             public override PlanetEnum ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
                 var primitive = global::System.Text.Json.JsonSerializer.Deserialize<Whatever.Planet>(ref reader, options);
-                return PlanetEnum.Deserialize(primitive);
+                return PlanetEnum.__Deserialize(primitive);
             }
 
             public override void WriteAsPropertyName(System.Text.Json.Utf8JsonWriter writer, PlanetEnum value, global::System.Text.Json.JsonSerializerOptions options)
@@ -448,7 +451,7 @@ yield return Venus;
             {
                 Whatever.Planet ut = (Whatever.Planet)value;
 
-                return PlanetEnum.Deserialize(ut);
+                return PlanetEnum.__Deserialize(ut);
             }
         
             public override bool CanConvertTo(global::System.ComponentModel.ITypeDescriptorContext context, global::System.Type sourceType)

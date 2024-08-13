@@ -222,7 +222,7 @@ return false;
 
         // only called internally when something has been deserialized into
         // its primitive type.
-        private static CustomerType Deserialize(System.Single value)
+        private static CustomerType __Deserialize(System.Single value)
         {
             
 
