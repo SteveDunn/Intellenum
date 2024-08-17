@@ -5,7 +5,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <UseLocallyBuiltPackage>true</UseLocallyBuiltPackage>
+        <UseLocallyBuiltPackage>false</UseLocallyBuiltPackage>
 
     </PropertyGroup>
 
@@ -33,12 +33,20 @@
         <Message Text="Please run Test.ps1 to build the latest local nuget package that these tests consume" Importance="high" />
     </Target>
 
-    <ItemGroup Condition=" '$(UseLocallyBuiltPackage)' != ''">
+    <ItemGroup Condition=" '$(UseLocallyBuiltPackage)' == 'true'">
         <PackageReference Include="Intellenum" Version="999.9.*" />
+        <PackageReference Update="DotNet.ReproducibleBuilds" Version="1.2.4">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Update="MinVer" Version="5.0.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
-    <ItemGroup Condition=" '$(UseLocallyBuiltPackage)' == ''">
-        <PackageReference Include="Intellenum" Version="999.9.12783144" />
+    <ItemGroup Condition=" '$(UseLocallyBuiltPackage)' != 'true'">
+        <PackageReference Include="Intellenum" Version="1.0.4" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -68,8 +76,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Ardalis.SmartEnum" Version="7.0.0" />
-      <PackageReference Include="BenchmarkDotNet" Version="0.13.6" />
+      <PackageReference Include="Ardalis.SmartEnum" Version="8.0.0" />
+      <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
       <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta07" PrivateAssets="all" ExcludeAssets="runtime" />
     </ItemGroup>
 

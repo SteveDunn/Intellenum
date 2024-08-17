@@ -6,222 +6,221 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace Intellenum.Extensions
+namespace Intellenum.Extensions;
+
+internal static class IEnumerableExtensions
 {
-    internal static class IEnumerableExtensions
+    public static IEnumerable<T> Concat<T>(this IEnumerable<T> source, T value)
     {
-        public static IEnumerable<T> Concat<T>(this IEnumerable<T> source, T value)
+        if (source == null)
         {
-            if (source == null)
+            throw new ArgumentNullException(nameof(source));
+        }
+
+        return ConcatImpl(source, value);
+
+        static IEnumerable<T> ConcatImpl(IEnumerable<T> source, T value)
+        {
+            foreach (T v in source)
             {
-                throw new ArgumentNullException(nameof(source));
+                yield return v;
             }
 
-            return ConcatImpl(source, value);
+            yield return value;
+        }
+    }
 
-            static IEnumerable<T> ConcatImpl(IEnumerable<T> source, T value)
+    public static ISet<T> ToSet<T>(this IEnumerable<T> source)
+    {
+        if (source == null)
+        {
+            throw new ArgumentNullException(nameof(source));
+        }
+
+        return source as ISet<T> ?? new HashSet<T>(source);
+    }
+
+    public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> source, IComparer<T> comparer)
+    {
+        return source.OrderBy(t => t, comparer);
+    }
+
+    public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> source, Comparison<T> compare)
+    {
+        return source.OrderBy(new ComparisonComparer<T>(compare));
+    }
+
+    public static IEnumerable<T> Order<T>(this IEnumerable<T> source) where T : IComparable<T>
+    {
+        return source.OrderBy((t1, t2) => t1.CompareTo(t2));
+    }
+
+    private static readonly Func<object?, bool> s_notNullTest = x => x != null;
+
+    public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> source) where T : class
+    {
+        if (source == null)
+        {
+            return ImmutableArray<T>.Empty;
+        }
+
+        return source.Where((Func<T?, bool>)s_notNullTest)!;
+    }
+
+    public static ImmutableArray<TSource> WhereAsArray<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> selector)
+    {
+        var builder = ImmutableArray.CreateBuilder<TSource>();
+        bool any = false;
+        foreach (var element in source)
+        {
+            if (selector(element))
             {
-                foreach (T v in source)
-                {
-                    yield return v;
-                }
-
-                yield return value;
+                any = true;
+                builder.Add(element);
             }
         }
 
-        public static ISet<T> ToSet<T>(this IEnumerable<T> source)
+        if (any)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
+            return builder.ToImmutable();
+        }
+        else
+        {
+            return ImmutableArray<TSource>.Empty;
+        }
+    }
 
-            return source as ISet<T> ?? new HashSet<T>(source);
+    public static void Dispose<T>(this IEnumerable<T?> collection)
+        where T : class, IDisposable
+    {
+        foreach (var item in collection)
+        {
+            item?.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// Determines whether a sequence contains, exactly, <paramref name="count"/> elements.
+    /// </summary>
+    /// <typeparam name="TSource">The type of the elements of source.</typeparam>
+    /// <param name="source">The <see cref="IEnumerable{TSource}"/> to check for cardinality.</param>
+    /// <param name="count">The number of elements to ensure exists.</param>
+    /// <returns><see langword="true" /> the source sequence contains, exactly, <paramref name="count"/> elements; otherwise, <see langword="false" />.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+    public static bool HasExactly<TSource>(this IEnumerable<TSource> source, int count)
+    {
+        if (source is null)
+        {
+            throw new ArgumentNullException(nameof(source));
         }
 
-        public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> source, IComparer<T> comparer)
+        if (source is ICollection<TSource> collectionoft)
         {
-            return source.OrderBy(t => t, comparer);
+            return collectionoft.Count == count;
         }
 
-        public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> source, Comparison<T> compare)
+        if (source is ICollection collection)
         {
-            return source.OrderBy(new ComparisonComparer<T>(compare));
+            return collection.Count == count;
         }
 
-        public static IEnumerable<T> Order<T>(this IEnumerable<T> source) where T : IComparable<T>
+        using var enumerator = source.GetEnumerator();
+        while (count-- > 0)
         {
-            return source.OrderBy((t1, t2) => t1.CompareTo(t2));
-        }
-
-        private static readonly Func<object?, bool> s_notNullTest = x => x != null;
-
-        public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> source) where T : class
-        {
-            if (source == null)
+            if (!enumerator.MoveNext())
             {
-                return ImmutableArray<T>.Empty;
-            }
-
-            return source.Where((Func<T?, bool>)s_notNullTest)!;
-        }
-
-        public static ImmutableArray<TSource> WhereAsArray<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> selector)
-        {
-            var builder = ImmutableArray.CreateBuilder<TSource>();
-            bool any = false;
-            foreach (var element in source)
-            {
-                if (selector(element))
-                {
-                    any = true;
-                    builder.Add(element);
-                }
-            }
-
-            if (any)
-            {
-                return builder.ToImmutable();
-            }
-            else
-            {
-                return ImmutableArray<TSource>.Empty;
+                return false;
             }
         }
 
-        public static void Dispose<T>(this IEnumerable<T?> collection)
-            where T : class, IDisposable
+        return !enumerator.MoveNext();
+    }
+
+    /// <summary>
+    /// Determines whether a sequence contains more than <paramref name="count"/> elements.
+    /// </summary>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
+    /// <param name="source">The <see cref="IEnumerable{TSource}"/> to check for cardinality.</param>
+    /// <param name="count">The number of elements to ensure exists.</param>
+    /// <returns><see langword="true" /> the source sequence contains more than <paramref name="count"/> elements; otherwise, <see langword="false" />.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+    public static bool HasMoreThan<TSource>(this IEnumerable<TSource> source, int count)
+    {
+        if (source is null)
         {
-            foreach (var item in collection)
+            throw new ArgumentNullException(nameof(source));
+        }
+
+        if (source is ICollection<TSource> collectionoft)
+        {
+            return collectionoft.Count > count;
+        }
+
+        if (source is ICollection collection)
+        {
+            return collection.Count > count;
+        }
+
+        using var enumerator = source.GetEnumerator();
+        while (count-- > 0)
+        {
+            if (!enumerator.MoveNext())
             {
-                item?.Dispose();
+                return false;
             }
         }
 
-        /// <summary>
-        /// Determines whether a sequence contains, exactly, <paramref name="count"/> elements.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of source.</typeparam>
-        /// <param name="source">The <see cref="IEnumerable{TSource}"/> to check for cardinality.</param>
-        /// <param name="count">The number of elements to ensure exists.</param>
-        /// <returns><see langword="true" /> the source sequence contains, exactly, <paramref name="count"/> elements; otherwise, <see langword="false" />.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
-        public static bool HasExactly<TSource>(this IEnumerable<TSource> source, int count)
+        return enumerator.MoveNext();
+    }
+
+    /// <summary>
+    /// Determines whether a sequence contains fewer than <paramref name="count"/> elements.
+    /// </summary>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
+    /// <param name="source">The <see cref="IEnumerable{TSource}"/> to check for cardinality.</param>
+    /// <param name="count">The number of elements to ensure exists.</param>
+    /// <returns><see langword="true" /> the source sequence contains less than <paramref name="count"/> elements; otherwise, <see langword="false" />.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+    public static bool HasFewerThan<TSource>(this IEnumerable<TSource> source, int count)
+    {
+        if (source is null)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (source is ICollection<TSource> collectionoft)
-            {
-                return collectionoft.Count == count;
-            }
-
-            if (source is ICollection collection)
-            {
-                return collection.Count == count;
-            }
-
-            using var enumerator = source.GetEnumerator();
-            while (count-- > 0)
-            {
-                if (!enumerator.MoveNext())
-                {
-                    return false;
-                }
-            }
-
-            return !enumerator.MoveNext();
+            throw new ArgumentNullException(nameof(source));
         }
 
-        /// <summary>
-        /// Determines whether a sequence contains more than <paramref name="count"/> elements.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The <see cref="IEnumerable{TSource}"/> to check for cardinality.</param>
-        /// <param name="count">The number of elements to ensure exists.</param>
-        /// <returns><see langword="true" /> the source sequence contains more than <paramref name="count"/> elements; otherwise, <see langword="false" />.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
-        public static bool HasMoreThan<TSource>(this IEnumerable<TSource> source, int count)
+        if (source is ICollection<TSource> collectionoft)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (source is ICollection<TSource> collectionoft)
-            {
-                return collectionoft.Count > count;
-            }
-
-            if (source is ICollection collection)
-            {
-                return collection.Count > count;
-            }
-
-            using var enumerator = source.GetEnumerator();
-            while (count-- > 0)
-            {
-                if (!enumerator.MoveNext())
-                {
-                    return false;
-                }
-            }
-
-            return enumerator.MoveNext();
+            return collectionoft.Count < count;
         }
 
-        /// <summary>
-        /// Determines whether a sequence contains fewer than <paramref name="count"/> elements.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The <see cref="IEnumerable{TSource}"/> to check for cardinality.</param>
-        /// <param name="count">The number of elements to ensure exists.</param>
-        /// <returns><see langword="true" /> the source sequence contains less than <paramref name="count"/> elements; otherwise, <see langword="false" />.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
-        public static bool HasFewerThan<TSource>(this IEnumerable<TSource> source, int count)
+        if (source is ICollection collection)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (source is ICollection<TSource> collectionoft)
-            {
-                return collectionoft.Count < count;
-            }
-
-            if (source is ICollection collection)
-            {
-                return collection.Count < count;
-            }
-
-            using var enumerator = source.GetEnumerator();
-            while (count > 0 && enumerator.MoveNext()) { count--; }
-
-            return count > 0;
+            return collection.Count < count;
         }
 
-        private class ComparisonComparer<T> : Comparer<T>
+        using var enumerator = source.GetEnumerator();
+        while (count > 0 && enumerator.MoveNext()) { count--; }
+
+        return count > 0;
+    }
+
+    private class ComparisonComparer<T> : Comparer<T>
+    {
+        private readonly Comparison<T> _compare;
+
+        public ComparisonComparer(Comparison<T> compare)
         {
-            private readonly Comparison<T> _compare;
+            _compare = compare;
+        }
 
-            public ComparisonComparer(Comparison<T> compare)
-            {
-                _compare = compare;
-            }
+        public override int Compare(T? x, T? y)
+        {
+            if (x is null)
+                return y is null ? 0 : -1;
+            else if (y is null)
+                return 1;
 
-            public override int Compare(T? x, T? y)
-            {
-                if (x is null)
-                    return y is null ? 0 : -1;
-                else if (y is null)
-                    return 1;
-
-                return _compare(x, y);
-            }
+            return _compare(x, y);
         }
     }
 }

@@ -71,12 +71,9 @@ public enum EGCustomerType
 }
 
 [Intellenum]
-[Member("Standard", 0)]
-[Member("Gold", 1)]
-[Member("Diamond",2)]
-[Member("Platinum", 3)]
 public partial class IECustomerType
 {
+    public static readonly IECustomerType Standard, Gold, Diamond, Platinum;
 }
 
 public class SmartStringString : SmartEnum<SmartStringString, string>

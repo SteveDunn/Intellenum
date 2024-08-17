@@ -2,11 +2,11 @@
 
 using Microsoft.CodeAnalysis;
 
-namespace Intellenum.Extensions
+namespace Intellenum.Extensions;
+
+internal static class MethodKindEx
 {
-    internal static class MethodKindEx
-    {
-        public const MethodKind LocalFunction = (MethodKind)17;
+    public const MethodKind LocalFunction = (MethodKind)17;
 
 #if HAS_IOPERATION
 #pragma warning disable IDE0051 // Remove unused private members
@@ -23,5 +23,4 @@ namespace Intellenum.Extensions
         private const uint LocalFunctionValueAssertion1 = LocalFunction - MethodKind.LocalFunction,
             LocalFunctionValueAssertion2 = -(LocalFunction - MethodKind.LocalFunction);
 #endif
-    }
 }

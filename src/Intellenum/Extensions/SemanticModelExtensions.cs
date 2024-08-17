@@ -5,26 +5,25 @@
 using System.Threading;
 using Microsoft.CodeAnalysis;
 
-namespace Intellenum.Extensions
+namespace Intellenum.Extensions;
+
+internal static class SemanticModelExtensions
 {
-    internal static class SemanticModelExtensions
+    public static IOperation? GetOperationWalkingUpParentChain(this SemanticModel semanticModel, SyntaxNode node, CancellationToken cancellationToken)
     {
-        public static IOperation? GetOperationWalkingUpParentChain(this SemanticModel semanticModel, SyntaxNode node, CancellationToken cancellationToken)
+        // Walk up the parent chain to fetch the first non-null operation.
+        do
         {
-            // Walk up the parent chain to fetch the first non-null operation.
-            do
+            var operation = semanticModel.GetOperation(node, cancellationToken);
+            if (operation != null)
             {
-                var operation = semanticModel.GetOperation(node, cancellationToken);
-                if (operation != null)
-                {
-                    return operation;
-                }
-
-                node = node.Parent;
+                return operation;
             }
-            while (node != null);
 
-            return null;
+            node = node.Parent;
         }
+        while (node != null);
+
+        return null;
     }
 }

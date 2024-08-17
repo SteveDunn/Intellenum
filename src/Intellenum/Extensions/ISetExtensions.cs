@@ -2,16 +2,15 @@
 
 using System.Collections.Generic;
 
-namespace Intellenum.Extensions
+namespace Intellenum.Extensions;
+
+internal static class ISetExtensions
 {
-    internal static class ISetExtensions
+    public static void AddRange<T>(this ISet<T> set, IEnumerable<T> values)
     {
-        public static void AddRange<T>(this ISet<T> set, IEnumerable<T> values)
+        foreach (var value in values)
         {
-            foreach (var value in values)
-            {
-                set.Add(value);
-            }
+            set.Add(value);
         }
     }
 }

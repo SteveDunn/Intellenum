@@ -1,8 +1,7 @@
-namespace Intellenum.Generators.Snippets
+namespace Intellenum.Generators.Snippets;
+
+public enum SnippetType
 {
-    public enum SnippetType
-    {
-        FromNameRelatedMethods,
-        FromValueRelateMethods,
-    }
+    FromNameRelatedMethods,
+    FromValueRelateMethods,
 }
