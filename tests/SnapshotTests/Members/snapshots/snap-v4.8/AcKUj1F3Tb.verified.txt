@@ -7,60 +7,40 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-
 // Suppress warnings about [Obsolete] member usage in generated code.
 #pragma warning disable CS0618
-
 // Suppress warnings for 'Override methods on comparable types'.
 #pragma warning disable CA1036
-
 // Suppress Error MA0097 : A class that implements IComparable<T> or IComparable should override comparison operators
 #pragma warning disable MA0097
-
 // Suppress warning for 'The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. Auto-generated code requires an explicit '#nullable' directive in source.'
 // The generator copies signatures from the BCL, e.g. for `TryParse`, and some of those have nullable annotations.
 #pragma warning disable CS8669
-
 #pragma warning disable CS1573
-
 // Suppress warnings about CS1591: Missing XML comment for publicly visible type or member 'Type_or_Member'
 #pragma warning disable CS1591
-
 using Intellenum;
 using System;
 
-
 namespace Whatever
 {
-
-    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage] 
+    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Intellenum", "1.0.0.0")]
     [global::System.Text.Json.Serialization.JsonConverter(typeof(public_partial_classlongSystemTextJsonConverter))]
-[global::System.ComponentModel.TypeConverter(typeof(public_partial_classlongTypeConverter))]
-
+    [global::System.ComponentModel.TypeConverter(typeof(public_partial_classlongTypeConverter))]
     [global::System.Diagnostics.DebuggerTypeProxyAttribute(typeof(public_partial_classlongDebugView))]
     [global::System.Diagnostics.DebuggerDisplayAttribute("Underlying type: System.Int64, Value = { _value }")]
-    public partial class public_partial_classlong : 
-        global::System.IEquatable<public_partial_classlong>, 
-        global::System.IComparable, 
-        global::System.IComparable<public_partial_classlong> 
+    public partial class public_partial_classlong : global::System.IEquatable<public_partial_classlong>, global::System.IComparable, global::System.IComparable<public_partial_classlong>
     {
         // const fields...
-public const System.Int64 MyValueValue = 123;
-
-
-        
-
-#if DEBUG    
+        public const System.Int64 MyValueValue = 123;
+#if DEBUG
         private readonly global::System.Diagnostics.StackTrace _stackTrace = null;
 #endif
         private readonly global::System.Boolean _isInitialized;
         private readonly System.Int64 _value;
-
-        
-
         /// <summary>
-        /// Gets the underlying <see cref="System.Int64" /> value if set, otherwise default
+        /// Gets the underlying <see cref = "System.Int64"/> value if set, otherwise default
         /// </summary>
         public System.Int64 Value => _value;
 
@@ -82,7 +62,7 @@ public const System.Int64 MyValueValue = 123;
             _value = value;
             Name = "[INFERRED-TO-BE-REPLACED!]";
             _isInitialized = true;
-        }        
+        }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         private public_partial_classlong(string enumName, System.Int64 value)
@@ -100,58 +80,64 @@ public const System.Int64 MyValueValue = 123;
             Value = this.Value;
         }
 
-        
         /// <summary>
         /// Builds a member from an enum value.
         /// </summary>
-        /// <param name="value">The value.</param>
+        /// <param name = "value">The value.</param>
         /// <returns>The matching enum, or an exception.</returns>
         public static public_partial_classlong FromValue(System.Int64 value)
         {
-                bool b = TryFromValue(value, out var ret);
-    if(b) return ret;
-    throw new IntellenumMatchFailedException($"public_partial_classlong has no matching members with a value of '{value}'");
-        }            
+            bool b = TryFromValue(value, out var ret);
+            if (b)
+            {
+                return ret;
+            }
+
+            throw new IntellenumMatchFailedException($"public_partial_classlong has no matching members with a value of '{value}'");
+        }
 
         /// <summary>
         /// Tries to get a member based on value.
         /// </summary>
-        /// <param name="value">The value.</param>
+        /// <param name = "value">The value.</param>
+        /// <param name = "member">The matching member if successful.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static bool TryFromValue(System.Int64 value, out public_partial_classlong member)
+        public static bool TryFromValue(System.Int64 value, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+        out public_partial_classlong member)
         {
-            switch (value) 
-{
-    case 123:
-        member = public_partial_classlong.MyValue; 
-        return true;
-    default:
-        member = default;
-        return false;
-}
-
-        }        
+            switch (value)
+            {
+                case 123:
+                    member = public_partial_classlong.MyValue;
+                    return true;
+                default:
+                    member = default;
+                    return false;
+            }
+        }
 
         /// <summary>
         /// Determines if there is a member that is defined with the specified value.
         /// </summary>
-        /// <param name="value">The value to search for.</param>
+        /// <param name = "value">The value to search for.</param>
         /// <returns>True if there is a member with matching value, otherwise False.</returns>
         public static bool IsDefined(System.Int64 value)
         {
-            return value switch { 123 => true,
-_ => false
- };
+            return value switch
+            {
+                123 => true,
+                _ => false
+            };
         }
-        
 
-        
 #region .NET Framework Compatability Methods
-
         /// <summary>
         /// Gets the matching member based on name.
         /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name = "name">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
         public static public_partial_classlong FromName(string name)
         {
@@ -161,7 +147,8 @@ _ => false
         /// <summary>
         /// Tries to get the matching member from a name.
         /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
         /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(string name, out public_partial_classlong member)
@@ -183,38 +170,37 @@ _ => false
         }
 
 #endregion
-        
-        
         /// <summary>
         /// Gets the matching member based on name.
         /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name = "name">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
         public static public_partial_classlong FromName(ReadOnlySpan<char> name)
         {
-                bool b = TryFromName(name, out var ret);
-    if(b) return ret;
-    throw new IntellenumMatchFailedException($"public_partial_classlong has no matching members named '{name.ToString()}'");
+            bool b = TryFromName(name, out var ret);
+            if (b)
+                return ret;
+            throw new IntellenumMatchFailedException($"public_partial_classlong has no matching members named '{name.ToString()}'");
         }
 
         /// <summary>
         /// Tries to get the matching member from a name.
         /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
         /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(ReadOnlySpan<char> name, out public_partial_classlong member)
         {
-            switch (name) 
-{
-    case ("MyValue"):
-        member = public_partial_classlong.MyValue; 
-        return true;
-    default:
-        member = default;
-        return false;
-}
-
+            switch (name)
+            {
+                case ("MyValue"):
+                    member = public_partial_classlong.MyValue;
+                    return true;
+                default:
+                    member = default;
+                    return false;
+            }
         }
 
         [global::System.ObsoleteAttribute("Please use IsNameDefined rather than this, which has a typo")]
@@ -229,22 +215,7 @@ _ => false
         {
             return TryFromName(name, out _);
         }
-        
 
-        /// <summary>
-        /// Builds a member from the provided underlying type.
-        /// </summary>
-        /// <param name="value">The underlying type.</param>
-        /// <returns>A member of this type.</returns>
-        private static public_partial_classlong From(string name, System.Int64 value)
-        {
-            
-
-            public_partial_classlong member = new public_partial_classlong(name, value);
-
-            return member;
-        }
-        
         // A placeholder method used by the source generator during compilation so that
         // users can 'Call' it. The source generator examines calls to this in order to 
         // generate physical members (e.g. public static readonly MyEnum Item1 = new...)
@@ -252,16 +223,12 @@ _ => false
         {
         }
 
-
         // only called internally when something has been deserialized into
         // its primitive type.
         private static public_partial_classlong __Deserialize(System.Int64 value)
         {
-            
-
-                    if(value == MyValue.Value) return MyValue;
-
-
+            if (value == MyValue.Value)
+                return MyValue;
             return FromValue(value);
         }
 
@@ -275,8 +242,8 @@ _ => false
 
             // It's possible to create uninitialized members via converters such as EfCore (HasDefaultValue), which call Equals.
             // We treat anything uninitialized as not equal to anything, even other uninitialized members of this type.
-            if(!_isInitialized || !other._isInitialized) return false;
-	    	
+            if (!_isInitialized || !other._isInitialized)
+                return false;
             if (ReferenceEquals(this, other))
             {
                 return true;
@@ -303,49 +270,40 @@ _ => false
                 return false;
             }
 
-            return Equals((public_partial_classlong) obj);
+            return Equals((public_partial_classlong)obj);
         }
 
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(public_partial_classlong left, public_partial_classlong right) => Equals(left, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(public_partial_classlong left, public_partial_classlong right) => !Equals(left, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(public_partial_classlong left, System.Int64 right) => Equals(left.Value, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(public_partial_classlong left, System.Int64 right) => !Equals(left.Value, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(System.Int64 left, public_partial_classlong right) => Equals(left, right.Value);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(System.Int64 left, public_partial_classlong right) => !Equals(left, right.Value);
-        
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <(public_partial_classlong left, public_partial_classlong right) => left.CompareTo(right) < 0;
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <=(public_partial_classlong left, public_partial_classlong right) => left.CompareTo(right) <= 0;
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static global::System.Boolean operator >(public_partial_classlong left, public_partial_classlong right) => left.CompareTo(right) > 0;
-
+        public static global::System.Boolean operator>(public_partial_classlong left, public_partial_classlong right) => left.CompareTo(right) > 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator >=(public_partial_classlong left, public_partial_classlong right) => left.CompareTo(right) >= 0;
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static explicit operator public_partial_classlong(System.Int64 value) => FromValue(value);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static implicit operator System.Int64(public_partial_classlong value) => value.Value;
-
         public int CompareTo(public_partial_classlong other) => Value.CompareTo(other.Value);
-        public int CompareTo(object other) {
-            if(other == null) return 1;
-            if(other is public_partial_classlong x) return CompareTo(x);
+        public int CompareTo(object other)
+        {
+            if (other == null)
+                return 1;
+            if (other is public_partial_classlong x)
+                return CompareTo(x);
             throw new global::System.ArgumentException("Cannot compare to object as it is not of type public_partial_classlong", nameof(other));
         }
 
@@ -354,7 +312,7 @@ _ => false
         {
             unchecked // Overflow is fine, just wrap
             {
-                global::System.Int32 hash = (global::System.Int32) 2166136261;
+                global::System.Int32 hash = (global::System.Int32)2166136261;
                 hash = (hash * 16777619) ^ Value.GetHashCode();
                 hash = (hash * 16777619) ^ GetType().GetHashCode();
                 hash = (hash * 16777619) ^ global::System.Collections.Generic.EqualityComparer<System.Int64>.Default.GetHashCode();
@@ -362,25 +320,18 @@ _ => false
             }
         }
 
-        
-// member...
-
-public static readonly public_partial_classlong MyValue = new public_partial_classlong("MyValue",123);
-
-        
+        // member...
+        public static readonly public_partial_classlong MyValue = new public_partial_classlong("MyValue", 123);
         public static global::System.Collections.Generic.IEnumerable<public_partial_classlong> List()
         {
             yield return MyValue;
-
-        }        
+        }
 
         /// <summary>Returns the name of the enum.</summary>
-    public override global::System.String ToString() => Name;
-
-        
-    /// <summary>
-    /// Converts an Intellenum instance to or from JSON.
-    /// </summary>
+        public override global::System.String ToString() => Name;
+        /// <summary>
+        /// Converts an Intellenum instance to or from JSON.
+        /// </summary>
         public class public_partial_classlongSystemTextJsonConverter : global::System.Text.Json.Serialization.JsonConverter<public_partial_classlong>
         {
             public override public_partial_classlong Read(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
@@ -394,13 +345,12 @@ public static readonly public_partial_classlong MyValue = new public_partial_cla
 
             public override void Write(System.Text.Json.Utf8JsonWriter writer, public_partial_classlong value, global::System.Text.Json.JsonSerializerOptions options)
             {
- #if NET5_0_OR_GREATER
+#if NET5_0_OR_GREATER
                 global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value, options);
- #else
+#else
                 writer.WriteNumberValue(value.Value);
- #endif
+#endif
             }
-
 #if NET6_0_OR_GREATER
             public override public_partial_classlong ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
@@ -411,9 +361,8 @@ public static readonly public_partial_classlong MyValue = new public_partial_cla
             {
                 writer.WritePropertyName(value.Value.ToString(global::System.Globalization.CultureInfo.InvariantCulture));
             }
-#endif            
+#endif
         }
-
 
         class public_partial_classlongTypeConverter : global::System.ComponentModel.TypeConverter
         {
@@ -427,7 +376,7 @@ public static readonly public_partial_classlong MyValue = new public_partial_cla
                 return value switch
                 {
                     global::System.Int64 longValue => public_partial_classlong.__Deserialize(longValue),
-                    global::System.String stringValue when  !global::System.String.IsNullOrEmpty(stringValue) && long.TryParse(stringValue, out var result) => public_partial_classlong.__Deserialize(result),
+                    global::System.String stringValue when !global::System.String.IsNullOrEmpty(stringValue) && long.TryParse(stringValue, out var result) => public_partial_classlong.__Deserialize(result),
                     _ => base.ConvertFrom(context, culture, value),
                 };
             }
@@ -456,66 +405,62 @@ public static readonly public_partial_classlong MyValue = new public_partial_cla
             }
         }
 
-
-
-
-        
-        
-    /// <inheritdoc cref="long.TryParse(string, out long)"/>
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// The value created via the <see cref="From"/> method.
-    /// </returns>
-    public static global::System.Boolean TryParse(string s, 
+        /// <inheritdoc cref = "long.TryParse(string, out long)"/>
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        /// The value created via the <see cref = "TryFromValue"/> method.
+        /// </returns>
+        public static global::System.Boolean TryParse(string s, 
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
 #endif
- out public_partial_classlong result) {
-        if(System.Int64.TryParse(s, out var r)) {
-            return TryFromValue(r, out result);
+        out public_partial_classlong result)
+        {
+            if (System.Int64.TryParse(s, out var r))
+            {
+                return TryFromValue(r, out result);
+            }
+
+            result = default;
+            return false;
         }
 
-        result = default;
-        return false;
-    }
-
-    /// <inheritdoc cref="long.TryParse(string, System.Globalization.NumberStyles, System.IFormatProvider, out long)"/>
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// The value created via the <see cref="From"/> method.
-    /// </returns>
-    public static global::System.Boolean TryParse(string s, global::System.Globalization.NumberStyles style, global::System.IFormatProvider provider, 
+        /// <inheritdoc cref = "long.TryParse(string, System.Globalization.NumberStyles, System.IFormatProvider, out long)"/>
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        /// The value created via the <see cref = "TryFromValue"/> method.
+        /// </returns>
+        public static global::System.Boolean TryParse(string s, global::System.Globalization.NumberStyles style, global::System.IFormatProvider provider, 
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
 #endif
- out public_partial_classlong result) {
-        if(System.Int64.TryParse(s, style, provider, out var r)) {
-            return TryFromValue(r, out result);
+        out public_partial_classlong result)
+        {
+            if (System.Int64.TryParse(s, style, provider, out var r))
+            {
+                return TryFromValue(r, out result);
+            }
+
+            result = default;
+            return false;
         }
-
-        result = default;
-        return false;
-    }
-
 
         internal sealed class public_partial_classlongDebugView
         {
             private readonly public_partial_classlong _t;
-
             public_partial_classlongDebugView(public_partial_classlong t)
             {
                 _t = t;
             }
 
             public global::System.String UnderlyingType => "System.Int64";
-            public System.Int64 Value => _t.Value ;
-
+            public System.Int64 Value => _t.Value;
             public global::System.String Conversions => @"[global::System.Text.Json.Serialization.JsonConverter(typeof(public_partial_classlongSystemTextJsonConverter))]
 [global::System.ComponentModel.TypeConverter(typeof(public_partial_classlongTypeConverter))]
 ";
-                }
+        }
     }
 }
 ]

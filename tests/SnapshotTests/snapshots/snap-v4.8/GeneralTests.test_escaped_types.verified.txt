@@ -7,72 +7,41 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-
 // Suppress warnings about [Obsolete] member usage in generated code.
 #pragma warning disable CS0618
-
 // Suppress warnings for 'Override methods on comparable types'.
 #pragma warning disable CA1036
-
 // Suppress Error MA0097 : A class that implements IComparable<T> or IComparable should override comparison operators
 #pragma warning disable MA0097
-
 // Suppress warning for 'The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. Auto-generated code requires an explicit '#nullable' directive in source.'
 // The generator copies signatures from the BCL, e.g. for `TryParse`, and some of those have nullable annotations.
 #pragma warning disable CS8669
-
 #pragma warning disable CS1573
-
 // Suppress warnings about CS1591: Missing XML comment for publicly visible type or member 'Type_or_Member'
 #pragma warning disable CS1591
-
 using Intellenum;
 using System;
 using @record.@struct.@float;
 
 namespace SomethingElse
 {
-
-    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage] 
+    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Intellenum", "1.0.0.0")]
     [global::System.Text.Json.Serialization.JsonConverter(typeof(@event2SystemTextJsonConverter))]
-[global::System.ComponentModel.TypeConverter(typeof(@event2TypeConverter))]
-
+    [global::System.ComponentModel.TypeConverter(typeof(@event2TypeConverter))]
     [global::System.Diagnostics.DebuggerTypeProxyAttribute(typeof(@event2DebugView))]
     [global::System.Diagnostics.DebuggerDisplayAttribute("Underlying type: @record.@struct.@float.@decimal, Value = { _value }")]
-    public partial class @event2 : 
-        global::System.IEquatable<@event2>, 
-        global::System.IComparable, 
-        global::System.IComparable<@event2> 
+    public partial class @event2 : global::System.IEquatable<@event2>, global::System.IComparable, global::System.IComparable<@event2>
     {
-        
-
-                private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, @event2>> _namesToEnums = new( () =>
-        new()
-        {
-            { "One", One },
-{ "Two", Two },
-
-        });
-
-        private static readonly System.Lazy<System.Collections.Generic.Dictionary<@record.@struct.@float.@decimal, @event2>> _valuesToEnums = new( () =>
-        new()
-        {
-            { One.Value, One },
-{ Two.Value, Two },
-
-        });
-
-#if DEBUG    
+        private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, @event2>> _namesToEnums = new(() => new() { { "One", One }, { "Two", Two }, });
+        private static readonly System.Lazy<System.Collections.Generic.Dictionary<@record.@struct.@float.@decimal, @event2>> _valuesToEnums = new(() => new() { { One.Value, One }, { Two.Value, Two }, });
+#if DEBUG
         private readonly global::System.Diagnostics.StackTrace _stackTrace = null;
 #endif
         private readonly global::System.Boolean _isInitialized;
         private readonly @record.@struct.@float.@decimal _value;
-
-        
-
         /// <summary>
-        /// Gets the underlying <see cref="@record.@struct.@float.@decimal" /> value if set, otherwise default
+        /// Gets the underlying <see cref = "@record.@struct.@float.@decimal"/> value if set, otherwise default
         /// </summary>
         public @record.@struct.@float.@decimal Value => _value;
 
@@ -94,7 +63,7 @@ namespace SomethingElse
             _value = value;
             Name = "[INFERRED-TO-BE-REPLACED!]";
             _isInitialized = true;
-        }        
+        }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         private @event2(string enumName, @record.@struct.@float.@decimal value)
@@ -112,47 +81,49 @@ namespace SomethingElse
             Value = this.Value;
         }
 
-        
         /// <summary>
         /// Builds a member from an enum value.
         /// </summary>
-        /// <param name="value">The value.</param>
+        /// <param name = "value">The value.</param>
         /// <returns>The matching enum, or an exception.</returns>
         public static @event2 FromValue(@record.@struct.@float.@decimal value)
         {
-                bool b =  _valuesToEnums.Value.TryGetValue(value, out var ret);
-    if(b) return ret;
-    throw new IntellenumMatchFailedException($"@event2 has no matching members with a value of '{value}'");
-        }            
+            bool b = _valuesToEnums.Value.TryGetValue(value, out var ret);
+            if (b)
+                return ret;
+            throw new IntellenumMatchFailedException($"@event2 has no matching members with a value of '{value}'");
+        }
 
         /// <summary>
         /// Tries to get a member based on value.
         /// </summary>
-        /// <param name="value">The value.</param>
+        /// <param name = "value">The value.</param>
+        /// <param name = "member">The matching member if successful.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static bool TryFromValue(@record.@struct.@float.@decimal value, out @event2 member)
+        public static bool TryFromValue(@record.@struct.@float.@decimal value, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+        out @event2 member)
         {
-            return  _valuesToEnums.Value.TryGetValue(value, out member);
-        }        
+            return _valuesToEnums.Value.TryGetValue(value, out member);
+        }
 
         /// <summary>
         /// Determines if there is a member that is defined with the specified value.
         /// </summary>
-        /// <param name="value">The value to search for.</param>
+        /// <param name = "value">The value to search for.</param>
         /// <returns>True if there is a member with matching value, otherwise False.</returns>
         public static bool IsDefined(@record.@struct.@float.@decimal value)
         {
             return _valuesToEnums.Value.TryGetValue(value, out _);
         }
-        
 
-        
 #region .NET Framework Compatability Methods
-
         /// <summary>
         /// Gets the matching member based on name.
         /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name = "name">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
         public static @event2 FromName(string name)
         {
@@ -162,7 +133,8 @@ namespace SomethingElse
         /// <summary>
         /// Tries to get the matching member from a name.
         /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
         /// <returns>The matching enum, or an exception.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(string name, out @event2 member)
@@ -184,45 +156,45 @@ namespace SomethingElse
         }
 
 #endregion
-        
-        
         /// <summary>
         /// Gets the matching member based on name.
         /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name = "name">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
         public static @event2 FromName(ReadOnlySpan<char> name)
         {
-                bool b = TryFromName(name, out var ret);
-    if(b) return ret;
-    throw new IntellenumMatchFailedException($"@event2 has no matching members named '{name.ToString()}'");
+            bool b = TryFromName(name, out var ret);
+            if (b)
+                return ret;
+            throw new IntellenumMatchFailedException($"@event2 has no matching members named '{name.ToString()}'");
         }
 
         /// <summary>
         /// Tries to get the matching member from a name.
         /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
         /// <returns>The matching enum, or an exception.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(ReadOnlySpan<char> name, out @event2 member)
         {
             foreach (var key in _namesToEnums.Value.Keys)
-{
+            {
 #if NETCOREAPP
     if(!name.Equals(key, global::System.StringComparison.Ordinal))
 #else
-    if(!name.SequenceEqual(key.AsSpan()))
+                if (!name.SequenceEqual(key.AsSpan()))
 #endif
-    {
-        continue;
-    }
-    
-    member = _namesToEnums.Value[key];
-    return true;
-}
+                {
+                    continue;
+                }
 
-member = default(@event2);
-return false;
+                member = _namesToEnums.Value[key];
+                return true;
+            }
+
+            member = default(@event2);
+            return false;
         }
 
         [global::System.ObsoleteAttribute("Please use IsNameDefined rather than this, which has a typo")]
@@ -237,22 +209,7 @@ return false;
         {
             return TryFromName(name, out _);
         }
-        
 
-        /// <summary>
-        /// Builds a member from the provided underlying type.
-        /// </summary>
-        /// <param name="value">The underlying type.</param>
-        /// <returns>A member of this type.</returns>
-        private static @event2 From(string name, @record.@struct.@float.@decimal value)
-        {
-            
-
-            @event2 member = new @event2(name, value);
-
-            return member;
-        }
-        
         // A placeholder method used by the source generator during compilation so that
         // users can 'Call' it. The source generator examines calls to this in order to 
         // generate physical members (e.g. public static readonly MyEnum Item1 = new...)
@@ -260,17 +217,14 @@ return false;
         {
         }
 
-
         // only called internally when something has been deserialized into
         // its primitive type.
         private static @event2 __Deserialize(@record.@struct.@float.@decimal value)
         {
-            
-
-                    if(value == One.Value) return One;
-        if(value == Two.Value) return Two;
-
-
+            if (value == One.Value)
+                return One;
+            if (value == Two.Value)
+                return Two;
             return FromValue(value);
         }
 
@@ -284,8 +238,8 @@ return false;
 
             // It's possible to create uninitialized members via converters such as EfCore (HasDefaultValue), which call Equals.
             // We treat anything uninitialized as not equal to anything, even other uninitialized members of this type.
-            if(!_isInitialized || !other._isInitialized) return false;
-	    	
+            if (!_isInitialized || !other._isInitialized)
+                return false;
             if (ReferenceEquals(this, other))
             {
                 return true;
@@ -312,49 +266,40 @@ return false;
                 return false;
             }
 
-            return Equals((@event2) obj);
+            return Equals((@event2)obj);
         }
 
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(@event2 left, @event2 right) => Equals(left, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(@event2 left, @event2 right) => !Equals(left, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(@event2 left, @record.@struct.@float.@decimal right) => Equals(left.Value, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(@event2 left, @record.@struct.@float.@decimal right) => !Equals(left.Value, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(@record.@struct.@float.@decimal left, @event2 right) => Equals(left, right.Value);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(@record.@struct.@float.@decimal left, @event2 right) => !Equals(left, right.Value);
-        
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <(@event2 left, @event2 right) => left.CompareTo(right) < 0;
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <=(@event2 left, @event2 right) => left.CompareTo(right) <= 0;
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static global::System.Boolean operator >(@event2 left, @event2 right) => left.CompareTo(right) > 0;
-
+        public static global::System.Boolean operator>(@event2 left, @event2 right) => left.CompareTo(right) > 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator >=(@event2 left, @event2 right) => left.CompareTo(right) >= 0;
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static explicit operator @event2(@record.@struct.@float.@decimal value) => FromValue(value);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static implicit operator @record.@struct.@float.@decimal(@event2 value) => value.Value;
-
         public int CompareTo(@event2 other) => Value.CompareTo(other.Value);
-        public int CompareTo(object other) {
-            if(other == null) return 1;
-            if(other is @event2 x) return CompareTo(x);
+        public int CompareTo(object other)
+        {
+            if (other == null)
+                return 1;
+            if (other is @event2 x)
+                return CompareTo(x);
             throw new global::System.ArgumentException("Cannot compare to object as it is not of type @event2", nameof(other));
         }
 
@@ -363,7 +308,7 @@ return false;
         {
             unchecked // Overflow is fine, just wrap
             {
-                global::System.Int32 hash = (global::System.Int32) 2166136261;
+                global::System.Int32 hash = (global::System.Int32)2166136261;
                 hash = (hash * 16777619) ^ Value.GetHashCode();
                 hash = (hash * 16777619) ^ GetType().GetHashCode();
                 hash = (hash * 16777619) ^ global::System.Collections.Generic.EqualityComparer<@record.@struct.@float.@decimal>.Default.GetHashCode();
@@ -371,27 +316,18 @@ return false;
             }
         }
 
-        
-// member...
-
-public static readonly @event2 One = new @event2("One",new record.@struct.@float.@decimal());
-
-// member...
-
-public static readonly @event2 Two = new @event2("Two",new record.@struct.@float.@decimal());
-
-        
+        // member...
+        public static readonly @event2 One = new @event2("One", new record.@struct.@float.@decimal());
+        // member...
+        public static readonly @event2 Two = new @event2("Two", new record.@struct.@float.@decimal());
         public static global::System.Collections.Generic.IEnumerable<@event2> List()
         {
             yield return One;
-yield return Two;
-
-        }        
+            yield return Two;
+        }
 
         /// <summary>Returns the name of the enum.</summary>
-    public override global::System.String ToString() => Name;
-
-        
+        public override global::System.String ToString() => Name;
         /// <summary>
         /// Converts an Intellenum instance to or from JSON.
         /// </summary>
@@ -407,7 +343,6 @@ yield return Two;
             {
                 global::System.Text.Json.JsonSerializer.Serialize(writer, value.Value, options);
             }
-
 #if NET6_0_OR_GREATER
             public override @event2 ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
@@ -419,9 +354,8 @@ yield return Two;
             {
                 writer.WritePropertyName(global::System.Text.Json.JsonSerializer.Serialize(value.Value));
             }
-#endif            
+#endif
         }
-
 
         class @event2TypeConverter : global::System.ComponentModel.TypeConverter
         {
@@ -429,53 +363,43 @@ yield return Two;
             {
                 return sourceType == typeof(@record.@struct.@float.@decimal);
             }
-        
+
             public override global::System.Object ConvertFrom(global::System.ComponentModel.ITypeDescriptorContext context, global::System.Globalization.CultureInfo culture, global::System.Object value)
             {
                 @record.@struct.@float.@decimal ut = (@record.@struct.@float.@decimal)value;
-
                 return @event2.__Deserialize(ut);
             }
-        
+
             public override bool CanConvertTo(global::System.ComponentModel.ITypeDescriptorContext context, global::System.Type sourceType)
             {
                 return sourceType == typeof(@record.@struct.@float.@decimal);
             }
-        
+
             public override object ConvertTo(global::System.ComponentModel.ITypeDescriptorContext context, global::System.Globalization.CultureInfo culture, global::System.Object value, global::System.Type destinationType)
             {
                 if (value is @event2 idValue)
                 {
                     return idValue.Value;
                 }
-        
+
                 return base.ConvertTo(context, culture, value, destinationType);
             }
         }
 
-
-
-
-
-        
-        
-
         internal sealed class @event2DebugView
         {
             private readonly @event2 _t;
-
             @event2DebugView(@event2 t)
             {
                 _t = t;
             }
 
             public global::System.String UnderlyingType => "@record.@struct.@float.@decimal";
-            public @record.@struct.@float.@decimal Value => _t.Value ;
-
+            public @record.@struct.@float.@decimal Value => _t.Value;
             public global::System.String Conversions => @"[global::System.Text.Json.Serialization.JsonConverter(typeof(@event2SystemTextJsonConverter))]
 [global::System.ComponentModel.TypeConverter(typeof(@event2TypeConverter))]
 ";
-                }
+        }
     }
 }
 ]

@@ -7,68 +7,38 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-
 // Suppress warnings about [Obsolete] member usage in generated code.
 #pragma warning disable CS0618
-
 // Suppress warnings for 'Override methods on comparable types'.
 #pragma warning disable CA1036
-
 // Suppress Error MA0097 : A class that implements IComparable<T> or IComparable should override comparison operators
 #pragma warning disable MA0097
-
 // Suppress warning for 'The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. Auto-generated code requires an explicit '#nullable' directive in source.'
 // The generator copies signatures from the BCL, e.g. for `TryParse`, and some of those have nullable annotations.
 #pragma warning disable CS8669
-
 #pragma warning disable CS1573
-
 // Suppress warnings about CS1591: Missing XML comment for publicly visible type or member 'Type_or_Member'
 #pragma warning disable CS1591
-
 using Intellenum;
 using System;
 
-
 namespace @class
 {
-
-    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage] 
+    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Intellenum", "1.0.0.0")]
-    
     [global::System.Diagnostics.DebuggerTypeProxyAttribute(typeof(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_GuidDebugView))]
     [global::System.Diagnostics.DebuggerDisplayAttribute("Underlying type: System.Guid, Value = { _value }")]
-    public partial class escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid : 
-        global::System.IEquatable<escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid>, 
-        global::System.IComparable, 
-        global::System.IComparable<escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid> 
+    public partial class escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid : global::System.IEquatable<escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid>, global::System.IComparable, global::System.IComparable<escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid>
     {
-        
-
-                private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid>> _namesToEnums = new( () =>
-        new()
-        {
-            { "One", One },
-
-        });
-
-        private static readonly System.Lazy<System.Collections.Generic.Dictionary<System.Guid, escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid>> _valuesToEnums = new( () =>
-        new()
-        {
-            { One.Value, One },
-
-        });
-
-#if DEBUG    
+        private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid>> _namesToEnums = new(() => new() { { "One", One }, });
+        private static readonly System.Lazy<System.Collections.Generic.Dictionary<System.Guid, escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid>> _valuesToEnums = new(() => new() { { One.Value, One }, });
+#if DEBUG
         private readonly global::System.Diagnostics.StackTrace _stackTrace = null;
 #endif
         private readonly global::System.Boolean _isInitialized;
         private readonly System.Guid _value;
-
-        
-
         /// <summary>
-        /// Gets the underlying <see cref="System.Guid" /> value if set, otherwise default
+        /// Gets the underlying <see cref = "System.Guid"/> value if set, otherwise default
         /// </summary>
         public System.Guid Value => _value;
 
@@ -90,7 +60,7 @@ namespace @class
             _value = value;
             Name = "[INFERRED-TO-BE-REPLACED!]";
             _isInitialized = true;
-        }        
+        }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         private escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid(string enumName, System.Guid value)
@@ -108,78 +78,83 @@ namespace @class
             Value = this.Value;
         }
 
-        
         /// <summary>
         /// Builds a member from an enum value.
         /// </summary>
-        /// <param name="value">The value.</param>
+        /// <param name = "value">The value.</param>
         /// <returns>The matching enum, or an exception.</returns>
         public static escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid FromValue(System.Guid value)
         {
-                bool b =  _valuesToEnums.Value.TryGetValue(value, out var ret);
-    if(b) return ret;
-    throw new IntellenumMatchFailedException($"escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid has no matching members with a value of '{value}'");
-        }            
+            bool b = _valuesToEnums.Value.TryGetValue(value, out var ret);
+            if (b)
+                return ret;
+            throw new IntellenumMatchFailedException($"escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid has no matching members with a value of '{value}'");
+        }
 
         /// <summary>
         /// Tries to get a member based on value.
         /// </summary>
-        /// <param name="value">The value.</param>
+        /// <param name = "value">The value.</param>
+        /// <param name = "member">The matching member if successful.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static bool TryFromValue(System.Guid value, out escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid member)
+        public static bool TryFromValue(System.Guid value, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+        out escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid member)
         {
-            return  _valuesToEnums.Value.TryGetValue(value, out member);
-        }        
+            return _valuesToEnums.Value.TryGetValue(value, out member);
+        }
 
         /// <summary>
         /// Determines if there is a member that is defined with the specified value.
         /// </summary>
-        /// <param name="value">The value to search for.</param>
+        /// <param name = "value">The value to search for.</param>
         /// <returns>True if there is a member with matching value, otherwise False.</returns>
         public static bool IsDefined(System.Guid value)
         {
             return _valuesToEnums.Value.TryGetValue(value, out _);
         }
-        
 
-        
         /// <summary>
         /// Gets the matching member based on name.
         /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name = "name">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
         public static escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid FromName(ReadOnlySpan<char> name)
         {
-                bool b = TryFromName(name, out var ret);
-    if(b) return ret;
-    throw new IntellenumMatchFailedException($"escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid has no matching members named '{name.ToString()}'");
+            bool b = TryFromName(name, out var ret);
+            if (b)
+                return ret;
+            throw new IntellenumMatchFailedException($"escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid has no matching members named '{name.ToString()}'");
         }
 
         /// <summary>
         /// Tries to get the matching member from a name.
         /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
         /// <returns>The matching enum, or an exception.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(ReadOnlySpan<char> name, out escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid member)
         {
             foreach (var key in _namesToEnums.Value.Keys)
-{
+            {
 #if NETCOREAPP
     if(!name.Equals(key, global::System.StringComparison.Ordinal))
 #else
-    if(!name.SequenceEqual(key.AsSpan()))
+                if (!name.SequenceEqual(key.AsSpan()))
 #endif
-    {
-        continue;
-    }
-    
-    member = _namesToEnums.Value[key];
-    return true;
-}
+                {
+                    continue;
+                }
 
-member = default(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid);
-return false;
+                member = _namesToEnums.Value[key];
+                return true;
+            }
+
+            member = default(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid);
+            return false;
         }
 
         [global::System.ObsoleteAttribute("Please use IsNameDefined rather than this, which has a typo")]
@@ -194,22 +169,7 @@ return false;
         {
             return TryFromName(name, out _);
         }
-        
 
-        /// <summary>
-        /// Builds a member from the provided underlying type.
-        /// </summary>
-        /// <param name="value">The underlying type.</param>
-        /// <returns>A member of this type.</returns>
-        private static escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid From(string name, System.Guid value)
-        {
-            
-
-            escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid member = new escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid(name, value);
-
-            return member;
-        }
-        
         // A placeholder method used by the source generator during compilation so that
         // users can 'Call' it. The source generator examines calls to this in order to 
         // generate physical members (e.g. public static readonly MyEnum Item1 = new...)
@@ -217,16 +177,12 @@ return false;
         {
         }
 
-
         // only called internally when something has been deserialized into
         // its primitive type.
         private static escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid __Deserialize(System.Guid value)
         {
-            
-
-                    if(value == One.Value) return One;
-
-
+            if (value == One.Value)
+                return One;
             return FromValue(value);
         }
 
@@ -240,8 +196,8 @@ return false;
 
             // It's possible to create uninitialized members via converters such as EfCore (HasDefaultValue), which call Equals.
             // We treat anything uninitialized as not equal to anything, even other uninitialized members of this type.
-            if(!_isInitialized || !other._isInitialized) return false;
-	    	
+            if (!_isInitialized || !other._isInitialized)
+                return false;
             if (ReferenceEquals(this, other))
             {
                 return true;
@@ -268,49 +224,40 @@ return false;
                 return false;
             }
 
-            return Equals((escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid) obj);
+            return Equals((escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid)obj);
         }
 
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid left, escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid right) => Equals(left, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid left, escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid right) => !Equals(left, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid left, System.Guid right) => Equals(left.Value, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid left, System.Guid right) => !Equals(left.Value, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(System.Guid left, escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid right) => Equals(left, right.Value);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(System.Guid left, escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid right) => !Equals(left, right.Value);
-        
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid left, escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid right) => left.CompareTo(right) < 0;
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <=(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid left, escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid right) => left.CompareTo(right) <= 0;
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static global::System.Boolean operator >(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid left, escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid right) => left.CompareTo(right) > 0;
-
+        public static global::System.Boolean operator>(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid left, escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid right) => left.CompareTo(right) > 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator >=(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid left, escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid right) => left.CompareTo(right) >= 0;
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static explicit operator escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid(System.Guid value) => FromValue(value);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static implicit operator System.Guid(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid value) => value.Value;
-
         public int CompareTo(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid other) => Value.CompareTo(other.Value);
-        public int CompareTo(object other) {
-            if(other == null) return 1;
-            if(other is escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid x) return CompareTo(x);
+        public int CompareTo(object other)
+        {
+            if (other == null)
+                return 1;
+            if (other is escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid x)
+                return CompareTo(x);
             throw new global::System.ArgumentException("Cannot compare to object as it is not of type escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid", nameof(other));
         }
 
@@ -319,7 +266,7 @@ return false;
         {
             unchecked // Overflow is fine, just wrap
             {
-                global::System.Int32 hash = (global::System.Int32) 2166136261;
+                global::System.Int32 hash = (global::System.Int32)2166136261;
                 hash = (hash * 16777619) ^ Value.GetHashCode();
                 hash = (hash * 16777619) ^ GetType().GetHashCode();
                 hash = (hash * 16777619) ^ global::System.Collections.Generic.EqualityComparer<System.Guid>.Default.GetHashCode();
@@ -327,25 +274,15 @@ return false;
             }
         }
 
-        
-// member...
-
-public static readonly escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid One = new escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid("One",System.Guid.Empty);
-
-        
+        // member...
+        public static readonly escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid One = new escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid("One", System.Guid.Empty);
         public static global::System.Collections.Generic.IEnumerable<escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid> List()
         {
             yield return One;
-
-        }        
+        }
 
         /// <summary>Returns the name of the enum.</summary>
-    public override global::System.String ToString() => Name;
-
-        
-
-
-
+        public override global::System.String ToString() => Name;
         public class DapperTypeHandler : global::Dapper.SqlMapper.TypeHandler<escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid>
         {
             public override void SetValue(global::System.Data.IDbDataParameter parameter, escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid value)
@@ -365,63 +302,60 @@ public static readonly escapedTestspublic_partial_classConversions_DapperTypeHan
             }
         }
 
-
-
-        
-        
-    /// <inheritdoc cref="System.Guid.TryParse(System.ReadOnlySpan{char}, out System.Guid)"/>
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// The value created via the <see cref="From"/> method.
-    /// </returns>
-    public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> input, 
+        /// <inheritdoc cref = "System.Guid.TryParse(System.ReadOnlySpan{char}, out System.Guid)"/>
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        /// The value created via the <see cref = "TryFromValue"/> method.
+        /// </returns>
+        public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> input, 
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
 #endif
- out escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid result) {
-        if(System.Guid.TryParse(input, out var r)) {
-            return TryFromValue(r, out result);
+        out escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid result)
+        {
+            if (System.Guid.TryParse(input, out var r))
+            {
+                return TryFromValue(r, out result);
+            }
+
+            result = default;
+            return false;
         }
 
-        result = default;
-        return false;
-    }
-
-    /// <inheritdoc cref="System.Guid.TryParse(string?, out System.Guid)"/>
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// The value created via the <see cref="From"/> method.
-    /// </returns>
-    public static global::System.Boolean TryParse(string input, 
+        /// <inheritdoc cref = "System.Guid.TryParse(string? , out System.Guid)"/>
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        /// The value created via the <see cref = "TryFromValue"/> method.
+        /// </returns>
+        public static global::System.Boolean TryParse(string input, 
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
 #endif
- out escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid result) {
-        if(System.Guid.TryParse(input, out var r)) {
-            return TryFromValue(r, out result);
+        out escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid result)
+        {
+            if (System.Guid.TryParse(input, out var r))
+            {
+                return TryFromValue(r, out result);
+            }
+
+            result = default;
+            return false;
         }
-
-        result = default;
-        return false;
-    }
-
 
         internal sealed class escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_GuidDebugView
         {
             private readonly escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid _t;
-
             escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_GuidDebugView(escapedTestspublic_partial_classConversions_DapperTypeHandlerSystem_Guid t)
             {
                 _t = t;
             }
 
             public global::System.String UnderlyingType => "System.Guid";
-            public System.Guid Value => _t.Value ;
-
+            public System.Guid Value => _t.Value;
             public global::System.String Conversions => @"";
-                }
+        }
     }
 }
 ]

@@ -7,74 +7,40 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-
 // Suppress warnings about [Obsolete] member usage in generated code.
 #pragma warning disable CS0618
-
 // Suppress warnings for 'Override methods on comparable types'.
 #pragma warning disable CA1036
-
 // Suppress Error MA0097 : A class that implements IComparable<T> or IComparable should override comparison operators
 #pragma warning disable MA0097
-
 // Suppress warning for 'The annotation for nullable reference types should only be used in code within a '#nullable' annotations context. Auto-generated code requires an explicit '#nullable' directive in source.'
 // The generator copies signatures from the BCL, e.g. for `TryParse`, and some of those have nullable annotations.
 #pragma warning disable CS8669
-
 #pragma warning disable CS1573
-
 // Suppress warnings about CS1591: Missing XML comment for publicly visible type or member 'Type_or_Member'
 #pragma warning disable CS1591
-
 using Intellenum;
 using System;
 
-
 namespace SomethingElse
 {
-
-    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage] 
+    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Intellenum", "1.0.0.0")]
     [global::System.Text.Json.Serialization.JsonConverter(typeof(DateTimeOffsetVoSystemTextJsonConverter))]
-[global::System.ComponentModel.TypeConverter(typeof(DateTimeOffsetVoTypeConverter))]
-
+    [global::System.ComponentModel.TypeConverter(typeof(DateTimeOffsetVoTypeConverter))]
     [global::System.Diagnostics.DebuggerTypeProxyAttribute(typeof(DateTimeOffsetVoDebugView))]
     [global::System.Diagnostics.DebuggerDisplayAttribute("Underlying type: System.DateTimeOffset, Value = { _value }")]
-    public partial class DateTimeOffsetVo : 
-        global::System.IEquatable<DateTimeOffsetVo>, 
-        global::System.IComparable, 
-        global::System.IComparable<DateTimeOffsetVo> 
+    public partial class DateTimeOffsetVo : global::System.IEquatable<DateTimeOffsetVo>, global::System.IComparable, global::System.IComparable<DateTimeOffsetVo>
     {
-        
-
-                private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, DateTimeOffsetVo>> _namesToEnums = new( () =>
-        new()
-        {
-            { "JanFirst", JanFirst },
-{ "JanSecond", JanSecond },
-{ "SomethingElse", SomethingElse },
-
-        });
-
-        private static readonly System.Lazy<System.Collections.Generic.Dictionary<System.DateTimeOffset, DateTimeOffsetVo>> _valuesToEnums = new( () =>
-        new()
-        {
-            { JanFirst.Value, JanFirst },
-{ JanSecond.Value, JanSecond },
-{ SomethingElse.Value, SomethingElse },
-
-        });
-
-#if DEBUG    
+        private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, DateTimeOffsetVo>> _namesToEnums = new(() => new() { { "JanFirst", JanFirst }, { "JanSecond", JanSecond }, { "SomethingElse", SomethingElse }, });
+        private static readonly System.Lazy<System.Collections.Generic.Dictionary<System.DateTimeOffset, DateTimeOffsetVo>> _valuesToEnums = new(() => new() { { JanFirst.Value, JanFirst }, { JanSecond.Value, JanSecond }, { SomethingElse.Value, SomethingElse }, });
+#if DEBUG
         private readonly global::System.Diagnostics.StackTrace _stackTrace = null;
 #endif
         private readonly global::System.Boolean _isInitialized;
         private readonly System.DateTimeOffset _value;
-
-        
-
         /// <summary>
-        /// Gets the underlying <see cref="System.DateTimeOffset" /> value if set, otherwise default
+        /// Gets the underlying <see cref = "System.DateTimeOffset"/> value if set, otherwise default
         /// </summary>
         public System.DateTimeOffset Value => _value;
 
@@ -96,7 +62,7 @@ namespace SomethingElse
             _value = value;
             Name = "[INFERRED-TO-BE-REPLACED!]";
             _isInitialized = true;
-        }        
+        }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         private DateTimeOffsetVo(string enumName, System.DateTimeOffset value)
@@ -114,78 +80,83 @@ namespace SomethingElse
             Value = this.Value;
         }
 
-        
         /// <summary>
         /// Builds a member from an enum value.
         /// </summary>
-        /// <param name="value">The value.</param>
+        /// <param name = "value">The value.</param>
         /// <returns>The matching enum, or an exception.</returns>
         public static DateTimeOffsetVo FromValue(System.DateTimeOffset value)
         {
-                bool b =  _valuesToEnums.Value.TryGetValue(value, out var ret);
-    if(b) return ret;
-    throw new IntellenumMatchFailedException($"DateTimeOffsetVo has no matching members with a value of '{value}'");
-        }            
+            bool b = _valuesToEnums.Value.TryGetValue(value, out var ret);
+            if (b)
+                return ret;
+            throw new IntellenumMatchFailedException($"DateTimeOffsetVo has no matching members with a value of '{value}'");
+        }
 
         /// <summary>
         /// Tries to get a member based on value.
         /// </summary>
-        /// <param name="value">The value.</param>
+        /// <param name = "value">The value.</param>
+        /// <param name = "member">The matching member if successful.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static bool TryFromValue(System.DateTimeOffset value, out DateTimeOffsetVo member)
+        public static bool TryFromValue(System.DateTimeOffset value, 
+#if NETCOREAPP3_0_OR_GREATER
+[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
+#endif
+        out DateTimeOffsetVo member)
         {
-            return  _valuesToEnums.Value.TryGetValue(value, out member);
-        }        
+            return _valuesToEnums.Value.TryGetValue(value, out member);
+        }
 
         /// <summary>
         /// Determines if there is a member that is defined with the specified value.
         /// </summary>
-        /// <param name="value">The value to search for.</param>
+        /// <param name = "value">The value to search for.</param>
         /// <returns>True if there is a member with matching value, otherwise False.</returns>
         public static bool IsDefined(System.DateTimeOffset value)
         {
             return _valuesToEnums.Value.TryGetValue(value, out _);
         }
-        
 
-        
         /// <summary>
         /// Gets the matching member based on name.
         /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name = "name">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
         public static DateTimeOffsetVo FromName(ReadOnlySpan<char> name)
         {
-                bool b = TryFromName(name, out var ret);
-    if(b) return ret;
-    throw new IntellenumMatchFailedException($"DateTimeOffsetVo has no matching members named '{name.ToString()}'");
+            bool b = TryFromName(name, out var ret);
+            if (b)
+                return ret;
+            throw new IntellenumMatchFailedException($"DateTimeOffsetVo has no matching members named '{name.ToString()}'");
         }
 
         /// <summary>
         /// Tries to get the matching member from a name.
         /// </summary>
-        /// <param name="name">The name.</param>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
         /// <returns>The matching enum, or an exception.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static bool TryFromName(ReadOnlySpan<char> name, out DateTimeOffsetVo member)
         {
             foreach (var key in _namesToEnums.Value.Keys)
-{
+            {
 #if NETCOREAPP
     if(!name.Equals(key, global::System.StringComparison.Ordinal))
 #else
-    if(!name.SequenceEqual(key.AsSpan()))
+                if (!name.SequenceEqual(key.AsSpan()))
 #endif
-    {
-        continue;
-    }
-    
-    member = _namesToEnums.Value[key];
-    return true;
-}
+                {
+                    continue;
+                }
 
-member = default(DateTimeOffsetVo);
-return false;
+                member = _namesToEnums.Value[key];
+                return true;
+            }
+
+            member = default(DateTimeOffsetVo);
+            return false;
         }
 
         [global::System.ObsoleteAttribute("Please use IsNameDefined rather than this, which has a typo")]
@@ -200,22 +171,7 @@ return false;
         {
             return TryFromName(name, out _);
         }
-        
 
-        /// <summary>
-        /// Builds a member from the provided underlying type.
-        /// </summary>
-        /// <param name="value">The underlying type.</param>
-        /// <returns>A member of this type.</returns>
-        private static DateTimeOffsetVo From(string name, System.DateTimeOffset value)
-        {
-            
-
-            DateTimeOffsetVo member = new DateTimeOffsetVo(name, value);
-
-            return member;
-        }
-        
         // A placeholder method used by the source generator during compilation so that
         // users can 'Call' it. The source generator examines calls to this in order to 
         // generate physical members (e.g. public static readonly MyEnum Item1 = new...)
@@ -223,18 +179,16 @@ return false;
         {
         }
 
-
         // only called internally when something has been deserialized into
         // its primitive type.
         private static DateTimeOffsetVo __Deserialize(System.DateTimeOffset value)
         {
-            
-
-                    if(value == JanFirst.Value) return JanFirst;
-        if(value == JanSecond.Value) return JanSecond;
-        if(value == SomethingElse.Value) return SomethingElse;
-
-
+            if (value == JanFirst.Value)
+                return JanFirst;
+            if (value == JanSecond.Value)
+                return JanSecond;
+            if (value == SomethingElse.Value)
+                return SomethingElse;
             return FromValue(value);
         }
 
@@ -248,8 +202,8 @@ return false;
 
             // It's possible to create uninitialized members via converters such as EfCore (HasDefaultValue), which call Equals.
             // We treat anything uninitialized as not equal to anything, even other uninitialized members of this type.
-            if(!_isInitialized || !other._isInitialized) return false;
-	    	
+            if (!_isInitialized || !other._isInitialized)
+                return false;
             if (ReferenceEquals(this, other))
             {
                 return true;
@@ -276,49 +230,40 @@ return false;
                 return false;
             }
 
-            return Equals((DateTimeOffsetVo) obj);
+            return Equals((DateTimeOffsetVo)obj);
         }
 
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(DateTimeOffsetVo left, DateTimeOffsetVo right) => Equals(left, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(DateTimeOffsetVo left, DateTimeOffsetVo right) => !Equals(left, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(DateTimeOffsetVo left, System.DateTimeOffset right) => Equals(left.Value, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(DateTimeOffsetVo left, System.DateTimeOffset right) => !Equals(left.Value, right);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator ==(System.DateTimeOffset left, DateTimeOffsetVo right) => Equals(left, right.Value);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(System.DateTimeOffset left, DateTimeOffsetVo right) => !Equals(left, right.Value);
-        
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <(DateTimeOffsetVo left, DateTimeOffsetVo right) => left.CompareTo(right) < 0;
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <=(DateTimeOffsetVo left, DateTimeOffsetVo right) => left.CompareTo(right) <= 0;
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static global::System.Boolean operator >(DateTimeOffsetVo left, DateTimeOffsetVo right) => left.CompareTo(right) > 0;
-
+        public static global::System.Boolean operator>(DateTimeOffsetVo left, DateTimeOffsetVo right) => left.CompareTo(right) > 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator >=(DateTimeOffsetVo left, DateTimeOffsetVo right) => left.CompareTo(right) >= 0;
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static explicit operator DateTimeOffsetVo(System.DateTimeOffset value) => FromValue(value);
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static implicit operator System.DateTimeOffset(DateTimeOffsetVo value) => value.Value;
-
         public int CompareTo(DateTimeOffsetVo other) => Value.CompareTo(other.Value);
-        public int CompareTo(object other) {
-            if(other == null) return 1;
-            if(other is DateTimeOffsetVo x) return CompareTo(x);
+        public int CompareTo(object other)
+        {
+            if (other == null)
+                return 1;
+            if (other is DateTimeOffsetVo x)
+                return CompareTo(x);
             throw new global::System.ArgumentException("Cannot compare to object as it is not of type DateTimeOffsetVo", nameof(other));
         }
 
@@ -327,7 +272,7 @@ return false;
         {
             unchecked // Overflow is fine, just wrap
             {
-                global::System.Int32 hash = (global::System.Int32) 2166136261;
+                global::System.Int32 hash = (global::System.Int32)2166136261;
                 hash = (hash * 16777619) ^ Value.GetHashCode();
                 hash = (hash * 16777619) ^ GetType().GetHashCode();
                 hash = (hash * 16777619) ^ global::System.Collections.Generic.EqualityComparer<System.DateTimeOffset>.Default.GetHashCode();
@@ -335,32 +280,21 @@ return false;
             }
         }
 
-        
-// member...
-
-public static readonly DateTimeOffsetVo JanFirst = new DateTimeOffsetVo("JanFirst",new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero));
-
-// member...
-
-public static readonly DateTimeOffsetVo JanSecond = new DateTimeOffsetVo("JanSecond",new DateTimeOffset(2019, 1, 2, 14, 15, 16, TimeSpan.Zero));
-
-// member...
-
-public static readonly DateTimeOffsetVo SomethingElse = new DateTimeOffsetVo("SomethingElse",new DateTimeOffset(2022,01,15,19,08,49, TimeSpan.Zero).AddTicks(5413764));
-
-        
+        // member...
+        public static readonly DateTimeOffsetVo JanFirst = new DateTimeOffsetVo("JanFirst", new DateTimeOffset(2019, 1, 1, 14, 15, 16, TimeSpan.Zero));
+        // member...
+        public static readonly DateTimeOffsetVo JanSecond = new DateTimeOffsetVo("JanSecond", new DateTimeOffset(2019, 1, 2, 14, 15, 16, TimeSpan.Zero));
+        // member...
+        public static readonly DateTimeOffsetVo SomethingElse = new DateTimeOffsetVo("SomethingElse", new DateTimeOffset(2022, 01, 15, 19, 08, 49, TimeSpan.Zero).AddTicks(5413764));
         public static global::System.Collections.Generic.IEnumerable<DateTimeOffsetVo> List()
         {
             yield return JanFirst;
-yield return JanSecond;
-yield return SomethingElse;
-
-        }        
+            yield return JanSecond;
+            yield return SomethingElse;
+        }
 
         /// <summary>Returns the name of the enum.</summary>
-    public override global::System.String ToString() => Name;
-
-        
+        public override global::System.String ToString() => Name;
         /// <summary>
         /// Converts an Intellenum instance to or from JSON.
         /// </summary>
@@ -375,7 +309,6 @@ yield return SomethingElse;
             {
                 writer.WriteStringValue(value.Value);
             }
-
 #if NET6_0_OR_GREATER
             public override DateTimeOffsetVo ReadAsPropertyName(ref global::System.Text.Json.Utf8JsonReader reader, global::System.Type typeToConvert, global::System.Text.Json.JsonSerializerOptions options)
             {
@@ -386,9 +319,8 @@ yield return SomethingElse;
             {
                 writer.WritePropertyName(value.Value.ToString("O"));
             }
-#endif            
+#endif
         }
-
 
         class DateTimeOffsetVoTypeConverter : global::System.ComponentModel.TypeConverter
         {
@@ -431,104 +363,104 @@ yield return SomethingElse;
             }
         }
 
-
-
-
-        
-        
-    /// <inheritdoc cref="System.DateTimeOffset.TryParse(System.ReadOnlySpan{char}, out System.DateTimeOffset)"/>
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// The value created via the <see cref="From"/> method.
-    /// </returns>
-    public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> input, 
+        /// <inheritdoc cref = "System.DateTimeOffset.TryParse(System.ReadOnlySpan{char}, out System.DateTimeOffset)"/>
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        /// The value created via the <see cref = "TryFromValue"/> method.
+        /// </returns>
+        public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> input, 
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
 #endif
- out DateTimeOffsetVo result) {
-        if(System.DateTimeOffset.TryParse(input, out var r)) {
-            return TryFromValue(r, out result);
+        out DateTimeOffsetVo result)
+        {
+            if (System.DateTimeOffset.TryParse(input, out var r))
+            {
+                return TryFromValue(r, out result);
+            }
+
+            result = default;
+            return false;
         }
 
-        result = default;
-        return false;
-    }
-
-    /// <inheritdoc cref="System.DateTimeOffset.TryParse(System.ReadOnlySpan{char}, System.IFormatProvider?, System.Globalization.DateTimeStyles, out System.DateTimeOffset)"/>
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// The value created via the <see cref="From"/> method.
-    /// </returns>
-    public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> input, global::System.IFormatProvider formatProvider, global::System.Globalization.DateTimeStyles styles, 
+        /// <inheritdoc cref = "System.DateTimeOffset.TryParse(System.ReadOnlySpan{char}, System.IFormatProvider? , System.Globalization.DateTimeStyles, out System.DateTimeOffset)"/>
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        /// The value created via the <see cref = "TryFromValue"/> method.
+        /// </returns>
+        public static global::System.Boolean TryParse(global::System.ReadOnlySpan<char> input, global::System.IFormatProvider formatProvider, global::System.Globalization.DateTimeStyles styles, 
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
 #endif
- out DateTimeOffsetVo result) {
-        if(System.DateTimeOffset.TryParse(input, formatProvider, styles, out var r)) {
-            return TryFromValue(r, out result);
+        out DateTimeOffsetVo result)
+        {
+            if (System.DateTimeOffset.TryParse(input, formatProvider, styles, out var r))
+            {
+                return TryFromValue(r, out result);
+            }
+
+            result = default;
+            return false;
         }
 
-        result = default;
-        return false;
-    }
-
-    /// <inheritdoc cref="System.DateTimeOffset.TryParse(string?, out System.DateTimeOffset)"/>
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// The value created via the <see cref="From"/> method.
-    /// </returns>
-    public static global::System.Boolean TryParse(string input, 
+        /// <inheritdoc cref = "System.DateTimeOffset.TryParse(string? , out System.DateTimeOffset)"/>
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        /// The value created via the <see cref = "TryFromValue"/> method.
+        /// </returns>
+        public static global::System.Boolean TryParse(string input, 
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
 #endif
- out DateTimeOffsetVo result) {
-        if(System.DateTimeOffset.TryParse(input, out var r)) {
-            return TryFromValue(r, out result);
+        out DateTimeOffsetVo result)
+        {
+            if (System.DateTimeOffset.TryParse(input, out var r))
+            {
+                return TryFromValue(r, out result);
+            }
+
+            result = default;
+            return false;
         }
 
-        result = default;
-        return false;
-    }
-
-    /// <inheritdoc cref="System.DateTimeOffset.TryParse(string?, System.IFormatProvider?, System.Globalization.DateTimeStyles, out System.DateTimeOffset)"/>
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// The value created via the <see cref="From"/> method.
-    /// </returns>
-    public static global::System.Boolean TryParse(string input, global::System.IFormatProvider formatProvider, global::System.Globalization.DateTimeStyles styles, 
+        /// <inheritdoc cref = "System.DateTimeOffset.TryParse(string? , System.IFormatProvider? , System.Globalization.DateTimeStyles, out System.DateTimeOffset)"/>
+        /// <summary>
+        /// </summary>
+        /// <returns>
+        /// The value created via the <see cref = "TryFromValue"/> method.
+        /// </returns>
+        public static global::System.Boolean TryParse(string input, global::System.IFormatProvider formatProvider, global::System.Globalization.DateTimeStyles styles, 
 #if NETCOREAPP3_0_OR_GREATER
 [global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
 #endif
- out DateTimeOffsetVo result) {
-        if(System.DateTimeOffset.TryParse(input, formatProvider, styles, out var r)) {
-            return TryFromValue(r, out result);
+        out DateTimeOffsetVo result)
+        {
+            if (System.DateTimeOffset.TryParse(input, formatProvider, styles, out var r))
+            {
+                return TryFromValue(r, out result);
+            }
+
+            result = default;
+            return false;
         }
-
-        result = default;
-        return false;
-    }
-
 
         internal sealed class DateTimeOffsetVoDebugView
         {
             private readonly DateTimeOffsetVo _t;
-
             DateTimeOffsetVoDebugView(DateTimeOffsetVo t)
             {
                 _t = t;
             }
 
             public global::System.String UnderlyingType => "System.DateTimeOffset";
-            public System.DateTimeOffset Value => _t.Value ;
-
+            public System.DateTimeOffset Value => _t.Value;
             public global::System.String Conversions => @"[global::System.Text.Json.Serialization.JsonConverter(typeof(DateTimeOffsetVoSystemTextJsonConverter))]
 [global::System.ComponentModel.TypeConverter(typeof(DateTimeOffsetVoTypeConverter))]
 ";
-                }
+        }
     }
 }
 ]
