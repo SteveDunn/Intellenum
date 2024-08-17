@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using Intellenum.Extensions;
+using Intellenum.Generators.Snippets;
 using Microsoft.CodeAnalysis;
 
 namespace Intellenum;
@@ -44,34 +45,27 @@ internal static class TryParseGeneration
         var inheritDocRef = methodSymbol.ToString()!.Replace("<", "{").Replace(">", "}");
             
         var ret =
-            @$"
-    /// <inheritdoc cref=""{inheritDocRef}""/>
-    /// <summary>
-    /// </summary>
-    /// <returns>
-    /// The value created via the <see cref=""From""/> method.
-    /// </returns>
-    public static global::System.Boolean TryParse({parameters}, {GenerateNotNullWhenAttribute()} out {item.VoTypeName} result) {{
-        if({item.UnderlyingTypeFullName}.TryParse({parameterNames}, out var r)) {{
-            return TryFromValue(r, out result);
-        }}
-
-        result = default;
-        return false;
-    }}";
+            $$"""
+              
+                  /// <inheritdoc cref="{{inheritDocRef}}"/>
+                  /// <summary>
+                  /// </summary>
+                  /// <returns>
+                  /// The value created via the <see cref="TryFromValue"/> method.
+                  /// </returns>
+                  public static global::System.Boolean TryParse({{parameters}}, {{SnippetGenerationFactory.GenerateNotNullWhenAttribute()}} out {{item.VoTypeName}} result) {
+                      if({{item.UnderlyingTypeFullName}}.TryParse({{parameterNames}}, out var r)) {
+                          return TryFromValue(r, out result);
+                      }
+              
+                      result = default;
+                      return false;
+                  }
+              """;
 
         sb.AppendLine(ret);
     }
 
-    private static string GenerateNotNullWhenAttribute()
-    {
-        return @"
-#if NETCOREAPP3_0_OR_GREATER
-[global::System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
-#endif
-";
-
-    }
 
     private static string BuildParameters(IMethodSymbol methodSymbol)
     {

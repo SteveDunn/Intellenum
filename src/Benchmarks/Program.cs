@@ -5,6 +5,9 @@ using BenchmarkDotNet.Running;
 using Intellenum;
 using NetEscapades.EnumGenerators;
 
+string name = "Standard";
+IECustomerType.FromName(name);
+
 Console.WriteLine(ECustomerType.Standard < ECustomerType.Gold); 
 Console.WriteLine(ECustomerType.Gold < ECustomerType.Standard); 
 

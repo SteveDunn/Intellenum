@@ -31,9 +31,6 @@ internal static class ServiceStackDotTextBuilder
         }
 
         string deserialiseFn = $"v => {item.VoTypeName}.FromName(v)";
-        // string deserialiseFn = item.IsUnderlyingAString
-        //     ? $"{item.VoTypeName}.FromName"
-        //     : $"v => {item.VoTypeName}.FromName({item.UnderlyingTypeFullName}.Parse(v))";
 
         sb.Append($$"""
                     global::ServiceStack.Text.JsConfig<{{item.VoTypeName}}>.DeSerializeFn = {{deserialiseFn}};

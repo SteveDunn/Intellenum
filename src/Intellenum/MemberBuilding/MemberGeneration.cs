@@ -218,6 +218,4 @@ public static class MemberGeneration
         
         return sb.ToString();
     }
-
-
 }

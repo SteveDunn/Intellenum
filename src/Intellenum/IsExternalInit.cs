@@ -1,6 +1,8 @@
-﻿// ReSharper disable once CheckNamespace
+﻿// ReSharper disable RedundantUsingDirective
+// ReSharper disable once CheckNamespace
 
 using System.ComponentModel;
+// ReSharper disable EmptyNamespace
 
 namespace System.Runtime.CompilerServices
 {

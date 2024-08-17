@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_files", "_files", "{0F2E18
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumerTests", "tests\ConsumerTests\ConsumerTests.csproj", "{B9FAC951-7F77-49B5-9DCD-C8278B45EE65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "tests\Intellenum.Benchmarks\Benchmarks\Benchmarks.csproj", "{53289848-CDBE-426A-B55C-467851F5BF4D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "samples\WebApplication\WebApplication.csproj", "{625E1FA1-1058-4032-A9B8-2CC77E0DF0EF}"
 EndProject
 Global
@@ -35,10 +33,6 @@ Global
 		{B9FAC951-7F77-49B5-9DCD-C8278B45EE65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9FAC951-7F77-49B5-9DCD-C8278B45EE65}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B9FAC951-7F77-49B5-9DCD-C8278B45EE65}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53289848-CDBE-426A-B55C-467851F5BF4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{53289848-CDBE-426A-B55C-467851F5BF4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53289848-CDBE-426A-B55C-467851F5BF4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{53289848-CDBE-426A-B55C-467851F5BF4D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{625E1FA1-1058-4032-A9B8-2CC77E0DF0EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{625E1FA1-1058-4032-A9B8-2CC77E0DF0EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{625E1FA1-1058-4032-A9B8-2CC77E0DF0EF}.Release|Any CPU.ActiveCfg = Release|Any CPU

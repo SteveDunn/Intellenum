@@ -21,8 +21,6 @@ internal static class BuildWorkItems
 
         if (target.DataForAttributes.Length == 0) return null;
 
-        ImmutableArray<AttributeData> allAttributes = voSymbolInformation.GetAttributes();
-
         if (target.DataForAttributes.Length != 1)
         {
             context.ReportDiagnostic(DiagnosticsCatalogue.DuplicateTypesFound(voTypeSyntax.GetLocation(), voSymbolInformation.Name));

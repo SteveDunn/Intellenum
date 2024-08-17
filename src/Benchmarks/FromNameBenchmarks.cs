@@ -6,6 +6,10 @@ public class FromNameBenchmarks
     [GlobalSetup]
     public void Setup()
     {
+        // warm up types in case they do anything on creation
+        _ = IECustomerType.Standard;
+        _ = ECustomerType.Standard;
+        _ = SECustomerType.Standard;
     }
 
     [Benchmark]

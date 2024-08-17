@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.CodeAnalysis;
-
-namespace Intellenum;
+﻿namespace Intellenum;
 
 public class MemberProperties
 {

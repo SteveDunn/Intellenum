@@ -22,7 +22,7 @@ public class TemplatesTests
     {
         private readonly string[] _technologies;
 
-        public Types(string[] technologies) => _technologies = technologies;
+        protected Types(string[] technologies) => _technologies = technologies;
 
         public IEnumerator<object[]> GetEnumerator()
         {
@@ -30,7 +30,7 @@ public class TemplatesTests
             {
                 foreach (var eachTech in _technologies)
                 {
-                    yield return new object[] { eachType, eachTech };
+                    yield return [eachType, eachTech];
                 }
             }
         }
@@ -38,7 +38,7 @@ public class TemplatesTests
         private static readonly Type[] _types = 
         {
             typeof(bool), typeof(byte), typeof(char), typeof(DateOnly), typeof(DateTime), typeof(DateTimeOffset), typeof(decimal),
-            typeof(double), typeof(float), typeof(Guid), typeof(System.Int32), typeof(long), typeof(short), typeof(string),
+            typeof(double), typeof(float), typeof(Guid), typeof(int), typeof(long), typeof(short), typeof(string),
             typeof(TimeOnly)
         };
 

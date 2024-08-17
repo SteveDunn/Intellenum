@@ -16,6 +16,7 @@ using System.Threading;
 using Intellenum;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
+// ReSharper disable CognitiveComplexity
 
 namespace Shared;
 
