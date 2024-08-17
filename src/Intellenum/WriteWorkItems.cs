@@ -5,6 +5,7 @@ using System;
 using System.Text;
 using Intellenum.Generators;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 
@@ -49,8 +50,10 @@ internal static class WriteWorkItems
         TypeDeclarationSyntax voClass = item.TypeToAugment;
 
         string classAsText = _generatedPreamble + Environment.NewLine + _classGenerator.BuildClass(item, voClass, isNetFramework);
-
-        SourceText sourceText = SourceText.From(classAsText, Encoding.UTF8);
+        SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(classAsText);
+        SyntaxNode root = syntaxTree.GetRoot();
+        SyntaxNode formatted = root.NormalizeWhitespace();
+        SourceText sourceText = SourceText.From(formatted.ToFullString(), Encoding.UTF8);
         
         var unsanitized = $"{item.FullNamespace}_{voClass.Identifier}.g.cs";
 
