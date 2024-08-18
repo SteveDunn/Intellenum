@@ -129,7 +129,7 @@ public static class Util
     public static string GenerateToString(VoWorkItem item) =>
         item.HasToString ? string.Empty
             : $@"/// <summary>Returns the name of the enum.</summary>
-    public override global::System.String ToString() => Name;";
+    public override global::System.String ToString() => _name;";
 
     public static string GenerateIComparableImplementationIfNeeded(VoWorkItem item, TypeDeclarationSyntax tds)
     {

@@ -87,7 +87,7 @@ $version = Get999VersionWithUniquePatch
 
 exec { & dotnet restore Intellenum.sln --packages $localPackages --no-cache --verbosity $verbosity }
 exec { & dotnet build Intellenum.sln -c Debug --no-restore --verbosity $verbosity}
-exec { & dotnet pack ./src/Intellenum.Pack.csproj -c Debug -o:$localPackages /p:ForceVersion=$version --include-symbols --version-suffix:dev --no-restore --verbosity $verbosity }
+exec { & dotnet pack ./src/Intellenum.Pack.csproj -c Release -o:$localPackages /p:ForceVersion=$version --include-symbols --version-suffix:dev --no-restore --verbosity $verbosity }
 
 WriteStage("Cleaning and building consumers (tests and samples)")
 
@@ -111,10 +111,10 @@ WriteStage("Building samples using the local version of the NuGet package...")
 exec { & dotnet run --project samples/Intellenum.Examples/Intellenum.Examples.csproj -c Debug --no-build --no-restore }
 
 
-WriteStage("Finally, packing the $buildConfig version into " + $artifacts)
-
-
-exec { & dotnet pack src/Intellenum.Pack.csproj -c $buildConfig -o $artifacts --no-build --verbosity $verbosity }
-
-WriteStage("Done! Package generated at " + $artifacts)
+#WriteStage("Finally, packing the $buildConfig version into " + $artifacts)
+#
+#
+#exec { & dotnet pack src/Intellenum.Pack.csproj -c $buildConfig -o $artifacts --no-build --verbosity $verbosity }
+#
+#WriteStage("Done! Package generated at " + $artifacts)
 

@@ -5,12 +5,10 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <UseLocallyBuiltPackage>false</UseLocallyBuiltPackage>
+        <UseLocallyBuiltPackage>true</UseLocallyBuiltPackage>
 
     </PropertyGroup>
-
-
-    <Target Name="main" DependsOnTargets="EnsureLocalPackagesFolderExists">
+    <Target Name="main" DependsOnTargets="EnsureLocalPackagesFolderExists, ShowNuGetSource">
         <!-- Msbuild will process the first target in the file by default.
                 By creating this target, and making it depend on the two following targets,
                 we can ensure that they will all be executed
@@ -19,34 +17,31 @@
 
     <PropertyGroup>
         <!-- Test directory-->
-        <LocalPackagesDirectory>$(MSBuildProjectDirectory)/../../../local-global-packages</LocalPackagesDirectory>
+        <LocalPackagesDirectory>$(MSBuildProjectDirectory)/../../local-global-packages</LocalPackagesDirectory>
     </PropertyGroup>
 
     <Target Name="EnsureLocalPackagesFolderExists" BeforeTargets="Restore;CollectPackageReferences" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
-        <Error Condition="!Exists('$(LocalPackagesDirectory)')" Text="Run Test.ps1 to create the local packages folder that this project consumes" />
+        <Error Condition="!Exists('$(LocalPackagesDirectory)')" Text="Run Build.ps1 to create the local packages folder that this project consumes"/>
+    </Target>
+
+    <Target Name="ShowNuGetSource" BeforeTargets="Restore;CollectPackageReferences">
+        <Message Condition="$(UseLocallyBuiltPackage) == 'true'" Text="Using the locally built version of Intellenum from $([System.IO.Path]::GetFullPath('$(LocalPackagesDirectory)'))" IsCritical="true"/>
+        <Message Condition="$(UseLocallyBuiltPackage) != 'true'" Text="Using the official NuGet version of Intellenum" IsCritical="true"/>
     </Target>
 
     <ItemGroup>
-        <TestPath Include="../../../local-global-packages" />
+        <TestPath Include="../../../local-global-packages"/>
     </ItemGroup>
     <Target Name="OnlyIfExists" Condition="Exists(@(TestPath))">
-        <Message Text="Please run Test.ps1 to build the latest local nuget package that these tests consume" Importance="high" />
+        <Message Text="Please run Test.ps1 to build the latest local nuget package that these tests consume" Importance="high"/>
     </Target>
 
     <ItemGroup Condition=" '$(UseLocallyBuiltPackage)' == 'true'">
-        <PackageReference Include="Intellenum" Version="999.9.*" />
-        <PackageReference Update="DotNet.ReproducibleBuilds" Version="1.2.4">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-        </PackageReference>
-        <PackageReference Update="MinVer" Version="5.0.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <PackageReference Include="Intellenum" Version="*"/>
     </ItemGroup>
 
     <ItemGroup Condition=" '$(UseLocallyBuiltPackage)' != 'true'">
-        <PackageReference Include="Intellenum" Version="1.0.4" />
+        <PackageReference Include="Intellenum" Version="1.0.4"/>
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -66,26 +61,26 @@
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
         <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
     </PropertyGroup>
-    
+
 
     <ItemGroup>
         <!-- Don't include the output from a previous source generator execution into future runs; the */** trick here ensures that there's
   at least one subdirectory, which is our key that it's coming from a source generator as opposed to something that is coming from
   some other tool. -->
-        <Compile Remove="Generated/*/**/*.cs" />
+        <Compile Remove="Generated/*/**/*.cs"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Ardalis.SmartEnum" Version="8.0.0" />
-      <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
-      <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta07" PrivateAssets="all" ExcludeAssets="runtime" />
+        <PackageReference Include="Ardalis.SmartEnum" Version="8.0.0"/>
+        <PackageReference Include="BenchmarkDotNet" Version="0.14.0"/>
+        <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta07" PrivateAssets="all" ExcludeAssets="runtime"/>
     </ItemGroup>
 
     <ItemGroup>
         <!-- Don't include the output from a previous source generator execution into future runs; the */** trick here ensures that there's
   at least one subdirectory, which is our key that it's coming from a source generator as opposed to something that is coming from
   some other tool. -->
-        <Compile Remove="Generated/*/**/*.cs" />
+        <Compile Remove="Generated/*/**/*.cs"/>
     </ItemGroup>
 
 

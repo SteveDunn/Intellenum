@@ -54,7 +54,8 @@ public static class FromValueRelatedMethods
         $$"""
               bool b =  _valuesToEnums.Value.TryGetValue(value, out var ret);
               if(b) return ret;
-              throw new {{nameof(IntellenumMatchFailedException)}}($"{{item.VoTypeName}} has no matching members with a value of '{value}'");
+              ThrowHelper.ThrowMatchFailed("{{item.VoTypeName}} has no matching members with a value of '{value}'");
+              return default;
           """;
 
     private static string GenerateTryFromValueImplementation() => 

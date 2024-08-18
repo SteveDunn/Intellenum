@@ -43,6 +43,7 @@ public class ClassGenerator
               #endif
                       private {{@readonly}} global::System.Boolean _isInitialized;
                       private {{@readonly}} {{itemUnderlyingType}} _value;
+                      private {{@readonly}} global::System.String _name;
               
                       {{StaticInitializationBuilder.BuildIfNeeded(item)}}
               
@@ -60,14 +61,14 @@ public class ClassGenerator
               #endif
                           _isInitialized = false;
                           _value = default;
-                          Name = "[UNDEFINED]";
+                          _name = "[UNDEFINED]";
                       }
               
                       [global::System.Diagnostics.DebuggerStepThroughAttribute]
                       public {{className}}({{itemUnderlyingType}} value)
                       {
                           _value = value;
-                          Name = "[INFERRED-TO-BE-REPLACED!]";
+                          _name = "[INFERRED-TO-BE-REPLACED!]";
                           _isInitialized = true;
                       }        
               
@@ -75,16 +76,16 @@ public class ClassGenerator
                       private {{className}}(string enumName, {{itemUnderlyingType}} value)
                       {
                           _value = value;
-                          Name = enumName;
+                          _name = enumName;
                           _isInitialized = true;
                       }
               
-                      public string Name { get; private set; }
+                      public global::System.String Name => _name;
               
                       public void Deconstruct(out string Name, out {{itemUnderlyingType}} Value)
                       {
-                          Name = this.Name;
-                          Value = this.Value;
+                          Name = this._name;
+                          Value = this._value;
                       }
               
                       {{SnippetGenerationFactory.Generate(item, tds, SnippetType.FromValueRelateMethods, isNetFramework)}}
@@ -210,7 +211,15 @@ public class ClassGenerator
                       {{TryParseGeneration.GenerateTryParseIfNeeded(item)}}
               
                       {{Util.GenerateDebuggerProxyForClasses(tds, item)}}
+
+                      internal static class ThrowHelper
+                      {
+                            internal static void ThrowCreatedWithNull() => throw new {{nameof(IntellenumCreationFailedException)}}("Cannot create an Intellenum member with a null.");
+                            internal static void ThrowMatchFailed(string message) => throw new {{nameof(IntellenumMatchFailedException)}}(message);
+                              
+                      }
                   }
+                  
               {{Util.WriteCloseNamespace(item.FullNamespace)}}
               """;
     }
@@ -221,7 +230,7 @@ public class ClassGenerator
             : $$"""
                             if (value is null)
                             {
-                                throw new {{nameof(IntellenumCreationFailedException)}}("Cannot create an Intellenum member with a null.");
+                                ThrowHelper.ThrowCreatedWithNull();
                             }
 
                 """;

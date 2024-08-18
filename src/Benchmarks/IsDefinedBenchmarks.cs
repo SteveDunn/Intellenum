@@ -12,57 +12,35 @@ public class IsDefinedBenchmarks
     }
     
     [Benchmark]
-    public bool StandardEnums()
+    public (bool e1, bool e2, bool e3, bool e4) StandardEnums()
     {
-        bool ret = false;
+        var e1 = Enum.IsDefined(typeof(ECustomerType), 0);
+        var e2 = Enum.IsDefined(typeof(ECustomerType), 1);
+        var e3 = Enum.IsDefined(typeof(ECustomerType), 2);
+        var e4 = Enum.IsDefined(typeof(ECustomerType), 3);
 
-        ret |= Enum.IsDefined(typeof(ECustomerType), 1);
-        ret |= Enum.IsDefined(typeof(ECustomerType), 2);
-        ret |= Enum.IsDefined(typeof(ECustomerType), 3);
-        ret |= Enum.IsDefined(typeof(ECustomerType), 4);
-
-        return ret;
+        return (e1, e2, e3, e4);
     }
 
     [Benchmark]
-    public bool Intellenums()
+    public (bool e1, bool e2, bool e3, bool e4) Intellenums()
     {
-        bool ret = false;
+        var e1 =  IECustomerType.IsDefined(0);
+        var e2 =  IECustomerType.IsDefined(1);
+        var e3 =  IECustomerType.IsDefined(2);
+        var e4 =  IECustomerType.IsDefined(3);
         
-        ret |= IECustomerType.IsDefined(1);
-        ret |= IECustomerType.IsDefined(2);
-        ret |= IECustomerType.IsDefined(3);
-        ret |= IECustomerType.IsDefined(4);
-        
-        return ret;
+        return (e1, e2, e3, e4);
     }
 
     [Benchmark]
-    public bool EnumGenerators()
+    public (bool e1, bool e2, bool e3, bool e4) EnumGenerators()
     {
-        bool ret = false;
-
-        // var s = IECustomerType.Gold;
-        // var n = nameof(IECustomerType.Gold);
+        var e1 = EGCustomerTypeExtensions.IsDefined((EGCustomerType) 0);
+        var e2 = EGCustomerTypeExtensions.IsDefined((EGCustomerType) 1);
+        var e3 = EGCustomerTypeExtensions.IsDefined((EGCustomerType) 2);
+        var e4 = EGCustomerTypeExtensions.IsDefined((EGCustomerType) 3);
         
-        ret |= EGCustomerTypeExtensions.IsDefined((EGCustomerType) 1);
-        ret |= EGCustomerTypeExtensions.IsDefined((EGCustomerType) 2);
-        ret |= EGCustomerTypeExtensions.IsDefined((EGCustomerType) 3);
-        ret |= EGCustomerTypeExtensions.IsDefined((EGCustomerType) 4);
-        
-        return ret;
-    }
-
-    [Benchmark]
-    public bool SmartEnums()
-    {
-        bool ret = false;
-
-        ret |= SECustomerType.TryFromValue(1, out _);
-        ret |= SECustomerType.TryFromValue(2, out _);
-        ret |= SECustomerType.TryFromValue(3, out _);
-        ret |= SECustomerType.TryFromValue(4, out _);
-        
-        return ret;
+        return (e1, e2, e3, e4);
     }
 }

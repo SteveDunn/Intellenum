@@ -25,7 +25,7 @@ public class ImplicitFieldBuilder
             }
             if (!eachMember.WasExplicitlySetAName)
             {
-                sb.AppendLine($"{eachMember.FieldName}.Name = \"{eachMember.FieldName}\";");
+                sb.AppendLine($"{eachMember.FieldName}._name = \"{eachMember.FieldName}\";");
             }
 
             if (!eachMember.WasExplicitlySetAValue)

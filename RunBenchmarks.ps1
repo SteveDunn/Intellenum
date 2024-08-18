@@ -1,4 +1,4 @@
-param($verbosity = "minimal", $job = "short") # ShortRun MediumRun LongRun LegacyJitX86 LegacyJitX64 RyuJitX64
+param($verbosity = "minimal", [switch] $short = $false)
 
 $artifacts = ".\artifacts"
 $localPackages = ".\local-global-packages"
@@ -34,33 +34,21 @@ function Exec
     }
 }
 
-WriteStage("Building release version of Intellenum...")
-
-if(Test-Path $artifacts) { Remove-Item $artifacts -Force -Recurse }
-
-New-Item -Path $artifacts -ItemType Directory
-
-New-Item -Path $localPackages -ItemType Directory -ErrorAction SilentlyContinue
-
-if(Test-Path $localPackages) { Remove-Item $localPackages\Intellenum.* -Force -ErrorAction SilentlyContinue }
-
-WriteStage("Cleaning, restoring, and building release version of Intellenum...")
-
-WriteStage("... clean ...")
-exec { & dotnet clean Intellenum.sln -c Release --verbosity $verbosity}
-
-WriteStage("... restore ...")
-exec { & dotnet restore Intellenum.sln --no-cache --verbosity $verbosity }
-
-exec { & dotnet build Intellenum.sln -c Release -p Thorough=true --no-restore --verbosity $verbosity}
-
-exec { & dotnet pack src/Intellenum.Pack.csproj -c Release -o $artifacts --no-build --verbosity $verbosity }
-
 ################################################################
-WriteStage("Running benchmarks ... job is $job")
+WriteStage("Running benchmarks ... short job?: $short")
 exec { & dotnet clean .\src\Benchmarks\Benchmarks.csproj --verbosity $verbosity }
 exec { & dotnet restore .\src\Benchmarks\Benchmarks.csproj --verbosity $verbosity }
-exec { & dotnet run --project .\src\Benchmarks\Benchmarks.csproj -c release -- --job $job --verbosity $verbosity }
+exec { & dotnet build .\src\Benchmarks\Benchmarks.csproj -c Release --no-restore --verbosity detailed }
+
+if($short)
+{
+    exec { & dotnet run --project .\src\Benchmarks\Benchmarks.csproj -c release --no-build -- --job short --verbosity $verbosity }
+}
+else
+{
+    exec { & dotnet run --project .\src\Benchmarks\Benchmarks.csproj -c release -- --verbosity $verbosity }
+    
+}
 ################################################################
 
 WriteStage("Done!")

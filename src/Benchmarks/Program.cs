@@ -5,32 +5,13 @@ using BenchmarkDotNet.Running;
 using Intellenum;
 using NetEscapades.EnumGenerators;
 
-string name = "Standard";
-IECustomerType.FromName(name);
-
-Console.WriteLine(ECustomerType.Standard < ECustomerType.Gold); 
-Console.WriteLine(ECustomerType.Gold < ECustomerType.Standard); 
-
-Console.WriteLine(EGCustomerType.Standard < EGCustomerType.Gold); 
-
-Console.WriteLine(SECustomerType.Standard < SECustomerType.Gold); 
-
-Console.WriteLine(SmartStringString.Standard < SmartStringString.Gold); 
-
-Console.WriteLine(IECustomerType.Standard < IECustomerType.Gold);
-
-
-EGCustomerTypeExtensions.IsDefined((EGCustomerType) 666);
-BenchmarkRunner.Run(new[]
-{
-    typeof(FromValueBenchmarks),
+BenchmarkRunner.Run([
+    // typeof(FromValueBenchmarks),
     typeof(FromNameBenchmarks),
-
-    typeof(ToStringBenchmarks),
-    typeof(IsDefinedBenchmarks),
-    
-    typeof(AccessingValuesBenchmarks)
-});
+    // typeof(ToStringBenchmarks),
+    // typeof(IsDefinedBenchmarks),
+    // typeof(AccessingValuesBenchmarks)
+]);
 
 
 

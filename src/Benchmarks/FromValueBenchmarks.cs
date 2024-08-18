@@ -9,59 +9,57 @@ public class FromValueBenchmarks
     }
 
     [Benchmark]
-    public bool StandardEnums()
+    public (ECustomerType e1, ECustomerType e2, ECustomerType e3, ECustomerType e4) StandardEnums_Try()
     {
-        bool b = Enum.TryParse<ECustomerType>("1", out _);
-        b |= Enum.TryParse<ECustomerType>("2", out _);
-        b |= Enum.TryParse<ECustomerType>("3", out _);
-        b |= Enum.TryParse<ECustomerType>("4", out _);
+        Enum.TryParse<ECustomerType>("0", out var e1);
+        Enum.TryParse<ECustomerType>("1", out var e2);
+        Enum.TryParse<ECustomerType>("2", out var e3);
+        Enum.TryParse<ECustomerType>("3", out var e4);
 
-        return b;
+        return (e1, e2, e3, e4);
     }
 
     [Benchmark]
-    public bool Intellenums_FromValue_Try()
+    public (IECustomerType e1, IECustomerType e2, IECustomerType e3, IECustomerType e4) Intellenums_Try()
     {
-        bool ret = IECustomerType.TryFromValue(1, out _);
-        ret |= IECustomerType.TryFromValue(2, out _);
-        ret |= IECustomerType.TryFromValue(3, out _);
-        ret |= IECustomerType.TryFromValue(4, out _);
+        IECustomerType.TryFromValue(0, out var e1);
+        IECustomerType.TryFromValue(1, out var e2);
+        IECustomerType.TryFromValue(2, out var e3);
+        IECustomerType.TryFromValue(3, out var e4);
         
-        return ret;
+        return (e1, e2, e3, e4);
     }
 
     [Benchmark]
-    public bool Intellenums_FromValue()
+    public (SECustomerType e1, SECustomerType e2, SECustomerType e3, SECustomerType e4) SmartEnums_Try()
     {
-        var ret = IECustomerType.FromValue(1);
-        ret |= IECustomerType.FromValue(2);
-        ret |= IECustomerType.FromValue(3);
-        ret |= IECustomerType.FromValue(4);
+        SECustomerType.TryFromValue(0, out var e1);
+        SECustomerType.TryFromValue(1, out var e2);
+        SECustomerType.TryFromValue(2, out var e3);
+        SECustomerType.TryFromValue(3, out var e4);
         
-        return ret != 0;
+        return (e1, e2, e3, e4);
     }
 
     [Benchmark]
-    public bool SmartEnums_Try()
+    public (IECustomerType e1, IECustomerType e2, IECustomerType e3, IECustomerType e4) Intellenums_FromValue()
     {
-        var ret = false;
-
-        ret |= SECustomerType.TryFromValue( 1, out _);
-        ret |= SECustomerType.TryFromValue( 2, out _);
-        ret |= SECustomerType.TryFromValue( 3, out _);
-        ret |= SECustomerType.TryFromValue( 4, out _);
+        var e1 = IECustomerType.FromValue(0);
+        var e2 = IECustomerType.FromValue(1);
+        var e3 = IECustomerType.FromValue(2);
+        var e4 = IECustomerType.FromValue(3);
         
-        return ret;
+        return (e1, e2, e3, e4);
     }
 
     [Benchmark]
-    public bool SmartEnums()
+    public (SECustomerType e1, SECustomerType e2, SECustomerType e3, SECustomerType e4) SmartEnums()
     {
-        var ret = SECustomerType.FromValue( 1);
-        ret |= SECustomerType.FromValue( 2);
-        ret |= SECustomerType.FromValue( 3);
-        ret |= SECustomerType.FromValue( 4);
+        var e1 = SECustomerType.FromValue(0);
+        var e2 = SECustomerType.FromValue(1);
+        var e3 = SECustomerType.FromValue(2);
+        var e4 = SECustomerType.FromValue(3);
         
-        return ret != 0;
+        return (e1, e2, e3, e4);
     }
 }
