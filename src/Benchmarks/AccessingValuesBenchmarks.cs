@@ -3,6 +3,8 @@ using BenchmarkDotNet.Attributes;
 /// <summary>
 /// Benchmark for accessing the values of the enums.
 /// </summary>
+[JsonExporterAttribute.Full]
+[JsonExporterAttribute.FullCompressed]
 [MemoryDiagnoser]
 public class AccessingValuesBenchmarks
 {

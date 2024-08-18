@@ -1,5 +1,7 @@
 using BenchmarkDotNet.Attributes;
 
+[JsonExporterAttribute.Full]
+[JsonExporterAttribute.FullCompressed]
 [MemoryDiagnoser]
 public class FromValueBenchmarks
 {

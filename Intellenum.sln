@@ -58,6 +58,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intellenum.Pack", "src\Inte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intellenum.CodeFixers", "src\Intellenum.CodeFixers\Intellenum.CodeFixers.csproj", "{C9F36C6C-62E5-4B86-80E2-E11EFA6EB6A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "src\Benchmarks\Benchmarks.csproj", "{D00EB209-1399-428C-9AE0-8FA16E9F5ECE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +98,10 @@ Global
 		{C9F36C6C-62E5-4B86-80E2-E11EFA6EB6A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9F36C6C-62E5-4B86-80E2-E11EFA6EB6A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9F36C6C-62E5-4B86-80E2-E11EFA6EB6A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D00EB209-1399-428C-9AE0-8FA16E9F5ECE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D00EB209-1399-428C-9AE0-8FA16E9F5ECE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D00EB209-1399-428C-9AE0-8FA16E9F5ECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D00EB209-1399-428C-9AE0-8FA16E9F5ECE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +117,7 @@ Global
 		{83488ED4-6EB4-42B2-BFAC-D75B02A6F9A6} = {9955BB98-6ACF-4EC8-AE59-1B8DDCCBDCC6}
 		{9AD47881-A2A6-48A2-A640-2F730AFFB188} = {57174048-09D4-46A6-932C-8F90F2B603D0}
 		{C9F36C6C-62E5-4B86-80E2-E11EFA6EB6A6} = {57174048-09D4-46A6-932C-8F90F2B603D0}
+		{D00EB209-1399-428C-9AE0-8FA16E9F5ECE} = {57174048-09D4-46A6-932C-8F90F2B603D0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E4D5DD02-533B-4333-9CF9-ACD294C7F2EE}

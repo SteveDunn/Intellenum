@@ -1,4 +1,4 @@
-name: Benchmark.Net Example
+name: Benchmarks
 on:
   push:
     branches:
@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   benchmark:
-    name: Run Benchmark.Net benchmarks
+    name: Run benchmarks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,14 +18,14 @@ jobs:
         with:
           dotnet-version: '8.0.300'  # SDK Version to use. keep in line with src/Benchmarks/global.json
       - name: Run benchmark
-        run: cd src/Benchmarks/ && dotnet build -c release && dotnet run -c Release -- --no-build --exporters json --filter '*' --job short
+        run: cd src/Benchmarks/ && dotnet run -c Release -- --no-build --exporters json --filter '*' --job short
 
       - name: Store benchmark result
         uses: rhysd/github-action-benchmark@v1
         with:
           name: Benchmark.Net Benchmark
           tool: 'benchmarkdotnet'
-          output-file-path: src/Benchmarks/BenchmarkDotNet.Artifacts/results/Benchmarks-report-full-compressed.json
+          output-file-path: src/Benchmarks/BenchmarkDotNet.Artifacts/results/FromNameBenchmarks-report-full-compressed.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
           # Show alert with commit comment on detecting possible performance regression

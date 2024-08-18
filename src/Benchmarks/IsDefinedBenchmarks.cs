@@ -3,6 +3,8 @@ using BenchmarkDotNet.Attributes;
 /// <summary>
 /// Benchmark for seeing if a value is defined.
 /// </summary>
+[JsonExporterAttribute.Full]
+[JsonExporterAttribute.FullCompressed]
 [MemoryDiagnoser]
 public class IsDefinedBenchmarks
 {
