@@ -52,18 +52,19 @@ namespace Whatever
 #endif
         private global::System.Boolean _isInitialized;
         private System.String _value;
+        private global::System.String _name;
         private static class __Inner
         {
             public static int __ComeAlive() => 42;
             static __Inner()
             {
-                Nine.Name = "Nine";
-                Ten.Name = "Ten";
-                Thirteen.Name = "Thirteen";
-                Seven.Name = "Seven";
+                Nine._name = "Nine";
+                Ten._name = "Ten";
+                Thirteen._name = "Thirteen";
+                Seven._name = "Seven";
                 Seven._value = "Seven";
                 Seven._isInitialized = true;
-                Eight.Name = "Eight";
+                Eight._name = "Eight";
             }
         }
 
@@ -82,14 +83,14 @@ namespace Whatever
 #endif
             _isInitialized = false;
             _value = default;
-            Name = "[UNDEFINED]";
+            _name = "[UNDEFINED]";
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         public Mixture(System.String value)
         {
             _value = value;
-            Name = "[INFERRED-TO-BE-REPLACED!]";
+            _name = "[INFERRED-TO-BE-REPLACED!]";
             _isInitialized = true;
         }
 
@@ -97,16 +98,16 @@ namespace Whatever
         private Mixture(string enumName, System.String value)
         {
             _value = value;
-            Name = enumName;
+            _name = enumName;
             _isInitialized = true;
         }
 
-        public string Name { get; private set; }
+        public global::System.String Name => _name;
 
         public void Deconstruct(out string Name, out System.String Value)
         {
-            Name = this.Name;
-            Value = this.Value;
+            Name = this._name;
+            Value = this._value;
         }
 
         /// <summary>
@@ -223,8 +224,12 @@ namespace Whatever
         {
             bool b = TryFromName(name, out var ret);
             if (b)
+            {
                 return ret;
-            throw new IntellenumMatchFailedException($"Mixture has no matching members named '{name.ToString()}'");
+            }
+
+            ThrowHelper.ThrowMatchFailed($"Mixture has no matching members named '{name.ToString()}'");
+            return default;
         }
 
         /// <summary>
@@ -332,7 +337,7 @@ namespace Whatever
         {
             if (value is null)
             {
-                throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
+                ThrowHelper.ThrowCreatedWithNull();
             }
 
             if (value == Four.Value)
@@ -497,7 +502,7 @@ namespace Whatever
         }
 
         /// <summary>Returns the name of the enum.</summary>
-        public override global::System.String ToString() => Name;
+        public override global::System.String ToString() => _name;
         /// <summary>
         /// Converts an Intellenum instance to or from JSON.
         /// </summary>
@@ -575,6 +580,12 @@ namespace Whatever
             public global::System.String Conversions => @"[global::System.Text.Json.Serialization.JsonConverter(typeof(MixtureSystemTextJsonConverter))]
 [global::System.ComponentModel.TypeConverter(typeof(MixtureTypeConverter))]
 ";
+        }
+
+        internal static class ThrowHelper
+        {
+            internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
+            internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
         }
     }
 }

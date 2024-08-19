@@ -40,6 +40,7 @@ namespace SomethingElse
 #endif
         private readonly global::System.Boolean _isInitialized;
         private readonly System.Int16 _value;
+        private readonly global::System.String _name;
         /// <summary>
         /// Gets the underlying <see cref = "System.Int16"/> value if set, otherwise default
         /// </summary>
@@ -54,14 +55,14 @@ namespace SomethingElse
 #endif
             _isInitialized = false;
             _value = default;
-            Name = "[UNDEFINED]";
+            _name = "[UNDEFINED]";
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         public ShortHolderId_normal(System.Int16 value)
         {
             _value = value;
-            Name = "[INFERRED-TO-BE-REPLACED!]";
+            _name = "[INFERRED-TO-BE-REPLACED!]";
             _isInitialized = true;
         }
 
@@ -69,16 +70,16 @@ namespace SomethingElse
         private ShortHolderId_normal(string enumName, System.Int16 value)
         {
             _value = value;
-            Name = enumName;
+            _name = enumName;
             _isInitialized = true;
         }
 
-        public string Name { get; private set; }
+        public global::System.String Name => _name;
 
         public void Deconstruct(out string Name, out System.Int16 Value)
         {
-            Name = this.Name;
-            Value = this.Value;
+            Name = this._name;
+            Value = this._value;
         }
 
         /// <summary>
@@ -147,8 +148,12 @@ namespace SomethingElse
         {
             bool b = TryFromName(name, out var ret);
             if (b)
+            {
                 return ret;
-            throw new IntellenumMatchFailedException($"ShortHolderId_normal has no matching members named '{name.ToString()}'");
+            }
+
+            ThrowHelper.ThrowMatchFailed($"ShortHolderId_normal has no matching members named '{name.ToString()}'");
+            return default;
         }
 
         /// <summary>
@@ -304,7 +309,7 @@ namespace SomethingElse
         }
 
         /// <summary>Returns the name of the enum.</summary>
-        public override global::System.String ToString() => Name;
+        public override global::System.String ToString() => _name;
         /// <summary>
         /// Converts an Intellenum instance to or from JSON.
         /// </summary>
@@ -585,6 +590,12 @@ namespace SomethingElse
             public global::System.String Conversions => @"[global::System.Text.Json.Serialization.JsonConverter(typeof(ShortHolderId_normalSystemTextJsonConverter))]
 [global::System.ComponentModel.TypeConverter(typeof(ShortHolderId_normalTypeConverter))]
 ";
+        }
+
+        internal static class ThrowHelper
+        {
+            internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
+            internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
         }
     }
 }

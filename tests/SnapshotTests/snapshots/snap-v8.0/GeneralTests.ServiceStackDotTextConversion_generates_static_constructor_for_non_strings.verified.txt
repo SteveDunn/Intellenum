@@ -36,6 +36,7 @@ public partial class MyVo : global::System.IEquatable<MyVo>, global::System.ICom
 #endif
     private readonly global::System.Boolean _isInitialized;
     private readonly System.Int32 _value;
+    private readonly global::System.String _name;
     private static class __Inner
     {
         public static int __ComeAlive() => 42;
@@ -61,14 +62,14 @@ public partial class MyVo : global::System.IEquatable<MyVo>, global::System.ICom
 #endif
         _isInitialized = false;
         _value = default;
-        Name = "[UNDEFINED]";
+        _name = "[UNDEFINED]";
     }
 
     [global::System.Diagnostics.DebuggerStepThroughAttribute]
     public MyVo(System.Int32 value)
     {
         _value = value;
-        Name = "[INFERRED-TO-BE-REPLACED!]";
+        _name = "[INFERRED-TO-BE-REPLACED!]";
         _isInitialized = true;
     }
 
@@ -76,16 +77,16 @@ public partial class MyVo : global::System.IEquatable<MyVo>, global::System.ICom
     private MyVo(string enumName, System.Int32 value)
     {
         _value = value;
-        Name = enumName;
+        _name = enumName;
         _isInitialized = true;
     }
 
-    public string Name { get; private set; }
+    public global::System.String Name => _name;
 
     public void Deconstruct(out string Name, out System.Int32 Value)
     {
-        Name = this.Name;
-        Value = this.Value;
+        Name = this._name;
+        Value = this._value;
     }
 
     /// <summary>
@@ -154,8 +155,12 @@ public partial class MyVo : global::System.IEquatable<MyVo>, global::System.ICom
     {
         bool b = TryFromName(name, out var ret);
         if (b)
+        {
             return ret;
-        throw new IntellenumMatchFailedException($"MyVo has no matching members named '{name.ToString()}'");
+        }
+
+        ThrowHelper.ThrowMatchFailed($"MyVo has no matching members named '{name.ToString()}'");
+        return default;
     }
 
     /// <summary>
@@ -331,7 +336,7 @@ public partial class MyVo : global::System.IEquatable<MyVo>, global::System.ICom
     }
 
     /// <summary>Returns the name of the enum.</summary>
-    public override global::System.String ToString() => Name;
+    public override global::System.String ToString() => _name;
     /// <inheritdoc cref = "int.TryParse(System.ReadOnlySpan{byte}, System.Globalization.NumberStyles, System.IFormatProvider? , out int)"/>
     /// <summary>
     /// </summary>
@@ -532,6 +537,12 @@ public partial class MyVo : global::System.IEquatable<MyVo>, global::System.ICom
         public global::System.String UnderlyingType => "System.Int32";
         public System.Int32 Value => _t.Value;
         public global::System.String Conversions => @"";
+    }
+
+    internal static class ThrowHelper
+    {
+        internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
+        internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
     }
 }
 ]

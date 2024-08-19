@@ -37,6 +37,7 @@ namespace Whatever
 #endif
         private readonly global::System.Boolean _isInitialized;
         private readonly System.Single _value;
+        private readonly global::System.String _name;
         /// <summary>
         /// Gets the underlying <see cref = "System.Single"/> value if set, otherwise default
         /// </summary>
@@ -51,14 +52,14 @@ namespace Whatever
 #endif
             _isInitialized = false;
             _value = default;
-            Name = "[UNDEFINED]";
+            _name = "[UNDEFINED]";
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         public CustomerType(System.Single value)
         {
             _value = value;
-            Name = "[INFERRED-TO-BE-REPLACED!]";
+            _name = "[INFERRED-TO-BE-REPLACED!]";
             _isInitialized = true;
         }
 
@@ -66,16 +67,16 @@ namespace Whatever
         private CustomerType(string enumName, System.Single value)
         {
             _value = value;
-            Name = enumName;
+            _name = enumName;
             _isInitialized = true;
         }
 
-        public string Name { get; private set; }
+        public global::System.String Name => _name;
 
         public void Deconstruct(out string Name, out System.Single Value)
         {
-            Name = this.Name;
-            Value = this.Value;
+            Name = this._name;
+            Value = this._value;
         }
 
         /// <summary>
@@ -88,7 +89,8 @@ namespace Whatever
             bool b = _valuesToEnums.Value.TryGetValue(value, out var ret);
             if (b)
                 return ret;
-            throw new IntellenumMatchFailedException($"CustomerType has no matching members with a value of '{value}'");
+            ThrowHelper.ThrowMatchFailed("CustomerType has no matching members with a value of '{value}'");
+            return default;
         }
 
         /// <summary>
@@ -287,7 +289,7 @@ namespace Whatever
         }
 
         /// <summary>Returns the name of the enum.</summary>
-        public override global::System.String ToString() => Name;
+        public override global::System.String ToString() => _name;
         /// <inheritdoc cref = "float.TryParse(System.ReadOnlySpan{char}, System.Globalization.NumberStyles, System.IFormatProvider? , out float)"/>
         /// <summary>
         /// </summary>
@@ -383,6 +385,12 @@ namespace Whatever
             public global::System.String UnderlyingType => "System.Single";
             public System.Single Value => _t.Value;
             public global::System.String Conversions => @"";
+        }
+
+        internal static class ThrowHelper
+        {
+            internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
+            internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
         }
     }
 }

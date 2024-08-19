@@ -38,6 +38,7 @@ namespace @class
 #endif
         private readonly global::System.Boolean _isInitialized;
         private readonly @class.@record.@struct.@float.event2 _value;
+        private readonly global::System.String _name;
         /// <summary>
         /// Gets the underlying <see cref = "@class.@record.@struct.@float.event2"/> value if set, otherwise default
         /// </summary>
@@ -52,14 +53,14 @@ namespace @class
 #endif
             _isInitialized = false;
             _value = default;
-            Name = "[UNDEFINED]";
+            _name = "[UNDEFINED]";
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         public escapedTestsinternal_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event2(@class.@record.@struct.@float.event2 value)
         {
             _value = value;
-            Name = "[INFERRED-TO-BE-REPLACED!]";
+            _name = "[INFERRED-TO-BE-REPLACED!]";
             _isInitialized = true;
         }
 
@@ -67,16 +68,16 @@ namespace @class
         private escapedTestsinternal_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event2(string enumName, @class.@record.@struct.@float.event2 value)
         {
             _value = value;
-            Name = enumName;
+            _name = enumName;
             _isInitialized = true;
         }
 
-        public string Name { get; private set; }
+        public global::System.String Name => _name;
 
         public void Deconstruct(out string Name, out @class.@record.@struct.@float.event2 Value)
         {
-            Name = this.Name;
-            Value = this.Value;
+            Name = this._name;
+            Value = this._value;
         }
 
         /// <summary>
@@ -89,7 +90,8 @@ namespace @class
             bool b = _valuesToEnums.Value.TryGetValue(value, out var ret);
             if (b)
                 return ret;
-            throw new IntellenumMatchFailedException($"escapedTestsinternal_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event2 has no matching members with a value of '{value}'");
+            ThrowHelper.ThrowMatchFailed("escapedTestsinternal_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event2 has no matching members with a value of '{value}'");
+            return default;
         }
 
         /// <summary>
@@ -283,7 +285,7 @@ namespace @class
         }
 
         /// <summary>Returns the name of the enum.</summary>
-        public override global::System.String ToString() => Name;
+        public override global::System.String ToString() => _name;
         public class LinqToDbValueConverter : global::LinqToDB.Common.ValueConverter<escapedTestsinternal_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event2, global::System.String>
         {
             public LinqToDbValueConverter() : base(v => global::System.Text.Json.JsonSerializer.Serialize(v.Value, default(global::System.Text.Json.JsonSerializerOptions)), p => escapedTestsinternal_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event2.__Deserialize(global::System.Text.Json.JsonSerializer.Deserialize<@class.@record.@struct.@float.event2>(p, default(global::System.Text.Json.JsonSerializerOptions))), handlesNulls: false)
@@ -302,6 +304,12 @@ namespace @class
             public global::System.String UnderlyingType => "@class.@record.@struct.@float.event2";
             public @class.@record.@struct.@float.event2 Value => _t.Value;
             public global::System.String Conversions => @"";
+        }
+
+        internal static class ThrowHelper
+        {
+            internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
+            internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
         }
     }
 }

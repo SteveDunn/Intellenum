@@ -39,12 +39,13 @@ namespace Whatever
 #endif
         private global::System.Boolean _isInitialized;
         private System.Int32 _value;
+        private global::System.String _name;
         private static class __Inner
         {
             public static int __ComeAlive() => 42;
             static __Inner()
             {
-                One.Name = "One";
+                One._name = "One";
                 One._value = 0;
                 One._isInitialized = true;
             }
@@ -65,14 +66,14 @@ namespace Whatever
 #endif
             _isInitialized = false;
             _value = default;
-            Name = "[UNDEFINED]";
+            _name = "[UNDEFINED]";
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         public OneMemberAttributeAndOneImplicitField(System.Int32 value)
         {
             _value = value;
-            Name = "[INFERRED-TO-BE-REPLACED!]";
+            _name = "[INFERRED-TO-BE-REPLACED!]";
             _isInitialized = true;
         }
 
@@ -80,16 +81,16 @@ namespace Whatever
         private OneMemberAttributeAndOneImplicitField(string enumName, System.Int32 value)
         {
             _value = value;
-            Name = enumName;
+            _name = enumName;
             _isInitialized = true;
         }
 
-        public string Name { get; private set; }
+        public global::System.String Name => _name;
 
         public void Deconstruct(out string Name, out System.Int32 Value)
         {
-            Name = this.Name;
-            Value = this.Value;
+            Name = this._name;
+            Value = this._value;
         }
 
         /// <summary>
@@ -154,8 +155,12 @@ namespace Whatever
         {
             bool b = TryFromName(name, out var ret);
             if (b)
+            {
                 return ret;
-            throw new IntellenumMatchFailedException($"OneMemberAttributeAndOneImplicitField has no matching members named '{name.ToString()}'");
+            }
+
+            ThrowHelper.ThrowMatchFailed($"OneMemberAttributeAndOneImplicitField has no matching members named '{name.ToString()}'");
+            return default;
         }
 
         /// <summary>
@@ -321,7 +326,7 @@ namespace Whatever
         }
 
         /// <summary>Returns the name of the enum.</summary>
-        public override global::System.String ToString() => Name;
+        public override global::System.String ToString() => _name;
         /// <summary>
         /// Converts an Intellenum instance to or from JSON.
         /// </summary>
@@ -600,6 +605,12 @@ namespace Whatever
             public global::System.String Conversions => @"[global::System.Text.Json.Serialization.JsonConverter(typeof(OneMemberAttributeAndOneImplicitFieldSystemTextJsonConverter))]
 [global::System.ComponentModel.TypeConverter(typeof(OneMemberAttributeAndOneImplicitFieldTypeConverter))]
 ";
+        }
+
+        internal static class ThrowHelper
+        {
+            internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
+            internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
         }
     }
 }

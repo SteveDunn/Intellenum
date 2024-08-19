@@ -37,6 +37,7 @@ public partial class BoolVo : global::System.IEquatable<BoolVo>, global::System.
 #endif
     private readonly global::System.Boolean _isInitialized;
     private readonly System.Boolean _value;
+    private readonly global::System.String _name;
     /// <summary>
     /// Gets the underlying <see cref = "System.Boolean"/> value if set, otherwise default
     /// </summary>
@@ -51,14 +52,14 @@ public partial class BoolVo : global::System.IEquatable<BoolVo>, global::System.
 #endif
         _isInitialized = false;
         _value = default;
-        Name = "[UNDEFINED]";
+        _name = "[UNDEFINED]";
     }
 
     [global::System.Diagnostics.DebuggerStepThroughAttribute]
     public BoolVo(System.Boolean value)
     {
         _value = value;
-        Name = "[INFERRED-TO-BE-REPLACED!]";
+        _name = "[INFERRED-TO-BE-REPLACED!]";
         _isInitialized = true;
     }
 
@@ -66,16 +67,16 @@ public partial class BoolVo : global::System.IEquatable<BoolVo>, global::System.
     private BoolVo(string enumName, System.Boolean value)
     {
         _value = value;
-        Name = enumName;
+        _name = enumName;
         _isInitialized = true;
     }
 
-    public string Name { get; private set; }
+    public global::System.String Name => _name;
 
     public void Deconstruct(out string Name, out System.Boolean Value)
     {
-        Name = this.Name;
-        Value = this.Value;
+        Name = this._name;
+        Value = this._value;
     }
 
     /// <summary>
@@ -88,7 +89,8 @@ public partial class BoolVo : global::System.IEquatable<BoolVo>, global::System.
         bool b = _valuesToEnums.Value.TryGetValue(value, out var ret);
         if (b)
             return ret;
-        throw new IntellenumMatchFailedException($"BoolVo has no matching members with a value of '{value}'");
+        ThrowHelper.ThrowMatchFailed("BoolVo has no matching members with a value of '{value}'");
+        return default;
     }
 
     /// <summary>
@@ -287,7 +289,7 @@ public partial class BoolVo : global::System.IEquatable<BoolVo>, global::System.
     }
 
     /// <summary>Returns the name of the enum.</summary>
-    public override global::System.String ToString() => Name;
+    public override global::System.String ToString() => _name;
     /// <summary>
     /// Converts an Intellenum instance to or from JSON.
     /// </summary>
@@ -411,6 +413,12 @@ public partial class BoolVo : global::System.IEquatable<BoolVo>, global::System.
         public global::System.String Conversions => @"[global::System.Text.Json.Serialization.JsonConverter(typeof(BoolVoSystemTextJsonConverter))]
 [global::System.ComponentModel.TypeConverter(typeof(BoolVoTypeConverter))]
 ";
+    }
+
+    internal static class ThrowHelper
+    {
+        internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
+        internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
     }
 }
 ]

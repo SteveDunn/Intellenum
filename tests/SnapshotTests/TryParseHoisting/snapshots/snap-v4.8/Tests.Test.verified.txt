@@ -40,14 +40,15 @@ namespace Whatever
 #endif
         private global::System.Boolean _isInitialized;
         private Whatever.Planet _value;
+        private global::System.String _name;
         private static class __Inner
         {
             public static int __ComeAlive() => 42;
             static __Inner()
             {
-                Jupiter.Name = "Jupiter";
-                Mars.Name = "Mars";
-                Venus.Name = "Venus";
+                Jupiter._name = "Jupiter";
+                Mars._name = "Mars";
+                Venus._name = "Venus";
             }
         }
 
@@ -66,14 +67,14 @@ namespace Whatever
 #endif
             _isInitialized = false;
             _value = default;
-            Name = "[UNDEFINED]";
+            _name = "[UNDEFINED]";
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         public PlanetEnum(Whatever.Planet value)
         {
             _value = value;
-            Name = "[INFERRED-TO-BE-REPLACED!]";
+            _name = "[INFERRED-TO-BE-REPLACED!]";
             _isInitialized = true;
         }
 
@@ -81,16 +82,16 @@ namespace Whatever
         private PlanetEnum(string enumName, Whatever.Planet value)
         {
             _value = value;
-            Name = enumName;
+            _name = enumName;
             _isInitialized = true;
         }
 
-        public string Name { get; private set; }
+        public global::System.String Name => _name;
 
         public void Deconstruct(out string Name, out Whatever.Planet Value)
         {
-            Name = this.Name;
-            Value = this.Value;
+            Name = this._name;
+            Value = this._value;
         }
 
         /// <summary>
@@ -103,7 +104,8 @@ namespace Whatever
             bool b = _valuesToEnums.Value.TryGetValue(value, out var ret);
             if (b)
                 return ret;
-            throw new IntellenumMatchFailedException($"PlanetEnum has no matching members with a value of '{value}'");
+            ThrowHelper.ThrowMatchFailed("PlanetEnum has no matching members with a value of '{value}'");
+            return default;
         }
 
         /// <summary>
@@ -235,7 +237,7 @@ namespace Whatever
         {
             if (value is null)
             {
-                throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
+                ThrowHelper.ThrowCreatedWithNull();
             }
 
             if (value == Jupiter.Value)
@@ -343,7 +345,7 @@ namespace Whatever
         }
 
         /// <summary>Returns the name of the enum.</summary>
-        public override global::System.String ToString() => Name;
+        public override global::System.String ToString() => _name;
         /// <summary>
         /// Converts an Intellenum instance to or from JSON.
         /// </summary>
@@ -436,6 +438,12 @@ namespace Whatever
             public global::System.String Conversions => @"[global::System.Text.Json.Serialization.JsonConverter(typeof(PlanetEnumSystemTextJsonConverter))]
 [global::System.ComponentModel.TypeConverter(typeof(PlanetEnumTypeConverter))]
 ";
+        }
+
+        internal static class ThrowHelper
+        {
+            internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
+            internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
         }
     }
 }

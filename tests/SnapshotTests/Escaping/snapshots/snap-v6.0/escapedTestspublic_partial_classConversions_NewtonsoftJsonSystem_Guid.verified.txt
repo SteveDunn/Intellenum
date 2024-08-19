@@ -38,6 +38,7 @@ namespace @class
 #endif
         private readonly global::System.Boolean _isInitialized;
         private readonly System.Guid _value;
+        private readonly global::System.String _name;
         /// <summary>
         /// Gets the underlying <see cref = "System.Guid"/> value if set, otherwise default
         /// </summary>
@@ -52,14 +53,14 @@ namespace @class
 #endif
             _isInitialized = false;
             _value = default;
-            Name = "[UNDEFINED]";
+            _name = "[UNDEFINED]";
         }
 
         [global::System.Diagnostics.DebuggerStepThroughAttribute]
         public escapedTestspublic_partial_classConversions_NewtonsoftJsonSystem_Guid(System.Guid value)
         {
             _value = value;
-            Name = "[INFERRED-TO-BE-REPLACED!]";
+            _name = "[INFERRED-TO-BE-REPLACED!]";
             _isInitialized = true;
         }
 
@@ -67,16 +68,16 @@ namespace @class
         private escapedTestspublic_partial_classConversions_NewtonsoftJsonSystem_Guid(string enumName, System.Guid value)
         {
             _value = value;
-            Name = enumName;
+            _name = enumName;
             _isInitialized = true;
         }
 
-        public string Name { get; private set; }
+        public global::System.String Name => _name;
 
         public void Deconstruct(out string Name, out System.Guid Value)
         {
-            Name = this.Name;
-            Value = this.Value;
+            Name = this._name;
+            Value = this._value;
         }
 
         /// <summary>
@@ -89,7 +90,8 @@ namespace @class
             bool b = _valuesToEnums.Value.TryGetValue(value, out var ret);
             if (b)
                 return ret;
-            throw new IntellenumMatchFailedException($"escapedTestspublic_partial_classConversions_NewtonsoftJsonSystem_Guid has no matching members with a value of '{value}'");
+            ThrowHelper.ThrowMatchFailed("escapedTestspublic_partial_classConversions_NewtonsoftJsonSystem_Guid has no matching members with a value of '{value}'");
+            return default;
         }
 
         /// <summary>
@@ -283,7 +285,7 @@ namespace @class
         }
 
         /// <summary>Returns the name of the enum.</summary>
-        public override global::System.String ToString() => Name;
+        public override global::System.String ToString() => _name;
         class escapedTestspublic_partial_classConversions_NewtonsoftJsonSystem_GuidNewtonsoftJsonConverter : Newtonsoft.Json.JsonConverter
         {
             public override bool CanConvert(System.Type objectType)
@@ -358,6 +360,12 @@ namespace @class
             public System.Guid Value => _t.Value;
             public global::System.String Conversions => @"[global::Newtonsoft.Json.JsonConverter(typeof(escapedTestspublic_partial_classConversions_NewtonsoftJsonSystem_GuidNewtonsoftJsonConverter))]
 ";
+        }
+
+        internal static class ThrowHelper
+        {
+            internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
+            internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
         }
     }
 }

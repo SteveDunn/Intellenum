@@ -38,6 +38,7 @@ public partial class DecimalHolderId_string : global::System.IEquatable<DecimalH
 #endif
     private readonly global::System.Boolean _isInitialized;
     private readonly System.Decimal _value;
+    private readonly global::System.String _name;
     /// <summary>
     /// Gets the underlying <see cref = "System.Decimal"/> value if set, otherwise default
     /// </summary>
@@ -52,14 +53,14 @@ public partial class DecimalHolderId_string : global::System.IEquatable<DecimalH
 #endif
         _isInitialized = false;
         _value = default;
-        Name = "[UNDEFINED]";
+        _name = "[UNDEFINED]";
     }
 
     [global::System.Diagnostics.DebuggerStepThroughAttribute]
     public DecimalHolderId_string(System.Decimal value)
     {
         _value = value;
-        Name = "[INFERRED-TO-BE-REPLACED!]";
+        _name = "[INFERRED-TO-BE-REPLACED!]";
         _isInitialized = true;
     }
 
@@ -67,16 +68,16 @@ public partial class DecimalHolderId_string : global::System.IEquatable<DecimalH
     private DecimalHolderId_string(string enumName, System.Decimal value)
     {
         _value = value;
-        Name = enumName;
+        _name = enumName;
         _isInitialized = true;
     }
 
-    public string Name { get; private set; }
+    public global::System.String Name => _name;
 
     public void Deconstruct(out string Name, out System.Decimal Value)
     {
-        Name = this.Name;
-        Value = this.Value;
+        Name = this._name;
+        Value = this._value;
     }
 
     /// <summary>
@@ -145,8 +146,12 @@ public partial class DecimalHolderId_string : global::System.IEquatable<DecimalH
     {
         bool b = TryFromName(name, out var ret);
         if (b)
+        {
             return ret;
-        throw new IntellenumMatchFailedException($"DecimalHolderId_string has no matching members named '{name.ToString()}'");
+        }
+
+        ThrowHelper.ThrowMatchFailed($"DecimalHolderId_string has no matching members named '{name.ToString()}'");
+        return default;
     }
 
     /// <summary>
@@ -302,7 +307,7 @@ public partial class DecimalHolderId_string : global::System.IEquatable<DecimalH
     }
 
     /// <summary>Returns the name of the enum.</summary>
-    public override global::System.String ToString() => Name;
+    public override global::System.String ToString() => _name;
     /// <summary>
     /// Converts an Intellenum instance to or from JSON.
     /// </summary>
@@ -576,6 +581,12 @@ public partial class DecimalHolderId_string : global::System.IEquatable<DecimalH
         public global::System.String Conversions => @"[global::System.Text.Json.Serialization.JsonConverter(typeof(DecimalHolderId_stringSystemTextJsonConverter))]
 [global::System.ComponentModel.TypeConverter(typeof(DecimalHolderId_stringTypeConverter))]
 ";
+    }
+
+    internal static class ThrowHelper
+    {
+        internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
+        internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
     }
 }
 ]
