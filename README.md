@@ -421,6 +421,10 @@ Very fast! Here's some comparisons of various libraries (and the default `enum` 
 | StandardEnums  | 0.0092 ns | 0.0082 ns  | 0.0077 ns  | -         |
 | SmartEnums     | 0.3246 ns | 0.0082 ns  | 0.0069 ns  | -         |
 | **Intellenums**   | **0.3198 ns** | **0.0103 ns** | **0.0096 ns** | **-**         |
+           
+Intellenum constantly monitors its performance. [The benchrmarks are here](https://intellenum.netlify.app/dev/bench/)
+, and are generated with a combination of excellent tools, namely Benchmark.NET and the [github-action-benchmark 
+workflow plugin](https://github.com/marketplace/actions/continuous-benchmark).
 
 ## What does `ToString` return?
 It returns the **name** of the member.

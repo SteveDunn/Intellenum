@@ -25,7 +25,7 @@ jobs:
       - name: Store benchmark result
         uses: rhysd/github-action-benchmark@v1
         with:
-          name: Benchmark.Net Benchmark
+          name: Intellenum Benchmarks
           tool: 'benchmarkdotnet'
           output-file-path: src/Benchmarks/BenchmarkDotNet.Artifacts/results/FromNameBenchmarks-report-full-compressed.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
