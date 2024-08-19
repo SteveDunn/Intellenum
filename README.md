@@ -60,7 +60,7 @@ public partial class CustomerType
 }
 ```
 
-Like normal enums, by default they're `int`s, and values are zero based.
+Just like normal enums, they default to integers as the underlying type, and the values are zero based.
 
 As well as speed, it also has code analyzers for safety; safety from defaulting, e.g.:
 
