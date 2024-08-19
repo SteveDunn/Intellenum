@@ -1,6 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using BenchmarkDotNet.Attributes;
 
+namespace Benchmarks;
+
 [JsonExporterAttribute.Full]
 [JsonExporterAttribute.FullCompressed]
 [MemoryDiagnoser]

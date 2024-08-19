@@ -1,5 +1,7 @@
 using BenchmarkDotNet.Attributes;
 
+namespace Benchmarks;
+
 /// <summary>
 /// Benchmark for seeing if a value is defined.
 /// </summary>
