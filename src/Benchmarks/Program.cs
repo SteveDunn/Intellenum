@@ -15,7 +15,7 @@ BenchmarkRunner.Run([
     // typeof(AccessingValuesBenchmarks)
 ]);
 
-Combiner.CombineResults();
+// Combiner.CombineResults();
 
 
 
