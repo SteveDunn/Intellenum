@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1724095552065,
+  "lastUpdate": 1724101817628,
   "repoUrl": "https://github.com/SteveDunn/Intellenum",
   "entries": {
     "Benchmark.Net Benchmark": [
@@ -146,6 +146,66 @@ window.BENCHMARK_DATA = {
             "value": 9.696371593154394,
             "unit": "ns",
             "range": "± 0.015186247087683905"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "steve@dunnhq.com",
+            "name": "Steve Dunn",
+            "username": "SteveDunn"
+          },
+          "committer": {
+            "email": "steve@dunnhq.com",
+            "name": "Steve Dunn",
+            "username": "SteveDunn"
+          },
+          "distinct": true,
+          "id": "32e6ef6f1e04581d6bee468b069dd2093951abc9",
+          "message": "Actually run the benchmarks this time!",
+          "timestamp": "2024-08-19T22:05:53+01:00",
+          "tree_id": "17e37660275fe62cdfc17380a196b0bb4a4a9356",
+          "url": "https://github.com/SteveDunn/Intellenum/commit/32e6ef6f1e04581d6bee468b069dd2093951abc9"
+        },
+        "date": 1724101817209,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "Benchmarks.ToStringBenchmarks.StandardEnums",
+            "value": 12.803653082677297,
+            "unit": "ns",
+            "range": "± 0.05526186226940009"
+          },
+          {
+            "name": "Benchmarks.ToStringBenchmarks.Intellenums",
+            "value": 0.27085642889142036,
+            "unit": "ns",
+            "range": "± 0.003359264093972686"
+          },
+          {
+            "name": "Benchmarks.ToStringBenchmarks.EnumGenerators",
+            "value": 0.5966816837588946,
+            "unit": "ns",
+            "range": "± 0.0316502085872777"
+          },
+          {
+            "name": "Benchmarks.ToStringBenchmarks.SmartEnums",
+            "value": 0.30353444601808277,
+            "unit": "ns",
+            "range": "± 0.04640148929970055"
+          },
+          {
+            "name": "Benchmarks.FromNameBenchmarks.EnumGenerators_Try",
+            "value": 13.588195484876632,
+            "unit": "ns",
+            "range": "± 0.019721448501310666"
+          },
+          {
+            "name": "Benchmarks.FromNameBenchmarks.Intellenums_Try",
+            "value": 9.393530326230186,
+            "unit": "ns",
+            "range": "± 0.05824507361663291"
           }
         ]
       }
