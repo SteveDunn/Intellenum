@@ -6,14 +6,14 @@ using Benchmarks;
 using Intellenum;
 using NetEscapades.EnumGenerators;
 
-// BenchmarkRunner.Run([
-//     // typeof(FromValueBenchmarks),
-//     typeof(FromNameBenchmarks),
-//     typeof(ToStringBenchmarks),
-//     // typeof(GetHashCodeBenchmarks),
-//     // typeof(IsDefinedBenchmarks),
-//     // typeof(AccessingValuesBenchmarks)
-// ]);
+BenchmarkRunner.Run([
+    // typeof(FromValueBenchmarks),
+    typeof(FromNameBenchmarks),
+    typeof(ToStringBenchmarks),
+    // typeof(GetHashCodeBenchmarks),
+    // typeof(IsDefinedBenchmarks),
+    // typeof(AccessingValuesBenchmarks)
+]);
 
 Combiner.CombineResults();
 
