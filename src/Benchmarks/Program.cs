@@ -7,12 +7,12 @@ using Intellenum;
 using NetEscapades.EnumGenerators;
 
 BenchmarkRunner.Run([
-    // typeof(FromValueBenchmarks),
+    typeof(FromValueBenchmarks),
     typeof(FromNameBenchmarks),
     typeof(ToStringBenchmarks),
-    // typeof(GetHashCodeBenchmarks),
-    // typeof(IsDefinedBenchmarks),
-    // typeof(AccessingValuesBenchmarks)
+    typeof(GetHashCodeBenchmarks),
+    typeof(IsDefinedBenchmarks),
+    typeof(AccessingValuesBenchmarks)
 ]);
 
 Combiner.CombineResults();

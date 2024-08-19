@@ -21,7 +21,7 @@ jobs:
         run: ./Build.ps1
         shell: pwsh
       - name: Run benchmark
-        run: cd src/Benchmarks/ && dotnet run -c Release -- --no-build --exporters json --filter '*' --job short
+        run: cd src/Benchmarks/ && dotnet run -c Release -- --no-build --exporters json --filter '*'
       - name: Store Intellenum benchmark results
         uses: rhysd/github-action-benchmark@v1
         with:
