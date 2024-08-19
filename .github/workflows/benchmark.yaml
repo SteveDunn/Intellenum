@@ -22,25 +22,12 @@ jobs:
         shell: pwsh
       - name: Run benchmark
         run: cd src/Benchmarks/ && dotnet run -c Release -- --no-build --exporters json --filter '*' --job short
-      - name: Store FromName benchmark result
+      - name: Store Intellenum benchmark results
         uses: rhysd/github-action-benchmark@v1
         with:
-          name: FromName Benchmarks
+          name: Intellenum Benchmarks
           tool: 'benchmarkdotnet'
           output-file-path: src/Benchmarks/BenchmarkDotNet.Artifacts/results/FromNameBenchmarks-report-full-compressed.json
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          auto-push: true
-          # Show alert with commit comment on detecting possible performance regression
-          alert-threshold: '200%'
-          comment-on-alert: true
-          fail-on-alert: true
-          alert-comment-cc-users: '@stevedunn'
-      - name: Store ToString benchmark result
-        uses: rhysd/github-action-benchmark@v1
-        with:
-          name: ToString Benchmarks
-          tool: 'benchmarkdotnet'
-          output-file-path: src/Benchmarks/BenchmarkDotNet.Artifacts/results/ToStringBenchmarks-report-full-compressed.json
           github-token: ${{ secrets.GITHUB_TOKEN }}
           auto-push: true
           # Show alert with commit comment on detecting possible performance regression
