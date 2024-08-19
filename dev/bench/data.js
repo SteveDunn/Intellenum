@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1724084119130,
+  "lastUpdate": 1724095552065,
   "repoUrl": "https://github.com/SteveDunn/Intellenum",
   "entries": {
     "Benchmark.Net Benchmark": [
@@ -108,6 +108,44 @@ window.BENCHMARK_DATA = {
             "value": 9.3813566416502,
             "unit": "ns",
             "range": "± 0.00690447843867276"
+          }
+        ]
+      }
+    ],
+    "Intellenum Benchmarks": [
+      {
+        "commit": {
+          "author": {
+            "email": "steve@dunnhq.com",
+            "name": "Steve Dunn",
+            "username": "SteveDunn"
+          },
+          "committer": {
+            "email": "steve@dunnhq.com",
+            "name": "Steve Dunn",
+            "username": "SteveDunn"
+          },
+          "distinct": true,
+          "id": "562df897933a23caea2e9f54258fa35fdca0d46e",
+          "message": "Updated readme. Renamed snapshots report.",
+          "timestamp": "2024-08-19T20:23:14+01:00",
+          "tree_id": "572164f1c66534afe16f70f9ef82b3769541ff02",
+          "url": "https://github.com/SteveDunn/Intellenum/commit/562df897933a23caea2e9f54258fa35fdca0d46e"
+        },
+        "date": 1724095551486,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "FromNameBenchmarks.EnumGenerators_Try",
+            "value": 13.851270407438278,
+            "unit": "ns",
+            "range": "± 0.1568553390004551"
+          },
+          {
+            "name": "FromNameBenchmarks.Intellenums_Try",
+            "value": 9.696371593154394,
+            "unit": "ns",
+            "range": "± 0.015186247087683905"
           }
         ]
       }
