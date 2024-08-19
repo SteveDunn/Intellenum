@@ -42,13 +42,15 @@ exec { & dotnet build .\src\Benchmarks\Benchmarks.csproj -c Release --no-restore
 
 if($short)
 {
-    exec { & dotnet run --project .\src\Benchmarks\Benchmarks.csproj -c release --no-build -- --job short --verbosity $verbosity }
+    exec { & pushd; cd .\src\Benchmarks; dotnet run --project Benchmarks.csproj -c release --no-build -- --job short --verbosity $verbosity }
 }
 else
 {
-    exec { & dotnet run --project .\src\Benchmarks\Benchmarks.csproj -c release -- --verbosity $verbosity }
-    
+    exec { & pushd; cd .\src\Benchmarks; dotnet run --project Benchmarks.csproj -c release -- --verbosity $verbosity }
 }
+
+exec { & popd }
+
 ################################################################
 
 WriteStage("Done!")
