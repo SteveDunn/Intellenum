@@ -301,18 +301,7 @@ namespace @class
         }
 
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public override global::System.Int32 GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                global::System.Int32 hash = (global::System.Int32)2166136261;
-                hash = (hash * 16777619) ^ Value.GetHashCode();
-                hash = (hash * 16777619) ^ GetType().GetHashCode();
-                hash = (hash * 16777619) ^ global::System.Collections.Generic.EqualityComparer<System.Guid>.Default.GetHashCode();
-                return hash;
-            }
-        }
-
+        public override global::System.Int32 GetHashCode() => GetType().GetHashCode() ^ this._value.GetHashCode();
         // member...
         public static readonly escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid One = new escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid("One", System.Guid.Empty);
         public static global::System.Collections.Generic.IEnumerable<escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid> List()

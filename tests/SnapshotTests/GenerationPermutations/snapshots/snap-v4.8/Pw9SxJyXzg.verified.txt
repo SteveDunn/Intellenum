@@ -303,18 +303,7 @@ namespace Whatever
         }
 
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public override global::System.Int32 GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                global::System.Int32 hash = (global::System.Int32)2166136261;
-                hash = (hash * 16777619) ^ Value.GetHashCode();
-                hash = (hash * 16777619) ^ GetType().GetHashCode();
-                hash = (hash * 16777619) ^ global::System.Collections.Generic.EqualityComparer<System.DateTime>.Default.GetHashCode();
-                return hash;
-            }
-        }
-
+        public override global::System.Int32 GetHashCode() => GetType().GetHashCode() ^ this._value.GetHashCode();
         // member...
         public static readonly internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterSystem_DateTime One = new internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterSystem_DateTime("One", System.DateTime.MinValue);
         public static global::System.Collections.Generic.IEnumerable<internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterSystem_DateTime> List()

@@ -266,18 +266,7 @@ namespace @class
         }
 
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public override global::System.Int32 GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                global::System.Int32 hash = (global::System.Int32)2166136261;
-                hash = (hash * 16777619) ^ Value.GetHashCode();
-                hash = (hash * 16777619) ^ GetType().GetHashCode();
-                hash = (hash * 16777619) ^ global::System.Collections.Generic.EqualityComparer<@class.@record.@struct.@float.event2>.Default.GetHashCode();
-                return hash;
-            }
-        }
-
+        public override global::System.Int32 GetHashCode() => GetType().GetHashCode() ^ this._value.GetHashCode();
         // member...
         public static readonly escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__event2 One = new escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__event2("One", new @class.record.@struct.@float.@event2(1));
         public static global::System.Collections.Generic.IEnumerable<escapedTestspublic_partial_classConversions_SystemTextJsonrecord__struct__float__event2> List()
