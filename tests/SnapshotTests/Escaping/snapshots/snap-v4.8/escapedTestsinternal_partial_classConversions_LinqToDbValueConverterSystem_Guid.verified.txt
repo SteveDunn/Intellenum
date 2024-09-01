@@ -8,7 +8,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 // Suppress warnings about [Obsolete] member usage in generated code.
-#pragma warning disable CS0618
+#pragma warning disable CS0612, CS0618
 // Suppress warnings for 'Override methods on comparable types'.
 #pragma warning disable CA1036
 // Suppress Error MA0097 : A class that implements IComparable<T> or IComparable should override comparison operators
@@ -279,6 +279,12 @@ namespace @class
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(System.Guid left, escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid right) => !Equals(left, right.Value);
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static explicit operator escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid(System.Guid value) => FromValue(value);
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static implicit operator System.Guid(escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid value) => value.Value;
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public int CompareTo(escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid other) => Value.CompareTo(other);
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <(escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid left, escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid right) => left.CompareTo(right) < 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <=(escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid left, escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid right) => left.CompareTo(right) <= 0;
@@ -286,14 +292,9 @@ namespace @class
         public static global::System.Boolean operator>(escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid left, escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid right) => left.CompareTo(right) > 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator >=(escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid left, escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid right) => left.CompareTo(right) >= 0;
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static explicit operator escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid(System.Guid value) => FromValue(value);
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static implicit operator System.Guid(escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid value) => value.Value;
-        public int CompareTo(escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid other) => Value.CompareTo(other.Value);
         public int CompareTo(object other)
         {
-            if (other == null)
+            if (other is null)
                 return 1;
             if (other is escapedTestsinternal_partial_classConversions_LinqToDbValueConverterSystem_Guid x)
                 return CompareTo(x);

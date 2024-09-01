@@ -8,7 +8,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 // Suppress warnings about [Obsolete] member usage in generated code.
-#pragma warning disable CS0618
+#pragma warning disable CS0612, CS0618
 // Suppress warnings for 'Override methods on comparable types'.
 #pragma warning disable CA1036
 // Suppress Error MA0097 : A class that implements IComparable<T> or IComparable should override comparison operators
@@ -31,7 +31,7 @@ namespace SomethingElse
     [global::System.ComponentModel.TypeConverter(typeof(@event2TypeConverter))]
     [global::System.Diagnostics.DebuggerTypeProxyAttribute(typeof(@event2DebugView))]
     [global::System.Diagnostics.DebuggerDisplayAttribute("Underlying type: @record.@struct.@float.@decimal, Value = { _value }")]
-    public partial class @event2 : global::System.IEquatable<@event2>, global::System.IComparable, global::System.IComparable<@event2>
+    public partial class @event2 : global::System.IEquatable<@event2>, global::System.IComparable<@event2>
     {
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, @event2>> _namesToEnums = new(() => new() { { "One", One }, { "Two", Two }, });
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<@record.@struct.@float.@decimal, @event2>> _valuesToEnums = new(() => new() { { One.Value, One }, { Two.Value, Two }, });
@@ -284,6 +284,12 @@ namespace SomethingElse
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(@record.@struct.@float.@decimal left, @event2 right) => !Equals(left, right.Value);
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static explicit operator @event2(@record.@struct.@float.@decimal value) => FromValue(value);
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static implicit operator @record.@struct.@float.@decimal(@event2 value) => value.Value;
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public int CompareTo(@event2 other) => Value.CompareTo(other);
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <(@event2 left, @event2 right) => left.CompareTo(right) < 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <=(@event2 left, @event2 right) => left.CompareTo(right) <= 0;
@@ -291,20 +297,6 @@ namespace SomethingElse
         public static global::System.Boolean operator>(@event2 left, @event2 right) => left.CompareTo(right) > 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator >=(@event2 left, @event2 right) => left.CompareTo(right) >= 0;
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static explicit operator @event2(@record.@struct.@float.@decimal value) => FromValue(value);
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static implicit operator @record.@struct.@float.@decimal(@event2 value) => value.Value;
-        public int CompareTo(@event2 other) => Value.CompareTo(other.Value);
-        public int CompareTo(object other)
-        {
-            if (other == null)
-                return 1;
-            if (other is @event2 x)
-                return CompareTo(x);
-            throw new global::System.ArgumentException("Cannot compare to object as it is not of type @event2", nameof(other));
-        }
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override global::System.Int32 GetHashCode() => GetType().GetHashCode() ^ this._value.GetHashCode();
         // member...

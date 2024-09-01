@@ -8,7 +8,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 // Suppress warnings about [Obsolete] member usage in generated code.
-#pragma warning disable CS0618
+#pragma warning disable CS0612, CS0618
 // Suppress warnings for 'Override methods on comparable types'.
 #pragma warning disable CA1036
 // Suppress Error MA0097 : A class that implements IComparable<T> or IComparable should override comparison operators
@@ -30,7 +30,7 @@ namespace @class
     [global::Newtonsoft.Json.JsonConverter(typeof(escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2NewtonsoftJsonConverter))]
     [global::System.Diagnostics.DebuggerTypeProxyAttribute(typeof(escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2DebugView))]
     [global::System.Diagnostics.DebuggerDisplayAttribute("Underlying type: @class.@record.@struct.@float.event2, Value = { _value }")]
-    internal partial class escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 : global::System.IEquatable<escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2>, global::System.IComparable, global::System.IComparable<escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2>
+    internal partial class escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 : global::System.IEquatable<escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2>, global::System.IComparable<escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2>
     {
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2>> _namesToEnums = new(() => new() { { "One", One }, });
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<@class.@record.@struct.@float.event2, escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2>> _valuesToEnums = new(() => new() { { One.Value, One }, });
@@ -244,6 +244,12 @@ namespace @class
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(@class.@record.@struct.@float.event2 left, escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 right) => !Equals(left, right.Value);
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static explicit operator escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2(@class.@record.@struct.@float.event2 value) => FromValue(value);
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static implicit operator @class.@record.@struct.@float.event2(escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 value) => value.Value;
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public int CompareTo(escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 other) => Value.CompareTo(other);
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <(escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 left, escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 right) => left.CompareTo(right) < 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <=(escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 left, escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 right) => left.CompareTo(right) <= 0;
@@ -251,20 +257,6 @@ namespace @class
         public static global::System.Boolean operator>(escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 left, escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 right) => left.CompareTo(right) > 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator >=(escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 left, escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 right) => left.CompareTo(right) >= 0;
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static explicit operator escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2(@class.@record.@struct.@float.event2 value) => FromValue(value);
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static implicit operator @class.@record.@struct.@float.event2(escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 value) => value.Value;
-        public int CompareTo(escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 other) => Value.CompareTo(other.Value);
-        public int CompareTo(object other)
-        {
-            if (other == null)
-                return 1;
-            if (other is escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2 x)
-                return CompareTo(x);
-            throw new global::System.ArgumentException("Cannot compare to object as it is not of type escapedTestsinternal_partial_classConversions_NewtonsoftJsonrecord__struct__float__event2", nameof(other));
-        }
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override global::System.Int32 GetHashCode() => GetType().GetHashCode() ^ this._value.GetHashCode();
         // member...

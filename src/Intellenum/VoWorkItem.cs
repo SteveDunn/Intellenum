@@ -7,22 +7,11 @@ namespace Intellenum;
 
 public class VoWorkItem
 {
-    private readonly INamedTypeSymbol _underlyingType = null!;
-    private readonly string _underlyingTypeFullName = null!;
+    public required INamedTypeSymbol UnderlyingType { get; init; }
 
-    public INamedTypeSymbol UnderlyingType
-    {
-        get => _underlyingType;
-        init
-        {
-            _underlyingType = value;
-            _underlyingTypeFullName = value.FullName() ?? value.Name ?? throw new InvalidOperationException(
-                "No underlying type specified - please file a bug at https://github.com/SteveDunn/Vogen/issues/new?assignees=&labels=bug&template=BUG_REPORT.yml");
-            IsUnderlyingAString = typeof(string).IsAssignableFrom(Type.GetType(_underlyingTypeFullName));
-        }
-    }
+    public bool IsUnderlyingIsIComparableOfT { get; init; }
+    public bool IsUnderlyingIComparable { get; init; }
     
-    public bool IsUnderlyingAString { get; private set; }
 
     /// <summary>
     /// The syntax information for the type to augment.

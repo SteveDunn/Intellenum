@@ -15,6 +15,20 @@ namespace Intellenum.Extensions;
 
 internal static class INamedTypeSymbolExtensions
 {
+    public static bool Implements(this INamedTypeSymbol symbol, ITypeSymbol? type) => 
+        type is not null && symbol.AllInterfaces.Any(type.Equals);
+
+    public static bool ImplementsIComparableOfTInterface(this INamedTypeSymbol symbol,
+        Compilation compilation,
+        INamedTypeSymbol genericSymbol)
+    {
+        var ics = compilation.GetTypeByMetadataName($"System.IComparable`1");
+        return symbol.AllInterfaces
+            .Any(inter =>
+                SymbolEqualityComparer.Default.Equals(inter.OriginalDefinition, ics)
+                && SymbolEqualityComparer.Default.Equals(inter.TypeArguments[0], genericSymbol));
+    }    
+
     public static IEnumerable<INamedTypeSymbol> GetBaseTypesAndThis(this INamedTypeSymbol type)
     {
         INamedTypeSymbol current = type;
