@@ -42,7 +42,7 @@ internal class FromNameAndValue : IScenario
             }
             catch (IntellenumMatchFailedException e)
             {
-                Console.WriteLine("FromName failed -" + e);
+                Console.WriteLine("FromName failed -" + e.Message);
             }
         }
     }
