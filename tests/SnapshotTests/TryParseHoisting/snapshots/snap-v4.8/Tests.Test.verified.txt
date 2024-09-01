@@ -8,7 +8,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 // Suppress warnings about [Obsolete] member usage in generated code.
-#pragma warning disable CS0618
+#pragma warning disable CS0612, CS0618
 // Suppress warnings for 'Override methods on comparable types'.
 #pragma warning disable CA1036
 // Suppress Error MA0097 : A class that implements IComparable<T> or IComparable should override comparison operators
@@ -31,7 +31,7 @@ namespace Whatever
     [global::System.ComponentModel.TypeConverter(typeof(PlanetEnumTypeConverter))]
     [global::System.Diagnostics.DebuggerTypeProxyAttribute(typeof(PlanetEnumDebugView))]
     [global::System.Diagnostics.DebuggerDisplayAttribute("Underlying type: Whatever.Planet, Value = { _value }")]
-    public partial class PlanetEnum : global::System.IEquatable<PlanetEnum>, global::System.IComparable, global::System.IComparable<PlanetEnum>
+    public partial class PlanetEnum : global::System.IEquatable<PlanetEnum>, global::System.IComparable<PlanetEnum>
     {
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, PlanetEnum>> _namesToEnums = new(() => new() { { "Jupiter", Jupiter }, { "Mars", Mars }, { "Venus", Venus }, });
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<Whatever.Planet, PlanetEnum>> _valuesToEnums = new(() => new() { { Jupiter.Value, Jupiter }, { Mars.Value, Mars }, { Venus.Value, Venus }, });
@@ -303,6 +303,12 @@ namespace Whatever
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(Whatever.Planet left, PlanetEnum right) => !Equals(left, right.Value);
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static explicit operator PlanetEnum(Whatever.Planet value) => FromValue(value);
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Whatever.Planet(PlanetEnum value) => value.Value;
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public int CompareTo(PlanetEnum other) => Value.CompareTo(other);
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <(PlanetEnum left, PlanetEnum right) => left.CompareTo(right) < 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <=(PlanetEnum left, PlanetEnum right) => left.CompareTo(right) <= 0;
@@ -310,20 +316,6 @@ namespace Whatever
         public static global::System.Boolean operator>(PlanetEnum left, PlanetEnum right) => left.CompareTo(right) > 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator >=(PlanetEnum left, PlanetEnum right) => left.CompareTo(right) >= 0;
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static explicit operator PlanetEnum(Whatever.Planet value) => FromValue(value);
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static implicit operator Whatever.Planet(PlanetEnum value) => value.Value;
-        public int CompareTo(PlanetEnum other) => Value.CompareTo(other.Value);
-        public int CompareTo(object other)
-        {
-            if (other == null)
-                return 1;
-            if (other is PlanetEnum x)
-                return CompareTo(x);
-            throw new global::System.ArgumentException("Cannot compare to object as it is not of type PlanetEnum", nameof(other));
-        }
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override global::System.Int32 GetHashCode() => GetType().GetHashCode() ^ this._value.GetHashCode();
         public static global::System.Collections.Generic.IEnumerable<PlanetEnum> List()

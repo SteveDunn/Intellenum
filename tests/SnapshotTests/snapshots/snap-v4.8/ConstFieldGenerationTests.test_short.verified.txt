@@ -8,7 +8,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 // Suppress warnings about [Obsolete] member usage in generated code.
-#pragma warning disable CS0618
+#pragma warning disable CS0612, CS0618
 // Suppress warnings for 'Override methods on comparable types'.
 #pragma warning disable CA1036
 // Suppress Error MA0097 : A class that implements IComparable<T> or IComparable should override comparison operators
@@ -301,6 +301,12 @@ namespace SomethingElse
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(System.Int16 left, ShortHolderId_normal right) => !Equals(left, right.Value);
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ShortHolderId_normal(System.Int16 value) => FromValue(value);
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static implicit operator System.Int16(ShortHolderId_normal value) => value.Value;
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public int CompareTo(ShortHolderId_normal other) => Value.CompareTo(other);
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <(ShortHolderId_normal left, ShortHolderId_normal right) => left.CompareTo(right) < 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <=(ShortHolderId_normal left, ShortHolderId_normal right) => left.CompareTo(right) <= 0;
@@ -308,14 +314,9 @@ namespace SomethingElse
         public static global::System.Boolean operator>(ShortHolderId_normal left, ShortHolderId_normal right) => left.CompareTo(right) > 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator >=(ShortHolderId_normal left, ShortHolderId_normal right) => left.CompareTo(right) >= 0;
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ShortHolderId_normal(System.Int16 value) => FromValue(value);
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static implicit operator System.Int16(ShortHolderId_normal value) => value.Value;
-        public int CompareTo(ShortHolderId_normal other) => Value.CompareTo(other.Value);
         public int CompareTo(object other)
         {
-            if (other == null)
+            if (other is null)
                 return 1;
             if (other is ShortHolderId_normal x)
                 return CompareTo(x);

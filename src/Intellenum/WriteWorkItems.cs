@@ -23,7 +23,7 @@ internal static class WriteWorkItems
 // ------------------------------------------------------------------------------
 
 // Suppress warnings about [Obsolete] member usage in generated code.
-#pragma warning disable CS0618
+#pragma warning disable CS0612, CS0618
 
 // Suppress warnings for 'Override methods on comparable types'.
 #pragma warning disable CA1036

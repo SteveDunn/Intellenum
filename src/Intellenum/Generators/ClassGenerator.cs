@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Intellenum.Generators.Snippets;
 using Intellenum.MemberBuilding;
@@ -15,6 +16,21 @@ public class ClassGenerator
         
         var className = tds.Identifier;
 
+        List<string> interfaces = new(3)
+        {
+            $"global::System.IEquatable<{className}>"
+        };
+        
+        if (item.IsUnderlyingIComparable)
+        {
+            interfaces.Add("global::System.IComparable");
+        }
+        
+        if (item.IsUnderlyingIsIComparableOfT)
+        {
+            interfaces.Add($"global::System.IComparable<{className}>");
+        }
+
         string itemUnderlyingType = item.UnderlyingTypeFullName;
 
         return
@@ -29,10 +45,7 @@ public class ClassGenerator
                   [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{Util.GenerateYourAssemblyName()}}", "{{Util.GenerateYourAssemblyVersion()}}")]
                   {{Util.GenerateAnyConversionAttributes(tds, item)}}
                   {{Util.GenerateDebugAttributes(item, className, itemUnderlyingType)}}
-                  {{Util.GenerateModifiersFor(tds)}} class {{className}} : 
-                      global::System.IEquatable<{{className}}>, 
-                      global::System.IComparable, 
-                      global::System.IComparable<{{className}}> 
+                  {{Util.GenerateModifiersFor(tds)}} class {{className}} : {{string.Join(",", interfaces)}} 
                   {
                       {{MemberGeneration.GenerateConstValuesIfPossible(item)}}
               
@@ -164,18 +177,6 @@ public class ClassGenerator
                       [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
                       public static global::System.Boolean operator !=({{itemUnderlyingType}} left, {{className}} right) => !Equals(left, right.Value);
                       
-                      [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-                      public static global::System.Boolean operator <({{className}} left, {{className}} right) => left.CompareTo(right) < 0;
-              
-                      [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-                      public static global::System.Boolean operator <=({{className}} left, {{className}} right) => left.CompareTo(right) <= 0;
-              
-                      [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-                      public static global::System.Boolean operator >({{className}} left, {{className}} right) => left.CompareTo(right) > 0;
-              
-                      [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-                      public static global::System.Boolean operator >=({{className}} left, {{className}} right) => left.CompareTo(right) >= 0;
-              
                       [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
                       public static explicit operator {{className}}({{itemUnderlyingType}} value) => FromValue(value);
               

@@ -13,10 +13,10 @@ public static class ModuleInitializer
         VerifierSettings.AddScrubber(s =>
         {
             s.Replace("[global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"Intellenum\", \"0.0.0.0\")]",
-                "    [global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"Intellenum\", \"1.0.0.0\")]");
+                "[global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"Intellenum\", \"1.0.0.0\")]");
             
             s.Replace("[global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"Intellenum\", \"3.0.0.0\")]",
-                "    [global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"Intellenum\", \"1.0.0.0\")]");
+                "[global::System.CodeDom.Compiler.GeneratedCodeAttribute(\"Intellenum\", \"1.0.0.0\")]");
         });
     }
 }

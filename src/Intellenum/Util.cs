@@ -10,7 +10,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Intellenum;
 
-
 public static class Util
 {
     static readonly IGenerateConversion[] _conversionGenerators =
@@ -128,26 +127,53 @@ public static class Util
 
     public static string GenerateToString(VoWorkItem item) =>
         item.HasToString ? string.Empty
-            : $@"/// <summary>Returns the name of the enum.</summary>
-    public override global::System.String ToString() => _name;";
+            : $"""
+               /// <summary>Returns the name of the enum.</summary>
+               public override global::System.String ToString() => _name;
+               """;
 
     public static string GenerateIComparableImplementationIfNeeded(VoWorkItem item, TypeDeclarationSyntax tds)
     {
-        INamedTypeSymbol primitiveSymbol = item.UnderlyingType;
-        if (!primitiveSymbol.ImplementsInterfaceOrBaseClass(typeof(IComparable<>)))
+        StringBuilder sb = new StringBuilder();
+        var className = tds.Identifier;
+
+        if (item.IsUnderlyingIsIComparableOfT)
         {
-            return string.Empty;
+            sb.Append(
+                $"""
+                 [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+                 public int CompareTo({className} other) => Value.CompareTo(other);
+                 """);
+
+            AppendOperator("<");
+            AppendOperator("<=");
+            AppendOperator(">");
+            AppendOperator(">=");
+
+            void AppendOperator(string @operator)
+            {
+                sb.Append(
+                    $"""
+                     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+                     public static global::System.Boolean operator {@operator}({className} left, {className} right) => left.CompareTo(right) {@operator} 0;
+                     """);
+            }
         }
-    
-        var primitive = tds.Identifier;
-        var s = @$"public int CompareTo({primitive} other) => Value.CompareTo(other.Value);
-        public int CompareTo(object other) {{
-            if(other == null) return 1;
-            if(other is {primitive} x) return CompareTo(x);
-            throw new global::System.ArgumentException(""Cannot compare to object as it is not of type {primitive}"", nameof(other));
-        }}";
-    
-         return s;
+
+        if (item.IsUnderlyingIComparable)
+        {
+            sb.Append(
+                $$"""
+                      public int CompareTo(object other) 
+                      {
+                          if(other is null) return 1;
+                          if(other is {{className}} x) return CompareTo(x);
+                          throw new global::System.ArgumentException("Cannot compare to object as it is not of type {{className}}", nameof(other));
+                      }
+                  """);
+        }
+
+        return sb.ToString();
     }
 
     public static string GenerateDebugAttributes(VoWorkItem item, SyntaxToken className, string itemUnderlyingType)

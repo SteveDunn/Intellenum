@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Immutable;
 using Intellenum.Diagnostics;
+using Intellenum.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -90,6 +90,12 @@ internal static class BuildWorkItems
 
         bool isConstant = IsUnderlyingACompileTimeConstant(config.UnderlyingType);
 
+
+        INamedTypeSymbol? c = compilation.GetTypeByMetadataName($"System.IComparable");
+        var isUnderlyingIsIComparableOfT = config.UnderlyingType.ImplementsIComparableOfTInterface(compilation, config.UnderlyingType);
+        var isUnderlyingIComparable = config.UnderlyingType.Implements(c);
+
+
         return new VoWorkItem
         {
             IsConstant = isConstant,
@@ -97,7 +103,9 @@ internal static class BuildWorkItems
             TypeToAugment = voTypeSyntax,
             IsValueType = isValueType,
             HasToString = hasToStringOverload,
-            UnderlyingType = config.UnderlyingType ?? throw new InvalidOperationException("No underlying type"),
+            UnderlyingType = config.UnderlyingType,
+            IsUnderlyingIComparable = isUnderlyingIComparable,
+            IsUnderlyingIsIComparableOfT = isUnderlyingIsIComparableOfT,
             Conversions = config.Conversions,
             DebuggerAttributes = config.DebuggerAttributes,
             Customizations = config.Customizations,
@@ -238,5 +246,4 @@ internal static class BuildWorkItems
 
         return reported;
     }
-
 }

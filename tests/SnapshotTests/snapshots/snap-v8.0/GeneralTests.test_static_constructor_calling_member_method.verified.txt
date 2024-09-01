@@ -8,7 +8,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 // Suppress warnings about [Obsolete] member usage in generated code.
-#pragma warning disable CS0618
+#pragma warning disable CS0612, CS0618
 // Suppress warnings for 'Override methods on comparable types'.
 #pragma warning disable CA1036
 // Suppress Error MA0097 : A class that implements IComparable<T> or IComparable should override comparison operators
@@ -262,6 +262,12 @@ public partial class DecimalHolderId_string : global::System.IEquatable<DecimalH
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static global::System.Boolean operator !=(System.Decimal left, DecimalHolderId_string right) => !Equals(left, right.Value);
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static explicit operator DecimalHolderId_string(System.Decimal value) => FromValue(value);
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public static implicit operator System.Decimal(DecimalHolderId_string value) => value.Value;
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+    public int CompareTo(DecimalHolderId_string other) => Value.CompareTo(other);
+    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static global::System.Boolean operator <(DecimalHolderId_string left, DecimalHolderId_string right) => left.CompareTo(right) < 0;
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static global::System.Boolean operator <=(DecimalHolderId_string left, DecimalHolderId_string right) => left.CompareTo(right) <= 0;
@@ -269,14 +275,9 @@ public partial class DecimalHolderId_string : global::System.IEquatable<DecimalH
     public static global::System.Boolean operator>(DecimalHolderId_string left, DecimalHolderId_string right) => left.CompareTo(right) > 0;
     [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public static global::System.Boolean operator >=(DecimalHolderId_string left, DecimalHolderId_string right) => left.CompareTo(right) >= 0;
-    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static explicit operator DecimalHolderId_string(System.Decimal value) => FromValue(value);
-    [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    public static implicit operator System.Decimal(DecimalHolderId_string value) => value.Value;
-    public int CompareTo(DecimalHolderId_string other) => Value.CompareTo(other.Value);
     public int CompareTo(object other)
     {
-        if (other == null)
+        if (other is null)
             return 1;
         if (other is DecimalHolderId_string x)
             return CompareTo(x);

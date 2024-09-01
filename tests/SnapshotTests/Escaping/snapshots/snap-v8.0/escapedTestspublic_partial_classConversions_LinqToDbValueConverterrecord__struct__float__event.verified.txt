@@ -8,7 +8,7 @@
 // </auto-generated>
 // ------------------------------------------------------------------------------
 // Suppress warnings about [Obsolete] member usage in generated code.
-#pragma warning disable CS0618
+#pragma warning disable CS0612, CS0618
 // Suppress warnings for 'Override methods on comparable types'.
 #pragma warning disable CA1036
 // Suppress Error MA0097 : A class that implements IComparable<T> or IComparable should override comparison operators
@@ -29,7 +29,7 @@ namespace @class
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Intellenum", "1.0.0.0")]
     [global::System.Diagnostics.DebuggerTypeProxyAttribute(typeof(escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__eventDebugView))]
     [global::System.Diagnostics.DebuggerDisplayAttribute("Underlying type: @class.@record.@struct.@float.@event, Value = { _value }")]
-    public partial class escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event : global::System.IEquatable<escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event>, global::System.IComparable, global::System.IComparable<escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event>
+    public partial class escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event : global::System.IEquatable<escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event>, global::System.IComparable<escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event>
     {
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<string, escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event>> _namesToEnums = new(() => new() { { "One", One }, });
         private static readonly System.Lazy<System.Collections.Generic.Dictionary<@class.@record.@struct.@float.@event, escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event>> _valuesToEnums = new(() => new() { { One.Value, One }, });
@@ -243,6 +243,12 @@ namespace @class
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator !=(@class.@record.@struct.@float.@event left, escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event right) => !Equals(left, right.Value);
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static explicit operator escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event(@class.@record.@struct.@float.@event value) => FromValue(value);
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static implicit operator @class.@record.@struct.@float.@event(escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event value) => value.Value;
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public int CompareTo(escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event other) => Value.CompareTo(other);
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <(escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event left, escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event right) => left.CompareTo(right) < 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator <=(escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event left, escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event right) => left.CompareTo(right) <= 0;
@@ -250,20 +256,6 @@ namespace @class
         public static global::System.Boolean operator>(escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event left, escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event right) => left.CompareTo(right) > 0;
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static global::System.Boolean operator >=(escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event left, escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event right) => left.CompareTo(right) >= 0;
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static explicit operator escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event(@class.@record.@struct.@float.@event value) => FromValue(value);
-        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static implicit operator @class.@record.@struct.@float.@event(escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event value) => value.Value;
-        public int CompareTo(escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event other) => Value.CompareTo(other.Value);
-        public int CompareTo(object other)
-        {
-            if (other == null)
-                return 1;
-            if (other is escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event x)
-                return CompareTo(x);
-            throw new global::System.ArgumentException("Cannot compare to object as it is not of type escapedTestspublic_partial_classConversions_LinqToDbValueConverterrecord__struct__float__event", nameof(other));
-        }
-
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public override global::System.Int32 GetHashCode() => GetType().GetHashCode() ^ this._value.GetHashCode();
         // member...

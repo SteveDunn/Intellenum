@@ -54,9 +54,11 @@
   Run the tests with `.\test.ps1` in the root folder.-->
 
   <ItemGroup>
+    <PackageReference Include="system.net.http" Version="4.3.4"/>
+    <PackageReference Include="system.text.regularexpressions" Version="4.3.1"/>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Dapper" Version="2.0.143" />
-    <PackageReference Include="GitHubActionsTestLogger" Version="2.3.3">
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="GitHubActionsTestLogger" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -67,7 +69,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="6.0.0">
+    <PackageReference Include="coverlet.collector" Version="6.0.2">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
