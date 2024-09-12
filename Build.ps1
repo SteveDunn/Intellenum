@@ -111,10 +111,9 @@ WriteStage("Building samples using the local version of the NuGet package...")
 exec { & dotnet run --project samples/Intellenum.Examples/Intellenum.Examples.csproj -c Debug --no-build --no-restore }
 
 
-#WriteStage("Finally, packing the $buildConfig version into " + $artifacts)
-#
-#
-#exec { & dotnet pack src/Intellenum.Pack.csproj -c $buildConfig -o $artifacts --no-build --verbosity $verbosity }
-#
-#WriteStage("Done! Package generated at " + $artifacts)
+WriteStage("Finally, packing the $buildConfig version into " + $artifacts)
+
+exec { & dotnet pack src/Intellenum.Pack.csproj -c $buildConfig -o $artifacts --no-build --verbosity $verbosity }
+
+WriteStage("Done! Package generated at " + $artifacts)
 
