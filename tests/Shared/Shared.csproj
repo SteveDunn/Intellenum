@@ -16,7 +16,7 @@
     <PackageReference Include="nuget.common" Version="6.11.0"/>
     <PackageReference Include="nuget.packaging" Version="6.11.0"/>
     <PackageReference Include="nuget.protocol" Version="6.11.0"/>
-    <PackageReference Include="System.Text.Json" Version="8.0.4"/>
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
     <PackageReference Include="System.Formats.Asn1" Version="8.0.1"/>
     <PackageReference Include="system.net.http" Version="4.3.4"/>
     <PackageReference Include="system.text.regularexpressions" Version="4.3.1"/>
