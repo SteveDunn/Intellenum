@@ -236,7 +236,7 @@ public static class FromNameRelatedMethods
             var value = eachMember.Value;
             sb.AppendLine(
             $$"""
-            if (MemoryExtensions.Equals({{_parameter}}, {{value.EnumEnumFriendlyName}}.Name, {{comp}}))
+            if (MemoryExtensions.Equals({{_parameter}}, "{{value.EnumEnumFriendlyName}}", {{comp}}))
             {
                 member = {{typeName}}.{{value.FieldName}}; 
                 return true;
