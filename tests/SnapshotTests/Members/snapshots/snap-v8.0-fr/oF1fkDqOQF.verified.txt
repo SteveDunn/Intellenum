@@ -141,13 +141,47 @@ namespace Whatever
         /// <returns>The matching enum, or an exception.</returns>
         public static internal_partial_classstring FromName(ReadOnlySpan<char> name)
         {
-            bool b = TryFromName(name, out var ret);
-            if (b)
+            if (TryFromName(name, out var ret))
             {
                 return ret;
             }
 
-            ThrowHelper.ThrowMatchFailed($"internal_partial_classstring has no matching members named '{name.ToString()}'");
+            ThrowHelper.ThrowMatchFailed($"internal_partial_classstring has no matching members named '{name}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "ignoreCase"><c>true</c> to convert <paramref name = "name"/> in case insensitive mode; <c>false</c> to convert <paramref name = "name"/> in case sensitive mode.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static internal_partial_classstring FromName(ReadOnlySpan<char> name, bool ignoreCase)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"internal_partial_classstring has no matching members named '{name}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "comparisonType">Comparison type to compare strings for equality during search.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static internal_partial_classstring FromName(ReadOnlySpan<char> name, StringComparison comparisonType)
+        {
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"internal_partial_classstring has no matching members named '{name}'");
             return default;
         }
 
@@ -169,6 +203,45 @@ namespace Whatever
                     member = default;
                     return false;
             }
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool TryFromName(ReadOnlySpan<char> name, bool ignoreCase, out internal_partial_classstring member)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (MemoryExtensions.Equals(name, "MyValue", comparisonType))
+            {
+                member = internal_partial_classstring.MyValue;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool TryFromName(ReadOnlySpan<char> name, StringComparison comparisonType, out internal_partial_classstring member)
+        {
+            if (MemoryExtensions.Equals(name, "MyValue", comparisonType))
+            {
+                member = internal_partial_classstring.MyValue;
+                return true;
+            }
+
+            member = default;
+            return false;
         }
 
         [global::System.ObsoleteAttribute("Please use IsNameDefined rather than this, which has a typo")]

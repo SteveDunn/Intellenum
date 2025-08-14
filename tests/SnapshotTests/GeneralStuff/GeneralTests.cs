@@ -30,8 +30,8 @@ public class GeneralTests
             await new SnapshotRunner<IntellenumGenerator>()
                 .WithSource(source)
                 .IgnoreInitialCompilationErrors()
-                .IgnoreFinalCompilationErrors()
-                .RunOn(TargetFramework.Net8_0);
+                // .IgnoreFinalCompilationErrors()
+                .RunOn(TargetFramework.Net4_8);
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Immutable;
 using Intellenum.Diagnostics;
 using Intellenum.Extensions;
@@ -98,6 +99,8 @@ internal static class BuildWorkItems
 
         return new VoWorkItem
         {
+            SupportsSpans = HasSystemMemory(compilation),
+            TargetsDotNetFramework = compilation.TargetsDotNetFramework(),
             IsConstant = isConstant,
             MemberProperties = discoveredMembers,
             TypeToAugment = voTypeSyntax,
@@ -112,6 +115,46 @@ internal static class BuildWorkItems
             FullNamespace = voSymbolInformation.FullNamespace()
         };
     }
+    
+    private static bool HasSystemMemory(Compilation compilation)
+    {
+        // Most direct indicator across TFMs
+        if (compilation.GetTypeByMetadataName("System.MemoryExtensions") is not null)
+        {
+            return true;
+        }
+
+        // Types in the System.Memory “feature area”
+        if (compilation.GetTypeByMetadataName("System.ReadOnlyMemory`1") is not null)
+        {
+            return true;
+        }
+
+        if (compilation.GetTypeByMetadataName("System.Memory`1") is not null)
+        {
+            return true;
+        }
+
+        // Often available wherever System.Memory APIs are usable
+        if (compilation.GetTypeByMetadataName("System.ReadOnlySpan`1") is not null ||
+            compilation.GetTypeByMetadataName("System.Span`1") is not null)
+        {
+            return true;
+        }
+
+        // Fallback: explicit assembly reference (not always present on newer TFMs)
+        foreach (var reference in compilation.References)
+        {
+            if (compilation.GetAssemblyOrModuleSymbol(reference) is IAssemblySymbol asm &&
+                string.Equals(asm.Name, "System.Memory", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
 
     private static bool HasToStringOverload(ITypeSymbol typeSymbol)
     {
