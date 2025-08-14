@@ -11,7 +11,7 @@ jobs:
     name: ubuntu-latest
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-dotnet@v4.0.1
         with:
           dotnet-version: |
@@ -27,7 +27,7 @@ jobs:
     name: windows-latest
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-dotnet@v4.0.1
         with:
           dotnet-version: |
@@ -43,7 +43,7 @@ jobs:
     name: run-snapshots
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-dotnet@v4.0.1
         with:
           dotnet-version: |
@@ -55,7 +55,7 @@ jobs:
     name: macOS-latest
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-dotnet@v4.0.1
         with:
           dotnet-version: |
