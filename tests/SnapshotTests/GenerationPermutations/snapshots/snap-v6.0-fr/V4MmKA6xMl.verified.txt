@@ -139,7 +139,7 @@ namespace Whatever
         /// </summary>
         /// <param name = "name">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint FromName(ReadOnlySpan<char> name)
+        public static internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint FromName(System.String name)
         {
             if (TryFromName(name, out var ret))
             {
@@ -156,7 +156,7 @@ namespace Whatever
         /// <param name = "name">The name.</param>
         /// <param name = "ignoreCase"><c>true</c> to convert <paramref name = "name"/> in case insensitive mode; <c>false</c> to convert <paramref name = "name"/> in case sensitive mode.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint FromName(ReadOnlySpan<char> name, bool ignoreCase)
+        public static internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint FromName(System.String name, bool ignoreCase)
         {
             StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
             if (TryFromName(name, comparisonType, out var ret))
@@ -174,7 +174,7 @@ namespace Whatever
         /// <param name = "name">The name.</param>
         /// <param name = "comparisonType">Comparison type to compare strings for equality during search.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint FromName(ReadOnlySpan<char> name, StringComparison comparisonType)
+        public static internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint FromName(System.String name, StringComparison comparisonType)
         {
             if (TryFromName(name, comparisonType, out var ret))
             {
@@ -192,7 +192,7 @@ namespace Whatever
         /// <param name = "member">The matching member if successful.</param>
         /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool TryFromName(ReadOnlySpan<char> name, out internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint member)
+        public static bool TryFromName(System.String name, out internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint member)
         {
             switch (name)
             {
@@ -212,10 +212,10 @@ namespace Whatever
         /// <param name = "member">The matching member if successful.</param>
         /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool TryFromName(ReadOnlySpan<char> name, bool ignoreCase, out internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint member)
+        public static bool TryFromName(System.String name, bool ignoreCase, out internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint member)
         {
             StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
-            if (MemoryExtensions.Equals(name, "One", comparisonType))
+            if (string.Equals(name, "One", comparisonType))
             {
                 member = internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint.One;
                 return true;
@@ -232,9 +232,9 @@ namespace Whatever
         /// <param name = "member">The matching member if successful.</param>
         /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool TryFromName(ReadOnlySpan<char> name, StringComparison comparisonType, out internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint member)
+        public static bool TryFromName(System.String name, StringComparison comparisonType, out internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint member)
         {
-            if (MemoryExtensions.Equals(name, "One", comparisonType))
+            if (string.Equals(name, "One", comparisonType))
             {
                 member = internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint.One;
                 return true;
@@ -244,15 +244,124 @@ namespace Whatever
             return false;
         }
 
-        [global::System.ObsoleteAttribute("Please use IsNameDefined rather than this, which has a typo")]
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool IsNamedDefined(ReadOnlySpan<char> name)
+        public static bool IsNameDefined(System.String name)
         {
             return TryFromName(name, out _);
         }
 
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint FromName(System.ReadOnlySpan<char> name)
+        {
+            if (TryFromName(name, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint has no matching members named '{name.ToString()}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "ignoreCase"><c>true</c> to convert <paramref name = "name"/> in case insensitive mode; <c>false</c> to convert <paramref name = "name"/> in case sensitive mode.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint FromName(System.ReadOnlySpan<char> name, bool ignoreCase)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint has no matching members named '{name.ToString()}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "comparisonType">Comparison type to compare strings for equality during search.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint FromName(System.ReadOnlySpan<char> name, StringComparison comparisonType)
+        {
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint has no matching members named '{name.ToString()}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool IsNameDefined(ReadOnlySpan<char> name)
+        public static bool TryFromName(System.ReadOnlySpan<char> name, out internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint member)
+        {
+            switch (name)
+            {
+                case ("One"):
+                    member = internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint.One;
+                    return true;
+                default:
+                    member = default;
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool TryFromName(System.ReadOnlySpan<char> name, bool ignoreCase, out internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint member)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (MemoryExtensions.Equals(name, "One".AsSpan(), comparisonType))
+            {
+                member = internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint.One;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool TryFromName(System.ReadOnlySpan<char> name, StringComparison comparisonType, out internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint member)
+        {
+            if (MemoryExtensions.Equals(name, "One".AsSpan(), comparisonType))
+            {
+                member = internal_partial_classConversions_NewtonsoftJson___Conversions_SystemTextJson___Conversions_EfCoreValueConverter___Conversions_DapperTypeHandler___Conversions_LinqToDbValueConverterint.One;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool IsNameDefined(System.ReadOnlySpan<char> name)
         {
             return TryFromName(name, out _);
         }
@@ -576,6 +685,7 @@ namespace Whatever
         {
             internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
             internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
+            internal static void ThrowMatchFailed(ReadOnlySpan<char> message) => throw new IntellenumMatchFailedException(message.ToString());
         }
     }
 }
