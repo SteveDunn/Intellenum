@@ -150,7 +150,7 @@ public sealed partial class ProjectBuilder
                 AddNuGetReference("Microsoft.NETFramework.ReferenceAssemblies.net48", "1.0.0", "build/.NETFramework/v4.8/");
                 AddNuGetReference("linq2db", "3.7.0", "lib/netstandard2.1/");
                 AddNuGetReference("Microsoft.EntityFrameworkCore", "5.0.17", "lib/netstandard2.1/");
-                AddNuGetReference("Dapper", "2.0.123", "lib/netstandard2.0/");
+                AddNuGetReference("Dapper", "2.0.123", "lib/net461/");
                 AddStjIfNeeded("8.0.0", "lib/netstandard2.0/");
                 AddNuGetReference("System.Memory", "4.5.5", "lib/netstandard2.0/");
                 AddNuGetReference("ServiceStack.Text", "6.11.0", "lib/netstandard2.0");
