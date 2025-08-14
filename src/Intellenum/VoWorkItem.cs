@@ -38,4 +38,8 @@ public class VoWorkItem
     public DebuggerAttributeGeneration DebuggerAttributes { get; init; }
 
     public bool IsConstant { get; init; }
+    
+    public required bool SupportsSpans { get; init; }
+    
+    public required bool TargetsDotNetFramework { get; set; }
 }

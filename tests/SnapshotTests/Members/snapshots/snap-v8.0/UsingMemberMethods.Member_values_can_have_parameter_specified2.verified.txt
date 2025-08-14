@@ -144,15 +144,49 @@ namespace Whatever
         /// </summary>
         /// <param name = "name">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static IeIntWithMembersInvalidAndUnspecified FromName(ReadOnlySpan<char> name)
+        public static IeIntWithMembersInvalidAndUnspecified FromName(System.String name)
         {
-            bool b = TryFromName(name, out var ret);
-            if (b)
+            if (TryFromName(name, out var ret))
             {
                 return ret;
             }
 
-            ThrowHelper.ThrowMatchFailed($"IeIntWithMembersInvalidAndUnspecified has no matching members named '{name.ToString()}'");
+            ThrowHelper.ThrowMatchFailed($"IeIntWithMembersInvalidAndUnspecified has no matching members named '{name}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "ignoreCase"><c>true</c> to convert <paramref name = "name"/> in case insensitive mode; <c>false</c> to convert <paramref name = "name"/> in case sensitive mode.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static IeIntWithMembersInvalidAndUnspecified FromName(System.String name, bool ignoreCase)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"IeIntWithMembersInvalidAndUnspecified has no matching members named '{name}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "comparisonType">Comparison type to compare strings for equality during search.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static IeIntWithMembersInvalidAndUnspecified FromName(System.String name, StringComparison comparisonType)
+        {
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"IeIntWithMembersInvalidAndUnspecified has no matching members named '{name}'");
             return default;
         }
 
@@ -163,7 +197,7 @@ namespace Whatever
         /// <param name = "member">The matching member if successful.</param>
         /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool TryFromName(ReadOnlySpan<char> name, out IeIntWithMembersInvalidAndUnspecified member)
+        public static bool TryFromName(System.String name, out IeIntWithMembersInvalidAndUnspecified member)
         {
             switch (name)
             {
@@ -179,15 +213,190 @@ namespace Whatever
             }
         }
 
-        [global::System.ObsoleteAttribute("Please use IsNameDefined rather than this, which has a typo")]
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool IsNamedDefined(ReadOnlySpan<char> name)
+        public static bool TryFromName(System.String name, bool ignoreCase, out IeIntWithMembersInvalidAndUnspecified member)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (string.Equals(name, "Invalid", comparisonType))
+            {
+                member = IeIntWithMembersInvalidAndUnspecified.Invalid;
+                return true;
+            }
+
+            if (string.Equals(name, "Unspecified", comparisonType))
+            {
+                member = IeIntWithMembersInvalidAndUnspecified.Unspecified;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool TryFromName(System.String name, StringComparison comparisonType, out IeIntWithMembersInvalidAndUnspecified member)
+        {
+            if (string.Equals(name, "Invalid", comparisonType))
+            {
+                member = IeIntWithMembersInvalidAndUnspecified.Invalid;
+                return true;
+            }
+
+            if (string.Equals(name, "Unspecified", comparisonType))
+            {
+                member = IeIntWithMembersInvalidAndUnspecified.Unspecified;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool IsNameDefined(System.String name)
         {
             return TryFromName(name, out _);
         }
 
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static IeIntWithMembersInvalidAndUnspecified FromName(System.ReadOnlySpan<char> name)
+        {
+            if (TryFromName(name, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"IeIntWithMembersInvalidAndUnspecified has no matching members named '{name.ToString()}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "ignoreCase"><c>true</c> to convert <paramref name = "name"/> in case insensitive mode; <c>false</c> to convert <paramref name = "name"/> in case sensitive mode.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static IeIntWithMembersInvalidAndUnspecified FromName(System.ReadOnlySpan<char> name, bool ignoreCase)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"IeIntWithMembersInvalidAndUnspecified has no matching members named '{name.ToString()}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "comparisonType">Comparison type to compare strings for equality during search.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static IeIntWithMembersInvalidAndUnspecified FromName(System.ReadOnlySpan<char> name, StringComparison comparisonType)
+        {
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"IeIntWithMembersInvalidAndUnspecified has no matching members named '{name.ToString()}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool IsNameDefined(ReadOnlySpan<char> name)
+        public static bool TryFromName(System.ReadOnlySpan<char> name, out IeIntWithMembersInvalidAndUnspecified member)
+        {
+            switch (name)
+            {
+                case ("Invalid"):
+                    member = IeIntWithMembersInvalidAndUnspecified.Invalid;
+                    return true;
+                case ("Unspecified"):
+                    member = IeIntWithMembersInvalidAndUnspecified.Unspecified;
+                    return true;
+                default:
+                    member = default;
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool TryFromName(System.ReadOnlySpan<char> name, bool ignoreCase, out IeIntWithMembersInvalidAndUnspecified member)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (MemoryExtensions.Equals(name, "Invalid".AsSpan(), comparisonType))
+            {
+                member = IeIntWithMembersInvalidAndUnspecified.Invalid;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Unspecified".AsSpan(), comparisonType))
+            {
+                member = IeIntWithMembersInvalidAndUnspecified.Unspecified;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool TryFromName(System.ReadOnlySpan<char> name, StringComparison comparisonType, out IeIntWithMembersInvalidAndUnspecified member)
+        {
+            if (MemoryExtensions.Equals(name, "Invalid".AsSpan(), comparisonType))
+            {
+                member = IeIntWithMembersInvalidAndUnspecified.Invalid;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Unspecified".AsSpan(), comparisonType))
+            {
+                member = IeIntWithMembersInvalidAndUnspecified.Unspecified;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool IsNameDefined(System.ReadOnlySpan<char> name)
         {
             return TryFromName(name, out _);
         }
@@ -604,6 +813,7 @@ namespace Whatever
         {
             internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
             internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
+            internal static void ThrowMatchFailed(ReadOnlySpan<char> message) => throw new IntellenumMatchFailedException(message.ToString());
         }
     }
 }

@@ -149,15 +149,49 @@ namespace Whatever
         /// </summary>
         /// <param name = "name">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static CustomerType FromName(ReadOnlySpan<char> name)
+        public static CustomerType FromName(System.String name)
         {
-            bool b = TryFromName(name, out var ret);
-            if (b)
+            if (TryFromName(name, out var ret))
             {
                 return ret;
             }
 
-            ThrowHelper.ThrowMatchFailed($"CustomerType has no matching members named '{name.ToString()}'");
+            ThrowHelper.ThrowMatchFailed($"CustomerType has no matching members named '{name}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "ignoreCase"><c>true</c> to convert <paramref name = "name"/> in case insensitive mode; <c>false</c> to convert <paramref name = "name"/> in case sensitive mode.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static CustomerType FromName(System.String name, bool ignoreCase)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"CustomerType has no matching members named '{name}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "comparisonType">Comparison type to compare strings for equality during search.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static CustomerType FromName(System.String name, StringComparison comparisonType)
+        {
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"CustomerType has no matching members named '{name}'");
             return default;
         }
 
@@ -168,7 +202,7 @@ namespace Whatever
         /// <param name = "member">The matching member if successful.</param>
         /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool TryFromName(ReadOnlySpan<char> name, out CustomerType member)
+        public static bool TryFromName(System.String name, out CustomerType member)
         {
             switch (name)
             {
@@ -187,15 +221,217 @@ namespace Whatever
             }
         }
 
-        [global::System.ObsoleteAttribute("Please use IsNameDefined rather than this, which has a typo")]
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool IsNamedDefined(ReadOnlySpan<char> name)
+        public static bool TryFromName(System.String name, bool ignoreCase, out CustomerType member)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (string.Equals(name, "Standard", comparisonType))
+            {
+                member = CustomerType.Standard;
+                return true;
+            }
+
+            if (string.Equals(name, "Gold", comparisonType))
+            {
+                member = CustomerType.Gold;
+                return true;
+            }
+
+            if (string.Equals(name, "Diamond", comparisonType))
+            {
+                member = CustomerType.Diamond;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool TryFromName(System.String name, StringComparison comparisonType, out CustomerType member)
+        {
+            if (string.Equals(name, "Standard", comparisonType))
+            {
+                member = CustomerType.Standard;
+                return true;
+            }
+
+            if (string.Equals(name, "Gold", comparisonType))
+            {
+                member = CustomerType.Gold;
+                return true;
+            }
+
+            if (string.Equals(name, "Diamond", comparisonType))
+            {
+                member = CustomerType.Diamond;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool IsNameDefined(System.String name)
         {
             return TryFromName(name, out _);
         }
 
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static CustomerType FromName(System.ReadOnlySpan<char> name)
+        {
+            if (TryFromName(name, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"CustomerType has no matching members named '{name.ToString()}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "ignoreCase"><c>true</c> to convert <paramref name = "name"/> in case insensitive mode; <c>false</c> to convert <paramref name = "name"/> in case sensitive mode.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static CustomerType FromName(System.ReadOnlySpan<char> name, bool ignoreCase)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"CustomerType has no matching members named '{name.ToString()}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "comparisonType">Comparison type to compare strings for equality during search.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static CustomerType FromName(System.ReadOnlySpan<char> name, StringComparison comparisonType)
+        {
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"CustomerType has no matching members named '{name.ToString()}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool IsNameDefined(ReadOnlySpan<char> name)
+        public static bool TryFromName(System.ReadOnlySpan<char> name, out CustomerType member)
+        {
+            switch (name)
+            {
+                case ("Standard"):
+                    member = CustomerType.Standard;
+                    return true;
+                case ("Gold"):
+                    member = CustomerType.Gold;
+                    return true;
+                case ("Diamond"):
+                    member = CustomerType.Diamond;
+                    return true;
+                default:
+                    member = default;
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool TryFromName(System.ReadOnlySpan<char> name, bool ignoreCase, out CustomerType member)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (MemoryExtensions.Equals(name, "Standard".AsSpan(), comparisonType))
+            {
+                member = CustomerType.Standard;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Gold".AsSpan(), comparisonType))
+            {
+                member = CustomerType.Gold;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Diamond".AsSpan(), comparisonType))
+            {
+                member = CustomerType.Diamond;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool TryFromName(System.ReadOnlySpan<char> name, StringComparison comparisonType, out CustomerType member)
+        {
+            if (MemoryExtensions.Equals(name, "Standard".AsSpan(), comparisonType))
+            {
+                member = CustomerType.Standard;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Gold".AsSpan(), comparisonType))
+            {
+                member = CustomerType.Gold;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Diamond".AsSpan(), comparisonType))
+            {
+                member = CustomerType.Diamond;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool IsNameDefined(System.ReadOnlySpan<char> name)
         {
             return TryFromName(name, out _);
         }
@@ -421,6 +657,7 @@ namespace Whatever
         {
             internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
             internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
+            internal static void ThrowMatchFailed(ReadOnlySpan<char> message) => throw new IntellenumMatchFailedException(message.ToString());
         }
     }
 }

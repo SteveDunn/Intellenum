@@ -388,6 +388,7 @@ namespace SomethingElse
         {
             internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
             internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
+            internal static void ThrowMatchFailed(ReadOnlySpan<char> message) => throw new IntellenumMatchFailedException(message.ToString());
         }
     }
 }

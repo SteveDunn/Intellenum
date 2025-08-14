@@ -202,17 +202,35 @@ public class ClassGenerator
                       {{TryParseGeneration.GenerateTryParseIfNeeded(item)}}
               
                       {{Util.GenerateDebuggerProxyForClasses(tds, item)}}
-
-                      internal static class ThrowHelper
-                      {
-                            internal static void ThrowCreatedWithNull() => throw new {{nameof(IntellenumCreationFailedException)}}("Cannot create an Intellenum member with a null.");
-                            internal static void ThrowMatchFailed(string message) => throw new {{nameof(IntellenumMatchFailedException)}}(message);
-                              
-                      }
+                      
+                      {{GenerateThrowHelper(item)}}
                   }
                   
               {{Util.WriteCloseNamespace(item.FullNamespace)}}
               """;
+    }
+
+    private static string GenerateThrowHelper(VoWorkItem item)
+    {
+        
+        var s1 = $"""
+                  internal static void ThrowMatchFailed(string message) => throw new {nameof(IntellenumMatchFailedException)}(message);
+                  """;
+        if (item.SupportsSpans)
+        {
+            s1 += $"""
+                   internal static void ThrowMatchFailed(ReadOnlySpan<char> message) => throw new {nameof(IntellenumMatchFailedException)}(message.ToString());
+                   """;
+        }
+        
+        return $$"""
+                 internal static class ThrowHelper
+                 {
+                       internal static void ThrowCreatedWithNull() => throw new {{nameof(IntellenumCreationFailedException)}}("Cannot create an Intellenum member with a null.");
+                       {{s1}}
+                 }
+                 """;
+
     }
 
     private static string GenerateNullCheckIfNeeded(VoWorkItem voWorkItem) =>

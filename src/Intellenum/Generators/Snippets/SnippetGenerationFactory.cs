@@ -8,7 +8,7 @@ public static class SnippetGenerationFactory
     public static string Generate(VoWorkItem item, TypeDeclarationSyntax tds, SnippetType snippetType, bool isNetFramework) =>
         (item.IsConstant, snippetType) switch
         {
-            (true, SnippetType.FromNameRelatedMethods) => ForConstantUnderlying.FromNameRelatedMethods.Generate(item, tds, isNetFramework),
+            (true, SnippetType.FromNameRelatedMethods) => ForConstantUnderlying.FromNameRelatedMethods.Generate(item, tds),
             (false, SnippetType.FromNameRelatedMethods) => ForNonConstantUnderlying.FromNameRelatedMethods.Generate(item, tds, isNetFramework),
             (true, SnippetType.FromValueRelateMethods) => ForConstantUnderlying.FromValueRelatedMethods.Generate(item, tds),
             (false, SnippetType.FromValueRelateMethods) => ForNonConstantUnderlying.FromValueRelatedMethods.Generate(item, tds),

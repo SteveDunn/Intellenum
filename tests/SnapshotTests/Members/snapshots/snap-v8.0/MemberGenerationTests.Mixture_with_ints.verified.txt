@@ -220,15 +220,49 @@ namespace Whatever
         /// </summary>
         /// <param name = "name">The name.</param>
         /// <returns>The matching enum, or an exception.</returns>
-        public static Mixture FromName(ReadOnlySpan<char> name)
+        public static Mixture FromName(System.String name)
         {
-            bool b = TryFromName(name, out var ret);
-            if (b)
+            if (TryFromName(name, out var ret))
             {
                 return ret;
             }
 
-            ThrowHelper.ThrowMatchFailed($"Mixture has no matching members named '{name.ToString()}'");
+            ThrowHelper.ThrowMatchFailed($"Mixture has no matching members named '{name}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "ignoreCase"><c>true</c> to convert <paramref name = "name"/> in case insensitive mode; <c>false</c> to convert <paramref name = "name"/> in case sensitive mode.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static Mixture FromName(System.String name, bool ignoreCase)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"Mixture has no matching members named '{name}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "comparisonType">Comparison type to compare strings for equality during search.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static Mixture FromName(System.String name, StringComparison comparisonType)
+        {
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"Mixture has no matching members named '{name}'");
             return default;
         }
 
@@ -239,7 +273,7 @@ namespace Whatever
         /// <param name = "member">The matching member if successful.</param>
         /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool TryFromName(ReadOnlySpan<char> name, out Mixture member)
+        public static bool TryFromName(System.String name, out Mixture member)
         {
             switch (name)
             {
@@ -291,15 +325,514 @@ namespace Whatever
             }
         }
 
-        [global::System.ObsoleteAttribute("Please use IsNameDefined rather than this, which has a typo")]
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool IsNamedDefined(ReadOnlySpan<char> name)
+        public static bool TryFromName(System.String name, bool ignoreCase, out Mixture member)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (string.Equals(name, "Four", comparisonType))
+            {
+                member = Mixture.Four;
+                return true;
+            }
+
+            if (string.Equals(name, "Five", comparisonType))
+            {
+                member = Mixture.Five;
+                return true;
+            }
+
+            if (string.Equals(name, "Six", comparisonType))
+            {
+                member = Mixture.Six;
+                return true;
+            }
+
+            if (string.Equals(name, "Zero", comparisonType))
+            {
+                member = Mixture.Zero;
+                return true;
+            }
+
+            if (string.Equals(name, "One", comparisonType))
+            {
+                member = Mixture.One;
+                return true;
+            }
+
+            if (string.Equals(name, "Two", comparisonType))
+            {
+                member = Mixture.Two;
+                return true;
+            }
+
+            if (string.Equals(name, "Three", comparisonType))
+            {
+                member = Mixture.Three;
+                return true;
+            }
+
+            if (string.Equals(name, "Nine", comparisonType))
+            {
+                member = Mixture.Nine;
+                return true;
+            }
+
+            if (string.Equals(name, "Ten", comparisonType))
+            {
+                member = Mixture.Ten;
+                return true;
+            }
+
+            if (string.Equals(name, "Thirteen", comparisonType))
+            {
+                member = Mixture.Thirteen;
+                return true;
+            }
+
+            if (string.Equals(name, "Eleven", comparisonType))
+            {
+                member = Mixture.Eleven;
+                return true;
+            }
+
+            if (string.Equals(name, "Twelve", comparisonType))
+            {
+                member = Mixture.Twelve;
+                return true;
+            }
+
+            if (string.Equals(name, "Seven", comparisonType))
+            {
+                member = Mixture.Seven;
+                return true;
+            }
+
+            if (string.Equals(name, "Eight", comparisonType))
+            {
+                member = Mixture.Eight;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool TryFromName(System.String name, StringComparison comparisonType, out Mixture member)
+        {
+            if (string.Equals(name, "Four", comparisonType))
+            {
+                member = Mixture.Four;
+                return true;
+            }
+
+            if (string.Equals(name, "Five", comparisonType))
+            {
+                member = Mixture.Five;
+                return true;
+            }
+
+            if (string.Equals(name, "Six", comparisonType))
+            {
+                member = Mixture.Six;
+                return true;
+            }
+
+            if (string.Equals(name, "Zero", comparisonType))
+            {
+                member = Mixture.Zero;
+                return true;
+            }
+
+            if (string.Equals(name, "One", comparisonType))
+            {
+                member = Mixture.One;
+                return true;
+            }
+
+            if (string.Equals(name, "Two", comparisonType))
+            {
+                member = Mixture.Two;
+                return true;
+            }
+
+            if (string.Equals(name, "Three", comparisonType))
+            {
+                member = Mixture.Three;
+                return true;
+            }
+
+            if (string.Equals(name, "Nine", comparisonType))
+            {
+                member = Mixture.Nine;
+                return true;
+            }
+
+            if (string.Equals(name, "Ten", comparisonType))
+            {
+                member = Mixture.Ten;
+                return true;
+            }
+
+            if (string.Equals(name, "Thirteen", comparisonType))
+            {
+                member = Mixture.Thirteen;
+                return true;
+            }
+
+            if (string.Equals(name, "Eleven", comparisonType))
+            {
+                member = Mixture.Eleven;
+                return true;
+            }
+
+            if (string.Equals(name, "Twelve", comparisonType))
+            {
+                member = Mixture.Twelve;
+                return true;
+            }
+
+            if (string.Equals(name, "Seven", comparisonType))
+            {
+                member = Mixture.Seven;
+                return true;
+            }
+
+            if (string.Equals(name, "Eight", comparisonType))
+            {
+                member = Mixture.Eight;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool IsNameDefined(System.String name)
         {
             return TryFromName(name, out _);
         }
 
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static Mixture FromName(System.ReadOnlySpan<char> name)
+        {
+            if (TryFromName(name, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"Mixture has no matching members named '{name.ToString()}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "ignoreCase"><c>true</c> to convert <paramref name = "name"/> in case insensitive mode; <c>false</c> to convert <paramref name = "name"/> in case sensitive mode.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static Mixture FromName(System.ReadOnlySpan<char> name, bool ignoreCase)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"Mixture has no matching members named '{name.ToString()}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the matching member based on name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "comparisonType">Comparison type to compare strings for equality during search.</param>
+        /// <returns>The matching enum, or an exception.</returns>
+        public static Mixture FromName(System.ReadOnlySpan<char> name, StringComparison comparisonType)
+        {
+            if (TryFromName(name, comparisonType, out var ret))
+            {
+                return ret;
+            }
+
+            ThrowHelper.ThrowMatchFailed($"Mixture has no matching members named '{name.ToString()}'");
+            return default;
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
         [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-        public static bool IsNameDefined(ReadOnlySpan<char> name)
+        public static bool TryFromName(System.ReadOnlySpan<char> name, out Mixture member)
+        {
+            switch (name)
+            {
+                case ("Four"):
+                    member = Mixture.Four;
+                    return true;
+                case ("Five"):
+                    member = Mixture.Five;
+                    return true;
+                case ("Six"):
+                    member = Mixture.Six;
+                    return true;
+                case ("Zero"):
+                    member = Mixture.Zero;
+                    return true;
+                case ("One"):
+                    member = Mixture.One;
+                    return true;
+                case ("Two"):
+                    member = Mixture.Two;
+                    return true;
+                case ("Three"):
+                    member = Mixture.Three;
+                    return true;
+                case ("Nine"):
+                    member = Mixture.Nine;
+                    return true;
+                case ("Ten"):
+                    member = Mixture.Ten;
+                    return true;
+                case ("Thirteen"):
+                    member = Mixture.Thirteen;
+                    return true;
+                case ("Eleven"):
+                    member = Mixture.Eleven;
+                    return true;
+                case ("Twelve"):
+                    member = Mixture.Twelve;
+                    return true;
+                case ("Seven"):
+                    member = Mixture.Seven;
+                    return true;
+                case ("Eight"):
+                    member = Mixture.Eight;
+                    return true;
+                default:
+                    member = default;
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool TryFromName(System.ReadOnlySpan<char> name, bool ignoreCase, out Mixture member)
+        {
+            StringComparison comparisonType = ignoreCase ? StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            if (MemoryExtensions.Equals(name, "Four".AsSpan(), comparisonType))
+            {
+                member = Mixture.Four;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Five".AsSpan(), comparisonType))
+            {
+                member = Mixture.Five;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Six".AsSpan(), comparisonType))
+            {
+                member = Mixture.Six;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Zero".AsSpan(), comparisonType))
+            {
+                member = Mixture.Zero;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "One".AsSpan(), comparisonType))
+            {
+                member = Mixture.One;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Two".AsSpan(), comparisonType))
+            {
+                member = Mixture.Two;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Three".AsSpan(), comparisonType))
+            {
+                member = Mixture.Three;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Nine".AsSpan(), comparisonType))
+            {
+                member = Mixture.Nine;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Ten".AsSpan(), comparisonType))
+            {
+                member = Mixture.Ten;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Thirteen".AsSpan(), comparisonType))
+            {
+                member = Mixture.Thirteen;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Eleven".AsSpan(), comparisonType))
+            {
+                member = Mixture.Eleven;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Twelve".AsSpan(), comparisonType))
+            {
+                member = Mixture.Twelve;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Seven".AsSpan(), comparisonType))
+            {
+                member = Mixture.Seven;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Eight".AsSpan(), comparisonType))
+            {
+                member = Mixture.Eight;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        /// <summary>
+        /// Tries to get the matching member from a name.
+        /// </summary>
+        /// <param name = "name">The name.</param>
+        /// <param name = "member">The matching member if successful.</param>
+        /// <returns>True if found, otherwise false.</returns>
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool TryFromName(System.ReadOnlySpan<char> name, StringComparison comparisonType, out Mixture member)
+        {
+            if (MemoryExtensions.Equals(name, "Four".AsSpan(), comparisonType))
+            {
+                member = Mixture.Four;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Five".AsSpan(), comparisonType))
+            {
+                member = Mixture.Five;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Six".AsSpan(), comparisonType))
+            {
+                member = Mixture.Six;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Zero".AsSpan(), comparisonType))
+            {
+                member = Mixture.Zero;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "One".AsSpan(), comparisonType))
+            {
+                member = Mixture.One;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Two".AsSpan(), comparisonType))
+            {
+                member = Mixture.Two;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Three".AsSpan(), comparisonType))
+            {
+                member = Mixture.Three;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Nine".AsSpan(), comparisonType))
+            {
+                member = Mixture.Nine;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Ten".AsSpan(), comparisonType))
+            {
+                member = Mixture.Ten;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Thirteen".AsSpan(), comparisonType))
+            {
+                member = Mixture.Thirteen;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Eleven".AsSpan(), comparisonType))
+            {
+                member = Mixture.Eleven;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Twelve".AsSpan(), comparisonType))
+            {
+                member = Mixture.Twelve;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Seven".AsSpan(), comparisonType))
+            {
+                member = Mixture.Seven;
+                return true;
+            }
+
+            if (MemoryExtensions.Equals(name, "Eight".AsSpan(), comparisonType))
+            {
+                member = Mixture.Eight;
+                return true;
+            }
+
+            member = default;
+            return false;
+        }
+
+        [global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static bool IsNameDefined(System.ReadOnlySpan<char> name)
         {
             return TryFromName(name, out _);
         }
@@ -772,6 +1305,7 @@ namespace Whatever
         {
             internal static void ThrowCreatedWithNull() => throw new IntellenumCreationFailedException("Cannot create an Intellenum member with a null.");
             internal static void ThrowMatchFailed(string message) => throw new IntellenumMatchFailedException(message);
+            internal static void ThrowMatchFailed(ReadOnlySpan<char> message) => throw new IntellenumMatchFailedException(message.ToString());
         }
     }
 }

@@ -9,6 +9,33 @@ namespace SnapshotTests.GeneralStuff;
 public class GeneralTests
 {
     [UsesVerify]
+    public class Implied_fields
+    {
+        [Fact]
+        public async Task The_name_and_value_of_the_member_is_inferred()
+        {
+            var source = """
+                         using Intellenum;
+                         namespace Whatever;
+
+                         [Intellenum]
+                         public partial class ImpliedFieldName
+                         {
+                             public static readonly ImpliedFieldName Member1 = new(1);
+                             public static readonly ImpliedFieldName Member2 = new(2);
+                             public static readonly ImpliedFieldName Member3 = new("MEMBER 3!!", 3);
+                         }
+                         """;
+
+            await new SnapshotRunner<IntellenumGenerator>()
+                .WithSource(source)
+                .IgnoreInitialCompilationErrors()
+                // .IgnoreFinalCompilationErrors()
+                .RunOn(TargetFramework.Net4_8);
+        }
+    }
+
+    [UsesVerify]
     public class When_using_static_fields_that_are_newed_up
     {
         [Fact]
