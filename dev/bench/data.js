@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1755190960645,
+  "lastUpdate": 1759128897839,
   "repoUrl": "https://github.com/SteveDunn/Intellenum",
   "entries": {
     "Benchmark.Net Benchmark": [
@@ -1214,6 +1214,150 @@ window.BENCHMARK_DATA = {
             "value": 8.175104424357414,
             "unit": "ns",
             "range": "± 0.006250469029790422"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "steve@dunnhq.com",
+            "name": "Steve Dunn",
+            "username": "SteveDunn"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "0c5efb92fee567777675d11a5d42eecef5be3167",
+          "message": "Merge pull request #159 from SteveDunn/dependabot/github_actions/actions/setup-dotnet-5\n\nBump actions/setup-dotnet from 3 to 5",
+          "timestamp": "2025-09-29T07:44:44+01:00",
+          "tree_id": "9f8df29e951fb3ba2bc5b28be4232c7cb45dbf89",
+          "url": "https://github.com/SteveDunn/Intellenum/commit/0c5efb92fee567777675d11a5d42eecef5be3167"
+        },
+        "date": 1759128896720,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "Benchmarks.IsDefinedBenchmarks.StandardEnums",
+            "value": 62.25093448162079,
+            "unit": "ns",
+            "range": "± 0.48283735017401624"
+          },
+          {
+            "name": "Benchmarks.IsDefinedBenchmarks.Intellenums",
+            "value": 6.877075046300888,
+            "unit": "ns",
+            "range": "± 0.0032667102589852364"
+          },
+          {
+            "name": "Benchmarks.IsDefinedBenchmarks.EnumGenerators",
+            "value": 6.949369417627652,
+            "unit": "ns",
+            "range": "± 0.03476747288144251"
+          },
+          {
+            "name": "AccessingValuesBenchmarks.StandardEnums",
+            "value": 0.0013981999031135014,
+            "unit": "ns",
+            "range": "± 0.001544445276293473"
+          },
+          {
+            "name": "AccessingValuesBenchmarks.Intellenums",
+            "value": 0.4369232098643596,
+            "unit": "ns",
+            "range": "± 0.0021048637723124187"
+          },
+          {
+            "name": "AccessingValuesBenchmarks.SmartEnums",
+            "value": 0.40943851109061924,
+            "unit": "ns",
+            "range": "± 0.0033512458133779536"
+          },
+          {
+            "name": "Benchmarks.FromNameBenchmarks.EnumGenerators_Try",
+            "value": 13.835602406944547,
+            "unit": "ns",
+            "range": "± 0.060813015166340814"
+          },
+          {
+            "name": "Benchmarks.FromNameBenchmarks.Intellenums_Try",
+            "value": 9.424406594955004,
+            "unit": "ns",
+            "range": "± 0.010397276128353852"
+          },
+          {
+            "name": "Benchmarks.ToStringBenchmarks.StandardEnums",
+            "value": 13.14712421298027,
+            "unit": "ns",
+            "range": "± 0.07412164917821437"
+          },
+          {
+            "name": "Benchmarks.ToStringBenchmarks.Intellenums",
+            "value": 0.2711428380929507,
+            "unit": "ns",
+            "range": "± 0.0017972420036871939"
+          },
+          {
+            "name": "Benchmarks.ToStringBenchmarks.EnumGenerators",
+            "value": 0.5818353077130658,
+            "unit": "ns",
+            "range": "± 0.0017117364149454983"
+          },
+          {
+            "name": "Benchmarks.ToStringBenchmarks.SmartEnums",
+            "value": 0.2707408608070442,
+            "unit": "ns",
+            "range": "± 0.004478140171084543"
+          },
+          {
+            "name": "Benchmarks.GetHashCodeBenchmarks.StandardEnums",
+            "value": 0,
+            "unit": "ns",
+            "range": "± 0"
+          },
+          {
+            "name": "Benchmarks.GetHashCodeBenchmarks.Intellenums",
+            "value": 4.66713781406482,
+            "unit": "ns",
+            "range": "± 0.006860401677123504"
+          },
+          {
+            "name": "Benchmarks.GetHashCodeBenchmarks.SmartEnums",
+            "value": 0.3091387969574758,
+            "unit": "ns",
+            "range": "± 0.0008189987120385833"
+          },
+          {
+            "name": "Benchmarks.FromValueBenchmarks.StandardEnums_Try",
+            "value": 30.850186871630804,
+            "unit": "ns",
+            "range": "± 0.02125584140153091"
+          },
+          {
+            "name": "Benchmarks.FromValueBenchmarks.Intellenums_Try",
+            "value": 29.066761175791424,
+            "unit": "ns",
+            "range": "± 0.2852639631621145"
+          },
+          {
+            "name": "Benchmarks.FromValueBenchmarks.SmartEnums_Try",
+            "value": 34.16293553908666,
+            "unit": "ns",
+            "range": "± 0.035517207916773576"
+          },
+          {
+            "name": "Benchmarks.FromValueBenchmarks.Intellenums_FromValue",
+            "value": 34.28036010762056,
+            "unit": "ns",
+            "range": "± 0.020473370117026317"
+          },
+          {
+            "name": "Benchmarks.FromValueBenchmarks.SmartEnums",
+            "value": 64.84337055683136,
+            "unit": "ns",
+            "range": "± 0.045236401780581914"
           }
         ]
       }
