@@ -5,6 +5,7 @@ using Intellenum.Generators.Conversions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 
 [assembly: InternalsVisibleTo("Intellenum.Tests")]
 
@@ -246,5 +247,29 @@ causes Rider's debugger to crash.
         }
 
         return $"using {fullNamespace};";
+    }
+
+    public static void TryWriteUsingUniqueFilename(string filename, SourceProductionContext context, SourceText sourceText)
+    {
+        int count = 0;
+        string hintName = filename;
+
+        while (true)
+        {
+            try
+            {
+                context.AddSource(hintName, sourceText);
+                return;
+            }
+            catch (ArgumentException)
+            {
+                if (++count >= 10)
+                {
+                    return; // give up - we still want the source generator to run
+                }
+
+                hintName = $"{count}{filename}";
+            }
+        }
     }
 }

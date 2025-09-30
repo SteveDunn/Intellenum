@@ -42,20 +42,28 @@ internal static class WriteWorkItems
 
     public static void WriteVo(VoWorkItem item, SourceProductionContext context, bool isNetFramework)
     {
-        // get the recorded user class
-        TypeDeclarationSyntax voClass = item.TypeToAugment;
+        try
+        {
+            // get the recorded user class
+            TypeDeclarationSyntax voClass = item.TypeToAugment;
 
-        string classAsText = _generatedPreamble + Environment.NewLine + ClassGenerator.BuildClass(item, voClass, isNetFramework);
-        SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(classAsText);
-        SyntaxNode root = syntaxTree.GetRoot();
-        SyntaxNode formatted = root.NormalizeWhitespace();
-        SourceText sourceText = SourceText.From(formatted.ToFullString(), Encoding.UTF8);
+            string classAsText = _generatedPreamble + Environment.NewLine + ClassGenerator.BuildClass(item, voClass, isNetFramework);
+            SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(classAsText);
+            SyntaxNode root = syntaxTree.GetRoot();
+            SyntaxNode formatted = root.NormalizeWhitespace();
+            SourceText sourceText = SourceText.From(formatted.ToFullString(), Encoding.UTF8);
         
-        var unsanitized = $"{item.FullNamespace}_{voClass.Identifier}.g.cs";
+            var unsanitized = $"{item.FullNamespace}_{voClass.Identifier}.g.cs";
 
-        string filename = SanitizeToALegalFilename(unsanitized);
+            string filename = SanitizeToALegalFilename(unsanitized);
 
-        context.AddSource(filename, sourceText);
+            Util.TryWriteUsingUniqueFilename(filename, context, sourceText);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
 
         static string SanitizeToALegalFilename(string input) => input.Replace('@', '_');
     }
